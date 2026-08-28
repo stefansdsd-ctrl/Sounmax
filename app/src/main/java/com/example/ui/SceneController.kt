@@ -129,15 +129,45 @@ class SceneController(private val viewModel: MainViewModel) {
         if (minutes <= 0) return
         sleepJob = scope.launch {
             var left = minutes
-            while (left > 0) {
+            while (left > 1) {
                 delay(60_000)
                 left -= 1
                 _sleepTimerMinutes.value = left
             }
-            viewModel.setDspEnabled(false)
-            Toast.makeText(app, "Slaaptimer: DSP uit", Toast.LENGTH_LONG).show()
+            fadeOutAndStop()
         }
         Toast.makeText(app, "Slaaptimer: $minutes min", Toast.LENGTH_SHORT).show()
+    }
+
+    private suspend fun fadeOutAndStop() {
+        val startLoud = viewModel.dspManager.loudnessGain.value
+        val startBass = viewModel.dspManager.bassBoostStrength.value
+        for (step in 8 downTo 0) {
+            _sleepTimerMinutes.value = if (step == 0) 0 else 1
+            viewModel.setLoudness((startLoud * step / 8f).toInt())
+            viewModel.setBassBoost((startBass * step / 8f).toInt())
+            delay(7_500)
+        }
+        viewModel.setDspEnabled(false)
+        viewModel.setLoudness(startLoud)
+        viewModel.setBassBoost(startBass)
+        Toast.makeText(app, "Slaaptimer: fade-out klaar, DSP uit", Toast.LENGTH_LONG).show()
+    }
+
+    fun snapshotEq(slot: String) = viewModel.snapshotAb(slot)
+    fun toggleEqAb() = viewModel.toggleAb()
+
+    fun applyGenreHint(genre: String) {
+        val sceneId = when {
+            genre.contains("hip", true) || genre.contains("rap", true) -> "sport"
+            genre.contains("edm", true) || genre.contains("electro", true) -> "gym"
+            genre.contains("classic", true) || genre.contains("jazz", true) -> "focus"
+            genre.contains("podcast", true) || genre.contains("speech", true) -> "podcast"
+            genre.contains("lofi", true) || genre.contains("chill", true) -> "night"
+            genre.contains("rock", true) || genre.contains("metal", true) -> "game"
+            else -> return
+        }
+        ListeningScenes.byId(sceneId)?.let { applyListeningScene(it) }
     }
 
     fun cancelSleepTimer() {
