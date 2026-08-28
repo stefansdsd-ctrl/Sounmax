@@ -151,6 +151,25 @@ fun ListeningScenesBar(
                     )
                 )
             }
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.snapshotEq("A") },
+                label = { Text("EQ A", fontSize = 11.sp) },
+                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextSecondary)
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.snapshotEq("B") },
+                label = { Text("EQ B", fontSize = 11.sp) },
+                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextSecondary)
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.toggleEqAb() },
+                label = { Text("A/B", fontSize = 11.sp) },
+                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
+                modifier = Modifier.testTag("ab_toggle")
+            )
         }
     }
 }
