@@ -1,0 +1,7 @@
+{
+  "name": "SoundMax - YouTube Music & Headphone DSP",
+  "description": "Premium YouTube Music companion and Bluetooth audio DSP studio with 10-Band EQ, ANC control, LDAC codec optimizer, hearing calibration, and Gemini acoustic tuning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

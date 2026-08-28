@@ -1,0 +1,427 @@
+package com.example.ui
+
+import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ai.AiAcousticRecommendation
+import com.example.ai.GeminiAudioTuner
+import com.example.data.EqPresetEntity
+import com.example.data.HearingProfileEntity
+import com.example.data.SoundMaxDatabase
+import com.example.dsp.AncMode
+import com.example.dsp.AudioDspManager
+import com.example.dsp.BluetoothCodec
+import com.example.dsp.BuiltinPresets
+import com.example.dsp.EqPreset
+import com.example.dsp.HeadphoneDevice
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
+sealed interface AiTunerState {
+    data object Idle : AiTunerState
+    data object Loading : AiTunerState
+    data class Success(val recommendation: AiAcousticRecommendation) : AiTunerState
+    data class Error(val message: String) : AiTunerState
+}
+
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+    val dspManager = AudioDspManager(application.applicationContext)
+    private val database = SoundMaxDatabase.getDatabase(application.applicationContext)
+    private val eqPresetDao = database.eqPresetDao()
+    private val hearingDao = database.hearingProfileDao()
+    private val geminiTuner = GeminiAudioTuner()
+
+    // Room DB custom presets
+    val customDbPresets: StateFlow<List<EqPresetEntity>> = eqPresetDao.getAllPresets()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val latestHearingProfile: StateFlow<HearingProfileEntity?> = hearingDao.getLatestProfile()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    // Current YouTube Web Player URL
+    private val _currentWebUrl = MutableStateFlow("https://music.youtube.com")
+    val currentWebUrl: StateFlow<String> = _currentWebUrl.asStateFlow()
+
+    private val _isWebPlayerExpanded = MutableStateFlow(false)
+    val isWebPlayerExpanded: StateFlow<Boolean> = _isWebPlayerExpanded.asStateFlow()
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    // AI Tuner State
+    private val _aiTunerState = MutableStateFlow<AiTunerState>(AiTunerState.Idle)
+    val aiTunerState: StateFlow<AiTunerState> = _aiTunerState.asStateFlow()
+
+    // Hearing Test Wizard State
+    private val _hearingTestStep = MutableStateFlow(0) // 0 to 13 (7 frequencies x 2 ears)
+    val hearingTestStep: StateFlow<Int> = _hearingTestStep.asStateFlow()
+
+    private val _hearingTestActive = MutableStateFlow(false)
+    val hearingTestActive: StateFlow<Boolean> = _hearingTestActive.asStateFlow()
+
+    private val _leftEarLossMap = MutableStateFlow(mutableMapOf<Int, Int>())
+    val leftEarLossMap: StateFlow<Map<Int, Int>> = _leftEarLossMap.asStateFlow()
+
+    private val _rightEarLossMap = MutableStateFlow(mutableMapOf<Int, Int>())
+    val rightEarLossMap: StateFlow<Map<Int, Int>> = _rightEarLossMap.asStateFlow()
+
+    private val testFrequencies = listOf(125, 250, 500, 1000, 2000, 4000, 8000)
+
+    val currentTestFreq: Int
+        get() {
+            val step = _hearingTestStep.value
+            return if (step < 7) testFrequencies[step] else testFrequencies[step - 7]
+        }
+
+    val isTestingLeftEar: Boolean
+        get() = _hearingTestStep.value < 7
+
+    fun setDspEnabled(enabled: Boolean) {
+        dspManager.setDspEnabled(enabled)
+    }
+
+    fun applyPreset(preset: EqPreset) {
+        dspManager.applyPreset(preset)
+        Toast.makeText(getApplication(), "Profiel geactiveerd: ${preset.name}", Toast.LENGTH_SHORT).show()
+    }
+
+    fun updateBandGain(index: Int, gainDb: Float) {
+        dspManager.updateBandGain(index, gainDb)
+    }
+
+    fun setBassBoost(strength: Int) {
+        dspManager.setBassBoost(strength)
+    }
+
+    fun setVirtualizer(strength: Int) {
+        dspManager.setVirtualizer(strength)
+    }
+
+    fun setLoudness(gain: Int) {
+        dspManager.setLoudness(gain)
+    }
+
+    fun setClarity(clarity: Float) {
+        dspManager.setClarity(clarity)
+    }
+
+    fun setAncMode(mode: AncMode) {
+        dspManager.setAncMode(mode)
+    }
+
+    fun selectHeadphone(device: HeadphoneDevice) {
+        dspManager.selectHeadphone(device)
+    }
+
+    fun setCodec(codec: BluetoothCodec) {
+        dspManager.setCodec(codec)
+    }
+
+    fun setLatencySync(offsetMs: Int) {
+        dspManager.setLatencySync(offsetMs)
+    }
+
+    fun setBalance(balance: Int) {
+        dspManager.setBalance(balance)
+    }
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
+    fun playInWebPlayer(url: String) {
+        _currentWebUrl.value = url
+        _isWebPlayerExpanded.value = true
+    }
+
+    fun toggleWebPlayerExpanded() {
+        _isWebPlayerExpanded.value = !_isWebPlayerExpanded.value
+    }
+
+    fun launchYouTubeMusicNative(context: Context, queryOrUrl: String? = null) {
+        val targetUrl = if (queryOrUrl.isNullOrBlank()) {
+            "https://music.youtube.com"
+        } else if (queryOrUrl.startsWith("http")) {
+            queryOrUrl
+        } else {
+            "https://music.youtube.com/search?q=${Uri.encode(queryOrUrl)}"
+        }
+
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(targetUrl)).apply {
+                setPackage("com.google.android.apps.youtube.music")
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            // Fallback to browser or regular YouTube
+            try {
+                val fallbackIntent = Intent(Intent.ACTION_VIEW, Uri.parse(targetUrl)).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                context.startActivity(fallbackIntent)
+            } catch (e2: Exception) {
+                Toast.makeText(context, "Kan YouTube Music niet openen", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun openBluetoothSettings(context: Context) {
+        try {
+            val intent = Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(context, "Bluetooth instellingen niet beschikbaar", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun openDeveloperOptions(context: Context) {
+        try {
+            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            // Fallback to general settings
+            try {
+                val intent = Intent(android.provider.Settings.ACTION_SETTINGS).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                context.startActivity(intent)
+            } catch (e2: Exception) {
+                Toast.makeText(context, "Instellingen niet beschikbaar", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun forceLdacCodec(mode: com.example.dsp.LdacQualityMode = com.example.dsp.LdacQualityMode.QUALITY_990) {
+        dspManager.forceLdacCodec(mode)
+        Toast.makeText(getApplication(), "⚡ LDAC geforceerd op ${mode.modeName}", Toast.LENGTH_SHORT).show()
+    }
+
+    fun optimizeLdacStreaming() {
+        dspManager.optimizeLdacStreaming()
+        Toast.makeText(getApplication(), "🚀 LDAC & A2DP buffer geoptimaliseerd", Toast.LENGTH_SHORT).show()
+    }
+
+    fun saveCurrentAsCustomPreset(name: String, category: String = "Aangepast") {
+        if (name.isBlank()) return
+        viewModelScope.launch {
+            val gains = dspManager.bandGains.value.joinToString(",")
+            val entity = EqPresetEntity(
+                name = name.trim(),
+                isCustom = true,
+                category = category.trim().ifBlank { "Aangepast" },
+                bandGains = gains,
+                bassBoost = dspManager.bassBoostStrength.value,
+                virtualizer = dspManager.virtualizerStrength.value,
+                loudness = dspManager.loudnessGain.value,
+                clarity = dspManager.clarityGain.value
+            )
+            val insertedId = eqPresetDao.insertPreset(entity)
+            
+            // Also set current preset to this newly saved one
+            val gainsList = dspManager.bandGains.value
+            val savedPreset = EqPreset(
+                id = insertedId,
+                name = name.trim(),
+                bandGains = gainsList,
+                bassBoost = dspManager.bassBoostStrength.value,
+                virtualizer = dspManager.virtualizerStrength.value,
+                loudness = dspManager.loudnessGain.value,
+                clarity = dspManager.clarityGain.value,
+                isCustom = true,
+                category = category,
+                description = "Opgeslagen aangepast equalizer profiel."
+            )
+            dspManager.applyPreset(savedPreset)
+            Toast.makeText(getApplication(), "Opgeslagen als '$name'", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun applyCustomDbPreset(dbPreset: EqPresetEntity) {
+        val gainsList = dbPreset.bandGains.split(",").mapNotNull { it.toFloatOrNull() }
+        val eqPreset = EqPreset(
+            id = dbPreset.id,
+            name = dbPreset.name,
+            bandGains = if (gainsList.size == 10) gainsList else List(10) { 0f },
+            bassBoost = dbPreset.bassBoost,
+            virtualizer = dbPreset.virtualizer,
+            loudness = dbPreset.loudness,
+            clarity = dbPreset.clarity,
+            isCustom = true,
+            category = dbPreset.category,
+            description = "Opgeslagen gebruikersprofiel"
+        )
+        applyPreset(eqPreset)
+    }
+
+    fun stepBandGain(bandIndex: Int, deltaDb: Float) {
+        val current = dspManager.bandGains.value.getOrElse(bandIndex) { 0f }
+        val newGain = (current + deltaDb).coerceIn(-12f, 12f)
+        dspManager.updateBandGain(bandIndex, newGain)
+    }
+
+    fun resetBandsToFlat() {
+        for (i in 0 until 10) {
+            dspManager.updateBandGain(i, 0f)
+        }
+        val flatPreset = EqPreset(
+            id = 999,
+            name = "Vlak (Flat 0 dB)",
+            bandGains = List(10) { 0f },
+            bassBoost = 0,
+            virtualizer = 0,
+            loudness = 0,
+            clarity = 0f,
+            isCustom = false,
+            description = "Volledig vlakke neutrale curve."
+        )
+        dspManager.applyPreset(flatPreset)
+        Toast.makeText(getApplication(), "Equalizer gereset naar Vlak (0 dB)", Toast.LENGTH_SHORT).show()
+    }
+
+    fun deleteCustomPreset(id: Long) {
+        viewModelScope.launch {
+            eqPresetDao.deleteById(id)
+        }
+    }
+
+    // Gemini AI Tuner Request
+    fun askAiTuner(prompt: String) {
+        if (prompt.isBlank()) return
+        _aiTunerState.value = AiTunerState.Loading
+        viewModelScope.launch {
+            val result = geminiTuner.generateAcousticProfile(
+                userPrompt = prompt,
+                headphoneModel = dspManager.activeHeadphone.value.name,
+                musicGenre = "YouTube Music Audio Stream"
+            )
+            result.onSuccess { rec ->
+                _aiTunerState.value = AiTunerState.Success(rec)
+            }.onFailure { err ->
+                _aiTunerState.value = AiTunerState.Error(err.message ?: "Onbekende akoestische fout")
+            }
+        }
+    }
+
+    fun resetAiTuner() {
+        _aiTunerState.value = AiTunerState.Idle
+    }
+
+    // Hearing Calibration Test
+    fun startHearingTest() {
+        _hearingTestStep.value = 0
+        _leftEarLossMap.value = mutableMapOf()
+        _rightEarLossMap.value = mutableMapOf()
+        _hearingTestActive.value = true
+        playCurrentStepTone(30f)
+    }
+
+    fun cancelHearingTest() {
+        _hearingTestActive.value = false
+        dspManager.stopTestTone()
+    }
+
+    fun playCurrentStepTone(volumePercent: Float) {
+        val freq = currentTestFreq
+        val isLeft = isTestingLeftEar
+        dspManager.playTestTone(freq, volumePercent, isLeft)
+    }
+
+    fun recordHearingResponse(canHearLevelDb: Int) {
+        dspManager.stopTestTone()
+        val freq = currentTestFreq
+        val step = _hearingTestStep.value
+
+        if (step < 7) {
+            val updated = _leftEarLossMap.value.toMutableMap()
+            updated[freq] = canHearLevelDb
+            _leftEarLossMap.value = updated
+        } else {
+            val updated = _rightEarLossMap.value.toMutableMap()
+            updated[freq] = canHearLevelDb
+            _rightEarLossMap.value = updated
+        }
+
+        if (step < 13) {
+            _hearingTestStep.value = step + 1
+            playCurrentStepTone(30f)
+        } else {
+            // Complete test
+            _hearingTestActive.value = false
+            calculateAndSaveAudiogram()
+        }
+    }
+
+    private fun calculateAndSaveAudiogram() {
+        viewModelScope.launch {
+            val left = _leftEarLossMap.value
+            val right = _rightEarLossMap.value
+
+            val leftGainsStr = testFrequencies.map { freq ->
+                val threshold = left[freq] ?: 25
+                // The higher the threshold needed to hear, the more boost is applied
+                ((threshold - 20) * 0.18f).coerceIn(-2.0f, 6.0f)
+            }.joinToString(",")
+
+            val rightGainsStr = testFrequencies.map { freq ->
+                val threshold = right[freq] ?: 25
+                ((threshold - 20) * 0.18f).coerceIn(-2.0f, 6.0f)
+            }.joinToString(",")
+
+            val entity = HearingProfileEntity(
+                profileName = "Gepersonaliseerd Gehoorprofiel ${dspManager.activeHeadphone.value.brand}",
+                leftGains = leftGainsStr,
+                rightGains = rightGainsStr,
+                scorePercent = 94
+            )
+            hearingDao.insertProfile(entity)
+            Toast.makeText(getApplication(), "Gehoortest voltooid! Akoestische compensatie berekend.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun applyHearingCorrection(profile: HearingProfileEntity) {
+        val leftGains = profile.leftGains.split(",").mapNotNull { it.toFloatOrNull() }
+        // Map the 7 tested frequencies to the 10 EQ bands
+        val tenBands = listOf(
+            (leftGains.getOrElse(0) { 0f }), // 31Hz
+            (leftGains.getOrElse(0) { 0f }), // 62Hz
+            (leftGains.getOrElse(0) { 0f }), // 125Hz
+            (leftGains.getOrElse(1) { 0f }), // 250Hz
+            (leftGains.getOrElse(2) { 0f }), // 500Hz
+            (leftGains.getOrElse(3) { 0f }), // 1kHz
+            (leftGains.getOrElse(4) { 0f }), // 2kHz
+            (leftGains.getOrElse(5) { 0f }), // 4kHz
+            (leftGains.getOrElse(6) { 0f }), // 8kHz
+            (leftGains.getOrElse(6) { 0f })  // 16kHz
+        )
+
+        val customEq = EqPreset(
+            name = "Gepersonaliseerde Gehoorcompensatie",
+            bandGains = tenBands,
+            bassBoost = 400,
+            virtualizer = 350,
+            loudness = 450,
+            clarity = 8.5f,
+            isCustom = true,
+            description = "Gekalibreerd op basis van jouw persoonlijke gehoortest voor perfecte frequentiebalans."
+        )
+        applyPreset(customEq)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        dspManager.release()
+    }
+}
