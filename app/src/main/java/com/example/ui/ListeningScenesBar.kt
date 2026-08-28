@@ -2,9 +2,8 @@ package com.example.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,6 +45,8 @@ fun ListeningScenesBar(
     val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
     val doseMin by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
     val favorites by sceneController.favoriteIds.collectAsStateWithLifecycle()
+    val crossfeed by sceneController.crossfeedEnabled.collectAsStateWithLifecycle()
+    val eqLocked by sceneController.eqLocked.collectAsStateWithLifecycle()
     val scenes = sceneController.orderedScenes()
 
     Column(
@@ -124,6 +125,35 @@ fun ListeningScenesBar(
                     labelColor = ImmersiveTextSecondary
                 ),
                 modifier = Modifier.testTag("safe_volume_chip")
+            )
+            FilterChip(
+                selected = crossfeed,
+                onClick = { sceneController.setCrossfeed(!crossfeed) },
+                label = { Text("Crossfeed", fontSize = 11.sp) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = ImmersiveSurfaceActive,
+                    selectedLabelColor = ImmersiveLavenderAccent,
+                    labelColor = ImmersiveTextSecondary
+                ),
+                modifier = Modifier.testTag("crossfeed_chip")
+            )
+            FilterChip(
+                selected = eqLocked,
+                onClick = { sceneController.setEqLocked(!eqLocked) },
+                label = { Text(if (eqLocked) "EQ slot" else "EQ lock", fontSize = 11.sp) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = ImmersiveSurfaceActive,
+                    selectedLabelColor = ImmersiveLavenderAccent,
+                    labelColor = ImmersiveTextSecondary
+                ),
+                modifier = Modifier.testTag("eq_lock_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.shareCurrentEq() },
+                label = { Text("Deel EQ", fontSize = 11.sp) },
+                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
+                modifier = Modifier.testTag("share_eq_chip")
             )
             listOf(15, 30, 60, 90).forEach { mins ->
                 FilterChip(

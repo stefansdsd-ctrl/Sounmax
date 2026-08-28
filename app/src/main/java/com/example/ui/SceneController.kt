@@ -2,6 +2,7 @@ package com.example.ui
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.media.AudioManager
 import android.widget.Toast
 import androidx.lifecycle.viewModelScope
@@ -53,11 +54,19 @@ class SceneController(private val viewModel: MainViewModel) {
     private val _suggestedScene = MutableStateFlow(ListeningScenes.suggestedForHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)))
     val suggestedScene: StateFlow<ListeningScene> = _suggestedScene.asStateFlow()
 
+    private val _crossfeedEnabled = MutableStateFlow(prefs.getBoolean("crossfeed", false))
+    val crossfeedEnabled: StateFlow<Boolean> = _crossfeedEnabled.asStateFlow()
+
+    private val _eqLocked = MutableStateFlow(prefs.getBoolean("eq_locked", false))
+    val eqLocked: StateFlow<Boolean> = _eqLocked.asStateFlow()
+
     private var sleepJob: Job? = null
     private var doseJob: Job? = null
+    private var savedVirtualizerForCrossfeed: Int? = null
 
     init {
         if (_safeVolumeEnabled.value) setSafeVolume(true)
+        if (_crossfeedEnabled.value) applyCrossfeedInternal(true)
         startDoseTracker()
         val last = ListeningScenes.byId(_activeSceneId.value)
         when {
@@ -67,6 +76,15 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun applyListeningScene(scene: ListeningScene, silent: Boolean = false) {
+        if (_eqLocked.value) {
+            viewModel.setAncMode(scene.ancMode)
+            scene.preferredCodec?.let { viewModel.setCodec(it) }
+            setSafeVolume(scene.safeVolume)
+            _activeSceneId.value = scene.id
+            prefs.edit().putString("last_scene_id", scene.id).apply()
+            if (!silent) Toast.makeText(app, "Scene ${scene.name} (EQ vergrendeld)", Toast.LENGTH_SHORT).show()
+            return
+        }
         val preset = BuiltinPresets.PRESETS.firstOrNull { it.name == scene.presetName }
             ?: BuiltinPresets.PRESETS.last()
         viewModel.applyPreset(preset)
@@ -75,6 +93,7 @@ class SceneController(private val viewModel: MainViewModel) {
         setSafeVolume(scene.safeVolume)
         _activeSceneId.value = scene.id
         prefs.edit().putString("last_scene_id", scene.id).apply()
+        if (_crossfeedEnabled.value) applyCrossfeedInternal(true)
         if (!silent) {
             Toast.makeText(app, "Scene: ${scene.name}", Toast.LENGTH_SHORT).show()
         }
@@ -121,6 +140,61 @@ class SceneController(private val viewModel: MainViewModel) {
             am.setStreamVolume(AudioManager.STREAM_MUSIC, cap, 0)
             Toast.makeText(app, "Veilig volume: max 70%", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun setEqLocked(locked: Boolean) {
+        _eqLocked.value = locked
+        prefs.edit().putBoolean("eq_locked", locked).apply()
+        Toast.makeText(
+            app,
+            if (locked) "EQ vergrendeld — scenes wijzigen ANC/codec, niet bands"
+            else "EQ ontgrendeld",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    fun setCrossfeed(enabled: Boolean) {
+        _crossfeedEnabled.value = enabled
+        prefs.edit().putBoolean("crossfeed", enabled).apply()
+        applyCrossfeedInternal(enabled)
+        Toast.makeText(
+            app,
+            if (enabled) "Crossfeed aan — minder in-head stereo"
+            else "Crossfeed uit",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun applyCrossfeedInternal(enabled: Boolean) {
+        if (enabled) {
+            if (savedVirtualizerForCrossfeed == null) {
+                savedVirtualizerForCrossfeed = viewModel.dspManager.virtualizerStrength.value
+            }
+            viewModel.setVirtualizer(280)
+            viewModel.setClarity((viewModel.dspManager.clarityGain.value).coerceAtLeast(3.5f))
+        } else {
+            savedVirtualizerForCrossfeed?.let { viewModel.setVirtualizer(it) }
+            savedVirtualizerForCrossfeed = null
+        }
+    }
+
+    fun shareCurrentEq() {
+        val bands = viewModel.dspManager.bandGains.value
+        val preset = viewModel.dspManager.currentPreset.value
+        val text = buildString {
+            appendLine("Sounmax EQ: ${preset.name}")
+            appendLine("Bands (dB): ${bands.joinToString(", ") { String.format("%.1f", it) }}")
+            appendLine("Bass ${viewModel.dspManager.bassBoostStrength.value} | Spatial ${viewModel.dspManager.virtualizerStrength.value}")
+            appendLine("Loudness ${viewModel.dspManager.loudnessGain.value} | Clarity ${viewModel.dspManager.clarityGain.value}")
+            appendLine("ANC ${viewModel.dspManager.ancMode.value.displayName} | Codec ${viewModel.dspManager.selectedCodec.value.codecName}")
+        }
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "Sounmax preset: ${preset.name}")
+            putExtra(Intent.EXTRA_TEXT, text)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        app.startActivity(Intent.createChooser(intent, "Deel EQ-preset").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     fun startSleepTimer(minutes: Int) {
