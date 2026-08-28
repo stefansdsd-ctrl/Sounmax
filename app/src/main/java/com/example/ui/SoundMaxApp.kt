@@ -23,7 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +33,6 @@ import com.example.ui.theme.ImmersiveBackground
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveNavBackground
 import com.example.ui.theme.ImmersiveSurfaceActive
-import com.example.ui.theme.ImmersiveTextPrimary
 import com.example.ui.theme.ImmersiveTextSecondary
 import com.example.ui.theme.ImmersiveYtRed
 
@@ -56,6 +54,7 @@ fun SoundMaxApp(
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableStateOf(SoundMaxTab.YT_MUSIC) }
+    val sceneController = remember(viewModel) { SceneController(viewModel) }
 
     val isDspEnabled by viewModel.dspManager.isDspEnabled.collectAsStateWithLifecycle()
     val currentPreset by viewModel.dspManager.currentPreset.collectAsStateWithLifecycle()
@@ -113,40 +112,44 @@ fun SoundMaxApp(
             }
         }
     ) { paddingValues ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(ImmersiveBackground)
         ) {
-            when (selectedTab) {
-                SoundMaxTab.YT_MUSIC -> {
-                    YtMusicScreen(
-                        viewModel = viewModel,
-                        onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER },
-                        onNavigateToAi = { selectedTab = SoundMaxTab.AI_STUDIO }
-                    )
-                }
-                SoundMaxTab.EQUALIZER -> {
-                    EqualizerScreen(viewModel = viewModel)
-                }
-                SoundMaxTab.HEADPHONE -> {
-                    HeadphoneScreen(viewModel = viewModel)
-                }
-                SoundMaxTab.AI_STUDIO -> {
-                    AcousticAiScreen(
-                        viewModel = viewModel,
-                        onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER }
-                    )
-                }
-                SoundMaxTab.HEARING -> {
-                    HearingTestScreen(
-                        viewModel = viewModel,
-                        onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER }
-                    )
+            if (selectedTab == SoundMaxTab.EQUALIZER || selectedTab == SoundMaxTab.HEADPHONE) {
+                ListeningScenesBar(sceneController = sceneController)
+            }
+            Box(modifier = Modifier.fillMaxSize()) {
+                when (selectedTab) {
+                    SoundMaxTab.YT_MUSIC -> {
+                        YtMusicScreen(
+                            viewModel = viewModel,
+                            onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER },
+                            onNavigateToAi = { selectedTab = SoundMaxTab.AI_STUDIO }
+                        )
+                    }
+                    SoundMaxTab.EQUALIZER -> {
+                        EqualizerScreen(viewModel = viewModel)
+                    }
+                    SoundMaxTab.HEADPHONE -> {
+                        HeadphoneScreen(viewModel = viewModel)
+                    }
+                    SoundMaxTab.AI_STUDIO -> {
+                        AcousticAiScreen(
+                            viewModel = viewModel,
+                            onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER }
+                        )
+                    }
+                    SoundMaxTab.HEARING -> {
+                        HearingTestScreen(
+                            viewModel = viewModel,
+                            onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER }
+                        )
+                    }
                 }
             }
         }
     }
 }
-
