@@ -40,17 +40,30 @@ fun ListeningScenesBar(
     val activeSceneId by sceneController.activeSceneId.collectAsStateWithLifecycle()
     val safeVolume by sceneController.safeVolumeEnabled.collectAsStateWithLifecycle()
     val sleepLeft by sceneController.sleepTimerMinutes.collectAsStateWithLifecycle()
+    val autoScene by sceneController.autoSceneEnabled.collectAsStateWithLifecycle()
+    val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
+    val doseMin by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = "Luister-scenes",
-            color = ImmersiveTextSecondary,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.SemiBold
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Luister-scenes",
+                color = ImmersiveTextSecondary,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = "Vandaag ${doseMin} min" + if (doseMin >= 120) " ⚠" else "",
+                color = if (doseMin >= 120) ImmersiveLavenderAccent else ImmersiveTextSecondary,
+                fontSize = 11.sp
+            )
+        }
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(end = 4.dp),
@@ -78,6 +91,17 @@ fun ListeningScenesBar(
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterChip(
+                selected = autoScene,
+                onClick = { sceneController.setAutoSceneEnabled(!autoScene) },
+                label = { Text("Auto ${suggested.emoji}", fontSize = 11.sp) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = ImmersiveSurfaceActive,
+                    selectedLabelColor = ImmersiveLavenderAccent,
+                    labelColor = ImmersiveTextSecondary
+                ),
+                modifier = Modifier.testTag("auto_scene_chip")
+            )
+            FilterChip(
                 selected = safeVolume,
                 onClick = { sceneController.setSafeVolume(!safeVolume) },
                 label = { Text("Veilig volume", fontSize = 11.sp) },
@@ -88,7 +112,7 @@ fun ListeningScenesBar(
                 ),
                 modifier = Modifier.testTag("safe_volume_chip")
             )
-            listOf(15, 30, 60).forEach { mins ->
+            listOf(15, 30, 60, 90).forEach { mins ->
                 FilterChip(
                     selected = sleepLeft == mins,
                     onClick = {
@@ -103,7 +127,7 @@ fun ListeningScenesBar(
                     )
                 )
             }
-            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 60)) {
+            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 60, 90)) {
                 FilterChip(
                     selected = true,
                     onClick = { sceneController.cancelSleepTimer() },
