@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.dsp.BuiltinPresets
+import com.example.dsp.ListeningScenes
 import com.example.ui.theme.ImmersiveBorder
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurface
@@ -56,7 +56,7 @@ fun ListeningScenesBar(
             contentPadding = PaddingValues(end = 4.dp),
             modifier = Modifier.testTag("listening_scenes_row")
         ) {
-            items(BuiltinPresets.SCENES, key = { it.id }) { scene ->
+            items(ListeningScenes.ALL, key = { it.id }) { scene ->
                 val selected = activeSceneId == scene.id
                 Column(
                     modifier = Modifier
@@ -69,7 +69,7 @@ fun ListeningScenesBar(
                         )
                         .clickable { viewModel.applyListeningScene(scene) }
                         .padding(horizontal = 12.dp, vertical = 10.dp)
-                        .testTag("scene_${scene.id}")
+                        .testTag("scene_" + scene.id)
                 ) {
                     Text(scene.emoji + "  " + scene.name, color = ImmersiveTextPrimary, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                     Text(scene.description, color = ImmersiveTextSecondary, fontSize = 10.sp)
