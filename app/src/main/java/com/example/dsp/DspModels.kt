@@ -38,7 +38,7 @@ enum class LdacQualityMode(
 
 data class BluetoothDiagnosticMetrics(
     val connectionQualityPercent: Int = 98,
-    val rssiDbm: Int = -42, // Signal strength in dBm (-30 dBm is excellent, -90 dBm is weak)
+    val rssiDbm: Int = -42,
     val currentBitrateKbps: Int = 990,
     val sampleRateHz: Int = 96000,
     val bitDepth: Int = 24,
@@ -71,17 +71,17 @@ data class EqBand(
     val index: Int,
     val centerFreqHz: Int,
     val label: String,
-    val gainDb: Float // -12.0 to +12.0
+    val gainDb: Float
 )
 
 data class EqPreset(
     val id: Long = 0,
     val name: String,
-    val bandGains: List<Float>, // 10 bands: 31Hz, 62Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz
-    val bassBoost: Int = 0, // 0 - 1000
-    val virtualizer: Int = 0, // 0 - 1000 (3D Spatializer)
-    val loudness: Int = 0, // 0 - 1000 (Loudness Enhancer)
-    val clarity: Float = 0f, // 0 - 10
+    val bandGains: List<Float>,
+    val bassBoost: Int = 0,
+    val virtualizer: Int = 0,
+    val loudness: Int = 0,
+    val clarity: Float = 0f,
     val isCustom: Boolean = false,
     val category: String = "Muziekgenres",
     val description: String = ""
@@ -89,3 +89,12 @@ data class EqPreset(
     fun toGainsString(): String = bandGains.joinToString(",")
 }
 
+data class ListeningScene(
+    val id: String,
+    val name: String,
+    val emoji: String,
+    val description: String,
+    val presetName: String,
+    val ancMode: AncMode,
+    val safeVolume: Boolean = false
+)
