@@ -1,5 +1,6 @@
 package com.example.ui
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -53,7 +55,14 @@ fun SoundMaxApp(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
-    var selectedTab by remember { mutableStateOf(SoundMaxTab.YT_MUSIC) }
+    val context = LocalContext.current
+    val prefs = remember { context.getSharedPreferences("soundmax_ui", Context.MODE_PRIVATE) }
+    var selectedTab by remember {
+        mutableStateOf(
+            SoundMaxTab.values().firstOrNull { it.name == prefs.getString("last_tab", null) }
+                ?: SoundMaxTab.YT_MUSIC
+        )
+    }
     val sceneController = remember(viewModel) { SceneController(viewModel) }
 
     val isDspEnabled by viewModel.dspManager.isDspEnabled.collectAsStateWithLifecycle()
@@ -84,7 +93,10 @@ fun SoundMaxApp(
                     val isSelected = selectedTab == tab
                     NavigationBarItem(
                         selected = isSelected,
-                        onClick = { selectedTab = tab },
+                        onClick = {
+                            selectedTab = tab
+                            prefs.edit().putString("last_tab", tab.name).apply()
+                        },
                         icon = {
                             Icon(
                                 imageVector = tab.icon,

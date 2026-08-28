@@ -30,8 +30,13 @@ class SceneController(private val viewModel: MainViewModel) {
     val savedTracks: StateFlow<List<SavedTrackEntity>> = savedTrackDao.getAllSavedTracks()
         .stateIn(scope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    private val _activeSceneId = MutableStateFlow<String?>(null)
+    private val _activeSceneId = MutableStateFlow(prefs.getString("last_scene_id", null))
     val activeSceneId: StateFlow<String?> = _activeSceneId.asStateFlow()
+
+    private val _favoriteIds = MutableStateFlow(
+        prefs.getStringSet("favorite_scenes", emptySet())?.toSet() ?: emptySet()
+    )
+    val favoriteIds: StateFlow<Set<String>> = _favoriteIds.asStateFlow()
 
     private val _safeVolumeEnabled = MutableStateFlow(prefs.getBoolean("safe_volume", false))
     val safeVolumeEnabled: StateFlow<Boolean> = _safeVolumeEnabled.asStateFlow()
@@ -54,8 +59,10 @@ class SceneController(private val viewModel: MainViewModel) {
     init {
         if (_safeVolumeEnabled.value) setSafeVolume(true)
         startDoseTracker()
-        if (_autoSceneEnabled.value && _activeSceneId.value == null) {
-            applyListeningScene(_suggestedScene.value, silent = true)
+        val last = ListeningScenes.byId(_activeSceneId.value)
+        when {
+            last != null && !_autoSceneEnabled.value -> applyListeningScene(last, silent = true)
+            _autoSceneEnabled.value -> applyListeningScene(_suggestedScene.value, silent = true)
         }
     }
 
@@ -64,11 +71,25 @@ class SceneController(private val viewModel: MainViewModel) {
             ?: BuiltinPresets.PRESETS.last()
         viewModel.applyPreset(preset)
         viewModel.setAncMode(scene.ancMode)
+        scene.preferredCodec?.let { viewModel.setCodec(it) }
         setSafeVolume(scene.safeVolume)
         _activeSceneId.value = scene.id
+        prefs.edit().putString("last_scene_id", scene.id).apply()
         if (!silent) {
             Toast.makeText(app, "Scene: ${scene.name}", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun toggleFavorite(sceneId: String) {
+        val next = _favoriteIds.value.toMutableSet()
+        if (!next.add(sceneId)) next.remove(sceneId)
+        _favoriteIds.value = next
+        prefs.edit().putStringSet("favorite_scenes", next).apply()
+    }
+
+    fun orderedScenes(): List<ListeningScene> {
+        val favs = _favoriteIds.value
+        return ListeningScenes.ALL.sortedByDescending { it.id in favs }
     }
 
     fun setAutoSceneEnabled(enabled: Boolean) {

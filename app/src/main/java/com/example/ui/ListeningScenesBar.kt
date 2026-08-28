@@ -3,6 +3,8 @@ package com.example.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.dsp.ListeningScenes
 import com.example.ui.theme.ImmersiveBorder
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurface
@@ -32,6 +33,7 @@ import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextPrimary
 import com.example.ui.theme.ImmersiveTextSecondary
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListeningScenesBar(
     sceneController: SceneController,
@@ -43,6 +45,8 @@ fun ListeningScenesBar(
     val autoScene by sceneController.autoSceneEnabled.collectAsStateWithLifecycle()
     val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
     val doseMin by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
+    val favorites by sceneController.favoriteIds.collectAsStateWithLifecycle()
+    val scenes = sceneController.orderedScenes()
 
     Column(
         modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
@@ -69,8 +73,9 @@ fun ListeningScenesBar(
             contentPadding = PaddingValues(end = 4.dp),
             modifier = Modifier.testTag("listening_scenes_row")
         ) {
-            items(ListeningScenes.ALL, key = { it.id }) { scene ->
+            items(scenes, key = { it.id }) { scene ->
                 val selected = activeSceneId == scene.id
+                val pinned = scene.id in favorites
                 Column(
                     modifier = Modifier
                         .clip(RoundedCornerShape(14.dp))
@@ -80,11 +85,19 @@ fun ListeningScenesBar(
                             if (selected) ImmersiveLavenderAccent else ImmersiveBorder,
                             RoundedCornerShape(14.dp)
                         )
-                        .clickable { sceneController.applyListeningScene(scene) }
+                        .combinedClickable(
+                            onClick = { sceneController.applyListeningScene(scene) },
+                            onLongClick = { sceneController.toggleFavorite(scene.id) }
+                        )
                         .padding(horizontal = 12.dp, vertical = 10.dp)
                         .testTag("scene_" + scene.id)
                 ) {
-                    Text(scene.emoji + "  " + scene.name, color = ImmersiveTextPrimary, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        (if (pinned) "★ " else "") + scene.emoji + "  " + scene.name,
+                        color = ImmersiveTextPrimary,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                     Text(scene.description, color = ImmersiveTextSecondary, fontSize = 10.sp)
                 }
             }
