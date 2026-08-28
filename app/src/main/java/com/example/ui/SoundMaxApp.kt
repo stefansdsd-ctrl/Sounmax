@@ -130,9 +130,7 @@ fun SoundMaxApp(
                 .padding(paddingValues)
                 .background(ImmersiveBackground)
         ) {
-            if (selectedTab != SoundMaxTab.YT_MUSIC) {
-                ListeningScenesBar(sceneController = sceneController)
-            }
+            ListeningScenesBar(sceneController = sceneController)
             Box(modifier = Modifier.fillMaxSize()) {
                 when (selectedTab) {
                     SoundMaxTab.YT_MUSIC -> {
