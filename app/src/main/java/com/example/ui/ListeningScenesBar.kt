@@ -34,15 +34,15 @@ import com.example.ui.theme.ImmersiveTextSecondary
 
 @Composable
 fun ListeningScenesBar(
-    viewModel: MainViewModel,
+    sceneController: SceneController,
     modifier: Modifier = Modifier
 ) {
-    val activeSceneId by viewModel.activeSceneId.collectAsStateWithLifecycle()
-    val safeVolume by viewModel.safeVolumeEnabled.collectAsStateWithLifecycle()
-    val sleepLeft by viewModel.sleepTimerMinutes.collectAsStateWithLifecycle()
+    val activeSceneId by sceneController.activeSceneId.collectAsStateWithLifecycle()
+    val safeVolume by sceneController.safeVolumeEnabled.collectAsStateWithLifecycle()
+    val sleepLeft by sceneController.sleepTimerMinutes.collectAsStateWithLifecycle()
 
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
@@ -67,7 +67,7 @@ fun ListeningScenesBar(
                             if (selected) ImmersiveLavenderAccent else ImmersiveBorder,
                             RoundedCornerShape(14.dp)
                         )
-                        .clickable { viewModel.applyListeningScene(scene) }
+                        .clickable { sceneController.applyListeningScene(scene) }
                         .padding(horizontal = 12.dp, vertical = 10.dp)
                         .testTag("scene_" + scene.id)
                 ) {
@@ -79,7 +79,7 @@ fun ListeningScenesBar(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterChip(
                 selected = safeVolume,
-                onClick = { viewModel.setSafeVolume(!safeVolume) },
+                onClick = { sceneController.setSafeVolume(!safeVolume) },
                 label = { Text("Veilig volume", fontSize = 11.sp) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = ImmersiveSurfaceActive,
@@ -92,8 +92,8 @@ fun ListeningScenesBar(
                 FilterChip(
                     selected = sleepLeft == mins,
                     onClick = {
-                        if (sleepLeft == mins) viewModel.cancelSleepTimer()
-                        else viewModel.startSleepTimer(mins)
+                        if (sleepLeft == mins) sceneController.cancelSleepTimer()
+                        else sceneController.startSleepTimer(mins)
                     },
                     label = { Text("${mins}m", fontSize = 11.sp) },
                     colors = FilterChipDefaults.filterChipColors(
@@ -106,7 +106,7 @@ fun ListeningScenesBar(
             if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 60)) {
                 FilterChip(
                     selected = true,
-                    onClick = { viewModel.cancelSleepTimer() },
+                    onClick = { sceneController.cancelSleepTimer() },
                     label = { Text("Timer ${sleepLeft}m", fontSize = 11.sp) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = ImmersiveSurfaceActive,
