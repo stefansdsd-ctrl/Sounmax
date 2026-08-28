@@ -47,7 +47,16 @@ fun ListeningScenesBar(
     val favorites by sceneController.favoriteIds.collectAsStateWithLifecycle()
     val crossfeed by sceneController.crossfeedEnabled.collectAsStateWithLifecycle()
     val eqLocked by sceneController.eqLocked.collectAsStateWithLifecycle()
+    val monoMix by sceneController.monoMix.collectAsStateWithLifecycle()
+    val nightGuard by sceneController.nightGuard.collectAsStateWithLifecycle()
+    val headset by sceneController.detectedHeadset.collectAsStateWithLifecycle()
     val scenes = sceneController.orderedScenes()
+
+    val chipColors = FilterChipDefaults.filterChipColors(
+        selectedContainerColor = ImmersiveSurfaceActive,
+        selectedLabelColor = ImmersiveLavenderAccent,
+        labelColor = ImmersiveTextSecondary
+    )
 
     Column(
         modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
@@ -64,7 +73,8 @@ fun ListeningScenesBar(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "Vandaag ${doseMin} min" + if (doseMin >= 120) " ⚠" else "",
+                text = (headset?.let { "BT · ${it.take(18)}  ·  " } ?: "") +
+                    "Vandaag ${doseMin} min" + if (doseMin >= 120) " ⚠" else "",
                 color = if (doseMin >= 120) ImmersiveLavenderAccent else ImmersiveTextSecondary,
                 fontSize = 11.sp
             )
@@ -103,59 +113,93 @@ fun ListeningScenesBar(
                 }
             }
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilterChip(
-                selected = autoScene,
-                onClick = { sceneController.setAutoSceneEnabled(!autoScene) },
-                label = { Text("Auto ${suggested.emoji}", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = ImmersiveSurfaceActive,
-                    selectedLabelColor = ImmersiveLavenderAccent,
-                    labelColor = ImmersiveTextSecondary
-                ),
-                modifier = Modifier.testTag("auto_scene_chip")
-            )
-            FilterChip(
-                selected = safeVolume,
-                onClick = { sceneController.setSafeVolume(!safeVolume) },
-                label = { Text("Veilig volume", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = ImmersiveSurfaceActive,
-                    selectedLabelColor = ImmersiveLavenderAccent,
-                    labelColor = ImmersiveTextSecondary
-                ),
-                modifier = Modifier.testTag("safe_volume_chip")
-            )
-            FilterChip(
-                selected = crossfeed,
-                onClick = { sceneController.setCrossfeed(!crossfeed) },
-                label = { Text("Crossfeed", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = ImmersiveSurfaceActive,
-                    selectedLabelColor = ImmersiveLavenderAccent,
-                    labelColor = ImmersiveTextSecondary
-                ),
-                modifier = Modifier.testTag("crossfeed_chip")
-            )
-            FilterChip(
-                selected = eqLocked,
-                onClick = { sceneController.setEqLocked(!eqLocked) },
-                label = { Text(if (eqLocked) "EQ slot" else "EQ lock", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = ImmersiveSurfaceActive,
-                    selectedLabelColor = ImmersiveLavenderAccent,
-                    labelColor = ImmersiveTextSecondary
-                ),
-                modifier = Modifier.testTag("eq_lock_chip")
-            )
-            FilterChip(
-                selected = false,
-                onClick = { sceneController.shareCurrentEq() },
-                label = { Text("Deel EQ", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
-                modifier = Modifier.testTag("share_eq_chip")
-            )
-            listOf(15, 30, 60, 90).forEach { mins ->
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(end = 4.dp),
+            modifier = Modifier.testTag("wellness_chips_row")
+        ) {
+            item {
+                FilterChip(
+                    selected = autoScene,
+                    onClick = { sceneController.setAutoSceneEnabled(!autoScene) },
+                    label = { Text("Auto ${suggested.emoji}", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("auto_scene_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = safeVolume,
+                    onClick = { sceneController.setSafeVolume(!safeVolume) },
+                    label = { Text("Veilig volume", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("safe_volume_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = nightGuard,
+                    onClick = { sceneController.setNightGuard(!nightGuard) },
+                    label = { Text("Nachtwacht", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("night_guard_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = crossfeed,
+                    onClick = { sceneController.setCrossfeed(!crossfeed) },
+                    label = { Text("Crossfeed", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("crossfeed_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = monoMix,
+                    onClick = { sceneController.setMonoMix(!monoMix) },
+                    label = { Text(if (monoMix) "Mono" else "Stereo", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("mono_mix_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = eqLocked,
+                    onClick = { sceneController.setEqLocked(!eqLocked) },
+                    label = { Text(if (eqLocked) "EQ slot" else "EQ lock", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("eq_lock_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = { sceneController.detectHeadset() },
+                    label = { Text("Detecteer BT", fontSize = 11.sp) },
+                    colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
+                    modifier = Modifier.testTag("detect_bt_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = { sceneController.shareCurrentEq() },
+                    label = { Text("Deel EQ", fontSize = 11.sp) },
+                    colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
+                    modifier = Modifier.testTag("share_eq_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = { sceneController.importEqFromClipboard() },
+                    label = { Text("Importeer EQ", fontSize = 11.sp) },
+                    colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
+                    modifier = Modifier.testTag("import_eq_chip")
+                )
+            }
+            items(listOf(15, 30, 60, 90)) { mins ->
                 FilterChip(
                     selected = sleepLeft == mins,
                     onClick = {
@@ -163,43 +207,44 @@ fun ListeningScenesBar(
                         else sceneController.startSleepTimer(mins)
                     },
                     label = { Text("${mins}m", fontSize = 11.sp) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = ImmersiveSurfaceActive,
-                        selectedLabelColor = ImmersiveLavenderAccent,
-                        labelColor = ImmersiveTextSecondary
-                    )
+                    colors = chipColors
                 )
             }
             if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 60, 90)) {
-                FilterChip(
-                    selected = true,
-                    onClick = { sceneController.cancelSleepTimer() },
-                    label = { Text("Timer ${sleepLeft}m", fontSize = 11.sp) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = ImmersiveSurfaceActive,
-                        selectedLabelColor = ImmersiveLavenderAccent
+                item {
+                    FilterChip(
+                        selected = true,
+                        onClick = { sceneController.cancelSleepTimer() },
+                        label = { Text("Timer ${sleepLeft}m", fontSize = 11.sp) },
+                        colors = chipColors
                     )
+                }
+            }
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = { sceneController.snapshotEq("A") },
+                    label = { Text("EQ A", fontSize = 11.sp) },
+                    colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextSecondary)
                 )
             }
-            FilterChip(
-                selected = false,
-                onClick = { sceneController.snapshotEq("A") },
-                label = { Text("EQ A", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextSecondary)
-            )
-            FilterChip(
-                selected = false,
-                onClick = { sceneController.snapshotEq("B") },
-                label = { Text("EQ B", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextSecondary)
-            )
-            FilterChip(
-                selected = false,
-                onClick = { sceneController.toggleEqAb() },
-                label = { Text("A/B", fontSize = 11.sp) },
-                colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
-                modifier = Modifier.testTag("ab_toggle")
-            )
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = { sceneController.snapshotEq("B") },
+                    label = { Text("EQ B", fontSize = 11.sp) },
+                    colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextSecondary)
+                )
+            }
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = { sceneController.toggleEqAb() },
+                    label = { Text("A/B", fontSize = 11.sp) },
+                    colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
+                    modifier = Modifier.testTag("ab_toggle")
+                )
+            }
         }
     }
 }
