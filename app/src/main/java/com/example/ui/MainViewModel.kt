@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.ai.AiAcousticRecommendation
 import com.example.ai.GeminiAudioTuner
 import com.example.data.EqPresetEntity
+import com.example.data.HeadsetMemory
 import com.example.data.HearingProfileEntity
 import com.example.data.SoundMaxDatabase
 import com.example.dsp.AncMode
@@ -42,6 +43,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val hearingDao = database.hearingProfileDao()
     private val geminiTuner = GeminiAudioTuner()
     private val findHeadsetHelper = FindHeadsetHelper()
+    val headsetMemory = HeadsetMemory(application.applicationContext)
 
     val customDbPresets: StateFlow<List<EqPresetEntity>> = eqPresetDao.getAllPresets()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
@@ -105,7 +107,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun applyPreset(preset: EqPreset) {
         dspManager.applyPreset(preset)
+        val headset = dspManager.connectedHeadsetName.value ?: dspManager.activeHeadphone.value.name
+        headsetMemory.save(headset, preset, dspManager.bandGains.value)
         Toast.makeText(getApplication(), "Profiel geactiveerd: ${preset.name}", Toast.LENGTH_SHORT).show()
+    }
+
+    fun restoreHeadsetMemory(headsetName: String?): Boolean {
+        val stored = headsetMemory.load(headsetName) ?: return false
+        dspManager.applyPreset(stored)
+        return true
+    }
+
+    fun setRememberPerHeadset(enabled: Boolean) {
+        headsetMemory.enabled = enabled
+        Toast.makeText(
+            getApplication(),
+            if (enabled) "EQ wordt per headset onthouden" else "Headset-geheugen uit",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     fun updateBandGain(index: Int, gainDb: Float) {
@@ -134,6 +153,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun selectHeadphone(device: HeadphoneDevice) {
         dspManager.selectHeadphone(device)
+        restoreHeadsetMemory(device.name)
     }
 
     fun setCodec(codec: BluetoothCodec) {
@@ -265,6 +285,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 description = "Opgeslagen aangepast equalizer profiel."
             )
             dspManager.applyPreset(savedPreset)
+            val headset = dspManager.connectedHeadsetName.value ?: dspManager.activeHeadphone.value.name
+            headsetMemory.save(headset, savedPreset, gainsList)
             Toast.makeText(getApplication(), "Opgeslagen als '$name'", Toast.LENGTH_SHORT).show()
         }
     }
