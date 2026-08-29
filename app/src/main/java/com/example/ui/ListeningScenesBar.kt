@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.dsp.ListeningScenes
 import com.example.ui.theme.ImmersiveBorder
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurface
@@ -174,6 +175,15 @@ fun ListeningScenesBar(
             }
             item {
                 FilterChip(
+                    selected = activeSceneId == "rest",
+                    onClick = { ListeningScenes.byId("rest")?.let { sceneController.applyListeningScene(it) } },
+                    label = { Text("Oor-pauze", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("ear_rest_chip")
+                )
+            }
+            item {
+                FilterChip(
                     selected = false,
                     onClick = { sceneController.detectHeadset() },
                     label = { Text("Detecteer BT", fontSize = 11.sp) },
@@ -199,7 +209,7 @@ fun ListeningScenesBar(
                     modifier = Modifier.testTag("import_eq_chip")
                 )
             }
-            items(listOf(15, 30, 60, 90)) { mins ->
+            items(listOf(15, 30, 60, 90, 120)) { mins ->
                 FilterChip(
                     selected = sleepLeft == mins,
                     onClick = {
@@ -210,7 +220,7 @@ fun ListeningScenesBar(
                     colors = chipColors
                 )
             }
-            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 60, 90)) {
+            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 60, 90, 120)) {
                 item {
                     FilterChip(
                         selected = true,
