@@ -16,6 +16,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - YouTube Music web/native
 - EQ delen / importeren via klembord
 - BT-headset detectie + codec hints (LDAC / aptX Adaptive)
+- Now Playing auto-EQ (genre uit YT Music / Spotify / etc.)
+- Adaptieve loudness op basis van mediavolume
+- Quick Settings-tegel: DSP aan/uit
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
