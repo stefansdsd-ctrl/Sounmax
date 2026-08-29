@@ -22,8 +22,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Now Playing auto-EQ
 - Adaptieve loudness op basis van mediavolume
 - Quick Settings-tegels: DSP + scene
-- Persistente DSP-notificatie (scene, batterij, slaaptimer)
-- Homescreen-widget: DSP, scene, batterij + slaaptimer
+- Persistente DSP-notificatie (scene, batterij, slaaptimer, vorige/volgende scene)
+- Homescreen-widget: DSP, scene ◀/▶, batterij + live slaaptimer (1-min tick)
 - Zoek koptelefoon (L/R pieptonen)
 - Headset-batterij in de statusbalk
 - Auto-pauze DSP bij Bluetooth-disconnect
@@ -31,7 +31,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - EQ-geheugen per headset
 - Stereo-breedte / spatializer-slider
 - Hardware Spatializer (Android 12/13+)
-- Live RSSI stuurt LDAC 990/660/330 automatisch
+- Live RSSI via GATT (fallback: discovery) stuurt LDAC 990/660/330
 - DSP pauzeert tijdens een telefoongesprek en hervat daarna
 - EQ-undo (laatste 12 curves)
 - Batterij-saver: bij ≤18% automatisch LDAC 330 + lagere loudness
@@ -39,7 +39,6 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Volgende verbeteringen
 - Wear OS-tegel voor scene + DSP
-- GATT/LE Audio RSSI i.p.v. discovery-fallback
 - Spatializer-head-tracking waar de OEM dat toestaat
 
 ## Bouwen
