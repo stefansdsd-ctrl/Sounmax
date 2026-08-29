@@ -5,7 +5,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Functies
 - 10-band equalizer + custom presets (Room)
-- Luister-scenes (pendelen, sport, nacht, fiets, bibliotheek, vergadering, rust)
+- Luister-scenes (pendelen, sport, nacht, fiets, bibliotheek, vergadering, rust, trein, koken, kids)
 - Auto-scene op tijdstip
 - Veilig volume (70%) + nachtwacht na 22:00
 - Crossfeed, mono-mix, EQ-lock, A/B-vergelijking
@@ -19,6 +19,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Now Playing auto-EQ (genre uit YT Music / Spotify / etc.)
 - Adaptieve loudness op basis van mediavolume
 - Quick Settings-tegel: DSP aan/uit
+- Quick Settings-tegel: scene wisselen
+- Zoek koptelefoon (L/R pieptonen)
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
