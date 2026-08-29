@@ -32,6 +32,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 cycleScene(context)
                 refreshAll(context)
             }
+            ACTION_CYCLE_SLEEP -> {
+                cycleSleep(context)
+                refreshAll(context)
+            }
             ACTION_REFRESH -> refreshAll(context)
         }
     }
@@ -39,7 +43,9 @@ class SoundMaxWidget : AppWidgetProvider() {
     companion object {
         const val ACTION_TOGGLE_DSP = "com.example.widget.TOGGLE_DSP"
         const val ACTION_NEXT_SCENE = "com.example.widget.NEXT_SCENE"
+        const val ACTION_CYCLE_SLEEP = "com.example.widget.CYCLE_SLEEP"
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
+        private val SLEEP_STEPS = intArrayOf(0, 15, 30, 60, 90, 120)
 
         fun refreshAll(context: Context) {
             val mgr = AppWidgetManager.getInstance(context)
@@ -56,17 +62,52 @@ class SoundMaxWidget : AppWidgetProvider() {
             DspControlService.start(context)
         }
 
+        fun cycleSleep(context: Context) {
+            val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            val remaining = remainingSleepMinutes(prefs.getLong(KEY_SLEEP_END, 0L))
+            val idx = SLEEP_STEPS.indexOfFirst { it >= remaining }.let { if (it < 0) 0 else it }
+            val next = SLEEP_STEPS[(idx + 1) % SLEEP_STEPS.size]
+            val end = if (next <= 0) 0L else System.currentTimeMillis() + next * 60_000L
+            prefs.edit()
+                .putLong(KEY_SLEEP_END, end)
+                .putInt(KEY_SLEEP_MINUTES, next)
+                .putBoolean("pending_widget_sleep", true)
+                .apply()
+            DspControlService.start(context)
+        }
+
+        fun remainingSleepMinutes(endMs: Long): Int {
+            if (endMs <= 0L) return 0
+            val left = ((endMs - System.currentTimeMillis()) / 60_000L).toInt()
+            return left.coerceAtLeast(0)
+        }
+
+        const val KEY_SLEEP_END = "sleep_end_ms"
+        const val KEY_SLEEP_MINUTES = "sleep_minutes"
+        const val KEY_BATTERY = "headset_battery"
+        const val KEY_HEADSET_NAME = "headset_name"
+
         private fun updateWidget(context: Context, mgr: AppWidgetManager, id: Int) {
             val ui = context.getSharedPreferences(DspControlService.PREFS, Context.MODE_PRIVATE)
             val wellness = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             val enabled = ui.getBoolean(DspControlService.KEY_DSP, true)
             val scene = ListeningScenes.byId(wellness.getString("last_scene_id", null))
                 ?: ListeningScenes.ALL.first()
+            val battery = wellness.getInt(KEY_BATTERY, -1)
+            val sleepLeft = remainingSleepMinutes(wellness.getLong(KEY_SLEEP_END, 0L))
 
             val views = RemoteViews(context.packageName, R.layout.soundmax_widget)
             views.setTextViewText(R.id.widget_title, "Sounmax")
+            views.setTextViewText(
+                R.id.widget_battery,
+                if (battery in 0..100) "BT $battery%" else "BT --%"
+            )
             views.setTextViewText(R.id.widget_dsp, if (enabled) "DSP aan" else "DSP uit")
             views.setTextViewText(R.id.widget_scene, "${scene.emoji} ${scene.name}")
+            views.setTextViewText(
+                R.id.widget_sleep,
+                if (sleepLeft > 0) "Slaap ${sleepLeft} min" else "Timer uit"
+            )
 
             val open = PendingIntent.getActivity(
                 context, 0,
@@ -83,9 +124,15 @@ class SoundMaxWidget : AppWidgetProvider() {
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_NEXT_SCENE),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
+            val sleep = PendingIntent.getBroadcast(
+                context, 4,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_CYCLE_SLEEP),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
             views.setOnClickPendingIntent(R.id.widget_root, open)
             views.setOnClickPendingIntent(R.id.widget_dsp_btn, toggle)
             views.setOnClickPendingIntent(R.id.widget_scene_btn, nextScene)
+            views.setOnClickPendingIntent(R.id.widget_sleep_btn, sleep)
             mgr.updateAppWidget(id, views)
         }
     }

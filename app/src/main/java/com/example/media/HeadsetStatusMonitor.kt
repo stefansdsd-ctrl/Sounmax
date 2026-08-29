@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
+import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -112,6 +113,19 @@ class HeadsetStatusMonitor(
             wired = wired,
             rssiDbm = rssi
         )
+        persist(name, battery)
+    }
+
+    private fun persist(name: String?, battery: Int?) {
+        try {
+            val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            prefs.edit()
+                .putString(SoundMaxWidget.KEY_HEADSET_NAME, name)
+                .putInt(SoundMaxWidget.KEY_BATTERY, battery ?: -1)
+                .apply()
+            SoundMaxWidget.refreshAll(context)
+        } catch (_: Exception) {
+        }
     }
 
     @SuppressLint("MissingPermission")
