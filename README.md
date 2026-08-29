@@ -16,6 +16,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Gemini AI akoestische tuner
 - YouTube Music web/native
 - EQ delen / importeren via klembord of Android share-sheet
+- **Backup/restore van alle custom presets als één JSON** (balk: Backup presets / Herstel backup)
+- **Per-app EQ** (Spotify vs YT Music vs andere spelers; knop “EQ voor …”)
 - BT-headset detectie + codec hints (LDAC / aptX Adaptive)
 - Now Playing auto-EQ (genre uit YT Music / Spotify / etc.)
 - Adaptieve loudness op basis van mediavolume
@@ -30,11 +32,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - EQ-geheugen per headset (laatste curve wordt per BT-naam bewaard en hersteld)
 
 ## Volgende verbeteringen
-- Per-app EQ (Spotify vs YT Music vs games)
 - Echte Spatializer / stereo-width slider in de EQ-tab
-- Backup/restore van alle presets als één JSON-bestand
 - Wear OS-tegel voor scene + DSP
 - Automatisch LDAC-bitrate op echte RSSI i.p.v. simulatie
+- Per-app EQ-overzichtsscherm (bewerken/wissen)
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
