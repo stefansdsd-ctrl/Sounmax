@@ -16,6 +16,9 @@ interface EqPresetDao {
     @Query("SELECT * FROM eq_presets ORDER BY isFavorite DESC, lastUsedAt DESC, id ASC")
     fun getAllPresets(): Flow<List<EqPresetEntity>>
 
+    @Query("SELECT * FROM eq_presets ORDER BY id ASC")
+    suspend fun getAllPresetsOnce(): List<EqPresetEntity>
+
     @Query("SELECT * FROM eq_presets WHERE isFavorite = 1 ORDER BY name ASC")
     fun getFavorites(): Flow<List<EqPresetEntity>>
 
