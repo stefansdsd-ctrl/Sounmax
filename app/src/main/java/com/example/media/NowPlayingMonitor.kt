@@ -9,6 +9,8 @@ import android.media.session.PlaybackState
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.example.data.AppEqMemory
+import com.example.data.NowPlayingApp
 
 data class NowPlayingTrack(
     val title: String,
@@ -26,6 +28,8 @@ class NowPlayingMonitor(
     private val listenerComponent = ComponentName(context, SoundMaxNotificationListener::class.java)
     private var manager: MediaSessionManager? = null
     private var lastKey: String? = null
+    private val appEqMemory = AppEqMemory(context)
+    var onAppPreset: ((com.example.dsp.EqPreset) -> Unit)? = null
 
     private val sessionListener = MediaSessionManager.OnActiveSessionsChangedListener { controllers ->
         attach(controllers.orEmpty())
@@ -92,6 +96,8 @@ class NowPlayingMonitor(
         val key = "${controller.packageName}|$title|$artist"
         if (key == lastKey) return
         lastKey = key
+        NowPlayingApp.packageName = controller.packageName
+        appEqMemory.load(controller.packageName)?.let { onAppPreset?.invoke(it) }
         onTrack(NowPlayingTrack(title, artist, genre, controller.packageName))
     }
 }
