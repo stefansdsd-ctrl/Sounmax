@@ -11,18 +11,22 @@ import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.data.PresetBackup
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
+import kotlinx.coroutines.launch
 
 @Composable
-fun BackupBar(viewModel: MainViewModel, sceneController: SceneController) {
+fun BackupBar(sceneController: SceneController) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val appLabel by sceneController.nowPlayingAppLabel.collectAsStateWithLifecycle()
 
     Row(
@@ -34,12 +38,12 @@ fun BackupBar(viewModel: MainViewModel, sceneController: SceneController) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         AssistChip(
-            onClick = { viewModel.backupAllPresets(context) },
+            onClick = { scope.launch { PresetBackup.exportToClipboard(context) } },
             label = { Text("Backup presets", fontSize = 11.sp) },
             colors = chipColors()
         )
         AssistChip(
-            onClick = { viewModel.restorePresetsFromClipboard(context) },
+            onClick = { scope.launch { PresetBackup.importFromClipboard(context) } },
             label = { Text("Herstel backup", fontSize = 11.sp) },
             colors = chipColors()
         )
