@@ -26,15 +26,9 @@ class DspControlService : Service() {
                 val next = !prefs.getBoolean(KEY_DSP, true)
                 prefs.edit().putBoolean(KEY_DSP, next).apply()
             }
-            ACTION_NEXT_SCENE -> {
-                val current = wellness.getString("last_scene_id", ListeningScenes.ALL.first().id)
-                val idx = ListeningScenes.ALL.indexOfFirst { it.id == current }.coerceAtLeast(0)
-                val next = ListeningScenes.ALL[(idx + 1) % ListeningScenes.ALL.size]
-                wellness.edit().putString("last_scene_id", next.id).putBoolean("pending_widget_scene", true).apply()
-            }
-            ACTION_CYCLE_SLEEP -> {
-                SoundMaxWidget.cycleSleep(this)
-            }
+            ACTION_NEXT_SCENE -> SoundMaxWidget.cycleScene(this, +1)
+            ACTION_PREV_SCENE -> SoundMaxWidget.cycleScene(this, -1)
+            ACTION_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(this)
             ACTION_STOP -> {
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
@@ -66,6 +60,11 @@ class DspControlService : Service() {
             Intent(this, DspControlService::class.java).setAction(ACTION_NEXT_SCENE),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
+        val prevScene = PendingIntent.getService(
+            this, 5,
+            Intent(this, DspControlService::class.java).setAction(ACTION_PREV_SCENE),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
         val sleep = PendingIntent.getService(
             this, 4,
             Intent(this, DspControlService::class.java).setAction(ACTION_CYCLE_SLEEP),
@@ -87,6 +86,7 @@ class DspControlService : Service() {
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .addAction(0, if (enabled) "Pauzeer" else "Start", toggle)
+            .addAction(0, "◀", prevScene)
             .addAction(0, "Scene", nextScene)
             .addAction(0, if (sleepLeft > 0) "Timer $sleepLeft" else "Timer", sleep)
             .addAction(0, "Sluit", stop)
@@ -112,6 +112,7 @@ class DspControlService : Service() {
         const val NOTIF_ID = 6519
         const val ACTION_TOGGLE = "com.example.DSP_TOGGLE"
         const val ACTION_NEXT_SCENE = "com.example.DSP_NEXT_SCENE"
+        const val ACTION_PREV_SCENE = "com.example.DSP_PREV_SCENE"
         const val ACTION_CYCLE_SLEEP = "com.example.DSP_CYCLE_SLEEP"
         const val ACTION_STOP = "com.example.DSP_STOP"
         const val PREFS = "soundmax_ui"
