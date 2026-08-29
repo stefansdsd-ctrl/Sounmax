@@ -69,6 +69,7 @@ fun SoundMaxApp(
     val currentPreset by viewModel.dspManager.currentPreset.collectAsStateWithLifecycle()
     val activeAnc by viewModel.dspManager.ancMode.collectAsStateWithLifecycle()
     val selectedCodec by viewModel.dspManager.selectedCodec.collectAsStateWithLifecycle()
+    val headsetStatus by sceneController.headsetStatus.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = modifier
@@ -80,7 +81,9 @@ fun SoundMaxApp(
                 currentPreset = currentPreset,
                 activeAnc = activeAnc,
                 codecName = selectedCodec.codecName.split(" ").lastOrNull() ?: selectedCodec.name,
-                onToggleDsp = { viewModel.setDspEnabled(it) }
+                onToggleDsp = { viewModel.setDspEnabled(it) },
+                headsetName = headsetStatus.name,
+                batteryPercent = headsetStatus.batteryPercent
             )
         },
         bottomBar = {
