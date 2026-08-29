@@ -11,6 +11,8 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.MainActivity
 import com.example.R
+import com.example.dsp.ListeningScenes
+import com.example.widget.SoundMaxWidget
 
 class DspControlService : Service() {
 
@@ -18,10 +20,17 @@ class DspControlService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val wellness = getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         when (intent?.action) {
             ACTION_TOGGLE -> {
                 val next = !prefs.getBoolean(KEY_DSP, true)
                 prefs.edit().putBoolean(KEY_DSP, next).apply()
+            }
+            ACTION_NEXT_SCENE -> {
+                val current = wellness.getString("last_scene_id", ListeningScenes.ALL.first().id)
+                val idx = ListeningScenes.ALL.indexOfFirst { it.id == current }.coerceAtLeast(0)
+                val next = ListeningScenes.ALL[(idx + 1) % ListeningScenes.ALL.size]
+                wellness.edit().putString("last_scene_id", next.id).putBoolean("pending_widget_scene", true).apply()
             }
             ACTION_STOP -> {
                 stopForeground(STOP_FOREGROUND_REMOVE)
@@ -31,6 +40,8 @@ class DspControlService : Service() {
         }
         ensureChannel()
         val enabled = prefs.getBoolean(KEY_DSP, true)
+        val scene = ListeningScenes.byId(wellness.getString("last_scene_id", null))
+        val sceneLabel = scene?.let { "${it.emoji} ${it.name}" } ?: "Scene"
         val openApp = PendingIntent.getActivity(
             this, 0,
             Intent(this, MainActivity::class.java),
@@ -41,6 +52,11 @@ class DspControlService : Service() {
             Intent(this, DspControlService::class.java).setAction(ACTION_TOGGLE),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
+        val nextScene = PendingIntent.getService(
+            this, 3,
+            Intent(this, DspControlService::class.java).setAction(ACTION_NEXT_SCENE),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
         val stop = PendingIntent.getService(
             this, 2,
             Intent(this, DspControlService::class.java).setAction(ACTION_STOP),
@@ -49,14 +65,22 @@ class DspControlService : Service() {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Sounmax DSP")
-            .setContentText(if (enabled) "DSP actief · tik om te pauzeren" else "DSP uit · tik om te starten")
+            .setContentText(
+                if (enabled) "Aan · $sceneLabel"
+                else "Uit · $sceneLabel"
+            )
             .setContentIntent(openApp)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .addAction(0, if (enabled) "Pauzeer" else "Start", toggle)
+            .addAction(0, "Scene", nextScene)
             .addAction(0, "Sluit", stop)
             .build()
         startForeground(NOTIF_ID, notification)
+        try {
+            SoundMaxWidget.refreshAll(this)
+        } catch (_: Exception) {
+        }
         return START_STICKY
     }
 
@@ -72,6 +96,7 @@ class DspControlService : Service() {
         const val CHANNEL_ID = "sounmax_dsp"
         const val NOTIF_ID = 6519
         const val ACTION_TOGGLE = "com.example.DSP_TOGGLE"
+        const val ACTION_NEXT_SCENE = "com.example.DSP_NEXT_SCENE"
         const val ACTION_STOP = "com.example.DSP_STOP"
         const val PREFS = "soundmax_ui"
         const val KEY_DSP = "notif_dsp_enabled"

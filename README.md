@@ -15,13 +15,14 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Gehoortest → L+R gemiddelde EQ-compensatie + echte score
 - Gemini AI akoestische tuner
 - YouTube Music web/native
-- EQ delen / importeren via klembord (JSON)
+- EQ delen / importeren via klembord of Android share-sheet
 - BT-headset detectie + codec hints (LDAC / aptX Adaptive)
 - Now Playing auto-EQ (genre uit YT Music / Spotify / etc.)
 - Adaptieve loudness op basis van mediavolume
 - Quick Settings-tegel: DSP aan/uit
 - Quick Settings-tegel: scene wisselen
-- Persistente DSP-notificatie (pauzeer / start / sluit)
+- Persistente DSP-notificatie (pauzeer / start / volgende scene / sluit)
+- Homescreen-widget: DSP toggle + volgende scene
 - Zoek koptelefoon (L/R pieptonen)
 - Headset-batterij in de statusbalk (als Android die vrijgeeft)
 - Auto-pauze DSP bij Bluetooth-disconnect (chip: BT-pauze)
