@@ -1,6 +1,8 @@
 package com.example.ui
 
 import android.app.Application
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -15,9 +17,9 @@ import com.example.data.SoundMaxDatabase
 import com.example.dsp.AncMode
 import com.example.dsp.AudioDspManager
 import com.example.dsp.BluetoothCodec
-import com.example.dsp.BuiltinPresets
 import com.example.dsp.EqPreset
 import com.example.dsp.HeadphoneDevice
+import com.example.media.DspControlService
 import com.example.media.FindHeadsetHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -42,6 +44,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val findHeadsetHelper = FindHeadsetHelper()
 
     val customDbPresets: StateFlow<List<EqPresetEntity>> = eqPresetDao.getAllPresets()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val favoritePresets: StateFlow<List<EqPresetEntity>> = eqPresetDao.getFavorites()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val recentPresets: StateFlow<List<EqPresetEntity>> = eqPresetDao.getRecent()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val latestHearingProfile: StateFlow<HearingProfileEntity?> = hearingDao.getLatestProfile()
@@ -89,6 +97,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setDspEnabled(enabled: Boolean) {
         dspManager.setDspEnabled(enabled)
+        val app = getApplication<Application>()
+        app.getSharedPreferences(DspControlService.PREFS, Context.MODE_PRIVATE)
+            .edit().putBoolean(DspControlService.KEY_DSP, enabled).apply()
+        DspControlService.start(app)
     }
 
     fun applyPreset(preset: EqPreset) {
@@ -235,7 +247,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 bassBoost = dspManager.bassBoostStrength.value,
                 virtualizer = dspManager.virtualizerStrength.value,
                 loudness = dspManager.loudnessGain.value,
-                clarity = dspManager.clarityGain.value
+                clarity = dspManager.clarityGain.value,
+                lastUsedAt = System.currentTimeMillis()
             )
             val insertedId = eqPresetDao.insertPreset(entity)
             val gainsList = dspManager.bandGains.value
@@ -257,6 +270,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun applyCustomDbPreset(dbPreset: EqPresetEntity) {
+        viewModelScope.launch {
+            eqPresetDao.touchUsed(dbPreset.id, System.currentTimeMillis())
+        }
         val gainsList = dbPreset.bandGains.split(",").mapNotNull { it.toFloatOrNull() }
         val eqPreset = EqPreset(
             id = dbPreset.id,
@@ -271,6 +287,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             description = "Opgeslagen gebruikersprofiel"
         )
         applyPreset(eqPreset)
+    }
+
+    fun toggleFavorite(id: Long, favorite: Boolean) {
+        viewModelScope.launch { eqPresetDao.setFavorite(id, favorite) }
+    }
+
+    fun exportCurrentEq(context: Context) {
+        val name = dspManager.currentPreset.value?.name ?: "Sounmax EQ"
+        val bands = dspManager.bandGains.value.joinToString(",")
+        val json = """{"app":"sounmax","name":"$name","bands":[$bands],"bass":${dspManager.bassBoostStrength.value},"virt":${dspManager.virtualizerStrength.value},"loud":${dspManager.loudnessGain.value},"clarity":${dspManager.clarityGain.value}}"""
+        val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        cm.setPrimaryClip(ClipData.newPlainText("sounmax-eq", json))
+        Toast.makeText(context, "EQ-JSON gekopieerd", Toast.LENGTH_SHORT).show()
+    }
+
+    fun importEqJson(raw: String) {
+        val bandsPart = raw.substringAfter("\"bands\":[").substringBefore("]")
+        val gains = bandsPart.split(",").mapNotNull { it.trim().toFloatOrNull() }
+        if (gains.size != 10) {
+            Toast.makeText(getApplication(), "Ongeldige EQ-JSON", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val name = raw.substringAfter("\"name\":").substringAfter('"').substringBefore('"')
+        applyPreset(
+            EqPreset(
+                name = name.ifBlank { "Geïmporteerd" },
+                bandGains = gains,
+                isCustom = true,
+                description = "Geïmporteerd via JSON"
+            )
+        )
     }
 
     fun stepBandGain(bandIndex: Int, deltaDb: Float) {
@@ -394,6 +441,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun computeHearingScore(left: Map<Int, Int>, right: Map<Int, Int>): Int {
+        val values = testFrequencies.flatMap { f ->
+            listOf(left[f] ?: 25, right[f] ?: 25)
+        }
+        val penalty = values.map { (it - 20).coerceAtLeast(0) }.average()
+        return (100.0 - penalty * 1.6).toInt().coerceIn(40, 100)
+    }
+
     private fun calculateAndSaveAudiogram() {
         viewModelScope.launch {
             val left = _leftEarLossMap.value
@@ -406,14 +461,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val threshold = right[freq] ?: 25
                 ((threshold - 20) * 0.18f).coerceIn(-2.0f, 6.0f)
             }.joinToString(",")
+            val score = computeHearingScore(left, right)
             val entity = HearingProfileEntity(
                 profileName = "Gepersonaliseerd Gehoorprofiel ${dspManager.activeHeadphone.value.brand}",
                 leftGains = leftGainsStr,
                 rightGains = rightGainsStr,
-                scorePercent = 94
+                scorePercent = score
             )
             hearingDao.insertProfile(entity)
-            Toast.makeText(getApplication(), "Gehoortest voltooid! Akoestische compensatie berekend.", Toast.LENGTH_LONG).show()
+            Toast.makeText(getApplication(), "Gehoortest voltooid · score $score%", Toast.LENGTH_LONG).show()
         }
     }
 
