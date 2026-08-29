@@ -32,11 +32,14 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - EQ-geheugen per headset (laatste curve wordt per BT-naam bewaard en hersteld)
 - Stereo-breedte / spatializer-slider (0 mono → 200 brede soundstage)
 - Per-app EQ-overzicht: toepassen, wissen, aan/uit
+- **Hardware Spatializer** (Android 12/13+): binaural Virtualizer + Spatializer-status
+- **Live RSSI** (scan/reflectie) stuurt LDAC 990/660/330 automatisch
+- **DSP pauzeert tijdens een telefoongesprek** en hervat daarna
 
 ## Volgende verbeteringen
 - Wear OS-tegel voor scene + DSP
-- Automatisch LDAC-bitrate op echte RSSI i.p.v. simulatie
-- Hardware Spatializer (Android 13+) koppelen naast Virtualizer
+- GATT/LE Audio RSSI i.p.v. discovery-fallback op OEM-stacks zonder getRssi
+- Officiële Spatializer-head-tracking koppelen waar de OEM dat toestaat
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
