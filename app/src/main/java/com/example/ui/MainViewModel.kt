@@ -18,6 +18,7 @@ import com.example.dsp.BluetoothCodec
 import com.example.dsp.BuiltinPresets
 import com.example.dsp.EqPreset
 import com.example.dsp.HeadphoneDevice
+import com.example.media.FindHeadsetHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -38,6 +39,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val eqPresetDao = database.eqPresetDao()
     private val hearingDao = database.hearingProfileDao()
     private val geminiTuner = GeminiAudioTuner()
+    private val findHeadsetHelper = FindHeadsetHelper()
 
     val customDbPresets: StateFlow<List<EqPresetEntity>> = eqPresetDao.getAllPresets()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
@@ -210,6 +212,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun optimizeLdacStreaming() {
         dspManager.optimizeLdacStreaming()
         Toast.makeText(getApplication(), "LDAC & A2DP buffer geoptimaliseerd", Toast.LENGTH_SHORT).show()
+    }
+
+    fun findHeadset() {
+        findHeadsetHelper.start()
+        Toast.makeText(getApplication(), "Zoeken: L/R pieptonen 12s", Toast.LENGTH_SHORT).show()
+    }
+
+    fun stopFindHeadset() {
+        findHeadsetHelper.stop()
     }
 
     fun saveCurrentAsCustomPreset(name: String, category: String = "Aangepast") {
@@ -439,6 +450,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     override fun onCleared() {
         super.onCleared()
+        findHeadsetHelper.stop()
         dspManager.release()
     }
 }
