@@ -27,6 +27,14 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Headset-batterij in de statusbalk (als Android die vrijgeeft)
 - Auto-pauze DSP bij Bluetooth-disconnect (chip: BT-pauze)
 - Weekdosis naast dagelijkse luisterminuten
+- EQ-geheugen per headset (laatste curve wordt per BT-naam bewaard en hersteld)
+
+## Volgende verbeteringen
+- Per-app EQ (Spotify vs YT Music vs games)
+- Echte Spatializer / stereo-width slider in de EQ-tab
+- Backup/restore van alle presets als één JSON-bestand
+- Wear OS-tegel voor scene + DSP
+- Automatisch LDAC-bitrate op echte RSSI i.p.v. simulatie
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
