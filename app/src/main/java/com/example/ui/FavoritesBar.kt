@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,22 +37,22 @@ fun FavoritesBar(viewModel: MainViewModel) {
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 12.dp, vertical = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         chips.forEach { preset ->
             AssistChip(
                 onClick = { viewModel.applyCustomDbPreset(preset) },
-                onLongClick = { viewModel.toggleFavorite(preset.id, !preset.isFavorite) },
                 label = { Text(preset.name, fontSize = 11.sp, maxLines = 1) },
-                leadingIcon = if (preset.isFavorite) {
-                    {
+                trailingIcon = {
+                    IconButton(onClick = { viewModel.toggleFavorite(preset.id, !preset.isFavorite) }) {
                         Icon(
-                            Icons.Default.Star,
+                            imageVector = if (preset.isFavorite) Icons.Default.Star else Icons.Outlined.StarOutline,
                             contentDescription = "Favoriet",
                             tint = ImmersiveLavenderAccent
                         )
                     }
-                } else null,
+                },
                 colors = AssistChipDefaults.assistChipColors(
                     containerColor = ImmersiveSurfaceActive,
                     labelColor = ImmersiveTextSecondary
