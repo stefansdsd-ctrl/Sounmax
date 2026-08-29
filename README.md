@@ -21,6 +21,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Quick Settings-tegel: DSP aan/uit
 - Quick Settings-tegel: scene wisselen
 - Zoek koptelefoon (L/R pieptonen)
+- Headset-batterij in de statusbalk (als Android die vrijgeeft)
+- Auto-pauze DSP bij Bluetooth-disconnect (chip: BT-pauze)
+- Scene Quick Settings-tegel wisselt nu écht de actieve scene
+- Weekdosis naast dagelijkse luisterminuten
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
