@@ -1,11 +1,13 @@
 package com.example.widget
 
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.SystemClock
 import android.widget.RemoteViews
 import com.example.MainActivity
 import com.example.R
@@ -14,7 +16,16 @@ import com.example.media.DspControlService
 
 class SoundMaxWidget : AppWidgetProvider() {
 
+    override fun onEnabled(context: Context) {
+        scheduleTick(context)
+    }
+
+    override fun onDisabled(context: Context) {
+        cancelTick(context)
+    }
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        scheduleTick(context)
         appWidgetIds.forEach { updateWidget(context, appWidgetManager, it) }
     }
 
@@ -29,22 +40,28 @@ class SoundMaxWidget : AppWidgetProvider() {
                 refreshAll(context)
             }
             ACTION_NEXT_SCENE -> {
-                cycleScene(context)
+                cycleScene(context, +1)
+                refreshAll(context)
+            }
+            ACTION_PREV_SCENE -> {
+                cycleScene(context, -1)
                 refreshAll(context)
             }
             ACTION_CYCLE_SLEEP -> {
                 cycleSleep(context)
                 refreshAll(context)
             }
-            ACTION_REFRESH -> refreshAll(context)
+            ACTION_TICK, ACTION_REFRESH -> refreshAll(context)
         }
     }
 
     companion object {
         const val ACTION_TOGGLE_DSP = "com.example.widget.TOGGLE_DSP"
         const val ACTION_NEXT_SCENE = "com.example.widget.NEXT_SCENE"
+        const val ACTION_PREV_SCENE = "com.example.widget.PREV_SCENE"
         const val ACTION_CYCLE_SLEEP = "com.example.widget.CYCLE_SLEEP"
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
+        const val ACTION_TICK = "com.example.widget.TICK"
         private val SLEEP_STEPS = intArrayOf(0, 15, 30, 60, 90, 120)
 
         fun refreshAll(context: Context) {
@@ -53,11 +70,12 @@ class SoundMaxWidget : AppWidgetProvider() {
             ids.forEach { updateWidget(context, mgr, it) }
         }
 
-        fun cycleScene(context: Context) {
+        fun cycleScene(context: Context, step: Int = 1) {
             val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             val current = prefs.getString("last_scene_id", ListeningScenes.ALL.first().id)
             val idx = ListeningScenes.ALL.indexOfFirst { it.id == current }.coerceAtLeast(0)
-            val next = ListeningScenes.ALL[(idx + 1) % ListeningScenes.ALL.size]
+            val size = ListeningScenes.ALL.size
+            val next = ListeningScenes.ALL[((idx + step) % size + size) % size]
             prefs.edit().putString("last_scene_id", next.id).putBoolean("pending_widget_scene", true).apply()
             DspControlService.start(context)
         }
@@ -87,6 +105,29 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val KEY_BATTERY = "headset_battery"
         const val KEY_HEADSET_NAME = "headset_name"
 
+        private fun tickIntent(context: Context): PendingIntent {
+            return PendingIntent.getBroadcast(
+                context, 9,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_TICK),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
+
+        fun scheduleTick(context: Context) {
+            val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            am.setRepeating(
+                AlarmManager.ELAPSED_REALTIME,
+                SystemClock.elapsedRealtime() + 60_000L,
+                60_000L,
+                tickIntent(context)
+            )
+        }
+
+        fun cancelTick(context: Context) {
+            val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            am.cancel(tickIntent(context))
+        }
+
         private fun updateWidget(context: Context, mgr: AppWidgetManager, id: Int) {
             val ui = context.getSharedPreferences(DspControlService.PREFS, Context.MODE_PRIVATE)
             val wellness = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
@@ -95,9 +136,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 ?: ListeningScenes.ALL.first()
             val battery = wellness.getInt(KEY_BATTERY, -1)
             val sleepLeft = remainingSleepMinutes(wellness.getLong(KEY_SLEEP_END, 0L))
+            val name = wellness.getString(KEY_HEADSET_NAME, null)
 
             val views = RemoteViews(context.packageName, R.layout.soundmax_widget)
-            views.setTextViewText(R.id.widget_title, "Sounmax")
+            views.setTextViewText(R.id.widget_title, name?.take(18) ?: "Sounmax")
             views.setTextViewText(
                 R.id.widget_battery,
                 if (battery in 0..100) "BT $battery%" else "BT --%"
@@ -124,6 +166,11 @@ class SoundMaxWidget : AppWidgetProvider() {
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_NEXT_SCENE),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
+            val prevScene = PendingIntent.getBroadcast(
+                context, 5,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_PREV_SCENE),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
             val sleep = PendingIntent.getBroadcast(
                 context, 4,
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_CYCLE_SLEEP),
@@ -132,6 +179,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_root, open)
             views.setOnClickPendingIntent(R.id.widget_dsp_btn, toggle)
             views.setOnClickPendingIntent(R.id.widget_scene_btn, nextScene)
+            views.setOnClickPendingIntent(R.id.widget_prev_btn, prevScene)
             views.setOnClickPendingIntent(R.id.widget_sleep_btn, sleep)
             mgr.updateAppWidget(id, views)
         }
