@@ -3,6 +3,12 @@ package com.example.data
 import android.content.Context
 import com.example.dsp.EqPreset
 
+data class AppEqBinding(
+    val packageName: String,
+    val presetName: String,
+    val label: String
+)
+
 class AppEqMemory(context: Context) {
     private val prefs = context.getSharedPreferences("soundmax_app_eq", Context.MODE_PRIVATE)
 
@@ -22,8 +28,8 @@ class AppEqMemory(context: Context) {
             .apply()
     }
 
-    fun load(packageName: String?): EqPreset? {
-        if (!enabled) return null
+    fun load(packageName: String?, ignoreEnabled: Boolean = false): EqPreset? {
+        if (!enabled && !ignoreEnabled) return null
         val pkg = packageName?.takeIf { it.isNotBlank() } ?: return null
         val name = prefs.getString("$pkg.name", null) ?: return null
         val bands = prefs.getString("$pkg.bands", null)
@@ -42,6 +48,29 @@ class AppEqMemory(context: Context) {
             category = "Per-app",
             description = "EQ voor $pkg"
         )
+    }
+
+    fun delete(packageName: String?) {
+        val pkg = packageName?.takeIf { it.isNotBlank() } ?: return
+        prefs.edit()
+            .remove("$pkg.name")
+            .remove("$pkg.bands")
+            .remove("$pkg.bass")
+            .remove("$pkg.virt")
+            .remove("$pkg.loud")
+            .remove("$pkg.clarity")
+            .apply()
+    }
+
+    fun listBindings(): List<AppEqBinding> {
+        return prefs.all.keys
+            .filter { it.endsWith(".name") }
+            .mapNotNull { key ->
+                val pkg = key.removeSuffix(".name")
+                val name = prefs.getString(key, null) ?: return@mapNotNull null
+                AppEqBinding(pkg, name, label(pkg))
+            }
+            .sortedBy { it.label.lowercase() }
     }
 
     fun label(packageName: String?): String {
