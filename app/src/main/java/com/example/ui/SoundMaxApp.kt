@@ -131,6 +131,7 @@ fun SoundMaxApp(
                 .background(ImmersiveBackground)
         ) {
             ListeningScenesBar(sceneController = sceneController)
+            FindHeadsetBar(viewModel = viewModel)
             Box(modifier = Modifier.fillMaxSize()) {
                 when (selectedTab) {
                     SoundMaxTab.YT_MUSIC -> {
