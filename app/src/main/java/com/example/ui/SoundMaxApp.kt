@@ -144,6 +144,7 @@ fun SoundMaxApp(
             FindHeadsetBar(viewModel = viewModel)
             FavoritesBar(viewModel = viewModel)
             BackupBar(viewModel = viewModel)
+            AppEqBar(viewModel = viewModel)
             Box(modifier = Modifier.fillMaxSize()) {
                 when (selectedTab) {
                     SoundMaxTab.YT_MUSIC -> {
