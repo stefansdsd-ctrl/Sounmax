@@ -36,10 +36,13 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - EQ-undo (laatste 12 curves)
 - Batterij-saver: bij ≤18% automatisch LDAC 330 + lagere loudness
 - Scenes: Thuiswerk, Auto, Inslapen
+- Dubbel volume-omhoog wisselt naar de volgende scene (chip Vol-scene)
+- Weekdosis in statusregel + waarschuwing bij 7u / 10u
 
 ## Volgende verbeteringen
 - Wear OS-tegel voor scene + DSP
 - Spatializer-head-tracking waar de OEM dat toestaat
+- Headset-media-knop scene-cycle (naast volume-gesture)
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
