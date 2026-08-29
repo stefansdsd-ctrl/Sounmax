@@ -1,10 +1,16 @@
 package com.example.ui
 
 import android.app.Application
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.AudioManager
+import android.provider.Settings
 import android.widget.Toast
+import com.example.media.NowPlayingMonitor
+import com.example.media.NowPlayingTrack
+import com.example.qs.DspQuickTileService
 import androidx.lifecycle.viewModelScope
 import com.example.data.SavedTrackEntity
 import com.example.data.SoundMaxDatabase
@@ -69,9 +75,28 @@ class SceneController(private val viewModel: MainViewModel) {
     private val _detectedHeadset = MutableStateFlow<String?>(null)
     val detectedHeadset: StateFlow<String?> = _detectedHeadset.asStateFlow()
 
+    private val _autoNowPlaying = MutableStateFlow(prefs.getBoolean("auto_now_playing", true))
+    val autoNowPlaying: StateFlow<Boolean> = _autoNowPlaying.asStateFlow()
+
+    private val _adaptiveVolume = MutableStateFlow(prefs.getBoolean("adaptive_volume", true))
+    val adaptiveVolume: StateFlow<Boolean> = _adaptiveVolume.asStateFlow()
+
+    private val _nowPlayingLabel = MutableStateFlow<String?>(null)
+    val nowPlayingLabel: StateFlow<String?> = _nowPlayingLabel.asStateFlow()
+
     private var sleepJob: Job? = null
     private var doseJob: Job? = null
     private var savedVirtualizerForCrossfeed: Int? = null
+    private var nowPlayingMonitor: NowPlayingMonitor? = null
+    private var lastAdaptiveLoudness: Int? = null
+
+    private val dspTileReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action != DspQuickTileService.ACTION_TOGGLE_DSP) return
+            val enabled = intent.getBooleanExtra("enabled", true)
+            viewModel.setDspEnabled(enabled)
+        }
+    }
 
     init {
         if (_safeVolumeEnabled.value) setSafeVolume(true)
@@ -79,6 +104,13 @@ class SceneController(private val viewModel: MainViewModel) {
         if (_monoMix.value) viewModel.dspManager.setMonoMix(true)
         detectHeadset(silent = true)
         startDoseTracker()
+        try {
+            app.registerReceiver(dspTileReceiver, IntentFilter(DspQuickTileService.ACTION_TOGGLE_DSP), Context.RECEIVER_NOT_EXPORTED)
+        } catch (_: Exception) {
+            app.registerReceiver(dspTileReceiver, IntentFilter(DspQuickTileService.ACTION_TOGGLE_DSP))
+        }
+        if (_autoNowPlaying.value) startNowPlaying()
+        if (_adaptiveVolume.value) applyAdaptiveVolume()
         val last = ListeningScenes.byId(_activeSceneId.value)
         when {
             last != null && !_autoSceneEnabled.value -> applyListeningScene(last, silent = true)
@@ -194,7 +226,7 @@ class SceneController(private val viewModel: MainViewModel) {
         val preset = viewModel.dspManager.currentPreset.value
         val text = buildString {
             appendLine("Sounmax EQ: ${preset.name}")
-            appendLine("Bands (dB): ${bands.joinToString(", ") { String.format("%.1f", it) }}")
+            appendLine("Bands (dB): ${bands.joinToString(", ") { String.format(\"%.1f\", it) }}")
             appendLine("Bass ${viewModel.dspManager.bassBoostStrength.value} | Spatial ${viewModel.dspManager.virtualizerStrength.value}")
             appendLine("Loudness ${viewModel.dspManager.loudnessGain.value} | Clarity ${viewModel.dspManager.clarityGain.value}")
             appendLine("ANC ${viewModel.dspManager.ancMode.value.displayName} | Codec ${viewModel.dspManager.selectedCodec.value.codecName}")
@@ -295,6 +327,58 @@ class SceneController(private val viewModel: MainViewModel) {
         )
     }
 
+    fun setAutoNowPlaying(enabled: Boolean) {
+        _autoNowPlaying.value = enabled
+        prefs.edit().putBoolean("auto_now_playing", enabled).apply()
+        if (enabled) startNowPlaying() else nowPlayingMonitor?.stop()
+    }
+
+    fun setAdaptiveVolume(enabled: Boolean) {
+        _adaptiveVolume.value = enabled
+        prefs.edit().putBoolean("adaptive_volume", enabled).apply()
+        if (enabled) applyAdaptiveVolume()
+    }
+
+    fun openNotificationAccess() {
+        try {
+            app.startActivity(
+                Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        } catch (_: Exception) {}
+    }
+
+    fun nowPlayingHasAccess(): Boolean = nowPlayingMonitor?.hasAccess() == true
+
+    private fun startNowPlaying() {
+        nowPlayingMonitor?.stop()
+        nowPlayingMonitor = NowPlayingMonitor(app) { track -> onNowPlaying(track) }.also { it.start() }
+    }
+
+    private fun onNowPlaying(track: NowPlayingTrack) {
+        _nowPlayingLabel.value = listOf(track.title, track.artist).filter { it.isNotBlank() }.joinToString(" · ")
+        if (!_autoNowPlaying.value || _eqLocked.value) return
+        val blob = "${track.genre} ${track.title} ${track.artist} ${track.packageName}"
+        applyGenreHint(blob)
+    }
+
+    fun applyAdaptiveVolume() {
+        if (!_adaptiveVolume.value) return
+        val am = app.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val ratio = cur.toFloat() / max
+        val target = when {
+            ratio < 0.25f -> 450
+            ratio < 0.45f -> 320
+            ratio < 0.70f -> 220
+            else -> 80
+        }
+        if (lastAdaptiveLoudness != target) {
+            lastAdaptiveLoudness = target
+            viewModel.setLoudness(target)
+        }
+    }
+
     fun applyGenreHint(genre: String) {
         val sceneId = when {
             genre.contains("hip", true) || genre.contains("rap", true) -> "sport"
@@ -303,6 +387,7 @@ class SceneController(private val viewModel: MainViewModel) {
             genre.contains("podcast", true) || genre.contains("speech", true) -> "podcast"
             genre.contains("lofi", true) || genre.contains("chill", true) -> "night"
             genre.contains("rock", true) || genre.contains("metal", true) -> "game"
+            genre.contains("pop", true) -> "party"
             else -> return
         }
         ListeningScenes.byId(sceneId)?.let { applyListeningScene(it) }
