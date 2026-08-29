@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.media.DspControlService
 import com.example.ui.MainViewModel
 import com.example.ui.SoundMaxApp
 import com.example.ui.theme.MyApplicationTheme
@@ -16,6 +17,7 @@ import com.example.ui.theme.StudioDarkBackground
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DspControlService.start(this)
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {

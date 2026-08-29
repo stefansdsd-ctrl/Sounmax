@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Icon
@@ -18,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,9 +47,10 @@ fun FavoritesBar(viewModel: MainViewModel) {
                 trailingIcon = {
                     IconButton(onClick = { viewModel.toggleFavorite(preset.id, !preset.isFavorite) }) {
                         Icon(
-                            imageVector = if (preset.isFavorite) Icons.Default.Star else Icons.Outlined.StarOutline,
+                            imageVector = Icons.Default.Star,
                             contentDescription = "Favoriet",
-                            tint = ImmersiveLavenderAccent
+                            tint = ImmersiveLavenderAccent,
+                            modifier = Modifier.alpha(if (preset.isFavorite) 1f else 0.35f)
                         )
                     }
                 },
