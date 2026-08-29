@@ -13,8 +13,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EqPresetDao {
-    @Query("SELECT * FROM eq_presets ORDER BY isCustom ASC, id ASC")
+    @Query("SELECT * FROM eq_presets ORDER BY isFavorite DESC, lastUsedAt DESC, id ASC")
     fun getAllPresets(): Flow<List<EqPresetEntity>>
+
+    @Query("SELECT * FROM eq_presets WHERE isFavorite = 1 ORDER BY name ASC")
+    fun getFavorites(): Flow<List<EqPresetEntity>>
+
+    @Query("SELECT * FROM eq_presets WHERE lastUsedAt > 0 ORDER BY lastUsedAt DESC LIMIT 8")
+    fun getRecent(): Flow<List<EqPresetEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPreset(preset: EqPresetEntity): Long
@@ -24,6 +30,12 @@ interface EqPresetDao {
 
     @Query("DELETE FROM eq_presets WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Query("UPDATE eq_presets SET isFavorite = :fav WHERE id = :id")
+    suspend fun setFavorite(id: Long, fav: Boolean)
+
+    @Query("UPDATE eq_presets SET lastUsedAt = :ts WHERE id = :id")
+    suspend fun touchUsed(id: Long, ts: Long)
 }
 
 @Dao
@@ -55,7 +67,7 @@ interface SavedTrackDao {
 
 @Database(
     entities = [EqPresetEntity::class, HearingProfileEntity::class, SavedTrackEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class SoundMaxDatabase : RoomDatabase() {

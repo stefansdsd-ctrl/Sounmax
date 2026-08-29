@@ -9,19 +9,21 @@ data class EqPresetEntity(
     val name: String,
     val isCustom: Boolean = true,
     val category: String = "Aangepast",
-    val bandGains: String, // Comma separated 10 float values in dB (-12 to +12)
-    val bassBoost: Int = 0, // 0 - 1000
-    val virtualizer: Int = 0, // 0 - 1000
-    val loudness: Int = 0, // 0 - 1000
-    val clarity: Float = 0f, // 0 - 10
-    val createdAt: Long = System.currentTimeMillis()
+    val bandGains: String,
+    val bassBoost: Int = 0,
+    val virtualizer: Int = 0,
+    val loudness: Int = 0,
+    val clarity: Float = 0f,
+    val createdAt: Long = System.currentTimeMillis(),
+    val isFavorite: Boolean = false,
+    val lastUsedAt: Long = 0L
 )
 
 @Entity(tableName = "hearing_profiles")
 data class HearingProfileEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val profileName: String,
-    val leftGains: String, // Comma separated hearing threshold compensation
+    val leftGains: String,
     val rightGains: String,
     val scorePercent: Int = 100,
     val createdAt: Long = System.currentTimeMillis()
