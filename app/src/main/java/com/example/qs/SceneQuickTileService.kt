@@ -7,17 +7,18 @@ import com.example.dsp.ListeningScenes
 
 class SceneQuickTileService : TileService() {
     override fun onStartListening() {
-        val id = getSharedPreferences("soundmax_wellness", MODE_PRIVATE).getString("active_scene", "focus")
+        val id = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
+            .getString("last_scene_id", "focus")
         val scene = ListeningScenes.byId(id) ?: ListeningScenes.ALL.first()
         updateTile(scene.name, scene.emoji)
     }
 
     override fun onClick() {
         val prefs = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
-        val current = prefs.getString("active_scene", "focus")
+        val current = prefs.getString("last_scene_id", "focus")
         val idx = ListeningScenes.ALL.indexOfFirst { it.id == current }.let { if (it < 0) 0 else it }
         val next = ListeningScenes.ALL[(idx + 1) % ListeningScenes.ALL.size]
-        prefs.edit().putString("active_scene", next.id).apply()
+        prefs.edit().putString("last_scene_id", next.id).apply()
         sendBroadcast(
             Intent(ACTION_CYCLE_SCENE).setPackage(packageName).putExtra("scene_id", next.id)
         )
