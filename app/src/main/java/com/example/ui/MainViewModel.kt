@@ -408,27 +408,31 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun applyHearingCorrection(profile: HearingProfileEntity) {
         val leftGains = profile.leftGains.split(",").mapNotNull { it.toFloatOrNull() }
+        val rightGains = profile.rightGains.split(",").mapNotNull { it.toFloatOrNull() }
+        fun avg(i: Int): Float {
+            val l = leftGains.getOrElse(i) { 0f }
+            val r = rightGains.getOrElse(i) { l }
+            return ((l + r) / 2f).coerceIn(-6f, 8f)
+        }
         val tenBands = listOf(
-            leftGains.getOrElse(0) { 0f },
-            leftGains.getOrElse(0) { 0f },
-            leftGains.getOrElse(0) { 0f },
-            leftGains.getOrElse(1) { 0f },
-            leftGains.getOrElse(2) { 0f },
-            leftGains.getOrElse(3) { 0f },
-            leftGains.getOrElse(4) { 0f },
-            leftGains.getOrElse(5) { 0f },
-            leftGains.getOrElse(6) { 0f },
-            leftGains.getOrElse(6) { 0f }
+            avg(0), avg(0), avg(1), avg(2), avg(3),
+            avg(4), avg(5), avg(5), avg(6), avg(6)
         )
+        val imbalance = run {
+            val l = leftGains.average().takeIf { !it.isNaN() } ?: 0.0
+            val r = rightGains.average().takeIf { !it.isNaN() } ?: 0.0
+            ((r - l) * 8).toInt().coerceIn(-20, 20)
+        }
+        if (imbalance != 0) dspManager.setBalance(50 + imbalance)
         val customEq = EqPreset(
             name = "Gepersonaliseerde Gehoorcompensatie",
             bandGains = tenBands,
-            bassBoost = 400,
-            virtualizer = 350,
-            loudness = 450,
-            clarity = 8.5f,
+            bassBoost = 250,
+            virtualizer = 200,
+            loudness = 200,
+            clarity = 4.5f,
             isCustom = true,
-            description = "Gekalibreerd op basis van jouw persoonlijke gehoortest voor perfecte frequentiebalans."
+            description = "L+R gemiddelde uit gehoortest, met lichte balanscorrectie."
         )
         applyPreset(customEq)
     }
