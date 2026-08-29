@@ -23,6 +23,9 @@ object ListeningScenes {
         ListeningScene("bike", "Fietsen", "🚲", "Windfilter + alertheid", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
         ListeningScene("library", "Bibliotheek", "📖", "Fluister-EQ, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("meeting", "Vergadering", "💼", "Max transparantie, stemmen", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
+        ListeningScene("wfh", "Thuiswerk", "🏠", "Heldere calls + lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("car", "Auto", "🚗", "Lage latency, wind/wegruis", "Rock & Metal Punch", AncMode.WIND_GUARD, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
+        ListeningScene("sleep", "Inslapen", "😴", "Zacht + timer-vriendelijk", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("rest", "Rust", "♻️", "Pauze: zacht + veilig", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true)
     )
 
@@ -36,6 +39,7 @@ object ListeningScenes {
             in 14..16 -> ALL.first { it.id == "study" }
             in 17..19 -> ALL.first { it.id == "commute" }
             in 20..21 -> ALL.first { it.id == "film" }
+            in 22..23 -> ALL.first { it.id == "sleep" }
             else -> ALL.first { it.id == "night" }
         }
     }
