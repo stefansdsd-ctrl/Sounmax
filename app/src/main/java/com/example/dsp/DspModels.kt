@@ -39,6 +39,7 @@ enum class LdacQualityMode(
 data class BluetoothDiagnosticMetrics(
     val connectionQualityPercent: Int = 98,
     val rssiDbm: Int = -42,
+    val rssiIsLive: Boolean = false,
     val currentBitrateKbps: Int = 990,
     val sampleRateHz: Int = 96000,
     val bitDepth: Int = 24,
@@ -52,6 +53,8 @@ data class BluetoothDiagnosticMetrics(
     val bluetoothMtuSize: Int = 1024,
     val a2dpProfileConnected: Boolean = true,
     val isOptimized: Boolean = true,
+    val spatializerAvailable: Boolean = false,
+    val spatializerActive: Boolean = false,
     val lastOptimizedMessage: String = "LDAC 990 kbps Master Stream actief"
 )
 

@@ -18,12 +18,14 @@ data class HeadsetStatus(
     val connected: Boolean = false,
     val name: String? = null,
     val batteryPercent: Int? = null,
-    val wired: Boolean = false
+    val wired: Boolean = false,
+    val rssiDbm: Int? = null
 )
 
 class HeadsetStatusMonitor(
     private val context: Context,
-    private val onConnectionChanged: (connected: Boolean) -> Unit = {}
+    private val onConnectionChanged: (connected: Boolean) -> Unit = {},
+    private val onRssi: (rssiDbm: Int) -> Unit = {}
 ) {
     private val _status = MutableStateFlow(HeadsetStatus())
     val status: StateFlow<HeadsetStatus> = _status.asStateFlow()
@@ -46,6 +48,18 @@ class HeadsetStatusMonitor(
                     onConnectionChanged(state == 1)
                 }
                 "android.bluetooth.device.action.BATTERY_LEVEL_CHANGED" -> refresh()
+                BluetoothDevice.ACTION_FOUND -> {
+                    val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                    val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE).toInt()
+                    if (rssi != Short.MIN_VALUE.toInt() && device != null) {
+                        val current = _status.value.name
+                        val foundName = try { device.name } catch (_: SecurityException) { null }
+                        if (current != null && foundName == current) {
+                            _status.value = _status.value.copy(rssiDbm = rssi)
+                            onRssi(rssi)
+                        }
+                    }
+                }
             }
         }
     }
@@ -57,6 +71,7 @@ class HeadsetStatusMonitor(
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction("android.bluetooth.device.action.BATTERY_LEVEL_CHANGED")
+            addAction(BluetoothDevice.ACTION_FOUND)
         }
         try {
             context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
@@ -88,11 +103,14 @@ class HeadsetStatusMonitor(
             null
         }
         val battery = device?.let { readBattery(it) }?.takeIf { it in 0..100 }
+        val rssi = device?.let { tryReadRssi(it) }
+        if (rssi != null) onRssi(rssi)
         _status.value = HeadsetStatus(
             connected = wired || btAudio || device != null,
             name = name,
             batteryPercent = battery,
-            wired = wired
+            wired = wired,
+            rssiDbm = rssi
         )
     }
 
@@ -120,5 +138,20 @@ class HeadsetStatusMonitor(
         } catch (_: Exception) {
             null
         }
+    }
+
+    private fun tryReadRssi(device: BluetoothDevice): Int? {
+        val names = listOf("getRssi", "getRssiValue", "readRssi")
+        for (n in names) {
+            try {
+                val method = device.javaClass.getMethod(n)
+                when (val value = method.invoke(device)) {
+                    is Int -> if (value in -120..0) return value
+                    is Short -> if (value.toInt() in -120..0) return value.toInt()
+                }
+            } catch (_: Exception) {
+            }
+        }
+        return _status.value.rssiDbm
     }
 }
