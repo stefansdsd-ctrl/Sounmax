@@ -22,8 +22,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Now Playing auto-EQ
 - Adaptieve loudness op basis van mediavolume
 - Quick Settings-tegels: DSP + scene
-- Persistente DSP-notificatie
-- Homescreen-widget: DSP toggle + volgende scene
+- Persistente DSP-notificatie (scene, batterij, slaaptimer)
+- Homescreen-widget: DSP, scene, batterij + slaaptimer
 - Zoek koptelefoon (L/R pieptonen)
 - Headset-batterij in de statusbalk
 - Auto-pauze DSP bij Bluetooth-disconnect
@@ -41,7 +41,6 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Wear OS-tegel voor scene + DSP
 - GATT/LE Audio RSSI i.p.v. discovery-fallback
 - Spatializer-head-tracking waar de OEM dat toestaat
-- Widget met batterij + slaaptimer
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
