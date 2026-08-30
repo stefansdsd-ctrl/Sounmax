@@ -47,6 +47,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Spatializer-toggle + head-tracking-status op Headphone-tab
 - Launcher-shortcuts: Focus, Pendelen, Podcast, Inslapen
 - Activiteit-auto-scene: lopen → Wandelen, auto → Auto, fiets → Fietsen, hardlopen → Sport (chip Beweging)
+- Quick Settings-tegels: slaaptimer + ANC-cyclus
+- Scene-slot: blokkeert auto-scene en tegel-wissels
 
 ## Volgende verbeteringen
 - Wear OS-tegel voor scene + DSP
