@@ -9,7 +9,7 @@ object ListeningScenes {
         ListeningScene("gym", "Gym", "💪", "Strakke kick + ANC", "Electronic & Festival EDM", AncMode.STRONG),
         ListeningScene("focus", "Focus", "🎧", "Vlak + zachte loudness", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE),
         ListeningScene("office", "Kantoor", "🏢", "Spraakhelder, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
-        ListeningScene("night", "Nacht", "🌙", "Zacht hoog, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
+        ListeningScene("night", "Nacht", "🌃", "Zacht hoog, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("film", "Film", "🎬", "Breed stereo, diepe bas", "Classical & Live Concert 3D", AncMode.STRONG),
         ListeningScene("game", "Game", "🎮", "Lage latency + spatial", "Rock & Metal Punch", AncMode.ADAPTIVE, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
         ListeningScene("fps", "FPS", "🎯", "Footsteps + lage latency", "Rock & Metal Punch", AncMode.AMBIENT, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
@@ -68,5 +68,32 @@ object ListeningScenes {
             in 22..23 -> ALL.first { it.id == "latework" }
             else -> ALL.first { it.id == "night" }
         }
+    }
+
+    fun fromNowPlaying(packageName: String, genre: String, title: String): ListeningScene? {
+        val p = packageName.lowercase()
+        val blob = "$genre $title".lowercase()
+        val id = when {
+            p.contains("discord") || p.contains("teams") || p.contains("zoom") ||
+                p.contains("meet") || p.contains("slack") -> "voicechat"
+            p.contains("dialer") || p.contains("telecom") || p.contains("incallui") -> "call"
+            p.contains("podcast") || p.contains("pocketcasts") || p.contains("overcast") ||
+                p.contains("antenna") -> "podcast"
+            p.contains("netflix") || p.contains("disney") || p.contains("primevideo") ||
+                p.contains("videolan") || p.contains("mxplayer") || p.contains("jellyfin") -> "film"
+            p.contains("youtube") && !p.contains("music") -> "film"
+            p.contains("pubg") || p.contains("codm") || p.contains("genshin") ||
+                p.contains("roblox") || p.contains("fortnite") || p.contains("minecraft") -> "fps"
+            blob.contains("podcast") || blob.contains("speech") || blob.contains("interview") -> "podcast"
+            blob.contains("asmr") -> "asmr"
+            blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
+            blob.contains("edm") || blob.contains("electro") || blob.contains("techno") || blob.contains("house") -> "gym"
+            blob.contains("classic") || blob.contains("jazz") || blob.contains("orchestra") -> "focus"
+            blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "night"
+            blob.contains("rock") || blob.contains("metal") -> "game"
+            blob.contains("pop") -> "party"
+            else -> return null
+        }
+        return byId(id)
     }
 }
