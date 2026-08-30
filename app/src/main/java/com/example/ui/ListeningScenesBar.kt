@@ -47,6 +47,7 @@ fun ListeningScenesBar(
     val activeSceneId by sceneController.activeSceneId.collectAsStateWithLifecycle()
     val safeVolume by sceneController.safeVolumeEnabled.collectAsStateWithLifecycle()
     val sleepLeft by sceneController.sleepTimerMinutes.collectAsStateWithLifecycle()
+    val focusLeft by sceneController.focusMinutes.collectAsStateWithLifecycle()
     val autoScene by sceneController.autoSceneEnabled.collectAsStateWithLifecycle()
     val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
     val doseMin by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
@@ -205,6 +206,18 @@ fun ListeningScenesBar(
                     label = { Text("Oor-pauze", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("ear_rest_chip")
+                )
+            }
+            items(listOf(25, 50)) { mins ->
+                FilterChip(
+                    selected = focusLeft > 0 && (focusLeft == mins || mins == 25),
+                    onClick = {
+                        if (focusLeft > 0) sceneController.cancelFocusSession()
+                        else sceneController.startFocusSession(mins)
+                    },
+                    label = { Text(if (focusLeft > 0 && mins == 25) "Focus ${focusLeft}m" else "Focus ${mins}m", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("focus_${mins}_chip")
                 )
             }
             item {
