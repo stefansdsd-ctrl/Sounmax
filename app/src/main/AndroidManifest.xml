@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <queries>
         <package android:name="com.google.android.apps.youtube.music" />
@@ -86,6 +87,14 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".media.ActivityTransitionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.ACTION_ACTIVITY_SCENE" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name=".media.HeadsetMediaButtonReceiver"
