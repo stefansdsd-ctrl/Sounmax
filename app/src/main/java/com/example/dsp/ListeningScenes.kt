@@ -18,7 +18,7 @@ object ListeningScenes {
         ListeningScene("podcast", "Podcast", "🎙️", "Stemhelderheid", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("call", "Omgeving", "🗣️", "Transparantie / stemmen", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("plane", "Vliegtuig", "✈️", "Max ANC + veilige loudness", "Philips TAH6519 Pro ANC", AncMode.STRONG, safeVolume = true),
-        ListeningScene("train", "Trein", "🚆", "ANC tegen rails + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("train", "Trein", "🚃", "ANC tegen rails + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
         ListeningScene("rain", "Regen", "🌧️", "Warme mids, ANC tegen straat", "Night Chill & Lo-Fi Relax", AncMode.STRONG),
         ListeningScene("study", "Studie", "📚", "Stem + detail, geen zware bas", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("cook", "Koken", "🍳", "Transparantie in de keuken", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
@@ -36,7 +36,11 @@ object ListeningScenes {
         ListeningScene("asmr", "ASMR", "🫧", "Zacht, detail, veilig", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("cafe", "Café", "☕", "Warme mids, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("hike", "Hiken", "🧗", "Windfilter + alert buiten", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
-        ListeningScene("shower", "Douche", "🚿", "Punchy bas, ANC tegen water", "Hip-Hop & Urban R&B", AncMode.STRONG)
+        ListeningScene("shower", "Douche", "🚿", "Punchy bas, ANC tegen water", "Hip-Hop & Urban R&B", AncMode.STRONG),
+        ListeningScene("vinyl", "Vinyl", "💿", "Warm, analoge mids", "Vocal & Acoustic Warmth", AncMode.OFF),
+        ListeningScene("jazz", "Jazzclub", "🎷", "Live-ruimte, zachte ANC", "Classical & Live Concert 3D", AncMode.ADAPTIVE),
+        ListeningScene("museum", "Museum", "🏛️", "Fluister + alert", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("oneear", "Eén oor", "👂", "Mono + veilig, één cup", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true)
     )
 
     fun byId(id: String?): ListeningScene? = ALL.firstOrNull { it.id == id }
@@ -88,10 +92,12 @@ object ListeningScenes {
             blob.contains("asmr") -> "asmr"
             blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
             blob.contains("edm") || blob.contains("electro") || blob.contains("techno") || blob.contains("house") -> "gym"
-            blob.contains("classic") || blob.contains("jazz") || blob.contains("orchestra") -> "focus"
+            blob.contains("classic") || blob.contains("orchestra") -> "focus"
             blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "night"
             blob.contains("rock") || blob.contains("metal") -> "game"
             blob.contains("pop") -> "party"
+            blob.contains("jazz") || blob.contains("blues") -> "jazz"
+            blob.contains("vinyl") || blob.contains("analog") -> "vinyl"
             else -> return null
         }
         return byId(id)
