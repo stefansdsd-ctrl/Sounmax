@@ -1,5 +1,7 @@
 package com.example.dsp
 
+import java.util.Calendar
+
 object ListeningScenes {
     val ALL = listOf(
         ListeningScene("commute", "Pendelen", "🚃", "Maximale ANC + heldere stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
@@ -28,12 +30,31 @@ object ListeningScenes {
         ListeningScene("sleep", "Inslapen", "😴", "Zacht + timer-vriendelijk", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("rest", "Rust", "♻️", "Pauze: zacht + veilig", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("concert", "Concert", "🎤", "Live-ruimte + punch", "Classical & Live Concert 3D", AncMode.ADAPTIVE),
-        ListeningScene("asmr", "ASMR", "🫧", "Zacht, detail, veilig", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true)
+        ListeningScene("asmr", "ASMR", "🫧", "Zacht, detail, veilig", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("cafe", "Café", "☕", "Warme mids, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("hike", "Hiken", "🧗", "Windfilter + alert buiten", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
+        ListeningScene("shower", "Douche", "🚿", "Punchy bas, ANC tegen water", "Hip-Hop & Urban R&B", AncMode.STRONG)
     )
 
     fun byId(id: String?): ListeningScene? = ALL.firstOrNull { it.id == id }
 
-    fun suggestedForHour(hour: Int): ListeningScene {
+    fun suggestedNow(): ListeningScene {
+        val cal = Calendar.getInstance()
+        val weekend = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+            cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+        return suggestedForHour(cal.get(Calendar.HOUR_OF_DAY), weekend)
+    }
+
+    fun suggestedForHour(hour: Int, weekend: Boolean = false): ListeningScene {
+        if (weekend) {
+            return when (hour) {
+                in 0..8 -> ALL.first { it.id == "sleep" }
+                in 9..11 -> ALL.first { it.id == "cafe" }
+                in 12..16 -> ALL.first { it.id == "film" }
+                in 17..20 -> ALL.first { it.id == "party" }
+                else -> ALL.first { it.id == "night" }
+            }
+        }
         return when (hour) {
             in 6..8 -> ALL.first { it.id == "commute" }
             in 9..11 -> ALL.first { it.id == "focus" }

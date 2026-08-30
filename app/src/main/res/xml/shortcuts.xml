@@ -7,7 +7,7 @@
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"
-            android:targetPackage="com.example"
+            android:targetPackage="com.aistudio.soundmax.wvnk"
             android:targetClass="com.example.MainActivity">
             <extra android:name="scene_id" android:value="focus" />
         </intent>
@@ -19,7 +19,7 @@
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"
-            android:targetPackage="com.example"
+            android:targetPackage="com.aistudio.soundmax.wvnk"
             android:targetClass="com.example.MainActivity">
             <extra android:name="scene_id" android:value="commute" />
         </intent>
@@ -31,7 +31,7 @@
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"
-            android:targetPackage="com.example"
+            android:targetPackage="com.aistudio.soundmax.wvnk"
             android:targetClass="com.example.MainActivity">
             <extra android:name="scene_id" android:value="podcast" />
         </intent>
@@ -43,7 +43,7 @@
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"
-            android:targetPackage="com.example"
+            android:targetPackage="com.aistudio.soundmax.wvnk"
             android:targetClass="com.example.MainActivity">
             <extra android:name="scene_id" android:value="sleep" />
         </intent>
