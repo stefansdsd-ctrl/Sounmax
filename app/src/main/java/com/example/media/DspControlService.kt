@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import com.example.MainActivity
 import com.example.R
 import com.example.dsp.ListeningScenes
+import com.example.wear.WearBridge
 import com.example.widget.SoundMaxWidget
 
 class DspControlService : Service() {
@@ -105,6 +106,7 @@ class DspControlService : Service() {
             SoundMaxWidget.refreshAll(this)
         } catch (_: Exception) {
         }
+        WearBridge.publishStatus(this)
         return START_STICKY
     }
 
