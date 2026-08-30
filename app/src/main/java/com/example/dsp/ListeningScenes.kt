@@ -26,7 +26,9 @@ object ListeningScenes {
         ListeningScene("wfh", "Thuiswerk", "🏠", "Heldere calls + lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("car", "Auto", "🚗", "Lage latency, wind/wegruis", "Rock & Metal Punch", AncMode.WIND_GUARD, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
         ListeningScene("sleep", "Inslapen", "😴", "Zacht + timer-vriendelijk", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
-        ListeningScene("rest", "Rust", "♻️", "Pauze: zacht + veilig", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true)
+        ListeningScene("rest", "Rust", "♻️", "Pauze: zacht + veilig", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
+        ListeningScene("cafe", "Café", "☕", "Warme mids + lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("concert", "Concert", "🎤", "Live-ruimte + punch", "Classical & Live Concert 3D", AncMode.OFF)
     )
 
     fun byId(id: String?): ListeningScene? = ALL.firstOrNull { it.id == id }
@@ -40,6 +42,22 @@ object ListeningScenes {
             in 17..19 -> ALL.first { it.id == "commute" }
             in 20..21 -> ALL.first { it.id == "film" }
             in 22..23 -> ALL.first { it.id == "sleep" }
+            else -> ALL.first { it.id == "night" }
+        }
+    }
+
+    fun suggestedForNow(): ListeningScene {
+        val cal = java.util.Calendar.getInstance()
+        val hour = cal.get(java.util.Calendar.HOUR_OF_DAY)
+        val weekend = cal.get(java.util.Calendar.DAY_OF_WEEK) in setOf(
+            java.util.Calendar.SATURDAY, java.util.Calendar.SUNDAY
+        )
+        if (!weekend) return suggestedForHour(hour)
+        return when (hour) {
+            in 8..11 -> ALL.first { it.id == "walk" }
+            in 12..16 -> ALL.first { it.id == "cafe" }
+            in 17..20 -> ALL.first { it.id == "film" }
+            in 21..23 -> ALL.first { it.id == "sleep" }
             else -> ALL.first { it.id == "night" }
         }
     }
