@@ -76,8 +76,8 @@
             android:id="@+id/widget_prev_btn"
             android:layout_width="0dp"
             android:layout_height="36dp"
-            android:layout_marginStart="6dp"
-            android:layout_weight="0.7"
+            android:layout_marginStart="4dp"
+            android:layout_weight="0.6"
             android:text="◀"
             android:textSize="11sp" />
 
@@ -85,16 +85,25 @@
             android:id="@+id/widget_scene_btn"
             android:layout_width="0dp"
             android:layout_height="36dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:text="Scene"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/widget_suggest_btn"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="0.7"
+            android:text="Nu"
             android:textSize="11sp" />
 
         <Button
             android:id="@+id/widget_sleep_btn"
             android:layout_width="0dp"
             android:layout_height="36dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:text="Timer"
             android:textSize="11sp" />

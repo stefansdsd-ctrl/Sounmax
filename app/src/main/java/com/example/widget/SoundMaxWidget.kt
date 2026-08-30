@@ -47,6 +47,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 cycleScene(context, -1)
                 refreshAll(context)
             }
+            ACTION_SUGGEST -> {
+                applySuggested(context)
+                refreshAll(context)
+            }
             ACTION_CYCLE_SLEEP -> {
                 cycleSleep(context)
                 refreshAll(context)
@@ -59,6 +63,7 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val ACTION_TOGGLE_DSP = "com.example.widget.TOGGLE_DSP"
         const val ACTION_NEXT_SCENE = "com.example.widget.NEXT_SCENE"
         const val ACTION_PREV_SCENE = "com.example.widget.PREV_SCENE"
+        const val ACTION_SUGGEST = "com.example.widget.SUGGEST"
         const val ACTION_CYCLE_SLEEP = "com.example.widget.CYCLE_SLEEP"
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
         const val ACTION_TICK = "com.example.widget.TICK"
@@ -77,6 +82,17 @@ class SoundMaxWidget : AppWidgetProvider() {
             val size = ListeningScenes.ALL.size
             val next = ListeningScenes.ALL[((idx + step) % size + size) % size]
             prefs.edit().putString("last_scene_id", next.id).putBoolean("pending_widget_scene", true).apply()
+            DspControlService.start(context)
+        }
+
+        fun applySuggested(context: Context) {
+            val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            if (prefs.getBoolean("scene_locked", false)) return
+            val scene = ListeningScenes.suggestedNow()
+            prefs.edit()
+                .putString("last_scene_id", scene.id)
+                .putBoolean("pending_widget_scene", true)
+                .apply()
             DspControlService.start(context)
         }
 
@@ -134,6 +150,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             val enabled = ui.getBoolean(DspControlService.KEY_DSP, true)
             val scene = ListeningScenes.byId(wellness.getString("last_scene_id", null))
                 ?: ListeningScenes.ALL.first()
+            val suggested = ListeningScenes.suggestedNow()
             val battery = wellness.getInt(KEY_BATTERY, -1)
             val sleepLeft = remainingSleepMinutes(wellness.getLong(KEY_SLEEP_END, 0L))
             val name = wellness.getString(KEY_HEADSET_NAME, null)
@@ -148,7 +165,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.widget_scene, "${scene.emoji} ${scene.name}")
             views.setTextViewText(
                 R.id.widget_sleep,
-                if (sleepLeft > 0) "Slaap ${sleepLeft} min" else "Timer uit"
+                if (sleepLeft > 0) "Slaap ${sleepLeft} min" else "Tip ${suggested.emoji} ${suggested.name}"
             )
 
             val open = PendingIntent.getActivity(
@@ -171,6 +188,11 @@ class SoundMaxWidget : AppWidgetProvider() {
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_PREV_SCENE),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
+            val suggest = PendingIntent.getBroadcast(
+                context, 7,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_SUGGEST),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
             val sleep = PendingIntent.getBroadcast(
                 context, 4,
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_CYCLE_SLEEP),
@@ -181,6 +203,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_scene_btn, nextScene)
             views.setOnClickPendingIntent(R.id.widget_prev_btn, prevScene)
             views.setOnClickPendingIntent(R.id.widget_sleep_btn, sleep)
+            views.setOnClickPendingIntent(R.id.widget_suggest_btn, suggest)
             mgr.updateAppWidget(id, views)
         }
     }
