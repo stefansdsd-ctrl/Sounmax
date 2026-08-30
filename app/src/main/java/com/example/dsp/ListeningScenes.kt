@@ -12,6 +12,9 @@ object ListeningScenes {
         ListeningScene("night", "Nacht", "🌙", "Zacht hoog, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("film", "Film", "🎬", "Breed stereo, diepe bas", "Classical & Live Concert 3D", AncMode.STRONG),
         ListeningScene("game", "Game", "🎮", "Lage latency + spatial", "Rock & Metal Punch", AncMode.ADAPTIVE, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
+        ListeningScene("fps", "FPS", "🎯", "Footsteps + lage latency", "Rock & Metal Punch", AncMode.AMBIENT, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
+        ListeningScene("voicechat", "Voicechat", "🎤", "Stemmen helder, game zachter", "Vocal & Acoustic Warmth", AncMode.AMBIENT, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
+        ListeningScene("latework", "Avondwerk", "💡", "Focus + veilig volume", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("podcast", "Podcast", "🎙️", "Stemhelderheid", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("call", "Omgeving", "🗣️", "Transparantie / stemmen", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("plane", "Vliegtuig", "✈️", "Max ANC + veilige loudness", "Philips TAH6519 Pro ANC", AncMode.STRONG, safeVolume = true),
@@ -62,7 +65,7 @@ object ListeningScenes {
             in 14..16 -> ALL.first { it.id == "study" }
             in 17..19 -> ALL.first { it.id == "commute" }
             in 20..21 -> ALL.first { it.id == "film" }
-            in 22..23 -> ALL.first { it.id == "sleep" }
+            in 22..23 -> ALL.first { it.id == "latework" }
             else -> ALL.first { it.id == "night" }
         }
     }
