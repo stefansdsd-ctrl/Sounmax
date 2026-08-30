@@ -1,5 +1,6 @@
 package com.example
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        handleSceneIntent(intent)
         DspControlService.start(this)
         val wellness = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         volumeCycler = VolumeSceneCycler(this) {
@@ -41,6 +43,22 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleSceneIntent(intent)
+    }
+
+    private fun handleSceneIntent(intent: Intent?) {
+        val sceneId = intent?.getStringExtra("scene_id") ?: return
+        getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
+            .edit()
+            .putString("last_scene_id", sceneId)
+            .putBoolean("pending_widget_scene", true)
+            .putBoolean("auto_scene", false)
+            .apply()
     }
 
     override fun onDestroy() {
