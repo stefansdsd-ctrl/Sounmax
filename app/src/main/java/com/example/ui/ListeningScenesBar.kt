@@ -48,6 +48,7 @@ fun ListeningScenesBar(
     val safeVolume by sceneController.safeVolumeEnabled.collectAsStateWithLifecycle()
     val sleepLeft by sceneController.sleepTimerMinutes.collectAsStateWithLifecycle()
     val autoScene by sceneController.autoSceneEnabled.collectAsStateWithLifecycle()
+    val sceneLocked by sceneController.sceneLocked.collectAsStateWithLifecycle()
     val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
     val doseMin by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
     val favorites by sceneController.favoriteIds.collectAsStateWithLifecycle()
@@ -133,6 +134,15 @@ fun ListeningScenesBar(
                     label = { Text("Auto ${suggested.emoji}", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("auto_scene_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = sceneLocked,
+                    onClick = { sceneController.setSceneLocked(!sceneLocked) },
+                    label = { Text(if (sceneLocked) "Slot aan" else "Slot", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("scene_lock_chip")
                 )
             }
             item {
