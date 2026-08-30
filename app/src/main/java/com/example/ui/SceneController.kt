@@ -110,6 +110,7 @@ class SceneController(private val viewModel: MainViewModel) {
     private var savedVirtualizerForCrossfeed: Int? = null
     private var nowPlayingMonitor: NowPlayingMonitor? = null
     private var lastAdaptiveLoudness: Int? = null
+    private var lastAppSceneId: String? = null
 
     private val dspTileReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -423,9 +424,13 @@ class SceneController(private val viewModel: MainViewModel) {
 
     private fun onNowPlaying(track: NowPlayingTrack) {
         _nowPlayingLabel.value = listOf(track.title, track.artist).filter { it.isNotBlank() }.joinToString(" · ")
-        if (!_autoNowPlaying.value || _eqLocked.value) return
-        val blob = "${track.genre} ${track.title} ${track.artist} ${track.packageName}"
-        applyGenreHint(blob)
+        if (!_autoNowPlaying.value || _sceneLocked.value) return
+        val scene = ListeningScenes.fromNowPlaying(track.packageName, track.genre, "${track.title} ${track.artist}")
+            ?: return
+        if (scene.id == lastAppSceneId || scene.id == _activeSceneId.value) return
+        lastAppSceneId = scene.id
+        applyListeningScene(scene, silent = true)
+        Toast.makeText(app, "App-scene: ${scene.name}", Toast.LENGTH_SHORT).show()
     }
 
     fun applyAdaptiveVolume() {
@@ -447,17 +452,10 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun applyGenreHint(genre: String) {
-        val sceneId = when {
-            genre.contains("hip", true) || genre.contains("rap", true) -> "sport"
-            genre.contains("edm", true) || genre.contains("electro", true) -> "gym"
-            genre.contains("classic", true) || genre.contains("jazz", true) -> "focus"
-            genre.contains("podcast", true) || genre.contains("speech", true) -> "podcast"
-            genre.contains("lofi", true) || genre.contains("chill", true) -> "night"
-            genre.contains("rock", true) || genre.contains("metal", true) -> "game"
-            genre.contains("pop", true) -> "party"
-            else -> return
+        if (_sceneLocked.value) return
+        ListeningScenes.fromNowPlaying("", genre, genre)?.let {
+            if (it.id != _activeSceneId.value) applyListeningScene(it)
         }
-        ListeningScenes.byId(sceneId)?.let { applyListeningScene(it) }
     }
 
     fun cancelSleepTimer() {
