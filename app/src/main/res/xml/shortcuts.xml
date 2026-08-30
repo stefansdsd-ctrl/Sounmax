@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="scene_focus"
+        android:shortcutShortLabel="Focus"
+        android:shortcutLongLabel="Focus-scene"
+        android:enabled="true">
+        <intent
+            android:action="com.example.APPLY_SCENE"
+            android:targetPackage="com.example"
+            android:targetClass="com.example.MainActivity">
+            <extra android:name="scene_id" android:value="focus" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="scene_commute"
+        android:shortcutShortLabel="Pendelen"
+        android:shortcutLongLabel="Pendelen-scene"
+        android:enabled="true">
+        <intent
+            android:action="com.example.APPLY_SCENE"
+            android:targetPackage="com.example"
+            android:targetClass="com.example.MainActivity">
+            <extra android:name="scene_id" android:value="commute" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="scene_podcast"
+        android:shortcutShortLabel="Podcast"
+        android:shortcutLongLabel="Podcast-scene"
+        android:enabled="true">
+        <intent
+            android:action="com.example.APPLY_SCENE"
+            android:targetPackage="com.example"
+            android:targetClass="com.example.MainActivity">
+            <extra android:name="scene_id" android:value="podcast" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="scene_sleep"
+        android:shortcutShortLabel="Inslapen"
+        android:shortcutLongLabel="Inslapen-scene"
+        android:enabled="true">
+        <intent
+            android:action="com.example.APPLY_SCENE"
+            android:targetPackage="com.example"
+            android:targetClass="com.example.MainActivity">
+            <extra android:name="scene_id" android:value="sleep" />
+        </intent>
+    </shortcut>
+</shortcuts>
