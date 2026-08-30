@@ -1,5 +1,6 @@
 package com.example.ui
 
+import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -18,8 +19,10 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,6 +42,8 @@ fun ListeningScenesBar(
     sceneController: SceneController,
     modifier: Modifier = Modifier
 ) {
+    val app = LocalContext.current.applicationContext as Application
+    val gestures = remember(app) { SceneGesturePrefs(app) }
     val activeSceneId by sceneController.activeSceneId.collectAsStateWithLifecycle()
     val safeVolume by sceneController.safeVolumeEnabled.collectAsStateWithLifecycle()
     val sleepLeft by sceneController.sleepTimerMinutes.collectAsStateWithLifecycle()
@@ -51,8 +56,8 @@ fun ListeningScenesBar(
     val monoMix by sceneController.monoMix.collectAsStateWithLifecycle()
     val nightGuard by sceneController.nightGuard.collectAsStateWithLifecycle()
     val headset by sceneController.detectedHeadset.collectAsStateWithLifecycle()
-    val volumeScene by sceneController.volumeScene.collectAsStateWithLifecycle()
-    val mediaScene by sceneController.mediaScene.collectAsStateWithLifecycle()
+    val volumeScene by gestures.volumeScene.collectAsStateWithLifecycle()
+    val mediaScene by gestures.mediaScene.collectAsStateWithLifecycle()
     val scenes = sceneController.orderedScenes()
 
     val chipColors = FilterChipDefaults.filterChipColors(
@@ -151,7 +156,7 @@ fun ListeningScenesBar(
             item {
                 FilterChip(
                     selected = volumeScene,
-                    onClick = { sceneController.setVolumeScene(!volumeScene) },
+                    onClick = { gestures.setVolumeScene(!volumeScene) },
                     label = { Text("Vol-scene", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("volume_scene_chip")
@@ -160,7 +165,7 @@ fun ListeningScenesBar(
             item {
                 FilterChip(
                     selected = mediaScene,
-                    onClick = { sceneController.setMediaScene(!mediaScene) },
+                    onClick = { gestures.setMediaScene(!mediaScene) },
                     label = { Text("Headset-scene", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("media_scene_chip")
