@@ -29,6 +29,7 @@ class DspControlService : Service() {
             ACTION_NEXT_SCENE -> SoundMaxWidget.cycleScene(this, +1)
             ACTION_PREV_SCENE -> SoundMaxWidget.cycleScene(this, -1)
             ACTION_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(this)
+            ACTION_SUGGEST -> SoundMaxWidget.applySuggested(this)
             ACTION_STOP -> {
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
@@ -39,11 +40,13 @@ class DspControlService : Service() {
         val enabled = prefs.getBoolean(KEY_DSP, true)
         val scene = ListeningScenes.byId(wellness.getString("last_scene_id", null))
         val sceneLabel = scene?.let { "${it.emoji} ${it.name}" } ?: "Scene"
+        val suggested = ListeningScenes.suggestedNow()
         val battery = wellness.getInt(SoundMaxWidget.KEY_BATTERY, -1)
         val sleepLeft = SoundMaxWidget.remainingSleepMinutes(wellness.getLong(SoundMaxWidget.KEY_SLEEP_END, 0L))
         val extra = buildString {
             if (battery in 0..100) append(" · BT $battery%")
             if (sleepLeft > 0) append(" · slaap $sleepLeft min")
+            if (suggested.id != scene?.id) append(" · tip ${suggested.emoji}")
         }
         val openApp = PendingIntent.getActivity(
             this, 0,
@@ -63,6 +66,11 @@ class DspControlService : Service() {
         val prevScene = PendingIntent.getService(
             this, 5,
             Intent(this, DspControlService::class.java).setAction(ACTION_PREV_SCENE),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val suggest = PendingIntent.getService(
+            this, 6,
+            Intent(this, DspControlService::class.java).setAction(ACTION_SUGGEST),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val sleep = PendingIntent.getService(
@@ -88,6 +96,7 @@ class DspControlService : Service() {
             .addAction(0, if (enabled) "Pauzeer" else "Start", toggle)
             .addAction(0, "◀", prevScene)
             .addAction(0, "Scene", nextScene)
+            .addAction(0, "Nu ${suggested.emoji}", suggest)
             .addAction(0, if (sleepLeft > 0) "Timer $sleepLeft" else "Timer", sleep)
             .addAction(0, "Sluit", stop)
             .build()
@@ -114,6 +123,7 @@ class DspControlService : Service() {
         const val ACTION_NEXT_SCENE = "com.example.DSP_NEXT_SCENE"
         const val ACTION_PREV_SCENE = "com.example.DSP_PREV_SCENE"
         const val ACTION_CYCLE_SLEEP = "com.example.DSP_CYCLE_SLEEP"
+        const val ACTION_SUGGEST = "com.example.DSP_SUGGEST"
         const val ACTION_STOP = "com.example.DSP_STOP"
         const val PREFS = "soundmax_ui"
         const val KEY_DSP = "notif_dsp_enabled"
