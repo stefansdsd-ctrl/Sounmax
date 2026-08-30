@@ -39,10 +39,14 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Dubbel volume-omhoog wisselt naar de volgende scene (chip Vol-scene)
 - Dubbel play/pause op de headset wisselt scene (chip Headset-scene)
 - Weekdosis in statusregel + waarschuwing bij 7u / 10u
+- GATT service-discovery (bekend vs onbekend) + BLE Battery Service 0x180F
+- Live RSSI + batterij via GATT wanneer de headset het ondersteunt
+- Spatializer head-tracking detectie (Android 12/13+, als OEM het toestaat)
+- Scenes: Concert, ASMR
 
 ## Volgende verbeteringen
 - Wear OS-tegel voor scene + DSP
-- Spatializer-head-tracking waar de OEM dat toestaat
+- ANC-mapping zodra Philips-specifieke GATT UUIDs bekend zijn
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
