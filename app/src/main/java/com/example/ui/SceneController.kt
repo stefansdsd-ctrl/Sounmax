@@ -10,7 +10,11 @@ import android.provider.Settings
 import android.widget.Toast
 import com.example.media.NowPlayingMonitor
 import com.example.media.NowPlayingTrack
+import com.example.qs.AncQuickTileService
 import com.example.qs.DspQuickTileService
+import com.example.qs.SceneQuickTileService
+import com.example.qs.SleepTimerQuickTileService
+import com.example.dsp.AncMode
 import androidx.lifecycle.viewModelScope
 import com.example.data.SavedTrackEntity
 import com.example.data.SoundMaxDatabase
@@ -57,6 +61,9 @@ class SceneController(private val viewModel: MainViewModel) {
     private val _autoSceneEnabled = MutableStateFlow(prefs.getBoolean("auto_scene", true))
     val autoSceneEnabled: StateFlow<Boolean> = _autoSceneEnabled.asStateFlow()
 
+    private val _sceneLocked = MutableStateFlow(prefs.getBoolean("scene_locked", false))
+    val sceneLocked: StateFlow<Boolean> = _sceneLocked.asStateFlow()
+
     private val _suggestedScene = MutableStateFlow(ListeningScenes.suggestedForHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)))
     val suggestedScene: StateFlow<ListeningScene> = _suggestedScene.asStateFlow()
 
@@ -92,9 +99,24 @@ class SceneController(private val viewModel: MainViewModel) {
 
     private val dspTileReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action != DspQuickTileService.ACTION_TOGGLE_DSP) return
-            val enabled = intent.getBooleanExtra("enabled", true)
-            viewModel.setDspEnabled(enabled)
+            when (intent?.action) {
+                DspQuickTileService.ACTION_TOGGLE_DSP -> {
+                    viewModel.setDspEnabled(intent.getBooleanExtra("enabled", true))
+                }
+                SceneQuickTileService.ACTION_CYCLE_SCENE -> {
+                    if (_sceneLocked.value) return
+                    val scene = ListeningScenes.byId(intent.getStringExtra("scene_id")) ?: return
+                    applyListeningScene(scene)
+                }
+                SleepTimerQuickTileService.ACTION_SLEEP_CHANGED -> {
+                    startSleepTimer(intent.getIntExtra("minutes", 0))
+                }
+                AncQuickTileService.ACTION_CYCLE_ANC -> {
+                    val name = intent.getStringExtra("anc") ?: return
+                    val mode = runCatching { AncMode.valueOf(name) }.getOrNull() ?: return
+                    viewModel.setAncMode(mode)
+                }
+            }
         }
     }
 
@@ -105,9 +127,21 @@ class SceneController(private val viewModel: MainViewModel) {
         detectHeadset(silent = true)
         startDoseTracker()
         try {
-            app.registerReceiver(dspTileReceiver, IntentFilter(DspQuickTileService.ACTION_TOGGLE_DSP), Context.RECEIVER_NOT_EXPORTED)
+            val filter = IntentFilter().apply {
+                addAction(DspQuickTileService.ACTION_TOGGLE_DSP)
+                addAction(SceneQuickTileService.ACTION_CYCLE_SCENE)
+                addAction(SleepTimerQuickTileService.ACTION_SLEEP_CHANGED)
+                addAction(AncQuickTileService.ACTION_CYCLE_ANC)
+            }
+            app.registerReceiver(dspTileReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
         } catch (_: Exception) {
-            app.registerReceiver(dspTileReceiver, IntentFilter(DspQuickTileService.ACTION_TOGGLE_DSP))
+            val filter = IntentFilter().apply {
+                addAction(DspQuickTileService.ACTION_TOGGLE_DSP)
+                addAction(SceneQuickTileService.ACTION_CYCLE_SCENE)
+                addAction(SleepTimerQuickTileService.ACTION_SLEEP_CHANGED)
+                addAction(AncQuickTileService.ACTION_CYCLE_ANC)
+            }
+            app.registerReceiver(dspTileReceiver, filter)
         }
         if (_autoNowPlaying.value) startNowPlaying()
         if (_adaptiveVolume.value) applyAdaptiveVolume()
@@ -124,7 +158,7 @@ class SceneController(private val viewModel: MainViewModel) {
             scene.preferredCodec?.let { viewModel.setCodec(it) }
             setSafeVolume(scene.safeVolume)
             _activeSceneId.value = scene.id
-            prefs.edit().putString("last_scene_id", scene.id).apply()
+            prefs.edit().putString("last_scene_id", scene.id).putString("last_anc", scene.ancMode.name).apply()
             if (!silent) Toast.makeText(app, "Scene ${scene.name} (EQ vergrendeld)", Toast.LENGTH_SHORT).show()
             return
         }
@@ -135,7 +169,7 @@ class SceneController(private val viewModel: MainViewModel) {
         scene.preferredCodec?.let { viewModel.setCodec(it) }
         setSafeVolume(scene.safeVolume)
         _activeSceneId.value = scene.id
-        prefs.edit().putString("last_scene_id", scene.id).apply()
+        prefs.edit().putString("last_scene_id", scene.id).putString("last_anc", scene.ancMode.name).apply()
         if (_crossfeedEnabled.value) applyCrossfeedInternal(true)
         if (!silent) {
             Toast.makeText(app, "Scene: ${scene.name}", Toast.LENGTH_SHORT).show()
@@ -154,7 +188,25 @@ class SceneController(private val viewModel: MainViewModel) {
         return ListeningScenes.ALL.sortedByDescending { it.id in favs }
     }
 
+    fun setSceneLocked(locked: Boolean) {
+        _sceneLocked.value = locked
+        prefs.edit().putBoolean("scene_locked", locked).apply()
+        if (locked) {
+            _autoSceneEnabled.value = false
+            prefs.edit().putBoolean("auto_scene", false).apply()
+        }
+        Toast.makeText(
+            app,
+            if (locked) "Scene vergrendeld — auto/beweging uit" else "Scene ontgrendeld",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     fun setAutoSceneEnabled(enabled: Boolean) {
+        if (enabled && _sceneLocked.value) {
+            Toast.makeText(app, "Eerst scene-slot uit", Toast.LENGTH_SHORT).show()
+            return
+        }
         _autoSceneEnabled.value = enabled
         prefs.edit().putBoolean("auto_scene", enabled).apply()
         if (enabled) {
