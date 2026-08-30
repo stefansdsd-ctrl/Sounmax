@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.provider.Settings
 import android.widget.Toast
+import com.example.media.HeadsetStatusMonitor
 import com.example.media.NowPlayingMonitor
 import com.example.media.NowPlayingTrack
 import com.example.qs.AncQuickTileService
@@ -63,6 +64,19 @@ class SceneController(private val viewModel: MainViewModel) {
 
     private val _sceneLocked = MutableStateFlow(prefs.getBoolean("scene_locked", false))
     val sceneLocked: StateFlow<Boolean> = _sceneLocked.asStateFlow()
+
+    val headsetMonitor = HeadsetStatusMonitor(
+        app,
+        onConnectionChanged = { connected ->
+            if (connected) {
+                val last = ListeningScenes.byId(_activeSceneId.value)
+                if (last != null && (_sceneLocked.value || !_autoSceneEnabled.value)) {
+                    applyListeningScene(last, silent = true)
+                }
+            }
+        }
+    )
+    val headsetStatus = headsetMonitor.status
 
     private val _suggestedScene = MutableStateFlow(ListeningScenes.suggestedForHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)))
     val suggestedScene: StateFlow<ListeningScene> = _suggestedScene.asStateFlow()
@@ -125,6 +139,7 @@ class SceneController(private val viewModel: MainViewModel) {
         if (_crossfeedEnabled.value) applyCrossfeedInternal(true)
         if (_monoMix.value) viewModel.dspManager.setMonoMix(true)
         detectHeadset(silent = true)
+        headsetMonitor.start()
         startDoseTracker()
         try {
             val filter = IntentFilter().apply {
@@ -493,6 +508,10 @@ class SceneController(private val viewModel: MainViewModel) {
                     }
                     if (next == 120) {
                         Toast.makeText(app, "Gehoor: 2 uur luisteren vandaag. Pauze aanbevolen.", Toast.LENGTH_LONG).show()
+                    }
+                    if (next == 180 && !_sceneLocked.value) {
+                        ListeningScenes.byId("rest")?.let { applyListeningScene(it, silent = true) }
+                        Toast.makeText(app, "3 uur luisteren — scene Rust + veilig volume.", Toast.LENGTH_LONG).show()
                     }
                     applyNightGuardIfNeeded()
                 }
