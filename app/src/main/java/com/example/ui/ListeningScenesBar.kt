@@ -51,6 +51,8 @@ fun ListeningScenesBar(
     val monoMix by sceneController.monoMix.collectAsStateWithLifecycle()
     val nightGuard by sceneController.nightGuard.collectAsStateWithLifecycle()
     val headset by sceneController.detectedHeadset.collectAsStateWithLifecycle()
+    val volumeScene by sceneController.volumeScene.collectAsStateWithLifecycle()
+    val mediaScene by sceneController.mediaScene.collectAsStateWithLifecycle()
     val scenes = sceneController.orderedScenes()
 
     val chipColors = FilterChipDefaults.filterChipColors(
@@ -144,6 +146,24 @@ fun ListeningScenesBar(
                     label = { Text("Nachtwacht", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("night_guard_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = volumeScene,
+                    onClick = { sceneController.setVolumeScene(!volumeScene) },
+                    label = { Text("Vol-scene", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("volume_scene_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = mediaScene,
+                    onClick = { sceneController.setMediaScene(!mediaScene) },
+                    label = { Text("Headset-scene", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("media_scene_chip")
                 )
             }
             item {
