@@ -84,6 +84,14 @@
         </service>
 
         <receiver
+            android:name=".media.HeadsetMediaButtonReceiver"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".widget.SoundMaxWidget"
             android:exported="true"
             android:label="Sounmax DSP">
