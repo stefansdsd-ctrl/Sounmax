@@ -9,6 +9,7 @@ import android.media.AudioManager
 import android.provider.Settings
 import android.widget.Toast
 import com.example.media.HeadsetStatusMonitor
+import com.example.media.SceneAutomation
 import com.example.media.NowPlayingMonitor
 import com.example.media.NowPlayingTrack
 import com.example.qs.AncQuickTileService
@@ -141,6 +142,15 @@ class SceneController(private val viewModel: MainViewModel) {
         if (_monoMix.value) viewModel.dspManager.setMonoMix(true)
         detectHeadset(silent = true)
         headsetMonitor.start()
+        SceneAutomation.scheduleHourly(app)
+        SceneAutomation.consumePending(app) { applyListeningScene(it, silent = true) }
+        scope.launch {
+            while (true) {
+                delay(8_000)
+                SceneAutomation.consumePending(app) { applyListeningScene(it, silent = true) }
+                refreshSuggestedScene()
+            }
+        }
         startDoseTracker()
         try {
             val filter = IntentFilter().apply {
