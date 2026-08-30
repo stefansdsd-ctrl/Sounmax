@@ -1,7 +1,12 @@
 package com.example
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -31,6 +36,7 @@ class MainActivity : ComponentActivity() {
             it.setEnabled(wellness.getBoolean("volume_scene", true))
             it.start()
         }
+        requestActivityPermission()
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
@@ -59,6 +65,18 @@ class MainActivity : ComponentActivity() {
             .putBoolean("pending_widget_scene", true)
             .putBoolean("auto_scene", false)
             .apply()
+    }
+
+    private fun requestActivityPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+            == PackageManager.PERMISSION_GRANTED
+        ) return
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
+            42
+        )
     }
 
     override fun onDestroy() {
