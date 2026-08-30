@@ -7,7 +7,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - 10-band equalizer + custom presets (Room)
 - Favoriete en recente presets (snelbalk)
 - Luister-scenes (pendelen, sport, nacht, fiets, bibliotheek, vergadering, rust, trein, koken, kids)
-- Auto-scene op tijdstip
+- Auto-scene op tijdstip + weekend-profiel (café/film/party)
 - Veilig volume (60/70/80%) + nachtwacht na 22:00
 - Crossfeed, mono-mix, EQ-lock, A/B-vergelijking
 - Slaaptimer 15/30/60/90/120 min met fade-out
@@ -35,22 +35,23 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - DSP pauzeert tijdens een telefoongesprek en hervat daarna
 - EQ-undo (laatste 12 curves)
 - Batterij-saver: bij ≤18% automatisch LDAC 330 + lagere loudness
-- Scenes: Thuiswerk, Auto, Inslapen
+- Scenes: Thuiswerk, Auto, Inslapen, Concert, ASMR, Café, Hiken, Douche
 - Dubbel volume-omhoog wisselt naar de volgende scene (chip Vol-scene)
 - Dubbel play/pause op de headset wisselt scene (chip Headset-scene)
 - Weekdosis in statusregel + waarschuwing bij 7u / 10u
 - GATT service-discovery (bekend vs onbekend) + BLE Battery Service 0x180F
 - Live RSSI + batterij via GATT wanneer de headset het ondersteunt
 - Spatializer head-tracking detectie (Android 12/13+, als OEM het toestaat)
-- Scenes: Concert, ASMR
 - Compacte toolbalk (zoeken, favorieten, backup, app-EQ inklapbaar)
 - Statusbalk toont headsetnaam + batterij
 - Spatializer-toggle + head-tracking-status op Headphone-tab
+- Launcher-shortcuts: Focus, Pendelen, Podcast, Inslapen
 
 ## Volgende verbeteringen
 - Wear OS-tegel voor scene + DSP
 - ANC-mapping zodra Philips-specifieke GATT UUIDs bekend zijn
 - Head-tracking spatializer blijft OEM-afhankelijk; binaural fallback is actief
+- Activiteit-herkenning (lopen/auto) voor auto-scene
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
