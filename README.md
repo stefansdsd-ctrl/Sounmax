@@ -4,11 +4,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
-- App-scene: Now Playing kiest scene (Discord→Voicechat, Netflix/YouTube→Film, games→FPS, podcast-apps→Podcast)
+- Head-tracking spatializer (Android 12+ Spatializer API)
+- Quick Settings-tegel Spatial
+- App-scene: Now Playing kiest scene
 - Scenes FPS, Voicechat, Avondwerk
-- Laatste scene terug bij Bluetooth-reconnect (als auto-scene uit of slot aan)
+- Laatste scene terug bij Bluetooth-reconnect
 - Na 3 uur luisteren automatisch scene Rust + veilig volume
-- Avond-suggestie 22:00 → Avondwerk
 
 ## Volgende
 - Wear OS-tegel (DSP + scene + batterij)
