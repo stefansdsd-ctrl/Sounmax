@@ -55,6 +55,7 @@ data class BluetoothDiagnosticMetrics(
     val isOptimized: Boolean = true,
     val spatializerAvailable: Boolean = false,
     val spatializerActive: Boolean = false,
+    val headTrackerAvailable: Boolean = false,
     val lastOptimizedMessage: String = "LDAC 990 kbps Master Stream actief"
 )
 

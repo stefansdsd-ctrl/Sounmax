@@ -43,10 +43,14 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Live RSSI + batterij via GATT wanneer de headset het ondersteunt
 - Spatializer head-tracking detectie (Android 12/13+, als OEM het toestaat)
 - Scenes: Concert, ASMR
+- Compacte toolbalk (zoeken, favorieten, backup, app-EQ inklapbaar)
+- Statusbalk toont headsetnaam + batterij
+- Spatializer-toggle + head-tracking-status op Headphone-tab
 
 ## Volgende verbeteringen
 - Wear OS-tegel voor scene + DSP
 - ANC-mapping zodra Philips-specifieke GATT UUIDs bekend zijn
+- Head-tracking spatializer blijft OEM-afhankelijk; binaural fallback is actief
 
 ## Bouwen
 Android Studio + JDK 17. Open de root en sync Gradle.
