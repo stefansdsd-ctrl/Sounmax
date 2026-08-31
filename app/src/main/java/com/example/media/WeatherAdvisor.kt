@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.Tasks
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -26,16 +25,12 @@ data class WeatherSnapshot(
         get() = precipitationMm >= 0.2 || weatherCode in RAIN_CODES
     val windy: Boolean
         get() = windKmh >= 28.0
-    val hot: Boolean
-        get() = temperatureC >= 28.0
-    val cold: Boolean
-        get() = temperatureC <= 2.0
 
     fun sceneOverride(): ListeningScene? = when {
         raining -> ListeningScenes.byId("rain")
         outdoor && windy -> ListeningScenes.byId("hike")
-        outdoor && hot -> ListeningScenes.byId("walk")
-        outdoor && cold -> ListeningScenes.byId("commute")
+        outdoor && temperatureC >= 28.0 -> ListeningScenes.byId("walk")
+        outdoor && temperatureC <= 2.0 -> ListeningScenes.byId("commute")
         outdoor -> ListeningScenes.byId("walk")
         else -> null
     }
@@ -61,6 +56,9 @@ object WeatherAdvisor {
     const val KEY_LABEL = "weather_label"
     const val KEY_LAT = "weather_lat"
     const val KEY_LNG = "weather_lng"
+    const val KEY_FETCHED = "weather_fetched_at"
+    const val KEY_SCENE = "weather_scene_id"
+    private const val TTL_MS = 15 * 60 * 1000L
 
     fun enabled(context: Context): Boolean =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_ENABLED, true)
@@ -79,10 +77,27 @@ object WeatherAdvisor {
         return fine == PackageManager.PERMISSION_GRANTED || coarse == PackageManager.PERMISSION_GRANTED
     }
 
+    fun suggest(context: Context, fallback: ListeningScene): ListeningScene {
+        if (!enabled(context)) return fallback
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val cachedId = prefs.getString(KEY_SCENE, null)
+        val age = System.currentTimeMillis() - prefs.getLong(KEY_FETCHED, 0L)
+        if (age in 0 until TTL_MS) {
+            return ListeningScenes.byId(cachedId) ?: fallback
+        }
+        val snap = runCatching { refreshBlocking(context) }.getOrNull() ?: return fallback
+        val scene = snap.sceneOverride()
+        prefs.edit()
+            .putLong(KEY_FETCHED, System.currentTimeMillis())
+            .putString(KEY_SCENE, scene?.id)
+            .apply()
+        return scene ?: fallback
+    }
+
     fun refreshBlocking(context: Context): WeatherSnapshot? {
         if (!enabled(context)) return null
         val loc = lastLocation(context) ?: return cachedCoords(context)?.let { fetch(it.first, it.second, outdoor = false) }
-        val outdoor = loc.accuracy in 1f..80f && (loc.speed <= 0f || loc.hasSpeed())
+        val outdoor = loc.hasAccuracy() && loc.accuracy <= 80f
         val snap = fetch(loc.latitude, loc.longitude, outdoor) ?: return null
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
             .putString(KEY_LABEL, snap.label())
@@ -90,11 +105,6 @@ object WeatherAdvisor {
             .putFloat(KEY_LNG, loc.longitude.toFloat())
             .apply()
         return snap
-    }
-
-    fun suggest(context: Context, fallback: ListeningScene): ListeningScene {
-        val snap = runCatching { refreshBlocking(context) }.getOrNull() ?: return fallback
-        return snap.sceneOverride() ?: fallback
     }
 
     private fun cachedCoords(context: Context): Pair<Double, Double>? {
@@ -107,12 +117,7 @@ object WeatherAdvisor {
         if (!hasLocationPermission(context)) return null
         return try {
             val client = LocationServices.getFusedLocationProviderClient(context)
-            val last = Tasks.await(client.lastLocation, 3, TimeUnit.SECONDS)
-            last ?: Tasks.await(
-                client.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, null),
-                6,
-                TimeUnit.SECONDS
-            )
+            Tasks.await(client.lastLocation, 2, TimeUnit.SECONDS)
         } catch (_: Exception) {
             null
         }
@@ -123,8 +128,8 @@ object WeatherAdvisor {
             "https://api.open-meteo.com/v1/forecast?latitude=$lat&longitude=$lng" +
                 "&current=temperature_2m,precipitation,weather_code,wind_speed_10m&wind_speed_unit=kmh"
         val conn = (URL(url).openConnection() as HttpURLConnection).apply {
-            connectTimeout = 4000
-            readTimeout = 4000
+            connectTimeout = 3500
+            readTimeout = 3500
             requestMethod = "GET"
         }
         return try {
