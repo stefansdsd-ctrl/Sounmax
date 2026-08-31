@@ -1,8 +1,25 @@
 package com.example.wearapp
 
+import androidx.wear.tiles.ActionBuilders
+import androidx.wear.tiles.ColorBuilders.argb
+import androidx.wear.tiles.DeviceParametersBuilders
+import androidx.wear.tiles.DimensionBuilders.dp
+import androidx.wear.tiles.DimensionBuilders.sp
+import androidx.wear.tiles.LayoutElementBuilders
+import androidx.wear.tiles.LayoutElementBuilders.Box
+import androidx.wear.tiles.LayoutElementBuilders.Column
+import androidx.wear.tiles.LayoutElementBuilders.FontStyles
+import androidx.wear.tiles.LayoutElementBuilders.Layout
+import androidx.wear.tiles.LayoutElementBuilders.Spacer
+import androidx.wear.tiles.LayoutElementBuilders.Text
+import androidx.wear.tiles.ModifiersBuilders.Clickable
+import androidx.wear.tiles.ModifiersBuilders.Modifiers
+import androidx.wear.tiles.ModifiersBuilders.Padding
 import androidx.wear.tiles.RequestBuilders
+import androidx.wear.tiles.ResourceBuilders
+import androidx.wear.tiles.StateBuilders
 import androidx.wear.tiles.TileBuilders
-import androidx.wear.tiles.TileService
+import androidx.wear.tiles.TimelineBuilders
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.Wearable
 import com.google.common.util.concurrent.Futures
@@ -17,27 +34,28 @@ class SounmaxTileService : TileService() {
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<TileBuilders.Tile> {
         return scope.future {
+            val cmd = requestParams.currentState
+                ?.stateMap
+                ?.get(STATE_CMD)
+                ?.stringValue
+            if (!cmd.isNullOrBlank()) {
+                runCatching { WearClient.send(this@SounmaxTileService, cmd) }
+            }
             val status = readStatus()
-            val dsp = if (status.dsp) "DSP aan" else "DSP uit"
-            val bat = if (status.battery in 0..100) "${status.battery}%" else "--"
-            val sleep = if (status.sleepMin > 0) " slaap ${status.sleepMin}m" else ""
-            val text = "${status.sceneEmoji} ${status.sceneName}\n$dsp · $bat$sleep"
-            androidx.wear.tiles.TileBuilders.Tile.Builder()
-                .setResourcesVersion("1")
-                .setFreshnessIntervalMillis(30_000)
+            val params = requestParams.deviceParameters
+            TileBuilders.Tile.Builder()
+                .setResourcesVersion("2")
+                .setFreshnessIntervalMillis(15_000)
+                .setState(
+                    StateBuilders.State.Builder()
+                        .addKeyValuePair(STATE_CMD, ActionBuilders.string(""))
+                        .build()
+                )
                 .setTileTimeline(
-                    androidx.wear.tiles.TimelineBuilders.Timeline.Builder()
+                    TimelineBuilders.Timeline.Builder()
                         .addTimelineEntry(
-                            androidx.wear.tiles.TimelineBuilders.TimelineEntry.Builder()
-                                .setLayout(
-                                    androidx.wear.tiles.LayoutElementBuilders.Layout.Builder()
-                                        .setRoot(
-                                            androidx.wear.tiles.LayoutElementBuilders.Text.Builder()
-                                                .setText(text)
-                                                .build()
-                                        )
-                                        .build()
-                                )
+                            TimelineBuilders.TimelineEntry.Builder()
+                                .setLayout(Layout.Builder().setRoot(buildLayout(status, params)).build())
                                 .build()
                         )
                         .build()
@@ -48,12 +66,84 @@ class SounmaxTileService : TileService() {
 
     override fun onTileResourcesRequest(
         requestParams: RequestBuilders.ResourcesRequest
-    ): ListenableFuture<androidx.wear.tiles.ResourceBuilders.Resources> {
+    ): ListenableFuture<ResourceBuilders.Resources> {
         return Futures.immediateFuture(
-            androidx.wear.tiles.ResourceBuilders.Resources.Builder()
-                .setVersion("1")
-                .build()
+            ResourceBuilders.Resources.Builder().setVersion("2").build()
         )
+    }
+
+    private fun buildLayout(
+        status: WearStatus,
+        params: DeviceParametersBuilders.DeviceParameters?
+    ): LayoutElementBuilders.LayoutElement {
+        val dspLabel = if (status.dsp) "DSP uit" else "DSP aan"
+        val bat = if (status.battery in 0..100) "${status.battery}%" else "--"
+        val sleep = if (status.sleepMin > 0) "${status.sleepMin}m" else "slaap"
+        return Column.Builder()
+            .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            .addContent(
+                Text.Builder()
+                    .setText("${status.sceneEmoji} ${status.sceneName}")
+                    .setFontStyle(FontStyles.title3(params).build())
+                    .build()
+            )
+            .addContent(
+                Text.Builder()
+                    .setText("${if (status.dsp) "DSP aan" else "DSP uit"} · $bat")
+                    .setFontStyle(FontStyles.caption1(params).build())
+                    .build()
+            )
+            .addContent(Spacer.Builder().setHeight(dp(6f)).build())
+            .addContent(actionChip(dspLabel, WearPaths.CMD_TOGGLE_DSP, params))
+            .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+            .addContent(actionChip("Volgende scene", WearPaths.CMD_NEXT_SCENE, params))
+            .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+            .addContent(actionChip(sleep, WearPaths.CMD_CYCLE_SLEEP, params))
+            .build()
+    }
+
+    private fun actionChip(
+        label: String,
+        cmd: String,
+        params: DeviceParametersBuilders.DeviceParameters?
+    ): LayoutElementBuilders.LayoutElement {
+        val click = Clickable.Builder()
+            .setOnClick(
+                ActionBuilders.LoadAction.Builder()
+                    .setRequestState(
+                        StateBuilders.State.Builder()
+                            .addKeyValuePair(STATE_CMD, ActionBuilders.string(cmd))
+                            .build()
+                    )
+                    .build()
+            )
+            .setId(cmd)
+            .build()
+        return Box.Builder()
+            .setModifiers(
+                Modifiers.Builder()
+                    .setClickable(click)
+                    .setPadding(
+                        Padding.Builder()
+                            .setStart(dp(10f))
+                            .setEnd(dp(10f))
+                            .setTop(dp(6f))
+                            .setBottom(dp(6f))
+                            .build()
+                    )
+                    .build()
+            )
+            .addContent(
+                Text.Builder()
+                    .setText(label)
+                    .setFontStyle(
+                        FontStyles.button(params)
+                            .setColor(argb(0xFFB39DFF.toInt()))
+                            .build()
+                    )
+                    .build()
+            )
+            .build()
     }
 
     private suspend fun readStatus(): WearStatus {
@@ -66,11 +156,15 @@ class SounmaxTileService : TileService() {
                 WearStatus(
                     dsp = map.getBoolean(WearPaths.KEY_DSP, true),
                     sceneName = map.getString(WearPaths.KEY_SCENE_NAME) ?: "Scene",
-                    sceneEmoji = map.getString(WearPaths.KEY_SCENE_EMOJI) ?: "🎧",
+                    sceneEmoji = map.getString(WearPaths.KEY_SCENE_EMOJI) ?: "\uD83C\uDFA7",
                     battery = map.getInt(WearPaths.KEY_BATTERY, -1),
                     sleepMin = map.getInt(WearPaths.KEY_SLEEP, 0)
                 )
             }
         }.getOrElse { WearStatus() }
+    }
+
+    companion object {
+        private const val STATE_CMD = "cmd"
     }
 }

@@ -32,12 +32,12 @@ class WearMainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 while (true) {
                     runCatching { status = WearClient.readStatus(context) }
-                    delay(2_000)
+                    delay(1_500)
                 }
             }
             Column(
                 modifier = Modifier.fillMaxSize().padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("${status.sceneEmoji} ${status.sceneName}")
@@ -56,6 +56,9 @@ class WearMainActivity : ComponentActivity() {
                 }
                 Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PREV_SCENE) } }) {
                     Text("Vorige scene")
+                }
+                Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SLEEP) } }) {
+                    Text(if (status.sleepMin > 0) "Slaap ${status.sleepMin}m" else "Slaaptimer")
                 }
             }
         }
