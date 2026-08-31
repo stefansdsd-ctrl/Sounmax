@@ -9,8 +9,10 @@ object WearPaths {
     const val KEY_BATTERY = "battery"
     const val KEY_SLEEP = "sleep_min"
     const val KEY_HEADSET = "headset"
+    const val KEY_ANC = "anc"
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
     const val CMD_PREV_SCENE = "prev_scene"
     const val CMD_CYCLE_SLEEP = "cycle_sleep"
+    const val CMD_CYCLE_ANC = "cycle_anc"
 }

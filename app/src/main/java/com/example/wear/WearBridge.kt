@@ -1,9 +1,12 @@
 package com.example.wear
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
+import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.qs.AncQuickTileService
 import com.example.widget.SoundMaxWidget
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
@@ -31,6 +34,10 @@ object WearBridge {
                     WearPaths.KEY_HEADSET,
                     wellness.getString(SoundMaxWidget.KEY_HEADSET_NAME, "Headset") ?: "Headset"
                 )
+                dataMap.putString(
+                    WearPaths.KEY_ANC,
+                    wellness.getString("last_anc", AncMode.STRONG.name) ?: AncMode.STRONG.name
+                )
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -49,8 +56,24 @@ object WearBridge {
             WearPaths.CMD_PREV_SCENE -> SoundMaxWidget.cycleScene(context, -1)
             WearPaths.CMD_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(context)
             WearPaths.CMD_SUGGEST -> SoundMaxWidget.applySuggested(context)
+            WearPaths.CMD_CYCLE_ANC -> cycleAnc(context)
         }
         DspControlService.start(context)
         publishStatus(context)
+    }
+
+    private fun cycleAnc(context: Context) {
+        val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        val current = runCatching {
+            AncMode.valueOf(prefs.getString("last_anc", AncMode.STRONG.name) ?: AncMode.STRONG.name)
+        }.getOrDefault(AncMode.STRONG)
+        val modes = AncMode.values()
+        val next = modes[(modes.indexOf(current) + 1) % modes.size]
+        prefs.edit().putString("last_anc", next.name).apply()
+        context.sendBroadcast(
+            Intent(AncQuickTileService.ACTION_CYCLE_ANC)
+                .setPackage(context.packageName)
+                .putExtra("anc", next.name)
+        )
     }
 }

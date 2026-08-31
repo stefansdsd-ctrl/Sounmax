@@ -1,6 +1,10 @@
 package com.example.wearapp
 
 import android.content.Context
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.tasks.await
@@ -11,7 +15,8 @@ data class WearStatus(
     val sceneEmoji: String = "🎧",
     val battery: Int = -1,
     val sleepMin: Int = 0,
-    val headset: String = "Headset"
+    val headset: String = "Headset",
+    val anc: String = "STRONG"
 )
 
 object WearClient {
@@ -27,15 +32,31 @@ object WearClient {
             sceneEmoji = map.getString(WearPaths.KEY_SCENE_EMOJI) ?: "🎧",
             battery = map.getInt(WearPaths.KEY_BATTERY, -1),
             sleepMin = map.getInt(WearPaths.KEY_SLEEP, 0),
-            headset = map.getString(WearPaths.KEY_HEADSET) ?: "Headset"
+            headset = map.getString(WearPaths.KEY_HEADSET) ?: "Headset",
+            anc = map.getString(WearPaths.KEY_ANC) ?: "STRONG"
         )
     }
 
     suspend fun send(context: Context, cmd: String) {
+        haptic(context)
         val nodes = Wearable.getNodeClient(context).connectedNodes.await()
         val client = Wearable.getMessageClient(context)
         nodes.forEach { node ->
             client.sendMessage(node.id, WearPaths.CMD, cmd.toByteArray()).await()
+        }
+    }
+
+    fun haptic(context: Context) {
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            context.getSystemService(VibratorManager::class.java)?.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+        } ?: return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+        } else {
+            vibrator.vibrate(VibrationEffect.createOneShot(40, VibrationEffect.DEFAULT_AMPLITUDE))
         }
     }
 }
