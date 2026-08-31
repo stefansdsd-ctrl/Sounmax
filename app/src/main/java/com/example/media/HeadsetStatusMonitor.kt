@@ -14,6 +14,7 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,6 +39,7 @@ class HeadsetStatusMonitor(
     private val handler = Handler(Looper.getMainLooper())
     private var gatt: BluetoothGatt? = null
     private var gattAddress: String? = null
+    private var lowBatteryWarned = false
 
     private val pollRssi = object : Runnable {
         override fun run() {
@@ -67,6 +69,7 @@ class HeadsetStatusMonitor(
             if (status == BluetoothGatt.GATT_SUCCESS && rssi in -120..0) {
                 _status.value = _status.value.copy(rssiDbm = rssi, rssiLiveGatt = true)
                 onRssi(rssi)
+                HeadsetLocator.rememberIfConnected(context, _status.value)
             }
         }
     }
@@ -80,6 +83,7 @@ class HeadsetStatusMonitor(
                 }
                 BluetoothDevice.ACTION_ACL_DISCONNECTED,
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> {
+                    HeadsetLocator.rememberIfConnected(context, _status.value.copy(connected = true))
                     closeGatt()
                     refresh()
                     onConnectionChanged(false)
@@ -99,6 +103,7 @@ class HeadsetStatusMonitor(
                         if (current != null && foundName == current) {
                             _status.value = _status.value.copy(rssiDbm = rssi)
                             onRssi(rssi)
+                            HeadsetLocator.rememberIfConnected(context, _status.value)
                         }
                     }
                 }
@@ -123,6 +128,7 @@ class HeadsetStatusMonitor(
             } catch (_: Exception) {
             }
         }
+        HeadsetLocator.load(context)
         refresh()
     }
 
@@ -159,6 +165,15 @@ class HeadsetStatusMonitor(
             rssiLiveGatt = _status.value.rssiLiveGatt && gatt != null
         )
         persist(name, battery)
+        HeadsetLocator.rememberIfConnected(context, _status.value)
+        if (battery != null && battery <= 15 && _status.value.connected) {
+            if (!lowBatteryWarned) {
+                lowBatteryWarned = true
+                Toast.makeText(context, "Headset-accu ${battery}% — spaarstand aangeraden", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            lowBatteryWarned = false
+        }
     }
 
     @SuppressLint("MissingPermission")
