@@ -26,7 +26,7 @@ object SceneAutomation {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         if (prefs.getBoolean("scene_locked", false)) return
         if (!prefs.getBoolean("auto_scene", true)) return
-        val scene = ListeningScenes.suggestedNow()
+        val scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
         prefs.edit()
             .putString("last_scene_id", scene.id)
             .putBoolean("pending_widget_scene", true)
