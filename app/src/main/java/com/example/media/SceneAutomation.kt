@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
+import com.example.dsp.HearingCorrection
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.example.widget.SoundMaxWidget
@@ -66,6 +67,7 @@ class BootReceiver : BroadcastReceiver() {
         ) return
         SceneAutomation.scheduleHourly(context)
         QuietHours.enforce(context)
+        HearingCorrection.markPending(context)
         try {
             DspControlService.start(context)
         } catch (_: Exception) {

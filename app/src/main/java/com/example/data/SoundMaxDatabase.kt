@@ -49,6 +49,9 @@ interface HearingProfileDao {
     @Query("SELECT * FROM hearing_profiles ORDER BY createdAt DESC LIMIT 1")
     fun getLatestProfile(): Flow<HearingProfileEntity?>
 
+    @Query("SELECT * FROM hearing_profiles ORDER BY createdAt DESC LIMIT 1")
+    suspend fun getLatestOnce(): HearingProfileEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProfile(profile: HearingProfileEntity): Long
 
