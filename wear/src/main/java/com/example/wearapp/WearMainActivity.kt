@@ -64,6 +64,15 @@ class WearMainActivity : ComponentActivity() {
                 Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SLEEP) } }) {
                     Text(if (status.sleepMin > 0) "Slaap ${status.sleepMin}m" else "Slaaptimer")
                 }
+                Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
+                    Text(
+                        when {
+                            status.headTrack -> "Head-track aan"
+                            status.spatial -> "Spatial aan"
+                            else -> "Spatial uit"
+                        }
+                    )
+                }
             }
         }
     }

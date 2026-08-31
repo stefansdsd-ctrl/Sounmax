@@ -16,7 +16,9 @@ data class WearStatus(
     val battery: Int = -1,
     val sleepMin: Int = 0,
     val headset: String = "Headset",
-    val anc: String = "STRONG"
+    val anc: String = "STRONG",
+    val spatial: Boolean = false,
+    val headTrack: Boolean = false
 )
 
 object WearClient {
@@ -33,7 +35,9 @@ object WearClient {
             battery = map.getInt(WearPaths.KEY_BATTERY, -1),
             sleepMin = map.getInt(WearPaths.KEY_SLEEP, 0),
             headset = map.getString(WearPaths.KEY_HEADSET) ?: "Headset",
-            anc = map.getString(WearPaths.KEY_ANC) ?: "STRONG"
+            anc = map.getString(WearPaths.KEY_ANC) ?: "STRONG",
+            spatial = map.getBoolean(WearPaths.KEY_SPATIAL, false),
+            headTrack = map.getBoolean(WearPaths.KEY_HEAD_TRACK, false)
         )
     }
 

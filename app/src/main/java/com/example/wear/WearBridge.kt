@@ -7,6 +7,7 @@ import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
 import com.example.qs.AncQuickTileService
+import com.example.qs.SpatialQuickTileService
 import com.example.widget.SoundMaxWidget
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
@@ -38,6 +39,8 @@ object WearBridge {
                     WearPaths.KEY_ANC,
                     wellness.getString("last_anc", AncMode.STRONG.name) ?: AncMode.STRONG.name
                 )
+                dataMap.putBoolean(WearPaths.KEY_SPATIAL, wellness.getBoolean("spatializer_on", false))
+                dataMap.putBoolean(WearPaths.KEY_HEAD_TRACK, wellness.getBoolean("head_tracking", false))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -57,6 +60,7 @@ object WearBridge {
             WearPaths.CMD_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(context)
             WearPaths.CMD_SUGGEST -> SoundMaxWidget.applySuggested(context)
             WearPaths.CMD_CYCLE_ANC -> cycleAnc(context)
+            WearPaths.CMD_CYCLE_SPATIAL -> cycleSpatial(context)
         }
         DspControlService.start(context)
         publishStatus(context)
@@ -74,6 +78,29 @@ object WearBridge {
             Intent(AncQuickTileService.ACTION_CYCLE_ANC)
                 .setPackage(context.packageName)
                 .putExtra("anc", next.name)
+        )
+    }
+
+    private fun cycleSpatial(context: Context) {
+        val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        val spatial = prefs.getBoolean("spatializer_on", false)
+        val track = prefs.getBoolean("head_tracking", false)
+        val nextSpatial: Boolean
+        val nextTrack: Boolean
+        when {
+            !spatial -> { nextSpatial = true; nextTrack = false }
+            spatial && !track -> { nextSpatial = true; nextTrack = true }
+            else -> { nextSpatial = false; nextTrack = false }
+        }
+        prefs.edit()
+            .putBoolean("spatializer_on", nextSpatial)
+            .putBoolean("head_tracking", nextTrack)
+            .apply()
+        context.sendBroadcast(
+            Intent(SpatialQuickTileService.ACTION_CYCLE_SPATIAL)
+                .setPackage(context.packageName)
+                .putExtra("enabled", nextSpatial)
+                .putExtra("head_tracking", nextTrack)
         )
     }
 }
