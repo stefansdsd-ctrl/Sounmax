@@ -44,12 +44,16 @@ class WearMainActivity : ComponentActivity() {
                 Text(
                     buildString {
                         append(if (status.dsp) "DSP aan" else "DSP uit")
+                        append(" · ANC ${ancLabel(status.anc)}")
                         if (status.battery in 0..100) append(" · ${status.battery}%")
                         if (status.sleepMin > 0) append(" · slaap ${status.sleepMin}m")
                     }
                 )
                 Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_TOGGLE_DSP) } }) {
                     Text(if (status.dsp) "Pauzeer DSP" else "Start DSP")
+                }
+                Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
+                    Text("ANC ${ancLabel(status.anc)}")
                 }
                 Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_NEXT_SCENE) } }) {
                     Text("Volgende scene")
@@ -61,6 +65,17 @@ class WearMainActivity : ComponentActivity() {
                     Text(if (status.sleepMin > 0) "Slaap ${status.sleepMin}m" else "Slaaptimer")
                 }
             }
+        }
+    }
+
+    companion object {
+        fun ancLabel(anc: String): String = when (anc) {
+            "OFF" -> "uit"
+            "STRONG" -> "max"
+            "ADAPTIVE" -> "auto"
+            "AMBIENT" -> "omgeving"
+            "WIND_GUARD" -> "wind"
+            else -> anc.lowercase()
         }
     }
 }
