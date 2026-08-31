@@ -49,6 +49,10 @@ fun GattInsightBar(sceneController: SceneController) {
                     }
                 )
             }
+            AssistChip(
+                onClick = { sceneController.shareGattDump() },
+                label = { Text("Deel GATT-dump", fontSize = 11.sp) }
+            )
         }
         status.discoveryLogs.take(3).forEach { log ->
             Text(
