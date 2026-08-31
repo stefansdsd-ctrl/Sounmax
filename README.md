@@ -21,9 +21,13 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Weer-chip + Weer Nu in de wellness-balk (Open-Meteo + SceneController)
 - Weer/GPS-scene: regen, wind, buiten via Open-Meteo
 - Boot-receiver: DSP-service + schema na herstart
+- GATT-services ontdekken + dump delen (voor echte ANC-UUIDs)
+- Scene-zoekbalk
+- Stille uren instelbaar (22–7 / 23–8 / 21–6 / uit)
+- Week-dosis in wellness-balk
 
 ## Volgende
-- Philips ANC via echte GATT-UUIDs (GATT-dump nodig)
+- Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
