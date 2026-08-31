@@ -4,6 +4,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Adaptive EQ per nummer/genre (chip **Adapt. EQ**); scene-slot blijft leidend
+- Scenes Luisterboek + Nieuws + Audible/Storytel-detectie
 - Gehoorprofiel automatisch na herstart en bij headset-koppeling
 - Schakelaar “Automatisch toepassen” op het gehoor-tabblad
 - Loudness auto: extra bas/loudness bij zacht volume (Fletcher-Munson)
@@ -38,7 +40,6 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
-- Adaptive EQ per nummer/genre zonder scene-lock te overrulen
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
