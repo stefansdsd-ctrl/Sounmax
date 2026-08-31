@@ -43,7 +43,7 @@ object WearBridge {
                 )
                 dataMap.putBoolean(WearPaths.KEY_SPATIAL, wellness.getBoolean("spatializer_on", false))
                 dataMap.putBoolean(WearPaths.KEY_HEAD_TRACK, wellness.getBoolean("head_tracking", false))
-                dataMap.putBoolean(WearPaths.KEY_QUIET, QuietHours.isQuietNow() && wellness.getBoolean(QuietHours.KEY_ENABLED, true))
+                dataMap.putBoolean(WearPaths.KEY_QUIET, QuietHours.isQuietNow(context) && QuietHours.enabled(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
