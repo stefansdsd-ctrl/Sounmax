@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Wear: play/pauze + volume ±
+- Dosis op Wear-status + DSP-notificatie
+- Na 2 uur luisteren: veilig volume automatisch aan
 - Laatste headset-locatie + kaart (GPS bij verbinding)
 - Nabijheid via RSSI (dichtbij / verder weg)
 - Accu-spaarstand bij headset ≤15%: minder loudness/spatial
@@ -14,7 +17,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Stille uren 22:00–07:00: veilig volume automatisch
 - Head-tracking spatializer (yaw → balans, pitch → virtualizer)
 - QS Spatial-cyclus: uit → spatial → head-track
-- Wear OS-tegel: DSP, ANC-cyclus, volgende scene, slaaptimer
+- Wear OS-tegel: DSP, ANC-cyclus, volgende scene, slaaptimer, play/pauze
 - Wear-app: ANC, spatial, haptic click
 - Widget- en notificatieknop **Nu**: past de tijdsuggestie meteen toe
 - Auto-scene elk uur (als slot uit is)
