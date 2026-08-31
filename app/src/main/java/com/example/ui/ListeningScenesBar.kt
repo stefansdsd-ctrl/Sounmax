@@ -61,6 +61,8 @@ fun ListeningScenesBar(
     val mediaScene by gestures.mediaScene.collectAsStateWithLifecycle()
     val weatherOn by sceneController.weatherEnabled.collectAsStateWithLifecycle()
     val weatherLabel by sceneController.weatherLabel.collectAsStateWithLifecycle()
+    val adaptiveEq by sceneController.adaptiveEq.collectAsStateWithLifecycle()
+    val adaptiveEqLabel by sceneController.adaptiveEqLabel.collectAsStateWithLifecycle()
     val scenes = sceneController.orderedScenes()
 
     val chipColors = FilterChipDefaults.filterChipColors(
@@ -86,6 +88,7 @@ fun ListeningScenesBar(
             Text(
                 text = (headset?.let { "BT · ${it.take(18)}  ·  " } ?: "") +
                     (weatherLabel?.let { "$it  ·  " } ?: "") +
+                    (adaptiveEqLabel?.let { "EQ·$it  ·  " } ?: "") +
                     "Vandaag ${doseMin} min" + if (doseMin >= 120) " ⚠" else "",
                 color = if (doseMin >= 120) ImmersiveLavenderAccent else ImmersiveTextSecondary,
                 fontSize = 11.sp
@@ -164,6 +167,15 @@ fun ListeningScenesBar(
                     label = { Text(if (sceneLocked) "Slot aan" else "Slot", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("scene_lock_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = adaptiveEq,
+                    onClick = { sceneController.setAdaptiveEq(!adaptiveEq) },
+                    label = { Text(if (adaptiveEq) "Adapt. EQ" else "Adapt. EQ uit", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("adaptive_eq_chip")
                 )
             }
             item {
