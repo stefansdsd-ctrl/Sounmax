@@ -45,7 +45,7 @@ class DspControlService : Service() {
         val suggested = ListeningScenes.suggestedNow()
         val battery = wellness.getInt(SoundMaxWidget.KEY_BATTERY, -1)
         val sleepLeft = SoundMaxWidget.remainingSleepMinutes(wellness.getLong(SoundMaxWidget.KEY_SLEEP_END, 0L))
-        val quiet = QuietHours.isQuietNow() && wellness.getBoolean(QuietHours.KEY_ENABLED, true)
+        val quiet = QuietHours.isQuietNow(this) && QuietHours.enabled(this)
         val extra = buildString {
             if (battery in 0..100) append(" · BT $battery%")
             if (sleepLeft > 0) append(" · slaap $sleepLeft min")
