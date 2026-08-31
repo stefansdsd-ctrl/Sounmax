@@ -4,7 +4,6 @@ import androidx.wear.tiles.ActionBuilders
 import androidx.wear.tiles.ColorBuilders.argb
 import androidx.wear.tiles.DeviceParametersBuilders
 import androidx.wear.tiles.DimensionBuilders.dp
-import androidx.wear.tiles.DimensionBuilders.sp
 import androidx.wear.tiles.LayoutElementBuilders
 import androidx.wear.tiles.LayoutElementBuilders.Box
 import androidx.wear.tiles.LayoutElementBuilders.Column
@@ -19,6 +18,7 @@ import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.ResourceBuilders
 import androidx.wear.tiles.StateBuilders
 import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.TimelineBuilders
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.Wearable
@@ -34,8 +34,7 @@ class SounmaxTileService : TileService() {
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<TileBuilders.Tile> {
         return scope.future {
-            val cmd = requestParams.currentState
-                ?.stateMap
+            val cmd = requestParams.state?.idToValueMapping
                 ?.get(STATE_CMD)
                 ?.stringValue
             if (!cmd.isNullOrBlank()) {
@@ -48,7 +47,7 @@ class SounmaxTileService : TileService() {
                 .setFreshnessIntervalMillis(15_000)
                 .setState(
                     StateBuilders.State.Builder()
-                        .addKeyValuePair(STATE_CMD, ActionBuilders.string(""))
+                        .addKeyValuePair(STATE_CMD, ActionBuilders.stringVal(""))
                         .build()
                 )
                 .setTileTimeline(
@@ -84,13 +83,13 @@ class SounmaxTileService : TileService() {
             .addContent(
                 Text.Builder()
                     .setText("${status.sceneEmoji} ${status.sceneName}")
-                    .setFontStyle(FontStyles.title3(params).build())
+                    .setFontStyle(font(params) { FontStyles.title3(it).build() })
                     .build()
             )
             .addContent(
                 Text.Builder()
                     .setText("${if (status.dsp) "DSP aan" else "DSP uit"} · $bat")
-                    .setFontStyle(FontStyles.caption1(params).build())
+                    .setFontStyle(font(params) { FontStyles.caption1(it).build() })
                     .build()
             )
             .addContent(Spacer.Builder().setHeight(dp(6f)).build())
@@ -100,6 +99,14 @@ class SounmaxTileService : TileService() {
             .addContent(Spacer.Builder().setHeight(dp(4f)).build())
             .addContent(actionChip(sleep, WearPaths.CMD_CYCLE_SLEEP, params))
             .build()
+    }
+
+    private fun font(
+        params: DeviceParametersBuilders.DeviceParameters?,
+        block: (DeviceParametersBuilders.DeviceParameters) -> LayoutElementBuilders.FontStyle
+    ): LayoutElementBuilders.FontStyle {
+        val p = params ?: DeviceParametersBuilders.DeviceParameters.Builder().build()
+        return block(p)
     }
 
     private fun actionChip(
@@ -112,7 +119,7 @@ class SounmaxTileService : TileService() {
                 ActionBuilders.LoadAction.Builder()
                     .setRequestState(
                         StateBuilders.State.Builder()
-                            .addKeyValuePair(STATE_CMD, ActionBuilders.string(cmd))
+                            .addKeyValuePair(STATE_CMD, ActionBuilders.stringVal(cmd))
                             .build()
                     )
                     .build()
@@ -137,9 +144,9 @@ class SounmaxTileService : TileService() {
                 Text.Builder()
                     .setText(label)
                     .setFontStyle(
-                        FontStyles.button(params)
-                            .setColor(argb(0xFFB39DFF.toInt()))
-                            .build()
+                        font(params) {
+                            FontStyles.button(it).setColor(argb(0xFFB39DFF.toInt())).build()
+                        }
                     )
                     .build()
             )
