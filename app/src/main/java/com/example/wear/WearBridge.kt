@@ -7,6 +7,7 @@ import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
 import com.example.media.FindHeadsetHelper
+import com.example.media.MediaRemote
 import com.example.media.QuietHours
 import com.example.qs.AncQuickTileService
 import com.example.qs.SpatialQuickTileService
@@ -44,6 +45,8 @@ object WearBridge {
                 dataMap.putBoolean(WearPaths.KEY_SPATIAL, wellness.getBoolean("spatializer_on", false))
                 dataMap.putBoolean(WearPaths.KEY_HEAD_TRACK, wellness.getBoolean("head_tracking", false))
                 dataMap.putBoolean(WearPaths.KEY_QUIET, QuietHours.isQuietNow(context) && QuietHours.enabled(context))
+                dataMap.putInt(WearPaths.KEY_DOSE, todayDose(wellness))
+                dataMap.putInt(WearPaths.KEY_VOLUME, MediaRemote.musicVolumePercent(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -65,9 +68,18 @@ object WearBridge {
             WearPaths.CMD_CYCLE_ANC -> cycleAnc(context)
             WearPaths.CMD_CYCLE_SPATIAL -> cycleSpatial(context)
             WearPaths.CMD_FIND_HEADSET -> FindHeadsetHelper.ping()
+            WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
+            WearPaths.CMD_VOL_UP -> MediaRemote.volume(context, raise = true)
+            WearPaths.CMD_VOL_DOWN -> MediaRemote.volume(context, raise = false)
         }
         DspControlService.start(context)
         publishStatus(context)
+    }
+
+    private fun todayDose(wellness: android.content.SharedPreferences): Int {
+        val cal = java.util.Calendar.getInstance()
+        val key = "dose_${cal.get(java.util.Calendar.YEAR)}_${cal.get(java.util.Calendar.DAY_OF_YEAR)}"
+        return wellness.getInt(key, 0)
     }
 
     private fun cycleAnc(context: Context) {
