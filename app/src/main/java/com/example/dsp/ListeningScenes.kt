@@ -16,6 +16,8 @@ object ListeningScenes {
         ListeningScene("voicechat", "Voicechat", "🎤", "Stemmen helder, game zachter", "Vocal & Acoustic Warmth", AncMode.AMBIENT, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
         ListeningScene("latework", "Avondwerk", "💡", "Focus + veilig volume", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("podcast", "Podcast", "🎙️", "Stemhelderheid", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
+        ListeningScene("audiobook", "Luisterboek", "📖", "Warme stem, minder bas", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("news", "Nieuws", "📰", "Spraak-EQ, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("call", "Omgeving", "🗣️", "Transparantie / stemmen", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("plane", "Vliegtuig", "✈️", "Max ANC + veilige loudness", "Philips TAH6519 Pro ANC", AncMode.STRONG, safeVolume = true),
         ListeningScene("train", "Trein", "🚃", "ANC tegen rails + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
@@ -83,11 +85,14 @@ object ListeningScenes {
             p.contains("dialer") || p.contains("telecom") || p.contains("incallui") -> "call"
             p.contains("podcast") || p.contains("pocketcasts") || p.contains("overcast") ||
                 p.contains("antenna") -> "podcast"
+            p.contains("audible") || p.contains("storytel") || p.contains("scribd") -> "audiobook"
             p.contains("netflix") || p.contains("disney") || p.contains("primevideo") ||
                 p.contains("videolan") || p.contains("mxplayer") || p.contains("jellyfin") -> "film"
             p.contains("youtube") && !p.contains("music") -> "film"
             p.contains("pubg") || p.contains("codm") || p.contains("genshin") ||
                 p.contains("roblox") || p.contains("fortnite") || p.contains("minecraft") -> "fps"
+            blob.contains("luisterboek") || blob.contains("audiobook") || blob.contains("hoorspel") -> "audiobook"
+            blob.contains("nieuws") || blob.contains("news bulletin") || blob.contains("journaal") -> "news"
             blob.contains("podcast") || blob.contains("speech") || blob.contains("interview") -> "podcast"
             blob.contains("asmr") -> "asmr"
             blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
