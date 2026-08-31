@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
             it.setEnabled(wellness.getBoolean("volume_scene", true))
             it.start()
         }
-        requestActivityPermission()
+        requestRuntimePermissions()
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
@@ -67,16 +67,23 @@ class MainActivity : ComponentActivity() {
             .apply()
     }
 
-    private fun requestActivityPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
-            == PackageManager.PERMISSION_GRANTED
-        ) return
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
-            42
-        )
+    private fun requestRuntimePermissions() {
+        val needed = mutableListOf<String>()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            needed += Manifest.permission.ACTIVITY_RECOGNITION
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            needed += Manifest.permission.ACCESS_COARSE_LOCATION
+            needed += Manifest.permission.ACCESS_FINE_LOCATION
+        }
+        if (needed.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, needed.toTypedArray(), 42)
+        }
     }
 
     override fun onDestroy() {
