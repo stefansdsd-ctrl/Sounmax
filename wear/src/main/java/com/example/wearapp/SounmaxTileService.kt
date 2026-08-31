@@ -78,6 +78,7 @@ class SounmaxTileService : TileService() {
         val dspLabel = if (status.dsp) "DSP uit" else "DSP aan"
         val bat = if (status.battery in 0..100) "${status.battery}%" else "--"
         val sleep = if (status.sleepMin > 0) "${status.sleepMin}m" else "slaap"
+        val anc = WearMainActivity.ancLabel(status.anc)
         return Column.Builder()
             .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
             .addContent(
@@ -94,6 +95,8 @@ class SounmaxTileService : TileService() {
             )
             .addContent(Spacer.Builder().setHeight(dp(6f)).build())
             .addContent(actionChip(dspLabel, WearPaths.CMD_TOGGLE_DSP, params))
+            .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+            .addContent(actionChip("ANC $anc", WearPaths.CMD_CYCLE_ANC, params))
             .addContent(Spacer.Builder().setHeight(dp(4f)).build())
             .addContent(actionChip("Volgende scene", WearPaths.CMD_NEXT_SCENE, params))
             .addContent(Spacer.Builder().setHeight(dp(4f)).build())
@@ -165,7 +168,8 @@ class SounmaxTileService : TileService() {
                     sceneName = map.getString(WearPaths.KEY_SCENE_NAME) ?: "Scene",
                     sceneEmoji = map.getString(WearPaths.KEY_SCENE_EMOJI) ?: "\uD83C\uDFA7",
                     battery = map.getInt(WearPaths.KEY_BATTERY, -1),
-                    sleepMin = map.getInt(WearPaths.KEY_SLEEP, 0)
+                    sleepMin = map.getInt(WearPaths.KEY_SLEEP, 0),
+                    anc = map.getString(WearPaths.KEY_ANC) ?: "STRONG"
                 )
             }
         }.getOrElse { WearStatus() }
