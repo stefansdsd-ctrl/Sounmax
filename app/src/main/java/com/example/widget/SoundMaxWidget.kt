@@ -13,6 +13,7 @@ import com.example.MainActivity
 import com.example.R
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.media.WeatherAdvisor
 
 class SoundMaxWidget : AppWidgetProvider() {
 
@@ -88,7 +89,7 @@ class SoundMaxWidget : AppWidgetProvider() {
         fun applySuggested(context: Context) {
             val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             if (prefs.getBoolean("scene_locked", false)) return
-            val scene = ListeningScenes.suggestedNow()
+            val scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
             prefs.edit()
                 .putString("last_scene_id", scene.id)
                 .putBoolean("pending_widget_scene", true)
@@ -150,7 +151,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             val enabled = ui.getBoolean(DspControlService.KEY_DSP, true)
             val scene = ListeningScenes.byId(wellness.getString("last_scene_id", null))
                 ?: ListeningScenes.ALL.first()
-            val suggested = ListeningScenes.suggestedNow()
+            val suggested = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
             val battery = wellness.getInt(KEY_BATTERY, -1)
             val sleepLeft = remainingSleepMinutes(wellness.getLong(KEY_SLEEP_END, 0L))
             val name = wellness.getString(KEY_HEADSET_NAME, null)
