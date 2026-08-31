@@ -2,7 +2,6 @@ package com.example.media
 
 import android.media.AudioAttributes
 import android.media.AudioFormat
-import android.media.AudioManager
 import android.media.AudioTrack
 import kotlin.math.sin
 
@@ -80,5 +79,12 @@ class FindHeadsetHelper {
         } catch (_: Exception) {
         }
         track = null
+    }
+
+    companion object {
+        private val shared = FindHeadsetHelper()
+        fun ping() {
+            shared.start()
+        }
     }
 }

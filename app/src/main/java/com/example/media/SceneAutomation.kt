@@ -31,6 +31,7 @@ object SceneAutomation {
             .putString("last_scene_id", scene.id)
             .putBoolean("pending_widget_scene", true)
             .apply()
+        QuietHours.enforce(context)
         DspControlService.start(context)
         SoundMaxWidget.refreshAll(context)
     }
@@ -53,6 +54,7 @@ object SceneAutomation {
 
 class SceneHourlyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
+        QuietHours.enforce(context)
         SceneAutomation.writeSuggested(context)
     }
 }
@@ -63,6 +65,7 @@ class BootReceiver : BroadcastReceiver() {
             intent?.action != Intent.ACTION_MY_PACKAGE_REPLACED
         ) return
         SceneAutomation.scheduleHourly(context)
+        QuietHours.enforce(context)
         try {
             DspControlService.start(context)
         } catch (_: Exception) {

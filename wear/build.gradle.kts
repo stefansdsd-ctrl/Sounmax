@@ -40,5 +40,6 @@ dependencies {
   implementation("androidx.wear.compose:compose-foundation:1.4.1")
   implementation("androidx.wear.tiles:tiles:1.4.1")
   implementation("androidx.wear.tiles:tiles-material:1.4.1")
+  implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.1")
   implementation("com.google.android.horologist:horologist-compose-layout:0.6.23")
 }

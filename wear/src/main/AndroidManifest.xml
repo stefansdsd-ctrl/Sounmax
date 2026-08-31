@@ -36,5 +36,21 @@
                 android:name="androidx.wear.tiles.PREVIEW"
                 android:resource="@android:drawable/ic_media_play" />
         </service>
+
+        <service
+            android:name=".SounmaxComplicationService"
+            android:exported="true"
+            android:label="Sounmax"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="300" />
+        </service>
     </application>
 </manifest>

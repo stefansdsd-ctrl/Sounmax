@@ -14,6 +14,7 @@ object WearPaths {
     const val KEY_ANC = "anc"
     const val KEY_SPATIAL = "spatial"
     const val KEY_HEAD_TRACK = "head_track"
+    const val KEY_QUIET = "quiet"
 
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
@@ -22,4 +23,5 @@ object WearPaths {
     const val CMD_SUGGEST = "suggest"
     const val CMD_CYCLE_ANC = "cycle_anc"
     const val CMD_CYCLE_SPATIAL = "cycle_spatial"
+    const val CMD_FIND_HEADSET = "find_headset"
 }

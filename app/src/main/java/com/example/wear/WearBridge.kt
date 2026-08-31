@@ -6,6 +6,8 @@ import android.util.Log
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.media.FindHeadsetHelper
+import com.example.media.QuietHours
 import com.example.qs.AncQuickTileService
 import com.example.qs.SpatialQuickTileService
 import com.example.widget.SoundMaxWidget
@@ -41,6 +43,7 @@ object WearBridge {
                 )
                 dataMap.putBoolean(WearPaths.KEY_SPATIAL, wellness.getBoolean("spatializer_on", false))
                 dataMap.putBoolean(WearPaths.KEY_HEAD_TRACK, wellness.getBoolean("head_tracking", false))
+                dataMap.putBoolean(WearPaths.KEY_QUIET, QuietHours.isQuietNow() && wellness.getBoolean(QuietHours.KEY_ENABLED, true))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -61,6 +64,7 @@ object WearBridge {
             WearPaths.CMD_SUGGEST -> SoundMaxWidget.applySuggested(context)
             WearPaths.CMD_CYCLE_ANC -> cycleAnc(context)
             WearPaths.CMD_CYCLE_SPATIAL -> cycleSpatial(context)
+            WearPaths.CMD_FIND_HEADSET -> FindHeadsetHelper.ping()
         }
         DspControlService.start(context)
         publishStatus(context)
