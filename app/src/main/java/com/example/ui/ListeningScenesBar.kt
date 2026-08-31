@@ -59,6 +59,8 @@ fun ListeningScenesBar(
     val headset by sceneController.detectedHeadset.collectAsStateWithLifecycle()
     val volumeScene by gestures.volumeScene.collectAsStateWithLifecycle()
     val mediaScene by gestures.mediaScene.collectAsStateWithLifecycle()
+    val weatherOn by sceneController.weatherEnabled.collectAsStateWithLifecycle()
+    val weatherLabel by sceneController.weatherLabel.collectAsStateWithLifecycle()
     val scenes = sceneController.orderedScenes()
 
     val chipColors = FilterChipDefaults.filterChipColors(
@@ -83,6 +85,7 @@ fun ListeningScenesBar(
             )
             Text(
                 text = (headset?.let { "BT · ${it.take(18)}  ·  " } ?: "") +
+                    (weatherLabel?.let { "$it  ·  " } ?: "") +
                     "Vandaag ${doseMin} min" + if (doseMin >= 120) " ⚠" else "",
                 color = if (doseMin >= 120) ImmersiveLavenderAccent else ImmersiveTextSecondary,
                 fontSize = 11.sp
@@ -134,6 +137,24 @@ fun ListeningScenesBar(
                     label = { Text("Auto ${suggested.emoji}", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("auto_scene_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = weatherOn,
+                    onClick = { sceneController.setWeatherEnabled(!weatherOn) },
+                    label = { Text(if (weatherOn) "Weer ${suggested.emoji}" else "Weer", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("weather_scene_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = { sceneController.applyWeatherSuggestion() },
+                    label = { Text("Weer Nu", fontSize = 11.sp) },
+                    colors = FilterChipDefaults.filterChipColors(labelColor = ImmersiveTextPrimary),
+                    modifier = Modifier.testTag("weather_apply_chip")
                 )
             }
             item {
