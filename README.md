@@ -25,6 +25,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Scene-zoekbalk
 - Stille uren instelbaar (22–7 / 23–8 / 21–6 / uit)
 - Week-dosis in wellness-balk
+- Focus 25 min (scene Focus → Rust + veilig volume)
+- Pauze bij loskoppelen (media-pause op ACL disconnect)
+- Week-dosis naast dag-dosis in de balk
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
