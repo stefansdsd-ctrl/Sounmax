@@ -4,6 +4,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Laatste headset-locatie + kaart (GPS bij verbinding)
+- Nabijheid via RSSI (dichtbij / verder weg)
+- Accu-spaarstand bij headset ≤15%: minder loudness/spatial
+- Locatie-permissies voor weer + vind-headset
 - Wear-complicatie: scene + batterij op het wijzerplaatvlak
 - Wear Ambient-modus (dim-UI, geen extra knoppen)
 - Wear-knop **Vind headset** (L/R piep op de telefoon)
