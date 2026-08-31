@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
+import android.os.SystemClock
 import android.provider.Settings
+import android.view.KeyEvent
 import android.widget.Toast
 import com.example.media.HeadsetStatusMonitor
 import com.example.media.SceneAutomation
@@ -69,6 +71,17 @@ class SceneController(private val viewModel: MainViewModel) {
     private val _sceneLocked = MutableStateFlow(prefs.getBoolean("scene_locked", false))
     val sceneLocked: StateFlow<Boolean> = _sceneLocked.asStateFlow()
 
+    private val _pauseOnDisconnect = MutableStateFlow(prefs.getBoolean("pause_on_disconnect", true))
+    val pauseOnDisconnect: StateFlow<Boolean> = _pauseOnDisconnect.asStateFlow()
+
+    private val _focusMinutes = MutableStateFlow(0)
+    val focusMinutes: StateFlow<Int> = _focusMinutes.asStateFlow()
+
+    private val _weekDoseMinutes = MutableStateFlow(weekDose())
+    val weekDoseMinutes: StateFlow<Int> = _weekDoseMinutes.asStateFlow()
+
+    private var focusJob: Job? = null
+
     val headsetMonitor = HeadsetStatusMonitor(
         app,
         onConnectionChanged = { connected ->
@@ -77,6 +90,8 @@ class SceneController(private val viewModel: MainViewModel) {
                 if (last != null && (_sceneLocked.value || !_autoSceneEnabled.value)) {
                     applyListeningScene(last, silent = true)
                 }
+            } else if (_pauseOnDisconnect.value) {
+                pauseMedia()
             }
         }
     )
@@ -317,7 +332,7 @@ class SceneController(private val viewModel: MainViewModel) {
         val preset = viewModel.dspManager.currentPreset.value
         val text = buildString {
             appendLine("Sounmax EQ: ${preset.name}")
-            appendLine("Bands (dB): ${bands.joinToString(", ") { String.format("%.1f", it) }}")
+            appendLine("Bands (dB): ${bands.joinToString(", ") { String.format(\"%.1f\", it) }}")
             appendLine("Bass ${viewModel.dspManager.bassBoostStrength.value} | Spatial ${viewModel.dspManager.virtualizerStrength.value}")
             appendLine("Loudness ${viewModel.dspManager.loudnessGain.value} | Clarity ${viewModel.dspManager.clarityGain.value}")
             appendLine("ANC ${viewModel.dspManager.ancMode.value.displayName} | Codec ${viewModel.dspManager.selectedCodec.value.codecName}")
@@ -521,6 +536,7 @@ class SceneController(private val viewModel: MainViewModel) {
                     val next = prefs.getInt(key, 0) + 1
                     prefs.edit().putInt(key, next).apply()
                     _listeningMinutesToday.value = next
+                    _weekDoseMinutes.value = weekDose()
                     if (next == 60 || next == 180) {
                         Toast.makeText(app, "Pauze: ${next} min luisteren. 5 min stilte is beter voor je oren.", Toast.LENGTH_LONG).show()
                     }
@@ -535,6 +551,63 @@ class SceneController(private val viewModel: MainViewModel) {
                 }
             }
         }
+    }
+
+    fun setPauseOnDisconnect(on: Boolean) {
+        _pauseOnDisconnect.value = on
+        prefs.edit().putBoolean("pause_on_disconnect", on).apply()
+        Toast.makeText(app, if (on) "Pauze bij loskoppelen aan" else "Pauze bij loskoppelen uit", Toast.LENGTH_SHORT).show()
+    }
+
+    fun pauseMedia() {
+        try {
+            val am = app.getSystemService(AudioManager::class.java)
+            val now = SystemClock.uptimeMillis()
+            val down = KeyEvent(now, now, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE, 0)
+            val up = KeyEvent(now, now, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PAUSE, 0)
+            am.dispatchMediaKeyEvent(down)
+            am.dispatchMediaKeyEvent(up)
+        } catch (_: Exception) {
+        }
+    }
+
+    fun startFocusSession(minutes: Int = 25) {
+        focusJob?.cancel()
+        _focusMinutes.value = minutes
+        if (_sceneLocked.value.not()) {
+            ListeningScenes.byId("focus")?.let { applyListeningScene(it, silent = true) }
+                ?: ListeningScenes.byId("work")?.let { applyListeningScene(it, silent = true) }
+        }
+        setSafeVolume(false)
+        focusJob = scope.launch {
+            var left = minutes
+            while (left > 0) {
+                delay(60_000)
+                left -= 1
+                _focusMinutes.value = left
+            }
+            ListeningScenes.byId("rest")?.let { applyListeningScene(it, silent = true) }
+            setSafeVolume(true)
+            Toast.makeText(app, "Focus klaar — 5 min oor-pauze", Toast.LENGTH_LONG).show()
+        }
+        Toast.makeText(app, "Focus $minutes min", Toast.LENGTH_SHORT).show()
+    }
+
+    fun cancelFocusSession() {
+        focusJob?.cancel()
+        _focusMinutes.value = 0
+        Toast.makeText(app, "Focus gestopt", Toast.LENGTH_SHORT).show()
+    }
+
+    fun weekDose(): Int {
+        val cal = Calendar.getInstance()
+        var sum = 0
+        repeat(7) {
+            val key = "dose_${cal.get(Calendar.YEAR)}_${cal.get(Calendar.DAY_OF_YEAR)}"
+            sum += prefs.getInt(key, 0)
+            cal.add(Calendar.DAY_OF_YEAR, -1)
+        }
+        return sum
     }
 
     private fun todayKey(): String {
