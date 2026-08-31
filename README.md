@@ -14,6 +14,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Wear-app: ANC, spatial, haptic click
 - Widget- en notificatieknop **Nu**: past de tijdsuggestie meteen toe
 - Auto-scene elk uur (als slot uit is)
+- Weer-chip + Weer Nu in de wellness-balk (Open-Meteo + SceneController)
 - Weer/GPS-scene: regen, wind, buiten via Open-Meteo
 - Boot-receiver: DSP-service + schema na herstart
 
