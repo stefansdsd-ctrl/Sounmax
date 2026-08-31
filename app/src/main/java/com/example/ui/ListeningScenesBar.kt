@@ -61,6 +61,9 @@ fun ListeningScenesBar(
     val mediaScene by gestures.mediaScene.collectAsStateWithLifecycle()
     val weatherOn by sceneController.weatherEnabled.collectAsStateWithLifecycle()
     val weatherLabel by sceneController.weatherLabel.collectAsStateWithLifecycle()
+    val pauseDisconnect by sceneController.pauseOnDisconnect.collectAsStateWithLifecycle()
+    val focusLeft by sceneController.focusMinutes.collectAsStateWithLifecycle()
+    val weekDose by sceneController.weekDoseMinutes.collectAsStateWithLifecycle()
     val scenes = sceneController.orderedScenes()
 
     val chipColors = FilterChipDefaults.filterChipColors(
@@ -86,7 +89,7 @@ fun ListeningScenesBar(
             Text(
                 text = (headset?.let { "BT · ${it.take(18)}  ·  " } ?: "") +
                     (weatherLabel?.let { "$it  ·  " } ?: "") +
-                    "Vandaag ${doseMin} min" + if (doseMin >= 120) " ⚠" else "",
+                    "Vandaag ${doseMin} min · Week ${weekDose} min" + if (doseMin >= 120) " ⚠" else "",
                 color = if (doseMin >= 120) ImmersiveLavenderAccent else ImmersiveTextSecondary,
                 fontSize = 11.sp
             )
@@ -182,6 +185,27 @@ fun ListeningScenesBar(
                     label = { Text("Nachtwacht", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("night_guard_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = pauseDisconnect,
+                    onClick = { sceneController.setPauseOnDisconnect(!pauseDisconnect) },
+                    label = { Text("Pauze bij los", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("pause_disconnect_chip")
+                )
+            }
+            item {
+                FilterChip(
+                    selected = focusLeft > 0,
+                    onClick = {
+                        if (focusLeft > 0) sceneController.cancelFocusSession()
+                        else sceneController.startFocusSession(25)
+                    },
+                    label = { Text(if (focusLeft > 0) "Focus ${focusLeft}m" else "Focus 25m", fontSize = 11.sp) },
+                    colors = chipColors,
+                    modifier = Modifier.testTag("focus_session_chip")
                 )
             }
             item {
