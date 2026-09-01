@@ -86,10 +86,9 @@ object ListeningScenes {
         val id = when {
             p.contains("whatsapp") || p.contains("telegram") || p.contains("signal") -> "call"
             p.contains("libby") || p.contains("overdrive") -> "audiobook"
-            p.contains("hbo") || p.contains("max.com") || p.contains("wbd.") -> "film"
+            p.contains("hbo") || p.contains("wbd") -> "film"
             p.contains("tiktok") || p.contains("instagram") || p.contains("snapchat") -> "party"
-            p.contains("twitch") || p.contains("kick.tv") -> "game"
-            p.contains("tidal") || p.contains("deezer") || p.contains("soundcloud") -> null.also { }
+            p.contains("twitch") -> "game"
             p.contains("discord") || p.contains("teams") || p.contains("zoom") ||
                 p.contains("meet") || p.contains("slack") -> "voicechat"
             p.contains("dialer") || p.contains("telecom") || p.contains("incallui") -> "call"
@@ -116,6 +115,6 @@ object ListeningScenes {
             blob.contains("vinyl") || blob.contains("analog") -> "vinyl"
             else -> return null
         }
-        return id?.let { byId(it) }
+        return byId(id)
     }
 }
