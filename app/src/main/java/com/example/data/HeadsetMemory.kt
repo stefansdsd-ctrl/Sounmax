@@ -25,6 +25,19 @@ class HeadsetMemory(context: Context) {
             .apply()
     }
 
+    fun saveScene(headsetName: String?, sceneId: String?) {
+        if (!enabled) return
+        val key = normalize(headsetName) ?: return
+        val id = sceneId?.takeIf { it.isNotBlank() } ?: return
+        prefs.edit().putString("$key.scene", id).apply()
+    }
+
+    fun loadScene(headsetName: String?): String? {
+        if (!enabled) return null
+        val key = normalize(headsetName) ?: return null
+        return prefs.getString("$key.scene", null)
+    }
+
     fun load(headsetName: String?): EqPreset? {
         if (!enabled) return null
         val key = normalize(headsetName) ?: return null
