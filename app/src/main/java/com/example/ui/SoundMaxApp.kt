@@ -141,6 +141,7 @@ fun SoundMaxApp(
                 .background(ImmersiveBackground)
         ) {
             ListeningScenesBar(sceneController = sceneController)
+            GattInsightBar(sceneController = sceneController)
             FindHeadsetBar(viewModel = viewModel)
             FavoritesBar(viewModel = viewModel)
             BackupBar(viewModel = viewModel)
