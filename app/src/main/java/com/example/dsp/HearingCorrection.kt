@@ -6,10 +6,13 @@ import com.example.data.SoundMaxDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+enum class HearingEar { BOTH, LEFT, RIGHT }
+
 object HearingCorrection {
-    const val PREFS = "soundmax_wellness"
+    private const val PREFS = "soundmax_wellness"
     const val KEY_AUTO = "auto_hearing"
     const val KEY_PENDING = "pending_hearing_apply"
+    const val KEY_EAR = "hearing_ear"
 
     fun enabled(context: Context): Boolean =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_AUTO, true)
@@ -17,6 +20,15 @@ object HearingCorrection {
     fun setEnabled(context: Context, on: Boolean) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit().putBoolean(KEY_AUTO, on).apply()
+    }
+
+    fun savedEar(context: Context): HearingEar =
+        runCatching { HearingEar.valueOf(context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_EAR, HearingEar.BOTH.name)!!) }
+            .getOrDefault(HearingEar.BOTH)
+
+    fun setEar(context: Context, ear: HearingEar) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putString(KEY_EAR, ear.name).apply()
     }
 
     fun markPending(context: Context) {
@@ -31,43 +43,58 @@ object HearingCorrection {
         return pending
     }
 
-    fun toPreset(profile: HearingProfileEntity): Pair<EqPreset, Int> {
+    fun toPreset(profile: HearingProfileEntity, ear: HearingEar = HearingEar.BOTH): Pair<EqPreset, Int> {
         val leftGains = profile.leftGains.split(",").mapNotNull { it.toFloatOrNull() }
         val rightGains = profile.rightGains.split(",").mapNotNull { it.toFloatOrNull() }
-        fun avg(i: Int): Float {
+        fun pick(i: Int): Float {
             val l = leftGains.getOrElse(i) { 0f }
             val r = rightGains.getOrElse(i) { l }
-            return ((l + r) / 2f).coerceIn(-6f, 8f)
+            val v = when (ear) {
+                HearingEar.LEFT -> l
+                HearingEar.RIGHT -> r
+                HearingEar.BOTH -> (l + r) / 2f
+            }
+            return v.coerceIn(-6f, 8f)
         }
         val tenBands = listOf(
-            avg(0), avg(0), avg(1), avg(2), avg(3),
-            avg(4), avg(5), avg(5), avg(6), avg(6)
+            pick(0), pick(0), pick(1), pick(2), pick(3),
+            pick(4), pick(5), pick(5), pick(6), pick(6)
         )
         val imbalance = run {
             val l = leftGains.average().takeIf { !it.isNaN() } ?: 0.0
             val r = rightGains.average().takeIf { !it.isNaN() } ?: 0.0
-            ((r - l) * 8).toInt().coerceIn(-20, 20)
+            ((r - l) * 8).toInt().coerceIn(-40, 40)
+        }
+        val balance = when (ear) {
+            HearingEar.LEFT -> -28 + imbalance / 2
+            HearingEar.RIGHT -> 28 + imbalance / 2
+            HearingEar.BOTH -> imbalance
+        }.coerceIn(-80, 80)
+        val label = when (ear) {
+            HearingEar.LEFT -> "L"
+            HearingEar.RIGHT -> "R"
+            HearingEar.BOTH -> "L+R"
         }
         val preset = EqPreset(
-            name = "Gepersonaliseerde Gehoorcompensatie",
+            name = "Gehoor $label",
             bandGains = tenBands,
             bassBoost = 250,
             virtualizer = 200,
             loudness = 200,
             clarity = 4.5f,
             isCustom = true,
-            description = "L+R gemiddelde uit gehoortest, met lichte balanscorrectie."
+            description = "Per-oor correctie ($label) uit gehoortest, balans $balance."
         )
-        return preset to (50 + imbalance)
+        return preset to balance
     }
 
     suspend fun loadLatest(context: Context): HearingProfileEntity? = withContext(Dispatchers.IO) {
         SoundMaxDatabase.getDatabase(context).hearingProfileDao().getLatestOnce()
     }
 
-    fun apply(dsp: AudioDspManager, profile: HearingProfileEntity) {
-        val (preset, balance) = toPreset(profile)
-        if (balance != 50) dsp.setBalance(balance)
+    fun apply(dsp: AudioDspManager, profile: HearingProfileEntity, ear: HearingEar = HearingEar.BOTH) {
+        val (preset, balance) = toPreset(profile, ear)
+        dsp.setBalance(balance)
         dsp.applyPreset(preset)
     }
 }
