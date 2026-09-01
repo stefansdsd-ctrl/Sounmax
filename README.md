@@ -4,6 +4,11 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- EQ A/B: chips **EQ A** / **EQ B** opslaan, **A↔B** wisselen
+- Recente scenes staan vooraan (na favorieten)
+- Scenes Bus, Tram, Deep work, Filmnacht, Spraak
+- Preset **Speech Isolate**
+- App-detectie: WhatsApp, Libby, HBO
 - Adaptive EQ per nummer/genre (chip **Adapt. EQ**); scene-slot blijft leidend
 - Scenes Luisterboek + Nieuws + Audible/Storytel-detectie
 - Gehoorprofiel automatisch na herstart en bij headset-koppeling
@@ -11,8 +16,6 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Loudness auto: extra bas/loudness bij zacht volume (Fletcher-Munson)
 - App-scene-chip: EQ volgt Spotify/podcast/game/call
 - Auto-scene in de auto (BT-naam BMW/Tesla/carkit/…)
-- Scenes Luisterboek + Nieuws
-- Volume-receiver: adaptieve loudness ook op de achtergrond
 - Wear: play/pauze + volume ±
 - Dosis op Wear-status + DSP-notificatie
 - Na 2 uur luisteren: veilig volume automatisch aan
