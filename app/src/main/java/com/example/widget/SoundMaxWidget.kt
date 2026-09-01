@@ -13,6 +13,7 @@ import com.example.MainActivity
 import com.example.R
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.media.SleepFade
 import com.example.media.WeatherAdvisor
 
 class SoundMaxWidget : AppWidgetProvider() {
@@ -108,6 +109,7 @@ class SoundMaxWidget : AppWidgetProvider() {
                 .putInt(KEY_SLEEP_MINUTES, next)
                 .putBoolean("pending_widget_sleep", true)
                 .apply()
+            if (next <= 0) SleepFade.cancel(context) else SleepFade.schedule(context, end)
             DspControlService.start(context)
         }
 
