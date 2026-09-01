@@ -8,6 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import androidx.core.app.NotificationCompat
 import com.example.MainActivity
 import com.example.R
@@ -16,6 +20,8 @@ import com.example.wear.WearBridge
 import com.example.widget.SoundMaxWidget
 
 class DspControlService : Service() {
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -30,6 +36,9 @@ class DspControlService : Service() {
             ACTION_NEXT_SCENE -> SoundMaxWidget.cycleScene(this, +1)
             ACTION_PREV_SCENE -> SoundMaxWidget.cycleScene(this, -1)
             ACTION_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(this)
+            SleepFade.ACTION_FADE -> {
+                scope.launch { SleepFade.run(this@DspControlService) }
+            }
             ACTION_SUGGEST -> SoundMaxWidget.applySuggested(this)
             ACTION_FIND -> FindHeadsetHelper.ping()
             ACTION_STOP -> {
