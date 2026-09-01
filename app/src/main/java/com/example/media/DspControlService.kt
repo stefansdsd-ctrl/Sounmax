@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat
 import com.example.MainActivity
 import com.example.R
 import com.example.dsp.ListeningScenes
+import com.example.dsp.DspHolder
 import com.example.wear.WearBridge
 import com.example.widget.SoundMaxWidget
 
@@ -37,7 +38,7 @@ class DspControlService : Service() {
             ACTION_PREV_SCENE -> SoundMaxWidget.cycleScene(this, -1)
             ACTION_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(this)
             SleepFade.ACTION_FADE -> {
-                scope.launch { SleepFade.run(this@DspControlService) }
+                scope.launch { SleepFade.run(this@DspControlService, DspHolder.instance) }
             }
             ACTION_SUGGEST -> SoundMaxWidget.applySuggested(this)
             ACTION_FIND -> FindHeadsetHelper.ping()
