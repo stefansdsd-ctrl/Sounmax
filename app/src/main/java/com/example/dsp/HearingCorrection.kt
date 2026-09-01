@@ -92,9 +92,25 @@ object HearingCorrection {
         SoundMaxDatabase.getDatabase(context).hearingProfileDao().getLatestOnce()
     }
 
+    fun channelGains(profile: HearingProfileEntity): Pair<List<Float>, List<Float>> {
+        val leftGains = profile.leftGains.split(",").mapNotNull { it.toFloatOrNull() }
+        val rightGains = profile.rightGains.split(",").mapNotNull { it.toFloatOrNull() }
+        fun ten(src: List<Float>): List<Float> {
+            fun p(i: Int) = src.getOrElse(i) { 0f }.coerceIn(-6f, 8f)
+            return listOf(p(0), p(0), p(1), p(2), p(3), p(4), p(5), p(5), p(6), p(6))
+        }
+        return ten(leftGains) to ten(rightGains)
+    }
+
     fun apply(dsp: AudioDspManager, profile: HearingProfileEntity, ear: HearingEar = HearingEar.BOTH) {
         val (preset, balance) = toPreset(profile, ear)
         dsp.setBalance(balance)
         dsp.applyPreset(preset)
+        val (l, r) = channelGains(profile)
+        when (ear) {
+            HearingEar.BOTH -> dsp.applyChannelEq(l, r)
+            HearingEar.LEFT -> dsp.applyChannelEq(l, List(10) { -12f })
+            HearingEar.RIGHT -> dsp.applyChannelEq(List(10) { -12f }, r)
+        }
     }
 }
