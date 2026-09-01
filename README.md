@@ -4,6 +4,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Scenes School, Strand, Ziekenhuis, Station, Kerk
+- Weekend-middag suggereert Strand i.p.v. Film
+- Doordeweeks 14–16 uur: School/studie
+- App-detectie Tidal, Deezer, SoundCloud, Amazon Music, Apple Music
 - Recente scenes (↻) na favorieten, weekend-suggestie via suggestedNow
 - Weekdosis in wellness-balk + 45-min pauze-waarschuwing
 - EQ-ongedaan-maken (chip **EQ ⌫**)
@@ -46,6 +50,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
+- Sleep-timer fade-out naar systeemvolume (nu alleen DSP-loudness)
+- Per-oor EQ vanuit gehoortest L/R
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

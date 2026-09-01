@@ -26,6 +26,7 @@ object ListeningScenes {
         ListeningScene("metro", "Metro", "🚇", "Max ANC in tunnel", "Philips TAH6519 Pro ANC", AncMode.STRONG),
         ListeningScene("rain", "Regen", "🌧️", "Warme mids, ANC tegen straat", "Night Chill & Lo-Fi Relax", AncMode.STRONG),
         ListeningScene("study", "Studie", "📚", "Stem + detail, geen zware bas", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("school", "School", "🎓", "Focus + veilig volume", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("cook", "Koken", "🍳", "Transparantie in de keuken", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("kids", "Kids", "🧒", "Alert + veilig volume", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("party", "Party", "🎉", "Max punch + loudness", "Hip-Hop & Urban R&B", AncMode.OFF),
@@ -42,9 +43,13 @@ object ListeningScenes {
         ListeningScene("cafe", "Café", "☕", "Warme mids, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("shop", "Winkel", "🛍️", "Transparantie in de winkel", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("hike", "Hiken", "🧗", "Windfilter + alert buiten", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
+        ListeningScene("beach", "Strand", "🏖️", "Windfilter + warme mids", "Night Chill & Lo-Fi Relax", AncMode.WIND_GUARD),
+        ListeningScene("hospital", "Ziekenhuis", "🏥", "Fluister + alert + veilig", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("station", "Station", "🚉", "ANC tegen hal, stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("church", "Kerk", "⛪", "Fluister, ruimtelijk, veilig", "Classical & Live Concert 3D", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("shower", "Douche", "🚿", "Punchy bas, ANC tegen water", "Hip-Hop & Urban R&B", AncMode.STRONG),
         ListeningScene("vinyl", "Vinyl", "💿", "Warm, analoge mids", "Vocal & Acoustic Warmth", AncMode.OFF),
-        ListeningScene("jazz", "Jazzclub", "🎷", "Live-ruimte, zachte ANC", "Classical & Live Concert 3D", AncMode.ADAPTIVE),
+        ListeningScene("jazz", "Jazzclub", "🍾", "Live-ruimte, zachte ANC", "Classical & Live Concert 3D", AncMode.ADAPTIVE),
         ListeningScene("museum", "Museum", "🏛️", "Fluister + alert", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("oneear", "Eén oor", "👂", "Mono + veilig, één cup", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true)
     )
@@ -63,7 +68,7 @@ object ListeningScenes {
             return when (hour) {
                 in 0..8 -> ALL.first { it.id == "sleep" }
                 in 9..11 -> ALL.first { it.id == "cafe" }
-                in 12..16 -> ALL.first { it.id == "film" }
+                in 12..16 -> ALL.first { it.id == "beach" }
                 in 17..20 -> ALL.first { it.id == "party" }
                 else -> ALL.first { it.id == "night" }
             }
@@ -72,7 +77,7 @@ object ListeningScenes {
             in 6..8 -> ALL.first { it.id == "commute" }
             in 9..11 -> ALL.first { it.id == "focus" }
             in 12..13 -> ALL.first { it.id == "office" }
-            in 14..16 -> ALL.first { it.id == "study" }
+            in 14..16 -> ALL.first { it.id == "school" }
             in 17..19 -> ALL.first { it.id == "commute" }
             in 20..21 -> ALL.first { it.id == "film" }
             in 22..23 -> ALL.first { it.id == "latework" }
@@ -95,6 +100,9 @@ object ListeningScenes {
             p.contains("podcast") || p.contains("pocketcasts") || p.contains("overcast") ||
                 p.contains("antenna") -> "podcast"
             p.contains("audible") || p.contains("storytel") || p.contains("scribd") -> "audiobook"
+            p.contains("tidal") || p.contains("deezer") || p.contains("soundcloud") ||
+                p.contains("amazon.mp3") || p.contains("music.amazon") ||
+                p.contains("apple.android.music") -> "party"
             p.contains("netflix") || p.contains("disney") || p.contains("primevideo") ||
                 p.contains("videolan") || p.contains("mxplayer") || p.contains("jellyfin") ||
                 p.contains("npo") || p.contains("vrt") -> "film"
