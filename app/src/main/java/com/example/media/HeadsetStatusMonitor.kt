@@ -15,6 +15,8 @@ import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import com.example.ble.DiscoveryLogItem
+import com.example.ble.ServiceDiscoveryMapper
 import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +28,11 @@ data class HeadsetStatus(
     val batteryPercent: Int? = null,
     val wired: Boolean = false,
     val rssiDbm: Int? = null,
-    val rssiLiveGatt: Boolean = false
+    val rssiLiveGatt: Boolean = false,
+    val gattReady: Boolean = false,
+    val knownServices: Int = 0,
+    val unknownServices: Int = 0,
+    val discoveryLogs: List<DiscoveryLogItem> = emptyList()
 )
 
 class HeadsetStatusMonitor(
@@ -40,13 +46,11 @@ class HeadsetStatusMonitor(
     private var gatt: BluetoothGatt? = null
     private var gattAddress: String? = null
     private var lowBatteryWarned = false
+    private val mapper = ServiceDiscoveryMapper()
 
     private val pollRssi = object : Runnable {
         override fun run() {
-            try {
-                gatt?.readRemoteRssi()
-            } catch (_: Exception) {
-            }
+            try { gatt?.readRemoteRssi() } catch (_: Exception) {}
             handler.postDelayed(this, 8_000L)
         }
     }
@@ -54,15 +58,24 @@ class HeadsetStatusMonitor(
     private val gattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(g: BluetoothGatt, status: Int, newState: Int) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                try {
-                    g.readRemoteRssi()
-                } catch (_: Exception) {
-                }
+                try { g.discoverServices() } catch (_: Exception) {}
+                try { g.readRemoteRssi() } catch (_: Exception) {}
                 handler.removeCallbacks(pollRssi)
                 handler.postDelayed(pollRssi, 8_000L)
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 handler.removeCallbacks(pollRssi)
             }
+        }
+
+        override fun onServicesDiscovered(g: BluetoothGatt, status: Int) {
+            if (status != BluetoothGatt.GATT_SUCCESS) return
+            val mapped = mapper.map(g)
+            _status.value = _status.value.copy(
+                gattReady = true,
+                knownServices = mapped.knownServices.size,
+                unknownServices = mapped.unknownServices.size,
+                discoveryLogs = mapped.logs.take(12)
+            )
         }
 
         override fun onReadRemoteRssi(g: BluetoothGatt, rssi: Int, status: Int) {
@@ -123,10 +136,7 @@ class HeadsetStatusMonitor(
         try {
             context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
         } catch (_: Exception) {
-            try {
-                context.registerReceiver(receiver, filter)
-            } catch (_: Exception) {
-            }
+            try { context.registerReceiver(receiver, filter) } catch (_: Exception) {}
         }
         HeadsetLocator.load(context)
         refresh()
@@ -135,10 +145,7 @@ class HeadsetStatusMonitor(
     fun stop() {
         handler.removeCallbacks(pollRssi)
         closeGatt()
-        try {
-            context.unregisterReceiver(receiver)
-        } catch (_: Exception) {
-        }
+        try { context.unregisterReceiver(receiver) } catch (_: Exception) {}
     }
 
     @SuppressLint("MissingPermission")
@@ -147,16 +154,12 @@ class HeadsetStatusMonitor(
         val wired = am.isWiredHeadsetOn
         val btAudio = am.isBluetoothA2dpOn || am.isBluetoothScoOn
         val device = firstConnectedA2dp()
-        val name = try {
-            device?.name
-        } catch (_: SecurityException) {
-            null
-        }
+        val name = try { device?.name } catch (_: SecurityException) { null }
         val battery = device?.let { readBattery(it) }?.takeIf { it in 0..100 }
         if (device != null) attachGatt(device)
         val rssi = _status.value.rssiDbm ?: device?.let { tryReadRssi(it) }
         if (rssi != null) onRssi(rssi)
-        _status.value = HeadsetStatus(
+        _status.value = _status.value.copy(
             connected = wired || btAudio || device != null,
             name = name,
             batteryPercent = battery,
@@ -198,14 +201,8 @@ class HeadsetStatusMonitor(
     @SuppressLint("MissingPermission")
     private fun closeGatt() {
         handler.removeCallbacks(pollRssi)
-        try {
-            gatt?.disconnect()
-        } catch (_: Exception) {
-        }
-        try {
-            gatt?.close()
-        } catch (_: Exception) {
-        }
+        try { gatt?.disconnect() } catch (_: Exception) {}
+        try { gatt?.close() } catch (_: Exception) {}
         gatt = null
         gattAddress = null
     }
@@ -218,8 +215,7 @@ class HeadsetStatusMonitor(
                 .putInt(SoundMaxWidget.KEY_BATTERY, battery ?: -1)
                 .apply()
             SoundMaxWidget.refreshAll(context)
-        } catch (_: Exception) {
-        }
+        } catch (_: Exception) {}
     }
 
     @SuppressLint("MissingPermission")
@@ -257,8 +253,7 @@ class HeadsetStatusMonitor(
                     is Int -> if (value in -120..0) return value
                     is Short -> if (value.toInt() in -120..0) return value.toInt()
                 }
-            } catch (_: Exception) {
-            }
+            } catch (_: Exception) {}
         }
         return _status.value.rssiDbm
     }
