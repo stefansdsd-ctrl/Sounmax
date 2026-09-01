@@ -51,7 +51,9 @@ fun ListeningScenesBar(
     val sceneLocked by sceneController.sceneLocked.collectAsStateWithLifecycle()
     val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
     val doseMin by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
+    val weekMin by sceneController.listeningMinutesWeek.collectAsStateWithLifecycle()
     val favorites by sceneController.favoriteIds.collectAsStateWithLifecycle()
+    val recents by sceneController.recentIds.collectAsStateWithLifecycle()
     val crossfeed by sceneController.crossfeedEnabled.collectAsStateWithLifecycle()
     val eqLocked by sceneController.eqLocked.collectAsStateWithLifecycle()
     val monoMix by sceneController.monoMix.collectAsStateWithLifecycle()
@@ -89,8 +91,9 @@ fun ListeningScenesBar(
                 text = (headset?.let { "BT · ${it.take(18)}  ·  " } ?: "") +
                     (weatherLabel?.let { "$it  ·  " } ?: "") +
                     (adaptiveEqLabel?.let { "EQ·$it  ·  " } ?: "") +
-                    "Vandaag ${doseMin} min" + if (doseMin >= 120) " ⚠" else "",
-                color = if (doseMin >= 120) ImmersiveLavenderAccent else ImmersiveTextSecondary,
+                    "Vandaag ${doseMin} min · week ${weekMin / 60}u${weekMin % 60}m" +
+                    if (doseMin >= 45) " ⚠" else "",
+                color = if (doseMin >= 45) ImmersiveLavenderAccent else ImmersiveTextSecondary,
                 fontSize = 11.sp
             )
         }
@@ -102,6 +105,7 @@ fun ListeningScenesBar(
             items(scenes, key = { it.id }) { scene ->
                 val selected = activeSceneId == scene.id
                 val pinned = scene.id in favorites
+                val recent = scene.id in recents
                 Column(
                     modifier = Modifier
                         .clip(RoundedCornerShape(14.dp))
@@ -119,7 +123,7 @@ fun ListeningScenesBar(
                         .testTag("scene_" + scene.id)
                 ) {
                     Text(
-                        (if (pinned) "★ " else "") + scene.emoji + "  " + scene.name,
+                        (if (pinned) "★ " else if (recent) "↻ " else "") + scene.emoji + "  " + scene.name,
                         color = ImmersiveTextPrimary,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold
@@ -245,7 +249,7 @@ fun ListeningScenesBar(
                 FilterChip(
                     selected = activeSceneId == "rest",
                     onClick = { ListeningScenes.byId("rest")?.let { sceneController.applyListeningScene(it) } },
-                    label = { Text("Oor-pauze", fontSize = 11.sp) },
+                    label = { Text(if (doseMin >= 45) "Oor-pauze 45m" else "Oor-pauze", fontSize = 11.sp) },
                     colors = chipColors,
                     modifier = Modifier.testTag("ear_rest_chip")
                 )
