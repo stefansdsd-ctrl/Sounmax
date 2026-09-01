@@ -106,11 +106,13 @@ object HearingCorrection {
         val (preset, balance) = toPreset(profile, ear)
         dsp.setBalance(balance)
         dsp.applyPreset(preset)
+        StereoDynamics.init()
         val (l, r) = channelGains(profile)
+        val mute = List(10) { -12f }
         when (ear) {
-            HearingEar.BOTH -> dsp.applyChannelEq(l, r)
-            HearingEar.LEFT -> dsp.applyChannelEq(l, List(10) { -12f })
-            HearingEar.RIGHT -> dsp.applyChannelEq(List(10) { -12f }, r)
+            HearingEar.BOTH -> StereoDynamics.applyBands(l, r)
+            HearingEar.LEFT -> StereoDynamics.applyBands(l, mute)
+            HearingEar.RIGHT -> StereoDynamics.applyBands(mute, r)
         }
     }
 }
