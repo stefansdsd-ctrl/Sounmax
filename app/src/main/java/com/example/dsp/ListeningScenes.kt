@@ -21,6 +21,9 @@ object ListeningScenes {
         ListeningScene("call", "Omgeving", "🗣️", "Transparantie / stemmen", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("plane", "Vliegtuig", "✈️", "Max ANC + veilige loudness", "Philips TAH6519 Pro ANC", AncMode.STRONG, safeVolume = true),
         ListeningScene("train", "Trein", "🚃", "ANC tegen rails + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("bus", "Bus", "🚌", "ANC tegen motor + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("tram", "Tram", "🚊", "ANC tegen piep + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("metro", "Metro", "🚇", "Max ANC in tunnel", "Philips TAH6519 Pro ANC", AncMode.STRONG),
         ListeningScene("rain", "Regen", "🌧️", "Warme mids, ANC tegen straat", "Night Chill & Lo-Fi Relax", AncMode.STRONG),
         ListeningScene("study", "Studie", "📚", "Stem + detail, geen zware bas", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("cook", "Koken", "🍳", "Transparantie in de keuken", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
@@ -37,6 +40,7 @@ object ListeningScenes {
         ListeningScene("concert", "Concert", "🎤", "Live-ruimte + punch", "Classical & Live Concert 3D", AncMode.ADAPTIVE),
         ListeningScene("asmr", "ASMR", "🫧", "Zacht, detail, veilig", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("cafe", "Café", "☕", "Warme mids, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("shop", "Winkel", "🛍️", "Transparantie in de winkel", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("hike", "Hiken", "🧗", "Windfilter + alert buiten", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
         ListeningScene("shower", "Douche", "🚿", "Punchy bas, ANC tegen water", "Hip-Hop & Urban R&B", AncMode.STRONG),
         ListeningScene("vinyl", "Vinyl", "💿", "Warm, analoge mids", "Vocal & Acoustic Warmth", AncMode.OFF),
@@ -80,6 +84,12 @@ object ListeningScenes {
         val p = packageName.lowercase()
         val blob = "$genre $title".lowercase()
         val id = when {
+            p.contains("whatsapp") || p.contains("telegram") || p.contains("signal") -> "call"
+            p.contains("libby") || p.contains("overdrive") -> "audiobook"
+            p.contains("hbo") || p.contains("max.com") || p.contains("wbd.") -> "film"
+            p.contains("tiktok") || p.contains("instagram") || p.contains("snapchat") -> "party"
+            p.contains("twitch") || p.contains("kick.tv") -> "game"
+            p.contains("tidal") || p.contains("deezer") || p.contains("soundcloud") -> null.also { }
             p.contains("discord") || p.contains("teams") || p.contains("zoom") ||
                 p.contains("meet") || p.contains("slack") -> "voicechat"
             p.contains("dialer") || p.contains("telecom") || p.contains("incallui") -> "call"
@@ -87,7 +97,8 @@ object ListeningScenes {
                 p.contains("antenna") -> "podcast"
             p.contains("audible") || p.contains("storytel") || p.contains("scribd") -> "audiobook"
             p.contains("netflix") || p.contains("disney") || p.contains("primevideo") ||
-                p.contains("videolan") || p.contains("mxplayer") || p.contains("jellyfin") -> "film"
+                p.contains("videolan") || p.contains("mxplayer") || p.contains("jellyfin") ||
+                p.contains("npo") || p.contains("vrt") -> "film"
             p.contains("youtube") && !p.contains("music") -> "film"
             p.contains("pubg") || p.contains("codm") || p.contains("genshin") ||
                 p.contains("roblox") || p.contains("fortnite") || p.contains("minecraft") -> "fps"
@@ -105,6 +116,6 @@ object ListeningScenes {
             blob.contains("vinyl") || blob.contains("analog") -> "vinyl"
             else -> return null
         }
-        return byId(id)
+        return id?.let { byId(it) }
     }
 }
