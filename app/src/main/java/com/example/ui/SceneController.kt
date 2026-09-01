@@ -64,6 +64,12 @@ class SceneController(private val viewModel: MainViewModel) {
     private val _listeningMinutesToday = MutableStateFlow(prefs.getInt(todayKey(), 0))
     val listeningMinutesToday: StateFlow<Int> = _listeningMinutesToday.asStateFlow()
 
+    private val _listeningMinutesWeek = MutableStateFlow(weekDoseMinutes())
+    val listeningMinutesWeek: StateFlow<Int> = _listeningMinutesWeek.asStateFlow()
+
+    private val _recentIds = MutableStateFlow(loadRecentIds())
+    val recentIds: StateFlow<List<String>> = _recentIds.asStateFlow()
+
     private val _autoSceneEnabled = MutableStateFlow(prefs.getBoolean("auto_scene", true))
     val autoSceneEnabled: StateFlow<Boolean> = _autoSceneEnabled.asStateFlow()
 
@@ -83,7 +89,7 @@ class SceneController(private val viewModel: MainViewModel) {
     )
     val headsetStatus = headsetMonitor.status
 
-    private val _suggestedScene = MutableStateFlow(ListeningScenes.suggestedForHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)))
+    private val _suggestedScene = MutableStateFlow(ListeningScenes.suggestedNow())
     val suggestedScene: StateFlow<ListeningScene> = _suggestedScene.asStateFlow()
 
     private val _weatherEnabled = MutableStateFlow(WeatherAdvisor.enabled(app))
@@ -196,6 +202,7 @@ class SceneController(private val viewModel: MainViewModel) {
             last != null && !_autoSceneEnabled.value -> applyListeningScene(last, silent = true)
             _autoSceneEnabled.value -> applyListeningScene(_suggestedScene.value, silent = true)
         }
+        _listeningMinutesWeek.value = weekDoseMinutes()
     }
 
     fun applyListeningScene(scene: ListeningScene, silent: Boolean = false) {
@@ -205,6 +212,7 @@ class SceneController(private val viewModel: MainViewModel) {
             setSafeVolume(scene.safeVolume)
             _activeSceneId.value = scene.id
             prefs.edit().putString("last_scene_id", scene.id).putString("last_anc", scene.ancMode.name).apply()
+            rememberRecent(scene.id)
             if (!silent) Toast.makeText(app, "Scene ${scene.name} (EQ vergrendeld)", Toast.LENGTH_SHORT).show()
             return
         }
@@ -216,6 +224,7 @@ class SceneController(private val viewModel: MainViewModel) {
         setSafeVolume(scene.safeVolume)
         _activeSceneId.value = scene.id
         prefs.edit().putString("last_scene_id", scene.id).putString("last_anc", scene.ancMode.name).apply()
+        rememberRecent(scene.id)
         if (_crossfeedEnabled.value) applyCrossfeedInternal(true)
         lastAdaptiveOffsets = null
         lastAdaptiveBass = 0
@@ -235,7 +244,12 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun orderedScenes(): List<ListeningScene> {
         val favs = _favoriteIds.value
-        return ListeningScenes.ALL.sortedByDescending { it.id in favs }
+        val recents = _recentIds.value
+        return ListeningScenes.ALL.sortedWith(
+            compareByDescending<ListeningScene> { it.id in favs }
+                .thenBy { val i = recents.indexOf(it.id); if (i < 0) Int.MAX_VALUE else i }
+                .thenBy { it.name }
+        )
     }
 
     fun setSceneLocked(locked: Boolean) {
@@ -279,7 +293,7 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun refreshSuggestedScene(applyIfAuto: Boolean = false) {
         scope.launch {
-            val base = ListeningScenes.suggestedForHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
+            val base = ListeningScenes.suggestedNow()
             val scene = withContext(Dispatchers.IO) { WeatherAdvisor.suggest(app, base) }
             _suggestedScene.value = scene
             _weatherLabel.value = WeatherAdvisor.lastLabel(app)
@@ -585,6 +599,10 @@ class SceneController(private val viewModel: MainViewModel) {
                     val next = prefs.getInt(key, 0) + 1
                     prefs.edit().putInt(key, next).apply()
                     _listeningMinutesToday.value = next
+                    _listeningMinutesWeek.value = weekDoseMinutes()
+                    if (next == 45) {
+                        Toast.makeText(app, "45 min luisteren — 5 min pauze beschermt je gehoor.", Toast.LENGTH_LONG).show()
+                    }
                     if (next == 60 || next == 180) {
                         Toast.makeText(app, "Pauze: ${next} min luisteren. 5 min stilte is beter voor je oren.", Toast.LENGTH_LONG).show()
                     }
@@ -604,5 +622,28 @@ class SceneController(private val viewModel: MainViewModel) {
     private fun todayKey(): String {
         val cal = Calendar.getInstance()
         return "dose_${cal.get(Calendar.YEAR)}_${cal.get(Calendar.DAY_OF_YEAR)}"
+    }
+
+    private fun weekDoseMinutes(): Int {
+        val cal = Calendar.getInstance()
+        var total = 0
+        repeat(7) {
+            total += prefs.getInt("dose_${cal.get(Calendar.YEAR)}_${cal.get(Calendar.DAY_OF_YEAR)}", 0)
+            cal.add(Calendar.DAY_OF_YEAR, -1)
+        }
+        return total
+    }
+
+    private fun loadRecentIds(): List<String> =
+        prefs.getString("recent_scenes", "")
+            ?.split(",")
+            ?.map { it.trim() }
+            ?.filter { it.isNotEmpty() }
+            ?: emptyList()
+
+    private fun rememberRecent(id: String) {
+        val next = (listOf(id) + _recentIds.value.filter { it != id }).take(8)
+        _recentIds.value = next
+        prefs.edit().putString("recent_scenes", next.joinToString(",")).apply()
     }
 }
