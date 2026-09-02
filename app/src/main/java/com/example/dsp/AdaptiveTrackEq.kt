@@ -23,7 +23,11 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("urban", offs(2.5f, 2f, 1f, 0f, -0.5f, -0.5f, 0f, 0.5f, 1f, 0.5f), 80, 0.2f)
             containsAny(blob, "drum and bass", "liquid funk", "jungle") ->
                 AdaptiveEqHint("dnb", offs(2.4f, 2.0f, 0.4f, -0.8f, -1.0f, 0.2f, 0.8f, 1.6f, 2.0f, 1.8f), 80, 0.5f)
-            containsAny(blob, "edm", "electro", "techno", "house", "trance", "dnb") ->
+            containsAny(blob, "uk garage", "2-step", "ukg", "speed garage") ->
+                AdaptiveEqHint("ukg", offs(1.8f, 1.4f, 0.4f, -0.4f, 0.2f, 0.6f, 1.0f, 1.2f, 1.0f, 0.4f), 50, 0.5f)
+            containsAny(blob, "trance", "progressive house", "uplifting") ->
+                AdaptiveEqHint("trance", offs(1.2f, 0.8f, 0.2f, -0.4f, 0.2f, 0.8f, 1.4f, 1.8f, 2.0f, 1.6f), 30, 0.6f)
+            containsAny(blob, "edm", "electro", "techno", "house", "dnb") ->
                 AdaptiveEqHint("edm", offs(2f, 1.5f, 0.5f, -0.5f, -1f, 0f, 0.5f, 1f, 1.5f, 2f), 60, 0.4f)
             containsAny(blob, "gabber", "happy hardcore", "uptempo") ->
                 AdaptiveEqHint("gabber", offs(2.6f, 2.2f, 0.4f, -0.8f, -1.2f, 0.4f, 1.0f, 1.6f, 2.2f, 2.4f), 90, 0.6f)
@@ -45,7 +49,7 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("klassiek", offs(-1.5f, -1f, -0.5f, 0f, 0.5f, 1f, 1.5f, 1.5f, 2f, 1.5f), -40, 0.8f)
             containsAny(blob, "jazz", "blues", "soul") ->
                 AdaptiveEqHint("jazz", offs(0.5f, 0.5f, 0.5f, 1f, 1.5f, 1f, 0.5f, 0.5f, 0f, -0.5f), 10, 0.3f)
-            containsAny(blob, "lofi", "lo-fi", "chill", "ambient", "sleep") ->
+            containsAny(blob, "lofi", "lo-fi", "chill", "ambient", "sleep", "nature") ->
                 AdaptiveEqHint("chill", offs(1f, 0.5f, 0.5f, 0.5f, 0f, 0f, -0.5f, -1f, -1.5f, -2f), 20, -0.2f)
             containsAny(blob, "k-pop", "kpop", "j-pop", "jpop") ->
                 AdaptiveEqHint("kpop", offs(1f, 0.6f, 0.2f, -0.2f, 0.4f, 0.8f, 1.2f, 1.4f, 1.2f, 0.6f), 20, 0.5f)

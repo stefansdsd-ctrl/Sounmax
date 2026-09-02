@@ -64,7 +64,24 @@ object ListeningScenes {
         ListeningScene("nederhop", "Nederhop", "🇳🇱", "Bas + stemhelder NL-rap", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
         ListeningScene("lofistudy", "Lo-fi study", "🌙", "Zacht hoog, veilig", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("synthwave", "Synthwave", "🌆", "Warm laag + glanzend hoog", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE),
-        ListeningScene("hyperpop", "Hyperpop", "⚡", "Helder hoog + punch", "Electronic & Festival EDM", AncMode.OFF)
+        ListeningScene("hyperpop", "Hyperpop", "⚡", "Helder hoog + punch", "Electronic & Festival EDM", AncMode.OFF),
+        ListeningScene("hardstyle", "Hardstyle", "💥", "Kick punch + glitter hoog", "Electronic & Festival EDM", AncMode.ADAPTIVE),
+        ListeningScene("gabber", "Gabber", "⚡", "Harde kick + windfilter", "Electronic & Festival EDM", AncMode.WIND_GUARD),
+        ListeningScene("phonk", "Phonk", "🚗", "Dikke bas + cowbell", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
+        ListeningScene("kpop", "K-pop", "🇰🇷", "Helder vocaal + punch", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("afrobeat", "Afrobeat", "🌞", "Groove + warme mids", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
+        ListeningScene("nederpop", "Nederpop", "🎤", "Stem voorop, zachte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("reggae", "Reggae", "🌴", "Warm laag + offbeat", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("latin", "Latin", "💃", "Percussie + warme stem", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("anime", "Anime", "✨", "Helder hoog + filmruimte", "Classical & Live Concert 3D", AncMode.ADAPTIVE),
+        ListeningScene("country", "Country", "🎮", "Akoestisch + warme mids", "Vocal & Acoustic Warmth", AncMode.OFF),
+        ListeningScene("gospel", "Gospel", "🙏", "Koorhelder + veilig", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("boombap", "Boom bap", "🫂", "Knappe kick + vocaal", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
+        ListeningScene("metalcore", "Metalcore", "⚡", "Gitaar + kick punch", "Rock & Metal Punch", AncMode.ADAPTIVE),
+        ListeningScene("drill", "Drill", "🔫", "808 + stemhelder", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
+        ListeningScene("trance", "Trance", "✨", "Breed stereo + glitter hoog", "Electronic & Festival EDM", AncMode.ADAPTIVE),
+        ListeningScene("ukg", "UK garage", "🇬🇧", "Shuffle-kick + vocaal", "Electronic & Festival EDM", AncMode.ADAPTIVE),
+        ListeningScene("nature", "Natuur", "🌲", "Zacht, alert buiten", "Night Chill & Lo-Fi Relax", AncMode.WIND_GUARD, safeVolume = true)
     )
 
     val GROUPS: List<Pair<String, Set<String>>> = listOf(
@@ -73,9 +90,15 @@ object ListeningScenes {
         "Onderweg" to setOf("commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk", "station", "airport"),
         "Werk" to setOf("focus", "deepwork", "office", "latework", "wfh", "meeting", "school", "study", "library"),
         "Sport" to setOf("sport", "gym", "hiit", "hike", "beach"),
-        "Media" to setOf("film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic", "lofistudy", "concert"),
+        "Media" to setOf("film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic", "lofistudy", "concert", "anime"),
+        "Genre" to setOf(
+            "classic", "dnb", "nederhop", "lofistudy", "synthwave", "hyperpop",
+            "hardstyle", "gabber", "phonk", "kpop", "afrobeat", "nederpop",
+            "reggae", "latin", "anime", "country", "gospel", "boombap", "metalcore",
+            "drill", "trance", "ukg", "jazz", "vinyl"
+        ),
         "Game" to setOf("game", "fps", "voicechat"),
-        "Nacht" to setOf("night", "sleep", "rest", "meditate", "asmr", "latework")
+        "Nacht" to setOf("night", "sleep", "rest", "meditate", "asmr", "latework", "nature")
     )
 
     fun byId(id: String?): ListeningScene? = ALL.firstOrNull { it.id == id }
@@ -101,7 +124,7 @@ object ListeningScenes {
             return when (hour) {
                 in 0..8 -> ALL.first { it.id == "sleep" }
                 in 9..11 -> ALL.first { it.id == "cafe" }
-                in 12..16 -> ALL.first { it.id == "beach" }
+                in 12..16 -> ALL.first { it.id == "nature" }
                 in 17..20 -> ALL.first { it.id == "party" }
                 in 21..22 -> ALL.first { it.id == "meditate" }
                 else -> ALL.first { it.id == "night" }
@@ -123,6 +146,7 @@ object ListeningScenes {
     fun fromNowPlaying(packageName: String, genre: String, title: String): ListeningScene? {
         val p = packageName.lowercase()
         val blob = "$genre $title".lowercase()
+        fromMusicBlob(blob)?.let { return it }
         val id = when {
             p.contains("whatsapp") || p.contains("telegram") || p.contains("signal") -> "call"
             p.contains("libby") || p.contains("overdrive") || p.contains("kindle") -> "audiobook"
@@ -153,19 +177,6 @@ object ListeningScenes {
             blob.contains("nieuws") || blob.contains("news bulletin") || blob.contains("journaal") -> "news"
             blob.contains("podcast") || blob.contains("speech") || blob.contains("interview") -> "podcast"
             blob.contains("asmr") -> "asmr"
-            blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
-            blob.contains("edm") || blob.contains("electro") || blob.contains("techno") || blob.contains("house") -> "gym"
-            blob.contains("classic") || blob.contains("orchestra") -> "classic"
-            blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "lofistudy"
-            blob.contains("drum and bass") || blob.contains("dnb") || blob.contains("jungle") -> "dnb"
-            blob.contains("nederhop") || blob.contains("nl rap") -> "nederhop"
-            blob.contains("synthwave") || blob.contains("retrowave") -> "synthwave"
-            blob.contains("hyperpop") -> "hyperpop"
-            blob.contains("rock") || blob.contains("metal") -> "game"
-            blob.contains("pop") -> "party"
-            blob.contains("jazz") || blob.contains("blues") -> "jazz"
-            blob.contains("vinyl") || blob.contains("analog") -> "vinyl"
-            blob.contains("meditat") || blob.contains("yoga") || blob.contains("mindful") -> "meditate"
             else -> return null
         }
         return byId(id)
@@ -176,17 +187,33 @@ object ListeningScenes {
             blob.contains("podcast") || blob.contains("speech") || blob.contains("interview") -> "podcast"
             blob.contains("luisterboek") || blob.contains("audiobook") -> "audiobook"
             blob.contains("asmr") -> "asmr"
-            blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "night"
+            blob.contains("hardstyle") || blob.contains("rawstyle") || blob.contains("frenchcore") -> "hardstyle"
+            blob.contains("gabber") || blob.contains("uptempo") || blob.contains("happy hardcore") -> "gabber"
+            blob.contains("phonk") -> "phonk"
+            blob.contains("k-pop") || blob.contains("kpop") -> "kpop"
+            blob.contains("afrobeat") || blob.contains("amapiano") || blob.contains("afrobeats") -> "afrobeat"
+            blob.contains("nederpop") || blob.contains("smartlap") -> "nederpop"
+            blob.contains("nederhop") || blob.contains("nl rap") -> "nederhop"
+            blob.contains("drum and bass") || blob.contains("dnb") || blob.contains("jungle") -> "dnb"
+            blob.contains("synthwave") || blob.contains("retrowave") || blob.contains("outrun") -> "synthwave"
+            blob.contains("hyperpop") || blob.contains("glitchcore") -> "hyperpop"
+            blob.contains("uk garage") || blob.contains("2-step") || blob.contains("ukg") -> "ukg"
+            blob.contains("trance") || blob.contains("progressive house") -> "trance"
+            blob.contains("boom bap") || blob.contains("boombap") -> "boombap"
+            blob.contains("metalcore") || blob.contains("deathcore") -> "metalcore"
+            blob.contains("drill") || blob.contains("grime") -> "drill"
+            blob.contains("reggae") || blob.contains("dancehall") || blob.contains("ska") -> "reggae"
+            blob.contains("latin") || blob.contains("salsa") || blob.contains("bachata") || blob.contains("reggaeton") -> "latin"
+            blob.contains("anime") || blob.contains("j-pop") || blob.contains("jpop") -> "anime"
+            blob.contains("country") || blob.contains("americana") -> "country"
+            blob.contains("gospel") || blob.contains("choir") || blob.contains("koor") -> "gospel"
+            blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "lofistudy"
             blob.contains("classic") || blob.contains("orchestra") -> "classic"
             blob.contains("jazz") || blob.contains("blues") -> "jazz"
-            blob.contains("drum and bass") || blob.contains("dnb") || blob.contains("jungle") -> "dnb"
-            blob.contains("nederhop") || blob.contains("nl rap") -> "nederhop"
-            blob.contains("synthwave") || blob.contains("retrowave") -> "synthwave"
-            blob.contains("hyperpop") -> "hyperpop"
             blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
             blob.contains("edm") || blob.contains("electro") || blob.contains("techno") || blob.contains("house") -> "gym"
             blob.contains("rock") || blob.contains("metal") -> "game"
-            blob.contains("meditat") || blob.contains("yoga") -> "meditate"
+            blob.contains("meditat") || blob.contains("yoga") || blob.contains("nature sound") -> "nature"
             else -> return null
         }
         return byId(id)
