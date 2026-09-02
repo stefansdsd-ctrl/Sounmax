@@ -21,6 +21,8 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("asmr", offs(-3f, -2.5f, -1.5f, -0.5f, 0.5f, 1f, 1.5f, 2f, 1.5f, 0.5f), -120, 0.8f)
             containsAny(blob, "hip hop", "hip-hop", "rap", "r&b", "rnb", "trap") ->
                 AdaptiveEqHint("urban", offs(2.5f, 2f, 1f, 0f, -0.5f, -0.5f, 0f, 0.5f, 1f, 0.5f), 80, 0.2f)
+            containsAny(blob, "drum and bass", "liquid funk", "jungle") ->
+                AdaptiveEqHint("dnb", offs(2.4f, 2.0f, 0.4f, -0.8f, -1.0f, 0.2f, 0.8f, 1.6f, 2.0f, 1.8f), 80, 0.5f)
             containsAny(blob, "edm", "electro", "techno", "house", "trance", "dnb") ->
                 AdaptiveEqHint("edm", offs(2f, 1.5f, 0.5f, -0.5f, -1f, 0f, 0.5f, 1f, 1.5f, 2f), 60, 0.4f)
             containsAny(blob, "gabber", "happy hardcore", "uptempo") ->
@@ -35,6 +37,8 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("gospel", offs(-0.5f, -0.2f, 0.2f, 0.8f, 1.4f, 1.6f, 1.4f, 1.0f, 0.6f, 0.2f), -20, 0.7f)
             containsAny(blob, "voetbal", "eredivisie", "commentaar", "commentary", "football", "soccer") ->
                 AdaptiveEqHint("commentaar", offs(-2.0f, -1.6f, -1.0f, 0.2f, 1.4f, 2.2f, 2.4f, 1.6f, 0.4f, -0.8f), -70, 1.3f)
+            containsAny(blob, "metalcore", "deathcore", "post-hardcore") ->
+                AdaptiveEqHint("metalcore", offs(0.8f, 0.6f, 0.2f, 0.8f, 1.4f, 1.8f, 1.6f, 1.2f, 0.6f, 0.2f), 30, 0.7f)
             containsAny(blob, "metal", "rock", "punk") ->
                 AdaptiveEqHint("rock", offs(0.5f, 0.5f, 0f, 0.5f, 1f, 1.5f, 1.5f, 1f, 0.5f, 0f), 20, 0.6f)
             containsAny(blob, "classic", "orchestra", "symphony", "piano", "opera") ->
@@ -47,7 +51,9 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("kpop", offs(1f, 0.6f, 0.2f, -0.2f, 0.4f, 0.8f, 1.2f, 1.4f, 1.2f, 0.6f), 20, 0.5f)
             containsAny(blob, "afrobeat", "afrobeats", "amapiano", "reggaeton") ->
                 AdaptiveEqHint("afro", offs(2.2f, 1.8f, 0.8f, 0f, -0.3f, 0.2f, 0.6f, 0.8f, 1f, 0.4f), 70, 0.3f)
-            containsAny(blob, "nederpop", "nederlandstalig", "smartlap", "nederhop") ->
+            containsAny(blob, "nederhop", "nederlandstalig rap", "nl rap") ->
+                AdaptiveEqHint("nederhop", offs(2.2f, 1.8f, 0.6f, -0.2f, 0.2f, 0.8f, 1.4f, 1.2f, 0.6f, 0.2f), 70, 0.5f)
+            containsAny(blob, "nederpop", "nederlandstalig", "smartlap") ->
                 AdaptiveEqHint("nl-pop", offs(0.8f, 0.6f, 0.3f, 0.2f, 0.4f, 0.8f, 1.2f, 1f, 0.6f, 0.2f), 10, 0.6f)
             containsAny(blob, "drill", "grime", "uk rap") ->
                 AdaptiveEqHint("drill", offs(2.0f, 1.6f, 0.6f, -0.2f, -0.4f, 0.2f, 0.8f, 1.0f, 0.6f, 0.2f), 70, 0.3f)
