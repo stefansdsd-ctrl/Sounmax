@@ -4,11 +4,13 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
-- Fletcher–Munson loudness-contour (meer bas/lucht bij zacht volume)
+- Scenes: Deep work, HIIT, Live sport
+- Weekdosis (WHO-achtige pauzes bij 10 uur/week)
+- Accu ≤20%: automatisch LDAC 330 kbps (verbinding sparen)
+- Fletcher–Munson loudness-contour
 - Echte crossfeed + safe limiter via DynamicsProcessing
 - Spraak-boost op podcast/call/kantoor-scenes
 - Scene één oor schakelt nu echte mono
-- Scenes: Deep work, HIIT, Live sport
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
