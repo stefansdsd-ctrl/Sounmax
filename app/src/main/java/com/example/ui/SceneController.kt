@@ -14,6 +14,7 @@ import com.example.data.SoundMaxDatabase
 import com.example.dsp.AdaptiveTrackEq
 import com.example.dsp.AncMode
 import com.example.dsp.BuiltinPresets
+import com.example.dsp.LdacQualityMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.example.media.HeadsetStatusMonitor
@@ -58,6 +59,8 @@ class SceneController(private val viewModel: MainViewModel) {
     val sleepTimerMinutes: StateFlow<Int> = _sleepTimerMinutes.asStateFlow()
     private val _listeningMinutesToday = MutableStateFlow(prefs.getInt(todayKey(), 0))
     val listeningMinutesToday: StateFlow<Int> = _listeningMinutesToday.asStateFlow()
+    private val _listeningMinutesWeek = MutableStateFlow(prefs.getInt(weekKey(), 0))
+    val listeningMinutesWeek: StateFlow<Int> = _listeningMinutesWeek.asStateFlow()
     private val _autoSceneEnabled = MutableStateFlow(prefs.getBoolean("auto_scene", true))
     val autoSceneEnabled: StateFlow<Boolean> = _autoSceneEnabled.asStateFlow()
     private val _sceneLocked = MutableStateFlow(prefs.getBoolean("scene_locked", false))
@@ -168,6 +171,7 @@ class SceneController(private val viewModel: MainViewModel) {
             _activeSceneId.value = scene.id
             prefs.edit().putString("last_scene_id", scene.id).putString("last_anc", scene.ancMode.name).apply()
             if (!silent) Toast.makeText(app, "Scene ${scene.name} (EQ vergrendeld)", Toast.LENGTH_SHORT).show()
+            maybeSaveBatteryLdac()
             return
         }
         val preset = BuiltinPresets.PRESETS.firstOrNull { it.name == scene.presetName } ?: BuiltinPresets.PRESETS.last()
@@ -180,6 +184,12 @@ class SceneController(private val viewModel: MainViewModel) {
         if (_crossfeedEnabled.value) applyCrossfeedInternal(true)
         lastAdaptiveOffsets = null; lastAdaptiveBass = 0; lastAdaptiveClarity = 0f; lastAdaptiveKey = null
         if (!silent) Toast.makeText(app, "Scene: ${scene.name}", Toast.LENGTH_SHORT).show()
+        maybeSaveBatteryLdac()
+    }
+
+    private fun maybeSaveBatteryLdac() {
+        val bat = headsetStatus.value.batteryPercent ?: return
+        if (bat <= 20) viewModel.dspManager.forceLdacCodec(LdacQualityMode.CONNECTION_330)
     }
 
     fun toggleFavorite(sceneId: String) {
@@ -253,7 +263,7 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun refreshSuggestedScene(applyIfAuto: Boolean = false) {
         scope.launch {
-            val base = ListeningScenes.suggestedNow(_listeningMinutesToday.value)
+            val base = ListeningScenes.suggestedNow(_listeningMinutesWeek.value)
             val scene = withContext(Dispatchers.IO) { WeatherAdvisor.suggest(app, base) }
             _suggestedScene.value = scene
             _weatherLabel.value = WeatherAdvisor.lastLabel(app)
@@ -486,9 +496,11 @@ class SceneController(private val viewModel: MainViewModel) {
                 if (viewModel.dspManager.isDspEnabled.value) {
                     val key = todayKey()
                     val next = prefs.getInt(key, 0) + 1
-                    prefs.edit().putInt(key, next).apply()
+                    val weekNext = prefs.getInt(weekKey(), 0) + 1
+                    prefs.edit().putInt(key, next).putInt(weekKey(), weekNext).apply()
                     _listeningMinutesToday.value = next
-                    if (next == 180 && !_sceneLocked.value) {
+                    _listeningMinutesWeek.value = weekNext
+                    if ((next == 180 || weekNext == 600) && !_sceneLocked.value) {
                         ListeningScenes.byId("rest")?.let { applyListeningScene(it, silent = true) }
                     }
                     applyNightGuardIfNeeded()
@@ -500,5 +512,10 @@ class SceneController(private val viewModel: MainViewModel) {
     private fun todayKey(): String {
         val cal = Calendar.getInstance()
         return "dose_${cal.get(Calendar.YEAR)}_${cal.get(Calendar.DAY_OF_YEAR)}"
+    }
+
+    private fun weekKey(): String {
+        val cal = Calendar.getInstance()
+        return "dose_week_${cal.get(Calendar.YEAR)}_${cal.get(Calendar.WEEK_OF_YEAR)}"
     }
 }
