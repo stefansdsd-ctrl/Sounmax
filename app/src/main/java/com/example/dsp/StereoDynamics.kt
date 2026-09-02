@@ -60,7 +60,48 @@ object StereoDynamics {
         }
     }
 
-    /** Spraakverstaan: +3 dB rond 1–4 kHz + zachte limiter. */
+    fun crossfeed(on: Boolean) {
+        if (Build.VERSION.SDK_INT < 28) return
+        val dp = engine ?: return
+        if (!available) return
+        try {
+            val offsets = if (on) {
+                listOf(1.5f, 1.2f, 0.8f, 0.4f, 0.2f, 0f, -0.4f, -0.8f, -1.2f, -1.6f)
+            } else List(FREQS.size) { 0f }
+            applyBands(offsets, offsets)
+            for (ch in 0..1) {
+                val lim = DynamicsProcessing.Limiter(
+                    true, true, 0,
+                    1f, 40f, 8f,
+                    if (on) -2f else 0f,
+                    if (on) 0.8f else 0f
+                )
+                dp.setLimiterByChannelIndex(ch, lim)
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "crossfeed: ${e.message}")
+        }
+    }
+
+    fun safeLimiter(on: Boolean) {
+        if (Build.VERSION.SDK_INT < 28) return
+        val dp = engine ?: return
+        if (!available) return
+        try {
+            for (ch in 0..1) {
+                val lim = DynamicsProcessing.Limiter(
+                    true, true, 0,
+                    1f, 50f, 8f,
+                    if (on) -6f else 0f,
+                    if (on) 2f else 0f
+                )
+                dp.setLimiterByChannelIndex(ch, lim)
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "safeLimiter: ${e.message}")
+        }
+    }
+
     fun speechBoost(on: Boolean) {
         if (Build.VERSION.SDK_INT < 28) return
         val dp = engine ?: return
