@@ -23,8 +23,18 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("urban", offs(2.5f, 2f, 1f, 0f, -0.5f, -0.5f, 0f, 0.5f, 1f, 0.5f), 80, 0.2f)
             containsAny(blob, "edm", "electro", "techno", "house", "trance", "dnb") ->
                 AdaptiveEqHint("edm", offs(2f, 1.5f, 0.5f, -0.5f, -1f, 0f, 0.5f, 1f, 1.5f, 2f), 60, 0.4f)
+            containsAny(blob, "gabber", "happy hardcore", "uptempo") ->
+                AdaptiveEqHint("gabber", offs(2.6f, 2.2f, 0.4f, -0.8f, -1.2f, 0.4f, 1.0f, 1.6f, 2.2f, 2.4f), 90, 0.6f)
             containsAny(blob, "hardstyle", "rawstyle", "frenchcore", "hardcore") ->
                 AdaptiveEqHint("hardstyle", offs(2.4f, 2.0f, 0.6f, -0.6f, -1.0f, 0.2f, 0.8f, 1.4f, 2.0f, 2.2f), 80, 0.5f)
+            containsAny(blob, "phonk", "drift phonk") ->
+                AdaptiveEqHint("phonk", offs(2.8f, 2.2f, 0.8f, -0.4f, -0.8f, 0.2f, 0.6f, 1.2f, 1.6f, 1.0f), 100, 0.2f)
+            containsAny(blob, "country", "folk", "americana") ->
+                AdaptiveEqHint("country", offs(0.4f, 0.4f, 0.6f, 0.8f, 1.0f, 0.8f, 0.6f, 0.4f, 0.2f, -0.2f), 10, 0.4f)
+            containsAny(blob, "gospel", "koor", "choir") ->
+                AdaptiveEqHint("gospel", offs(-0.5f, -0.2f, 0.2f, 0.8f, 1.4f, 1.6f, 1.4f, 1.0f, 0.6f, 0.2f), -20, 0.7f)
+            containsAny(blob, "voetbal", "eredivisie", "commentaar", "commentary", "football", "soccer") ->
+                AdaptiveEqHint("commentaar", offs(-2.0f, -1.6f, -1.0f, 0.2f, 1.4f, 2.2f, 2.4f, 1.6f, 0.4f, -0.8f), -70, 1.3f)
             containsAny(blob, "metal", "rock", "punk") ->
                 AdaptiveEqHint("rock", offs(0.5f, 0.5f, 0f, 0.5f, 1f, 1.5f, 1.5f, 1f, 0.5f, 0f), 20, 0.6f)
             containsAny(blob, "classic", "orchestra", "symphony", "piano", "opera") ->

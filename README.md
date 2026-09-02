@@ -17,9 +17,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Pauze BT: muziek pauzeert bij disconnect, speelt door bij reconnect
 - Adaptive EQ: K-pop, afrobeat/amapiano, nederpop
 - Software-ANC gekoppeld aan setAncMode + bass-offset + persist
+- Auto-transparantie bij beltoon/gesprek (AudioManager-mode)
+- Adaptive EQ: gabber, phonk, country, gospel, voetbal-commentaar
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
+- Toggle voor call-transparantie in de UI
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
