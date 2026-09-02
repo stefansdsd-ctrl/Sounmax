@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.media.CallTransparencyGuard
 import com.example.media.DspControlService
 import com.example.media.VolumeSceneCycler
 import com.example.ui.MainViewModel
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         handleSceneIntent(intent)
         DspControlService.start(this)
+        CallTransparencyGuard.attach(this)
         val wellness = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         volumeCycler = VolumeSceneCycler(this) {
             SoundMaxWidget.cycleScene(this, +1)

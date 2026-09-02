@@ -26,6 +26,16 @@ class DspControlService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    override fun onCreate() {
+        super.onCreate()
+        CallTransparencyGuard.attach(this)
+    }
+
+    override fun onDestroy() {
+        CallTransparencyGuard.detach(this)
+        super.onDestroy()
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         val wellness = getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
