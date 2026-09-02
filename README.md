@@ -19,10 +19,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Software-ANC gekoppeld aan setAncMode + bass-offset + persist
 - Auto-transparantie bij beltoon/gesprek (AudioManager-mode)
 - Adaptive EQ: gabber, phonk, country, gospel, voetbal-commentaar
+- Pendelen: ANC max + LDAC 660 + veilige limiter (accu ≤20% blijft 330 kbps)
+- Chip Call-transparantie (aan/uit) in luister-scenes
+- Trein/bus/tram/metro: LDAC 660 voor stabiele verbinding
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
-- Toggle voor call-transparantie in de UI
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
