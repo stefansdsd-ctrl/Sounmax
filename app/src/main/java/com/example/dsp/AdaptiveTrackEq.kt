@@ -63,6 +63,12 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("latin", offs(1.2f, 1.0f, 0.4f, 0.2f, 0.6f, 0.8f, 1.0f, 0.8f, 0.4f, 0.2f), 30, 0.4f)
             containsAny(blob, "anime", "ost", "j-rock") ->
                 AdaptiveEqHint("anime", offs(0.8f, 0.6f, 0.2f, 0.0f, 0.4f, 0.8f, 1.2f, 1.4f, 1.2f, 0.6f), 20, 0.5f)
+            containsAny(blob, "synthwave", "retrowave", "outrun") ->
+                AdaptiveEqHint("synthwave", offs(1.6f, 1.2f, 0.4f, -0.2f, 0.2f, 0.6f, 1.0f, 1.4f, 1.6f, 1.0f), 40, 0.4f)
+            containsAny(blob, "hyperpop", "glitchcore") ->
+                AdaptiveEqHint("hyperpop", offs(0.4f, 0.2f, -0.4f, -0.2f, 0.6f, 1.2f, 1.8f, 2.2f, 2.0f, 1.4f), 20, 0.8f)
+            containsAny(blob, "boom bap", "boombap") ->
+                AdaptiveEqHint("boom-bap", offs(1.6f, 1.4f, 0.8f, 0.2f, 0.4f, 0.8f, 1.0f, 0.6f, 0.2f, -0.2f), 50, 0.4f)
             containsAny(blob, "pop", "dance", "disco") ->
                 AdaptiveEqHint("pop", offs(1.2f, 0.8f, 0.2f, -0.3f, 0f, 0.4f, 0.8f, 1f, 1.2f, 0.8f), 30, 0.3f)
             containsAny(blob, "film", "score", "soundtrack", "ost") ->
