@@ -49,6 +49,7 @@ fun ListeningScenesBar(
     val locked by sceneController.sceneLocked.collectAsStateWithLifecycle()
     val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
     val dose by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
+    val weekDose by sceneController.listeningMinutesWeek.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     val scenes = remember(query) { sceneController.filteredScenes(query) }
 
@@ -57,7 +58,7 @@ fun ListeningScenesBar(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Luister-scenes · ${dose} min vandaag · tip ${suggested.emoji} ${suggested.name}",
+            text = "Luister-scenes · ${dose} min vandaag · ${weekDose} min deze week · tip ${suggested.emoji} ${suggested.name}",
             color = ImmersiveTextSecondary,
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold

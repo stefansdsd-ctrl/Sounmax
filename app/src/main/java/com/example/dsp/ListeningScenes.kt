@@ -8,6 +8,9 @@ object ListeningScenes {
         ListeningScene("sport", "Sport", "🏃", "Punchy bas, windfilter", "Hip-Hop & Urban R&B", AncMode.WIND_GUARD),
         ListeningScene("gym", "Gym", "💪", "Strakke kick + ANC", "Electronic & Festival EDM", AncMode.STRONG),
         ListeningScene("focus", "Focus", "🎧", "Vlak + zachte loudness", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE),
+        ListeningScene("deepwork", "Deep work", "🧠", "Lange focus, vlak + veilig", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
+        ListeningScene("hiit", "HIIT", "🔥", "Max punch + windfilter", "Electronic & Festival EDM", AncMode.WIND_GUARD),
+        ListeningScene("livesport", "Live sport", "🏟️", "Commentaar helder + ANC", "Vocal & Acoustic Warmth", AncMode.STRONG),
         ListeningScene("office", "Kantoor", "🏢", "Spraakhelder, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("night", "Nacht", "🌃", "Zacht hoog, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("film", "Film", "🎬", "Breed stereo, diepe bas", "Classical & Live Concert 3D", AncMode.STRONG),
@@ -129,6 +132,7 @@ object ListeningScenes {
             p.contains("pubg") || p.contains("codm") || p.contains("genshin") ||
                 p.contains("roblox") || p.contains("fortnite") || p.contains("minecraft") -> "fps"
             blob.contains("luisterboek") || blob.contains("audiobook") || blob.contains("hoorspel") -> "audiobook"
+            blob.contains("wedstrijd") || blob.contains("eredivisie") || blob.contains("champions league") || blob.contains("live sport") -> "livesport"
             blob.contains("nieuws") || blob.contains("news bulletin") || blob.contains("journaal") -> "news"
             blob.contains("podcast") || blob.contains("speech") || blob.contains("interview") -> "podcast"
             blob.contains("asmr") -> "asmr"
