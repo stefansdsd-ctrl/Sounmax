@@ -4,7 +4,7 @@ import java.util.Calendar
 
 object ListeningScenes {
     val ALL = listOf(
-        ListeningScene("commute", "Pendelen", "🚃", "Maximale ANC + heldere stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("commute", "Pendelen", "🚃", "Maximale ANC + heldere stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = com.example.dsp.LdacQualityMode.BALANCED_660),
         ListeningScene("sport", "Sport", "🏃", "Punchy bas, windfilter", "Hip-Hop & Urban R&B", AncMode.WIND_GUARD),
         ListeningScene("gym", "Gym", "💪", "Strakke kick + ANC", "Electronic & Festival EDM", AncMode.STRONG),
         ListeningScene("focus", "Focus", "🎧", "Vlak + zachte loudness", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE),
@@ -23,10 +23,10 @@ object ListeningScenes {
         ListeningScene("news", "Nieuws", "📰", "Spraak-EQ, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("call", "Omgeving", "🗣️", "Transparantie / stemmen", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("plane", "Vliegtuig", "✈️", "Max ANC + veilige loudness", "Philips TAH6519 Pro ANC", AncMode.STRONG, safeVolume = true),
-        ListeningScene("train", "Trein", "🚃", "ANC tegen rails + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
-        ListeningScene("bus", "Bus", "🚌", "ANC tegen motor + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
-        ListeningScene("tram", "Tram", "🚊", "ANC tegen piep + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
-        ListeningScene("metro", "Metro", "🚇", "Max ANC in tunnel", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("train", "Trein", "🚃", "ANC tegen rails + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = com.example.dsp.LdacQualityMode.BALANCED_660),
+        ListeningScene("bus", "Bus", "🚌", "ANC tegen motor + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = com.example.dsp.LdacQualityMode.BALANCED_660),
+        ListeningScene("tram", "Tram", "🚊", "ANC tegen piep + stemmen", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = com.example.dsp.LdacQualityMode.BALANCED_660),
+        ListeningScene("metro", "Metro", "🚇", "Max ANC in tunnel", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = com.example.dsp.LdacQualityMode.BALANCED_660),
         ListeningScene("rain", "Regen", "🌧️", "Warme mids, ANC tegen straat", "Night Chill & Lo-Fi Relax", AncMode.STRONG),
         ListeningScene("study", "Studie", "📚", "Stem + detail, geen zware bas", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("school", "School", "🎓", "Focus + veilig volume", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
@@ -58,7 +58,24 @@ object ListeningScenes {
         ListeningScene("meditate", "Meditatie", "🧘", "Zacht, ruimtelijk, veilig", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("restaurant", "Restaurant", "🍽️", "Transparantie + warme stemmen", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
         ListeningScene("airport", "Luchthaven", "🛫", "Max ANC tegen hallen", "Philips TAH6519 Pro ANC", AncMode.STRONG, safeVolume = true),
-        ListeningScene("cinema", "Bioscoop", "🍿", "Breed stereo, diepe bas", "Classical & Live Concert 3D", AncMode.STRONG)
+        ListeningScene("cinema", "Bioscoop", "🍿", "Breed stereo, diepe bas", "Classical & Live Concert 3D", AncMode.STRONG),
+        ListeningScene("classic", "Klassiek", "🎻", "Ruimtelijk, veilig volume", "Classical & Live Concert 3D", AncMode.ADAPTIVE, safeVolume = true),
+        ListeningScene("dnb", "Drum & Bass", "🥁", "Kick + hi-hat punch", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
+        ListeningScene("nederhop", "Nederhop", "🇳🇱", "Bas + stemhelder NL-rap", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
+        ListeningScene("lofistudy", "Lo-fi study", "🌙", "Zacht hoog, veilig", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
+        ListeningScene("synthwave", "Synthwave", "🌆", "Warm laag + glanzend hoog", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE),
+        ListeningScene("hyperpop", "Hyperpop", "⚡", "Helder hoog + punch", "Electronic & Festival EDM", AncMode.OFF)
+    )
+
+    val GROUPS: List<Pair<String, Set<String>>> = listOf(
+        "Alles" to emptySet(),
+        "Favorieten" to emptySet(),
+        "Onderweg" to setOf("commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk", "station", "airport"),
+        "Werk" to setOf("focus", "deepwork", "office", "latework", "wfh", "meeting", "school", "study", "library"),
+        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach"),
+        "Media" to setOf("film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic", "lofistudy", "concert"),
+        "Game" to setOf("game", "fps", "voicechat"),
+        "Nacht" to setOf("night", "sleep", "rest", "meditate", "asmr", "latework")
     )
 
     fun byId(id: String?): ListeningScene? = ALL.firstOrNull { it.id == id }
@@ -138,8 +155,12 @@ object ListeningScenes {
             blob.contains("asmr") -> "asmr"
             blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
             blob.contains("edm") || blob.contains("electro") || blob.contains("techno") || blob.contains("house") -> "gym"
-            blob.contains("classic") || blob.contains("orchestra") -> "focus"
-            blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "night"
+            blob.contains("classic") || blob.contains("orchestra") -> "classic"
+            blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "lofistudy"
+            blob.contains("drum and bass") || blob.contains("dnb") || blob.contains("jungle") -> "dnb"
+            blob.contains("nederhop") || blob.contains("nl rap") -> "nederhop"
+            blob.contains("synthwave") || blob.contains("retrowave") -> "synthwave"
+            blob.contains("hyperpop") -> "hyperpop"
             blob.contains("rock") || blob.contains("metal") -> "game"
             blob.contains("pop") -> "party"
             blob.contains("jazz") || blob.contains("blues") -> "jazz"
@@ -156,8 +177,12 @@ object ListeningScenes {
             blob.contains("luisterboek") || blob.contains("audiobook") -> "audiobook"
             blob.contains("asmr") -> "asmr"
             blob.contains("lofi") || blob.contains("chill") || blob.contains("ambient") -> "night"
-            blob.contains("classic") || blob.contains("orchestra") -> "focus"
+            blob.contains("classic") || blob.contains("orchestra") -> "classic"
             blob.contains("jazz") || blob.contains("blues") -> "jazz"
+            blob.contains("drum and bass") || blob.contains("dnb") || blob.contains("jungle") -> "dnb"
+            blob.contains("nederhop") || blob.contains("nl rap") -> "nederhop"
+            blob.contains("synthwave") || blob.contains("retrowave") -> "synthwave"
+            blob.contains("hyperpop") -> "hyperpop"
             blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
             blob.contains("edm") || blob.contains("electro") || blob.contains("techno") || blob.contains("house") -> "gym"
             blob.contains("rock") || blob.contains("metal") -> "game"
