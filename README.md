@@ -11,6 +11,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Echte crossfeed + safe limiter via DynamicsProcessing
 - Spraak-boost op podcast/call/kantoor-scenes
 - Scene één oor schakelt nu echte mono
+- Pauze BT: muziek pauzeert bij disconnect, speelt door bij reconnect
+- Adaptive EQ: K-pop, afrobeat/amapiano, nederpop
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)

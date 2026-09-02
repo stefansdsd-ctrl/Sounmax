@@ -5,10 +5,21 @@ import android.media.AudioManager
 import android.view.KeyEvent
 
 object MediaRemote {
+    fun isMusicActive(context: Context): Boolean {
+        val am = context.getSystemService(AudioManager::class.java) ?: return false
+        return am.isMusicActive
+    }
+
     fun pause(context: Context) {
         val am = context.getSystemService(AudioManager::class.java) ?: return
         am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE))
         am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PAUSE))
+    }
+
+    fun play(context: Context) {
+        val am = context.getSystemService(AudioManager::class.java) ?: return
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY))
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY))
     }
 
     fun playPause(context: Context) {
