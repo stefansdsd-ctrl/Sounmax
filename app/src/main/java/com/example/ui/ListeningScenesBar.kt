@@ -50,6 +50,7 @@ fun ListeningScenesBar(
     val suggested by sceneController.suggestedScene.collectAsStateWithLifecycle()
     val dose by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
     val weekDose by sceneController.listeningMinutesWeek.collectAsStateWithLifecycle()
+    val callTransparency by sceneController.callTransparency.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     val scenes = remember(query) { sceneController.filteredScenes(query) }
 
@@ -104,6 +105,13 @@ fun ListeningScenesBar(
                 label = { Text("Veilig volume", fontSize = 11.sp) },
                 colors = chipColors(),
                 modifier = Modifier.testTag("safe_volume_chip")
+            )
+            FilterChip(
+                selected = callTransparency,
+                onClick = { sceneController.setCallTransparency(!callTransparency) },
+                label = { Text("Call-transparantie", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("call_transparency_chip")
             )
             listOf(15, 30, 45, 60).forEach { mins ->
                 FilterChip(
