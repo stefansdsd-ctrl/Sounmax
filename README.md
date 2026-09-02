@@ -4,13 +4,11 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
-- Genre-groep + scenes: Hardstyle, Gabber, Phonk, K-pop, Afrobeat, Nederpop, Reggae, Latin, Anime, Country, Gospel, Boom bap, Metalcore, Drill, Trance, UK garage, Natuur
-- Auto-scene herkent die genres nu éérst uit titel/genre
-- Adaptive EQ: UK garage + trance
-- Recente scenes + groep Genre
-- preferredLdac + één-oor-mono bij scene-wissel
-- Call-transparantie + dosiswaarschuwing
-- Software-ANC tot GATT-dump
+- SceneController hersteld (scenes, lock, sleep-timer, GATT-dump delen)
+- Accubesparing bij lage headset-accu + scene Saver
+- Extra scenes: House, Techno, Dubstep, Ambient
+- GATT: LE Audio / Hearing Access + vendor-FE hint
+- Adaptive EQ: house / techno / dubstep
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
