@@ -31,6 +31,12 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("jazz", offs(0.5f, 0.5f, 0.5f, 1f, 1.5f, 1f, 0.5f, 0.5f, 0f, -0.5f), 10, 0.3f)
             containsAny(blob, "lofi", "lo-fi", "chill", "ambient", "sleep") ->
                 AdaptiveEqHint("chill", offs(1f, 0.5f, 0.5f, 0.5f, 0f, 0f, -0.5f, -1f, -1.5f, -2f), 20, -0.2f)
+            containsAny(blob, "k-pop", "kpop", "j-pop", "jpop") ->
+                AdaptiveEqHint("kpop", offs(1f, 0.6f, 0.2f, -0.2f, 0.4f, 0.8f, 1.2f, 1.4f, 1.2f, 0.6f), 20, 0.5f)
+            containsAny(blob, "afrobeat", "afrobeats", "amapiano", "reggaeton") ->
+                AdaptiveEqHint("afro", offs(2.2f, 1.8f, 0.8f, 0f, -0.3f, 0.2f, 0.6f, 0.8f, 1f, 0.4f), 70, 0.3f)
+            containsAny(blob, "nederpop", "nederlandstalig", "smartlap") ->
+                AdaptiveEqHint("nl-pop", offs(0.8f, 0.6f, 0.3f, 0.2f, 0.4f, 0.8f, 1.2f, 1f, 0.6f, 0.2f), 10, 0.6f)
             containsAny(blob, "pop", "dance", "disco") ->
                 AdaptiveEqHint("pop", offs(1.2f, 0.8f, 0.2f, -0.3f, 0f, 0.4f, 0.8f, 1f, 1.2f, 0.8f), 30, 0.3f)
             containsAny(blob, "film", "score", "soundtrack", "ost") ->
