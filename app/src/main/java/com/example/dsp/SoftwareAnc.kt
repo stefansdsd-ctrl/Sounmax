@@ -51,5 +51,13 @@ object SoftwareAnc {
         )
     }
 
+    fun apply(mode: AncMode) {
+        val profile = profile(mode)
+        StereoDynamics.init()
+        StereoDynamics.applyBands(profile.offsetsDb, profile.offsetsDb)
+        StereoDynamics.speechBoost(profile.speechBoost)
+        StereoDynamics.safeLimiter(profile.limiter)
+    }
+
     private fun offs(vararg v: Float): List<Float> = v.toList()
 }
