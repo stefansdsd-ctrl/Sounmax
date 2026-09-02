@@ -55,6 +55,7 @@ fun ListeningScenesBar(
     val doseWarning by sceneController.doseWarning.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     val scenes = remember(query, sceneGroup) { sceneController.filteredScenes(query, sceneGroup) }
+    val recents = remember(activeSceneId) { sceneController.recentScenes() }
 
     Column(
         modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
@@ -77,6 +78,14 @@ fun ListeningScenesBar(
                     label = { Text(label, fontSize = 11.sp) },
                     colors = chipColors()
                 )
+            }
+        }
+        if (recents.isNotEmpty() && query.isBlank() && sceneGroup == "Alles") {
+            Text("Recent", color = ImmersiveTextSecondary, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(recents, key = { "r_" + it.id }) { scene ->
+                    SceneChip(scene, activeSceneId == scene.id) { sceneController.applyListeningScene(scene) }
+                }
             }
         }
         OutlinedTextField(
