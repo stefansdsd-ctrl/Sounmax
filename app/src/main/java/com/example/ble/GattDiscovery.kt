@@ -31,8 +31,13 @@ object BleUuids {
     val HEARING_AID: UUID = UUID.fromString("0000184e-0000-1000-8000-00805f9b34fb")
     val AUDIO_INPUT_CONTROL: UUID = UUID.fromString("00001844-0000-1000-8000-00805f9b34fb")
     val VOLUME_CONTROL: UUID = UUID.fromString("00001844-0000-1000-8000-00805f9b34fb")
+    val AUDIO_STREAM_CONTROL: UUID = UUID.fromString("0000184e-0000-1000-8000-00805f9b34fb")
+    val MICROPHONE_CONTROL: UUID = UUID.fromString("0000184d-0000-1000-8000-00805f9b34fb")
     val PUBLISHED_AUDIO_CAP: UUID = UUID.fromString("00001850-0000-1000-8000-00805f9b34fb")
     val COORDINATED_SET: UUID = UUID.fromString("00001846-0000-1000-8000-00805f9b34fb")
+    val COMMON_AUDIO: UUID = UUID.fromString("00001853-0000-1000-8000-00805f9b34fb")
+    val HEARING_ACCESS: UUID = UUID.fromString("00001854-0000-1000-8000-00805f9b34fb")
+    val TELEPHONY_MEDIA_AUDIO: UUID = UUID.fromString("00001855-0000-1000-8000-00805f9b34fb")
 }
 
 class ServiceDiscoveryMapper {
@@ -42,9 +47,13 @@ class ServiceDiscoveryMapper {
         BleUuids.GENERIC_ACCESS to "Generic Access",
         BleUuids.GENERIC_ATTRIBUTE to "Generic Attribute",
         BleUuids.HEARING_AID to "Hearing Aid",
-        BleUuids.AUDIO_INPUT_CONTROL to "Audio Input Control",
+        BleUuids.AUDIO_INPUT_CONTROL to "Audio Input Control / Volume",
+        BleUuids.MICROPHONE_CONTROL to "Microphone Control",
         BleUuids.PUBLISHED_AUDIO_CAP to "Published Audio Capabilities",
-        BleUuids.COORDINATED_SET to "Coordinated Set"
+        BleUuids.COORDINATED_SET to "Coordinated Set",
+        BleUuids.COMMON_AUDIO to "Common Audio",
+        BleUuids.HEARING_ACCESS to "Hearing Access",
+        BleUuids.TELEPHONY_MEDIA_AUDIO to "Telephony & Media Audio"
     )
 
     fun map(gatt: BluetoothGatt): ServiceDiscoveryResult {
@@ -52,7 +61,7 @@ class ServiceDiscoveryMapper {
         val unknownList = mutableListOf<BluetoothGattService>()
         val logs = mutableListOf<DiscoveryLogItem>()
         gatt.services.orEmpty().forEach { service ->
-            val label = known[service.uuid]
+            val label = known[service.uuid] ?: guessVendor(service.uuid)
             if (label != null) {
                 knownList += service
                 logs += DiscoveryLogItem(label, "${service.uuid} · ${service.characteristics.size} char")
@@ -65,6 +74,16 @@ class ServiceDiscoveryMapper {
             }
         }
         return ServiceDiscoveryResult(knownList, unknownList, logs)
+    }
+
+    private fun guessVendor(uuid: UUID): String? {
+        val s = uuid.toString().lowercase()
+        return when {
+            s.startsWith("0000fe") -> "Vendor (Philips/Sound-FE)"
+            s.startsWith("0000fd") -> "Vendor (FD-custom)"
+            s.contains("0000180f") -> "Battery"
+            else -> null
+        }
     }
 }
 
