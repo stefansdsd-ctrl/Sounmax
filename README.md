@@ -16,6 +16,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Scene één oor schakelt nu echte mono
 - Pauze BT: muziek pauzeert bij disconnect, speelt door bij reconnect
 - Adaptive EQ: K-pop, afrobeat/amapiano, nederpop
+- Software-ANC gekoppeld aan setAncMode + bass-offset + persist
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
