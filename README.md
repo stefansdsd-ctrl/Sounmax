@@ -32,6 +32,11 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Adaptive EQ: drum & bass, nederhop, metalcore
 - Scenes: Klassiek, Drum & Bass, Nederhop, Lo-fi study
 - Call-transparantie-chip gekoppeld aan CallTransparencyGuard
+- Scene-groepen API + zoekfilter per groep
+- Dose-warning in UI (2u / 80% week)
+- Scenes: Synthwave, Hyperpop
+- Adaptive EQ: synthwave, hyperpop, boom bap
+- preferredLdac 660 + one-ear mono in applyListeningScene
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
