@@ -100,6 +100,8 @@ class SounmaxTileService : TileService() {
             .addContent(Spacer.Builder().setHeight(dp(4f)).build())
             .addContent(actionChip("Volgende scene", WearPaths.CMD_NEXT_SCENE, params))
             .addContent(Spacer.Builder().setHeight(dp(4f)).build())
+            .addContent(actionChip("Play / pauze", WearPaths.CMD_PLAY_PAUSE, params))
+            .addContent(Spacer.Builder().setHeight(dp(4f)).build())
             .addContent(actionChip(sleep, WearPaths.CMD_CYCLE_SLEEP, params))
             .build()
     }
