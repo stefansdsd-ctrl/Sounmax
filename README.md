@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Software-ANC (max/adaptief/transparantie/wind) via DSP tot GATT-dump
+- Adaptive EQ: hardstyle, drill, nederhop
+- Auto-scene: K-pop, afrobeat, nederpop, hardstyle
 - Scenes: Deep work, HIIT, Live sport
 - Weekdosis (WHO-achtige pauzes bij 10 uur/week)
 - Accu ≤20%: automatisch LDAC 330 kbps (verbinding sparen)
