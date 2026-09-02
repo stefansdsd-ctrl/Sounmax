@@ -101,5 +101,6 @@ data class ListeningScene(
     val presetName: String,
     val ancMode: AncMode,
     val safeVolume: Boolean = false,
-    val preferredCodec: BluetoothCodec? = null
+    val preferredCodec: BluetoothCodec? = null,
+    val preferredLdac: LdacQualityMode? = null
 )
