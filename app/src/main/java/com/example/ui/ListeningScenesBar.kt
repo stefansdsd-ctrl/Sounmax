@@ -51,8 +51,10 @@ fun ListeningScenesBar(
     val dose by sceneController.listeningMinutesToday.collectAsStateWithLifecycle()
     val weekDose by sceneController.listeningMinutesWeek.collectAsStateWithLifecycle()
     val callTransparency by sceneController.callTransparency.collectAsStateWithLifecycle()
+    val sceneGroup by sceneController.sceneGroup.collectAsStateWithLifecycle()
+    val doseWarning by sceneController.doseWarning.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
-    val scenes = remember(query) { sceneController.filteredScenes(query) }
+    val scenes = remember(query, sceneGroup) { sceneController.filteredScenes(query, sceneGroup) }
 
     Column(
         modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
@@ -64,6 +66,19 @@ fun ListeningScenesBar(
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold
         )
+        doseWarning?.let {
+            Text(it, color = ImmersiveLavenderAccent, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+        }
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(com.example.dsp.ListeningScenes.GROUPS, key = { it.first }) { (label, _) ->
+                FilterChip(
+                    selected = sceneGroup == label,
+                    onClick = { sceneController.setSceneGroup(label) },
+                    label = { Text(label, fontSize = 11.sp) },
+                    colors = chipColors()
+                )
+            }
+        }
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
