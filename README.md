@@ -22,6 +22,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Pendelen: ANC max + LDAC 660 + veilige limiter (accu ≤20% blijft 330 kbps)
 - Chip Call-transparantie (aan/uit) in luister-scenes
 - Trein/bus/tram/metro: LDAC 660 voor stabiele verbinding
+- Pendelen/trein/bus/tram/metro/vliegtuig/station/luchthaven: preferredLdAC 660 toegepast in SceneController
+- Adaptive EQ: reggae, latin, anime
+- Auto-scene: hardstyle/gabber, K-pop, afrobeat, nederpop, drill/phonk
+- Wear-tile: play/pauze naast ANC + accu
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
