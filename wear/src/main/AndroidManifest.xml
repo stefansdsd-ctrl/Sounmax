@@ -24,6 +24,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ComplicationTapActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:excludeFromRecents="true"
+            android:taskAffinity="" />
+
         <service
             android:name=".SounmaxTileService"
             android:exported="true"
@@ -40,7 +47,7 @@
         <service
             android:name=".SounmaxComplicationService"
             android:exported="true"
-            android:label="Sounmax"
+            android:label="Sounmax scene"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
             <intent-filter>
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
@@ -50,7 +57,7 @@
                 android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
             <meta-data
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
-                android:value="300" />
+                android:value="120" />
         </service>
     </application>
 </manifest>

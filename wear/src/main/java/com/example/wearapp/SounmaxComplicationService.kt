@@ -22,7 +22,7 @@ class SounmaxComplicationService : SuspendingComplicationDataSourceService() {
         return when (request.complicationType) {
             ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(
                 PlainComplicationText.Builder("${s.sceneEmoji} ${s.sceneName}" + if (bat >= 0) " · $bat%" else "").build(),
-                PlainComplicationText.Builder("Sounmax").build()
+                PlainComplicationText.Builder("Tik = volgende scene").build()
             ).setTapAction(tap()).build()
             ComplicationType.RANGED_VALUE -> RangedValueComplicationData.Builder(
                 value = if (bat >= 0) bat.toFloat() else 50f,
@@ -48,8 +48,8 @@ class SounmaxComplicationService : SuspendingComplicationDataSourceService() {
     }
 
     private fun tap(): PendingIntent = PendingIntent.getActivity(
-        this, 0,
-        Intent(this, WearMainActivity::class.java),
+        this, 1,
+        Intent(this, ComplicationTapActivity::class.java),
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     )
 }
