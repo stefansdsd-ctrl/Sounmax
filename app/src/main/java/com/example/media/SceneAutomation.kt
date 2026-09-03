@@ -34,8 +34,31 @@ object SceneAutomation {
             .putBoolean("pending_widget_scene", true)
             .apply()
         QuietHours.enforce(context)
+        tickListeningDose(prefs)
+        maybeSuggestEarBreak(context, prefs)
         DspControlService.start(context)
         SoundMaxWidget.refreshAll(context)
+    }
+
+    private fun tickListeningDose(prefs: android.content.SharedPreferences) {
+        val cal = java.util.Calendar.getInstance()
+        val key = "dose_${cal.get(java.util.Calendar.YEAR)}_${cal.get(java.util.Calendar.DAY_OF_YEAR)}"
+        prefs.edit().putInt(key, prefs.getInt(key, 0) + 60).apply()
+    }
+
+    private fun maybeSuggestEarBreak(context: Context, prefs: android.content.SharedPreferences) {
+        if (prefs.getBoolean("scene_locked", false)) return
+        val started = prefs.getLong("session_started_at", 0L)
+        val lastBreak = prefs.getLong("last_ear_break", 0L)
+        val now = System.currentTimeMillis()
+        if (started == 0L || now - started < 45 * 60_000L) return
+        if (now - lastBreak < 45 * 60_000L) return
+        val rest = ListeningScenes.byId("rest") ?: return
+        prefs.edit()
+            .putString("last_scene_id", rest.id)
+            .putBoolean("pending_widget_scene", true)
+            .putLong("last_ear_break", now)
+            .apply()
     }
 
     fun scheduleHourly(context: Context) {
