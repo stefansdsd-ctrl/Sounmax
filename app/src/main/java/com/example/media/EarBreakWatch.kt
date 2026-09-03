@@ -1,0 +1,51 @@
+package com.example.media
+
+import android.content.Context
+import android.widget.Toast
+import com.example.dsp.ListeningScenes
+import com.example.widget.SoundMaxWidget
+import java.util.Calendar
+
+/**
+ * Na 50 min ononderbroken luisteren: oorpauze-suggestie.
+ */
+object EarBreakWatch {
+    private const val PREFS = "soundmax_wellness"
+    private const val KEY_SESSION = "session_started_at"
+    private const val KEY_LAST_NAG = "last_ear_break_nag"
+    private const val KEY_AUTO = "auto_ear_break"
+    private const val BREAK_AFTER_MS = 50 * 60_000L
+
+    fun tick(context: Context) {
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        if (!prefs.getBoolean(KEY_AUTO, true)) return
+        val started = prefs.getLong(KEY_SESSION, 0L)
+        if (started <= 0L) return
+        val now = System.currentTimeMillis()
+        if (now - started < BREAK_AFTER_MS) return
+        val lastNag = prefs.getLong(KEY_LAST_NAG, 0L)
+        if (now - lastNag < BREAK_AFTER_MS) return
+        prefs.edit().putLong(KEY_LAST_NAG, now).apply()
+        val rest = ListeningScenes.byId("rest") ?: return
+        if (prefs.getBoolean("scene_locked", false)) return
+        prefs.edit()
+            .putString("last_scene_id", rest.id)
+            .putBoolean("pending_widget_scene", true)
+            .putBoolean("safe_volume", true)
+            .apply()
+        DspControlService.start(context)
+        SoundMaxWidget.refreshAll(context)
+        try {
+            Toast.makeText(context, "Oorpauze — 50 min luisteren", Toast.LENGTH_LONG).show()
+        } catch (_: Exception) {
+        }
+        bumpDose(prefs)
+    }
+
+    private fun bumpDose(prefs: android.content.SharedPreferences) {
+        val cal = Calendar.getInstance()
+        val key = "dose_${cal.get(Calendar.YEAR)}_${cal.get(Calendar.DAY_OF_YEAR)}"
+        val today = prefs.getInt(key, 0)
+        prefs.edit().putInt(key, today + 50).apply()
+    }
+}
