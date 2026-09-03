@@ -96,6 +96,9 @@ class NowPlayingMonitor(
         if (key == lastKey) return
         lastKey = key
         NowPlayingApp.packageName = controller.packageName
+        NowPlayingApp.title = title
+        NowPlayingApp.artist = artist
+        NowPlayingApp.genre = genre
         appEqMemory.load(controller.packageName)?.let { NowPlayingApp.onBoundPreset?.invoke(it) }
         onTrack(NowPlayingTrack(title, artist, genre, controller.packageName))
     }
