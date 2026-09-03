@@ -1,5 +1,6 @@
 package com.example.dsp
 
+/** Bronlijst; dezelfde scenes staan ook in ListeningScenes.ALL + GROUPS. */
 object ExtraListeningScenes {
     val ALL = listOf(
         ListeningScene("house", "House", "🏠", "Vier-op-de-vloer + warme bas", "Electronic & Festival EDM", AncMode.ADAPTIVE),
@@ -10,10 +11,14 @@ object ExtraListeningScenes {
         ListeningScene("radio", "Radio", "📻", "Stem + muziek, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("tv", "TV", "📺", "Dialoog voorop + lichte bas", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("djset", "DJ-set", "🎛️", "Lange mix, punch + glitter", "Electronic & Festival EDM", AncMode.ADAPTIVE),
-        ListeningScene("liquid", "Liquid DnB", "💧", "Zachte rolling bass + vocaal", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE)
+        ListeningScene("liquid", "Liquid DnB", "💧", "Zachte rolling bass + vocaal", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE),
+        ListeningScene("lecture", "College", "🧑‍🏫", "Spraakhelder + veilig", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("commute_rain", "Pendelen regen", "☔", "Max ANC + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.BALANCED_660)
     )
 
     val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
     val MEDIA_IDS = setOf("radio", "tv", "djset")
     val NIGHT_IDS = setOf("ambient", "saver", "liquid")
+    val WORK_IDS = setOf("lecture")
+    val COMMUTE_IDS = setOf("commute_rain")
 }
