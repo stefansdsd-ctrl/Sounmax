@@ -13,6 +13,12 @@ object AdaptiveTrackEq {
     fun hint(genre: String, title: String, artist: String): AdaptiveEqHint {
         val blob = "$genre $title $artist".lowercase()
         return when {
+            containsAny(blob, "stereo test", "left right", "links rechts") ->
+                AdaptiveEqHint("stereo", offs(0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.2f, 0.8f), 0, 0.6f)
+            containsAny(blob, "bass test", "bass-check", "sub sweep") ->
+                AdaptiveEqHint("basscheck", offs(4f, 3.2f, 1.2f, -0.6f, -1.2f, -0.4f, 0.2f, 0.4f, 0.2f, 0f), 140, 0.1f)
+            containsAny(blob, "ochtend", "morning mix", "good morning") ->
+                AdaptiveEqHint("ochtend", offs(0.8f, 0.6f, 0.4f, 0.2f, 0.4f, 0.8f, 1.0f, 0.8f, 0.4f, 0.1f), 20, 0.4f)
             containsAny(blob, "podcast", "speech", "interview", "nieuws", "news", "talk") ->
                 AdaptiveEqHint("spraak", offs(-2.5f, -2f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 2f, 0.5f, -1f), -80, 1.2f)
             containsAny(blob, "luisterboek", "audiobook", "hoorspel") ->
