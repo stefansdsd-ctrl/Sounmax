@@ -81,24 +81,35 @@ object ListeningScenes {
         ListeningScene("drill", "Drill", "🔫", "808 + stemhelder", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
         ListeningScene("trance", "Trance", "✨", "Breed stereo + glitter hoog", "Electronic & Festival EDM", AncMode.ADAPTIVE),
         ListeningScene("ukg", "UK garage", "🇬🇧", "Shuffle-kick + vocaal", "Electronic & Festival EDM", AncMode.ADAPTIVE),
-        ListeningScene("nature", "Natuur", "🌲", "Zacht, alert buiten", "Night Chill & Lo-Fi Relax", AncMode.WIND_GUARD, safeVolume = true)
+        ListeningScene("nature", "Natuur", "🌲", "Zacht, alert buiten", "Night Chill & Lo-Fi Relax", AncMode.WIND_GUARD, safeVolume = true),
+        ListeningScene("house", "House", "🏠", "Vier-op-de-vloer + warme bas", "Electronic & Festival EDM", AncMode.ADAPTIVE),
+        ListeningScene("techno", "Techno", "🔲", "Droge kick + tight hoog", "Electronic & Festival EDM", AncMode.ADAPTIVE),
+        ListeningScene("dubstep", "Dubstep", "🌀", "Zware wobble + sub", "Hip-Hop & Urban R&B", AncMode.ADAPTIVE),
+        ListeningScene("ambient", "Ambient", "🌫️", "Zacht, ruimtelijk, veilig", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
+        ListeningScene("saver", "Saver", "🔋", "Lage accu: zacht + LDAC 330", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("radio", "Radio", "📻", "Stem + muziek, lichte ANC", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("tv", "TV", "📺", "Dialoog voorop + lichte bas", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("djset", "DJ-set", "🎛️", "Lange mix, punch + glitter", "Electronic & Festival EDM", AncMode.ADAPTIVE),
+        ListeningScene("liquid", "Liquid DnB", "💧", "Zachte rolling bass + vocaal", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE),
+        ListeningScene("lecture", "College", "🧑‍🏫", "Spraakhelder + veilig", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("commute_rain", "Pendelen regen", "☔", "Max ANC + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.BALANCED_660)
     )
 
     val GROUPS: List<Pair<String, Set<String>>> = listOf(
         "Alles" to emptySet(),
         "Favorieten" to emptySet(),
-        "Onderweg" to setOf("commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk", "station", "airport"),
-        "Werk" to setOf("focus", "deepwork", "office", "latework", "wfh", "meeting", "school", "study", "library"),
+        "Onderweg" to setOf("commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk", "station", "airport", "commute_rain"),
+        "Werk" to setOf("focus", "deepwork", "office", "latework", "wfh", "meeting", "school", "study", "library", "lecture"),
         "Sport" to setOf("sport", "gym", "hiit", "hike", "beach"),
-        "Media" to setOf("film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic", "lofistudy", "concert", "anime"),
+        "Media" to setOf("film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic", "lofistudy", "concert", "anime", "radio", "tv", "djset"),
         "Genre" to setOf(
             "classic", "dnb", "nederhop", "lofistudy", "synthwave", "hyperpop",
             "hardstyle", "gabber", "phonk", "kpop", "afrobeat", "nederpop",
             "reggae", "latin", "anime", "country", "gospel", "boombap", "metalcore",
-            "drill", "trance", "ukg", "jazz", "vinyl"
+            "drill", "trance", "ukg", "jazz", "vinyl", "house", "techno", "dubstep", "liquid", "ambient"
         ),
         "Game" to setOf("game", "fps", "voicechat"),
-        "Nacht" to setOf("night", "sleep", "rest", "meditate", "asmr", "latework", "nature")
+        "Nacht" to setOf("night", "sleep", "rest", "meditate", "asmr", "latework", "nature", "ambient", "saver", "liquid")
     )
 
     fun byId(id: String?): ListeningScene? = ALL.firstOrNull { it.id == id }
@@ -166,9 +177,11 @@ object ListeningScenes {
             p.contains("tidal") || p.contains("deezer") || p.contains("soundcloud") ||
                 p.contains("amazon.mp3") || p.contains("music.amazon") ||
                 p.contains("apple.android.music") -> "party"
+            p.contains("tunerin") || p.contains("radio.net") || p.contains("nporadio") ||
+                p.contains("radioplayer") || p.contains("simple.radio") || p.contains("audials") -> "radio"
             p.contains("netflix") || p.contains("disney") || p.contains("primevideo") ||
                 p.contains("videolan") || p.contains("mxplayer") || p.contains("jellyfin") ||
-                p.contains("npo") || p.contains("vrt") -> "film"
+                p.contains("npo") || p.contains("vrt") -> "tv"
             p.contains("youtube") && !p.contains("music") -> "film"
             p.contains("pubg") || p.contains("codm") || p.contains("genshin") ||
                 p.contains("roblox") || p.contains("fortnite") || p.contains("minecraft") -> "fps"
@@ -194,7 +207,13 @@ object ListeningScenes {
             blob.contains("afrobeat") || blob.contains("amapiano") || blob.contains("afrobeats") -> "afrobeat"
             blob.contains("nederpop") || blob.contains("smartlap") -> "nederpop"
             blob.contains("nederhop") || blob.contains("nl rap") -> "nederhop"
+            blob.contains("liquid funk") || blob.contains("liquid dnb") || blob.contains("liquid drum") -> "liquid"
             blob.contains("drum and bass") || blob.contains("dnb") || blob.contains("jungle") -> "dnb"
+            blob.contains("dubstep") || blob.contains("brostep") || blob.contains("riddim") -> "dubstep"
+            blob.contains("techno") -> "techno"
+            blob.contains("house") || blob.contains("tech house") || blob.contains("deep house") -> "house"
+            blob.contains("dj set") || blob.contains("dj-set") || blob.contains("live mix") -> "djset"
+            blob.contains("radio") || blob.contains("fm ") -> "radio"
             blob.contains("synthwave") || blob.contains("retrowave") || blob.contains("outrun") -> "synthwave"
             blob.contains("hyperpop") || blob.contains("glitchcore") -> "hyperpop"
             blob.contains("uk garage") || blob.contains("2-step") || blob.contains("ukg") -> "ukg"
@@ -211,7 +230,7 @@ object ListeningScenes {
             blob.contains("classic") || blob.contains("orchestra") -> "classic"
             blob.contains("jazz") || blob.contains("blues") -> "jazz"
             blob.contains("hip") || blob.contains("rap") || blob.contains("r&b") -> "sport"
-            blob.contains("edm") || blob.contains("electro") || blob.contains("techno") || blob.contains("house") -> "gym"
+            blob.contains("edm") || blob.contains("electro") -> "gym"
             blob.contains("rock") || blob.contains("metal") -> "game"
             blob.contains("meditat") || blob.contains("yoga") || blob.contains("nature sound") -> "nature"
             else -> return null
