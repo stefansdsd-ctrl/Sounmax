@@ -4,10 +4,11 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
-- A/B-scene, deel huidige scene, oorpauze-chip
-- Automatische oorpauze na 45 min + dosis +60/uur
 - Scenes Ochtend, Bass-check, Stereo-test
 - Werkdag 06–08 suggereert Ochtend
+- Auto-Saver bij headset-accu ≤15%
+- Weekdosis-label (rust na 600 min)
+- Auto-scene: fitness-apps → Gym, navigatie → Pendelen
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)

@@ -11,13 +11,13 @@ import com.example.dsp.LdacQualityMode
 object BatteryPowerAdvisor {
     fun adjust(context: Context, scene: ListeningScene, batteryPercent: Int?): ListeningScene {
         if (batteryPercent == null) return scene
-        if (batteryPercent <= 8) {
+        if (batteryPercent <= 15) {
             return ListeningScenes.byId("saver") ?: scene.copy(
-                description = "${scene.description} · accubesparing",
+                description = "${scene.description} · accubesparing ${batteryPercent}%",
                 preferredLdac = LdacQualityMode.CONNECTION_330
             )
         }
-        if (batteryPercent <= 20 && scene.ancMode.name == "STRONG") {
+        if (batteryPercent <= 25 && scene.ancMode.name == "STRONG") {
             return scene.copy(
                 description = "${scene.description} · accu ${batteryPercent}%",
                 preferredLdac = LdacQualityMode.CONNECTION_330

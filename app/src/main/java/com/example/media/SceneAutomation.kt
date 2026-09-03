@@ -28,10 +28,14 @@ object SceneAutomation {
         if (prefs.getBoolean("scene_locked", false)) return
         if (!prefs.getBoolean("auto_scene", true)) return
         val weekDose = weekDoseMinutes(prefs)
-        val scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow(weekDose))
+        var scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow(weekDose))
+        val battery = prefs.getInt("last_battery", -1).takeIf { it in 0..100 }
+        scene = BatteryPowerAdvisor.adjust(context, scene, battery)
+        WeeklyDose.remember(prefs, weekDose)
         prefs.edit()
             .putString("last_scene_id", scene.id)
             .putBoolean("pending_widget_scene", true)
+            .putString("dose_label", WeeklyDose.label(weekDose))
             .apply()
         QuietHours.enforce(context)
         tickListeningDose(prefs)
