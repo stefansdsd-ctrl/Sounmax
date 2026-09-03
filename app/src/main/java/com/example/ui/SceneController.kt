@@ -45,6 +45,9 @@ class SceneController(private val viewModel: MainViewModel) {
     private val _sceneGroup = MutableStateFlow(prefs.getString("scene_group", "Alles") ?: "Alles")
     val sceneGroup: StateFlow<String> = _sceneGroup.asStateFlow()
 
+    private val _favoriteSceneIds = MutableStateFlow(favoriteIds())
+    val favoriteSceneIds: StateFlow<Set<String>> = _favoriteSceneIds.asStateFlow()
+
     private val _sleepLeft = MutableStateFlow(remainingSleep())
     val sleepTimerMinutes: StateFlow<Int> = _sleepLeft.asStateFlow()
 
@@ -94,6 +97,18 @@ class SceneController(private val viewModel: MainViewModel) {
         _sceneGroup.value = label
         prefs.edit().putString("scene_group", label).apply()
     }
+
+    fun toggleFavoriteScene(id: String) {
+        val next = favoriteIds().toMutableSet()
+        val added = next.add(id)
+        if (!added) next.remove(id)
+        prefs.edit().putString("fav_scenes", next.joinToString(",")).apply()
+        _favoriteSceneIds.value = next
+        val name = ListeningScenes.byId(id)?.name ?: id
+        Toast.makeText(app, if (added) "★ $name" else "☆ $name", Toast.LENGTH_SHORT).show()
+    }
+
+    fun isFavoriteScene(id: String): Boolean = id in _favoriteSceneIds.value
 
     fun setAutoSceneEnabled(enabled: Boolean) {
         _autoScene.value = enabled
