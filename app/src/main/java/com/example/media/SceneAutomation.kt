@@ -39,6 +39,7 @@ object SceneAutomation {
             .apply()
         QuietHours.enforce(context)
         tickListeningDose(prefs)
+        maybeAutoSafeVolume(prefs)
         maybeSuggestEarBreak(context, prefs)
         DspControlService.start(context)
         SoundMaxWidget.refreshAll(context)
@@ -63,6 +64,15 @@ object SceneAutomation {
             .putBoolean("pending_widget_scene", true)
             .putLong("last_ear_break", now)
             .apply()
+    }
+
+    private fun maybeAutoSafeVolume(prefs: android.content.SharedPreferences) {
+        val cal = java.util.Calendar.getInstance()
+        val key = "dose_${cal.get(java.util.Calendar.YEAR)}_${cal.get(java.util.Calendar.DAY_OF_YEAR)}"
+        val today = prefs.getInt(key, 0)
+        if (today >= 180 && !prefs.getBoolean("safe_volume", false)) {
+            prefs.edit().putBoolean("safe_volume", true).apply()
+        }
     }
 
     fun scheduleHourly(context: Context) {
