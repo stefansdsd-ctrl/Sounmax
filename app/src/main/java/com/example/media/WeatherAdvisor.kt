@@ -7,6 +7,7 @@ import android.location.Location
 import androidx.core.content.ContextCompat
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
+import com.example.dsp.SceneLookup
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Tasks
 import org.json.JSONObject
@@ -30,13 +31,13 @@ data class WeatherSnapshot(
         val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
         val commuteHours = hour in 6..9 || hour in 16..19
         return when {
-            raining && commuteHours -> ListeningScenes.byId("commute_rain")
-            raining && outdoor && hour in 7..20 -> ListeningScenes.byId("bike_rain")
-            raining -> ListeningScenes.byId("rain")
-            outdoor && windy -> ListeningScenes.byId("wind")
-            outdoor && temperatureC >= 28.0 -> ListeningScenes.byId("walk")
-            outdoor && temperatureC <= 2.0 -> ListeningScenes.byId("commute")
-            outdoor -> ListeningScenes.byId("walk")
+            raining && commuteHours -> SceneLookup.byId("commute_rain")
+            raining && outdoor && hour in 7..20 -> SceneLookup.byId("bike_rain")
+            raining -> SceneLookup.byId("rain")
+            outdoor && windy -> SceneLookup.byId("wind")
+            outdoor && temperatureC >= 28.0 -> SceneLookup.byId("walk")
+            outdoor && temperatureC <= 2.0 -> SceneLookup.byId("commute")
+            outdoor -> SceneLookup.byId("walk")
             else -> null
         }
     }
@@ -89,7 +90,7 @@ object WeatherAdvisor {
         val cachedId = prefs.getString(KEY_SCENE, null)
         val age = System.currentTimeMillis() - prefs.getLong(KEY_FETCHED, 0L)
         if (age in 0 until TTL_MS) {
-            return ListeningScenes.byId(cachedId) ?: fallback
+            return SceneLookup.byId(cachedId) ?: fallback
         }
         val snap = runCatching { refreshBlocking(context) }.getOrNull() ?: return fallback
         val scene = snap.sceneOverride()
