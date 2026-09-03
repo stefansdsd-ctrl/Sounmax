@@ -154,7 +154,28 @@ fun ListeningScenesBar(
                 colors = chipColors(),
                 modifier = Modifier.testTag("call_transparency_chip")
             )
-            listOf(15, 30, 45, 60).forEach { mins ->
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.swapAbScene() },
+                label = { Text("A/B", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("ab_scene_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.applyEarBreak() },
+                label = { Text("Oorpauze", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("ear_break_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.shareCurrentScene() },
+                label = { Text("Deel", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("share_scene_chip")
+            )
+            listOf(15, 30, 45, 60, 90).forEach { mins ->
                 FilterChip(
                     selected = sleepLeft == mins,
                     onClick = {
@@ -165,7 +186,7 @@ fun ListeningScenesBar(
                     colors = chipColors()
                 )
             }
-            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 45, 60)) {
+            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 45, 60, 90)) {
                 FilterChip(
                     selected = true,
                     onClick = { sceneController.cancelSleepTimer() },
