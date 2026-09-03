@@ -4,11 +4,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
-- House / Techno / Dubstep / Ambient / Saver zitten in de scene-lijst
-- Extra scenes: Radio, TV, DJ-set, Liquid DnB
-- Widget bladert door favorieten als die er zijn
-- Auto veilig-volume na 180 min luisteren vandaag
-- Juistere LE Audio GATT-labels (volume, MCS, ASCS)
+- Extra scenes zitten nu écht in ALL + groepen (niet alleen in een los bestand)
+- Radio / TV / DJ-set / Liquid DnB
+- Auto-scene herkent radio-apps, liquid funk, house/techno/dubstep/ambient
+- Adaptive EQ voor liquid + radio
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
