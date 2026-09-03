@@ -26,14 +26,17 @@ object ExtraListeningScenes {
         ListeningScene("mixcheck", "Mix-check", "🧪", "Vlak + limiter uit, A/B-ready", "Flat Studio Monitor (0 dB)", AncMode.OFF),
         ListeningScene("flightsleep", "Vlucht-slaap", "🛬", "Max ANC + zacht + sleep-vriendelijk", "Night Chill & Lo-Fi Relax", AncMode.STRONG, safeVolume = true),
         ListeningScene("piano", "Piano", "🎹", "Mids + ruimte, geen extra bas", "Classical & Live Concert 3D", AncMode.OFF),
-        ListeningScene("acoustic", "Akoestisch", "🎸", "Warme stem + gitaar", "Vocal & Acoustic Warmth", AncMode.OFF)
+        ListeningScene("acoustic", "Akoestisch", "🎸", "Warme stem + gitaar", "Vocal & Acoustic Warmth", AncMode.OFF),
+        ListeningScene("wind", "Wind", "💨", "Sterk windfilter + alert", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
+        ListeningScene("bike_rain", "Fiets-regen", "🚲", "Wind + ANC tegen regen", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("recap", "Recap", "⏪", "Laatst gebruikte scene herhalen", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE)
     )
 
     val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
     val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio")
     val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift")
     val WORK_IDS = setOf("lecture")
-    val COMMUTE_IDS = setOf("commute_rain")
-    val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker", "studio", "mixcheck")
+    val COMMUTE_IDS = setOf("commute_rain", "wind", "bike_rain")
+    val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker", "studio", "mixcheck", "recap")
     val DAY_IDS = setOf("morning", "market")
 }
