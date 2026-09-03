@@ -19,7 +19,10 @@ object SceneAutomation {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         if (!prefs.getBoolean("pending_widget_scene", false)) return
         prefs.edit().putBoolean("pending_widget_scene", false).apply()
-        val scene = ListeningScenes.byId(prefs.getString("last_scene_id", null)) ?: return
+        var scene = ListeningScenes.byId(prefs.getString("last_scene_id", null)) ?: return
+        if (scene.id == "recap") {
+            scene = RecentScenes.lastReal(prefs) ?: scene
+        }
         apply(scene)
     }
 
@@ -32,6 +35,7 @@ object SceneAutomation {
         val battery = prefs.getInt("last_battery", -1).takeIf { it in 0..100 }
         scene = BatteryPowerAdvisor.adjust(context, scene, battery)
         WeeklyDose.remember(prefs, weekDose)
+        RecentScenes.push(prefs, scene.id)
         prefs.edit()
             .putString("last_scene_id", scene.id)
             .putBoolean("pending_widget_scene", true)
