@@ -2,7 +2,8 @@ package com.example.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material3.Icon
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.OutlinedTextField
@@ -22,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
@@ -53,8 +59,9 @@ fun ListeningScenesBar(
     val callTransparency by sceneController.callTransparency.collectAsStateWithLifecycle()
     val sceneGroup by sceneController.sceneGroup.collectAsStateWithLifecycle()
     val doseWarning by sceneController.doseWarning.collectAsStateWithLifecycle()
+    val favoriteIds by sceneController.favoriteSceneIds.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
-    val scenes = remember(query, sceneGroup) { sceneController.filteredScenes(query, sceneGroup) }
+    val scenes = remember(query, sceneGroup, favoriteIds) { sceneController.filteredScenes(query, sceneGroup) }
     val recents = remember(activeSceneId) { sceneController.recentScenes() }
 
     Column(
@@ -84,7 +91,13 @@ fun ListeningScenesBar(
             Text("Recent", color = ImmersiveTextSecondary, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(recents, key = { "r_" + it.id }) { scene ->
-                    SceneChip(scene, activeSceneId == scene.id) { sceneController.applyListeningScene(scene) }
+                    SceneChip(
+                        scene = scene,
+                        selected = activeSceneId == scene.id,
+                        favorite = scene.id in favoriteIds,
+                        onClick = { sceneController.applyListeningScene(scene) },
+                        onLongClick = { sceneController.toggleFavoriteScene(scene.id) }
+                    )
                 }
             }
         }
@@ -105,9 +118,13 @@ fun ListeningScenesBar(
             modifier = Modifier.testTag("listening_scenes_row")
         ) {
             items(scenes, key = { it.id }) { scene ->
-                SceneChip(scene, activeSceneId == scene.id) {
-                    sceneController.applyListeningScene(scene)
-                }
+                SceneChip(
+                    scene = scene,
+                    selected = activeSceneId == scene.id,
+                    favorite = scene.id in favoriteIds,
+                    onClick = { sceneController.applyListeningScene(scene) },
+                    onLongClick = { sceneController.toggleFavoriteScene(scene.id) }
+                )
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -167,18 +184,34 @@ private fun chipColors() = FilterChipDefaults.filterChipColors(
     labelColor = ImmersiveTextSecondary
 )
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SceneChip(scene: ListeningScene, selected: Boolean, onClick: () -> Unit) {
+private fun SceneChip(
+    scene: ListeningScene,
+    selected: Boolean,
+    favorite: Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(14.dp))
             .background(if (selected) ImmersiveSurfaceActive else ImmersiveSurface)
             .border(1.dp, if (selected) ImmersiveLavenderAccent else ImmersiveBorder, RoundedCornerShape(14.dp))
-            .clickable(onClick = onClick)
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
             .padding(horizontal = 12.dp, vertical = 10.dp)
             .testTag("scene_" + scene.id)
     ) {
-        Text(scene.emoji + "  " + scene.name, color = ImmersiveTextPrimary, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(scene.emoji + "  " + scene.name, color = ImmersiveTextPrimary, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+            Icon(
+                imageVector = if (favorite) Icons.Default.Star else Icons.Outlined.Star,
+                contentDescription = "Favoriet",
+                tint = if (favorite) ImmersiveLavenderAccent else ImmersiveTextSecondary,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
         Text(scene.description, color = ImmersiveTextSecondary, fontSize = 10.sp)
+        Text("Houd ingedrukt voor ★", color = ImmersiveTextSecondary, fontSize = 9.sp)
     }
 }
