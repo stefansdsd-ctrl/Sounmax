@@ -26,13 +26,19 @@ data class WeatherSnapshot(
     val windy: Boolean
         get() = windKmh >= 28.0
 
-    fun sceneOverride(): ListeningScene? = when {
-        raining -> ListeningScenes.byId("rain")
-        outdoor && windy -> ListeningScenes.byId("hike")
-        outdoor && temperatureC >= 28.0 -> ListeningScenes.byId("walk")
-        outdoor && temperatureC <= 2.0 -> ListeningScenes.byId("commute")
-        outdoor -> ListeningScenes.byId("walk")
-        else -> null
+    fun sceneOverride(): ListeningScene? {
+        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        val commuteHours = hour in 6..9 || hour in 16..19
+        return when {
+            raining && commuteHours -> ListeningScenes.byId("commute_rain")
+            raining && outdoor && hour in 7..20 -> ListeningScenes.byId("bike_rain")
+            raining -> ListeningScenes.byId("rain")
+            outdoor && windy -> ListeningScenes.byId("wind")
+            outdoor && temperatureC >= 28.0 -> ListeningScenes.byId("walk")
+            outdoor && temperatureC <= 2.0 -> ListeningScenes.byId("commute")
+            outdoor -> ListeningScenes.byId("walk")
+            else -> null
+        }
     }
 
     fun label(): String {
