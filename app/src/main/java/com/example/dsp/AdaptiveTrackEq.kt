@@ -27,7 +27,13 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("ukg", offs(1.8f, 1.4f, 0.4f, -0.4f, 0.2f, 0.6f, 1.0f, 1.2f, 1.0f, 0.4f), 50, 0.5f)
             containsAny(blob, "trance", "progressive house", "uplifting") ->
                 AdaptiveEqHint("trance", offs(1.2f, 0.8f, 0.2f, -0.4f, 0.2f, 0.8f, 1.4f, 1.8f, 2.0f, 1.6f), 30, 0.6f)
-            containsAny(blob, "edm", "electro", "techno", "house", "dnb") ->
+            containsAny(blob, "dubstep", "brostep", "riddim") ->
+                AdaptiveEqHint("dubstep", offs(3.0f, 2.4f, 0.6f, -1.0f, -1.2f, 0.2f, 0.6f, 1.2f, 1.6f, 1.2f), 110, 0.2f)
+            containsAny(blob, "techno") ->
+                AdaptiveEqHint("techno", offs(2.2f, 1.8f, 0.2f, -0.8f, -0.6f, 0.2f, 0.8f, 1.2f, 1.6f, 1.4f), 70, 0.4f)
+            containsAny(blob, "house", "deep house", "tech house") ->
+                AdaptiveEqHint("house", offs(1.8f, 1.4f, 0.4f, -0.4f, 0.0f, 0.4f, 0.8f, 1.0f, 1.2f, 0.8f), 50, 0.4f)
+            containsAny(blob, "edm", "electro", "dnb") ->
                 AdaptiveEqHint("edm", offs(2f, 1.5f, 0.5f, -0.5f, -1f, 0f, 0.5f, 1f, 1.5f, 2f), 60, 0.4f)
             containsAny(blob, "gabber", "happy hardcore", "uptempo") ->
                 AdaptiveEqHint("gabber", offs(2.6f, 2.2f, 0.4f, -0.8f, -1.2f, 0.4f, 1.0f, 1.6f, 2.2f, 2.4f), 90, 0.6f)
