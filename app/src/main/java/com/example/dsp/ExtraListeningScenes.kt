@@ -9,6 +9,6 @@ object ExtraListeningScenes {
         ListeningScene("saver", "Saver", "\uD83D\uDD0B", "Lage accu: zacht + LDAC 330", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330)
     )
 
-    val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient")
+    val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
     val NIGHT_IDS = setOf("ambient", "saver")
 }
