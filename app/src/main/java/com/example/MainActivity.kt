@@ -32,9 +32,11 @@ class MainActivity : ComponentActivity() {
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         val wellness = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
-        volumeCycler = VolumeSceneCycler(this) {
-            SoundMaxWidget.cycleScene(this, +1)
-        }.also {
+        volumeCycler = VolumeSceneCycler(
+            this,
+            onNextScene = { SoundMaxWidget.cycleScene(this, +1) },
+            onPrevScene = { SoundMaxWidget.cycleScene(this, -1) }
+        ).also {
             it.setEnabled(wellness.getBoolean("volume_scene", true))
             it.start()
         }
