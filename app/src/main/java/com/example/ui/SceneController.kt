@@ -81,7 +81,9 @@ class SceneController(private val viewModel: MainViewModel) {
             if (q.isBlank()) true
             else scene.name.lowercase().contains(q) ||
                 scene.description.lowercase().contains(q) ||
-                scene.id.contains(q)
+                scene.id.contains(q) ||
+                scene.emoji.contains(q) ||
+                scene.presetName.lowercase().contains(q)
         }
     }
 
@@ -137,6 +139,7 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun applyListeningScene(scene: ListeningScene) {
+        val previous = prefs.getString("last_scene_id", null)
         val battery = monitor.status.value.batteryPercent
         val adjusted = BatteryPowerAdvisor.adjust(app, scene, battery)
         val weather = WeatherAdvisor.suggest(app, adjusted)
@@ -159,8 +162,50 @@ class SceneController(private val viewModel: MainViewModel) {
         weather.preferredLdac?.let { viewModel.forceLdacCodec(it) }
         viewModel.dspManager.setMonoMix(weather.id == "oneear")
         if (weather.safeVolume) setSafeVolume(true)
+        prefs.edit()
+            .putString("ab_scene_id", previous)
+            .putLong("session_started_at", System.currentTimeMillis())
+            .apply()
         SoundMaxWidget.refreshAll(app)
         Toast.makeText(app, "${weather.emoji} ${weather.name}", Toast.LENGTH_SHORT).show()
+    }
+
+    fun swapAbScene() {
+        val other = prefs.getString("ab_scene_id", null) ?: recentScenes().getOrNull(1)?.id
+        val scene = ListeningScenes.byId(other)
+        if (scene == null) {
+            Toast.makeText(app, "Nog geen A/B-scene", Toast.LENGTH_SHORT).show()
+            return
+        }
+        applyListeningScene(scene)
+    }
+
+    fun shareCurrentScene() {
+        val scene = ListeningScenes.byId(_activeSceneId.value)
+        val text = buildString {
+            appendLine("Sounmax scene")
+            appendLine("${scene?.emoji ?: ""} ${scene?.name ?: _activeSceneId.value}")
+            appendLine(scene?.description.orEmpty())
+            appendLine("preset=${scene?.presetName} anc=${scene?.ancMode?.displayName}")
+            appendLine("veilig=${_safeVolume.value} slot=${_locked.value} auto=${_autoScene.value}")
+        }
+        val send = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "Sounmax scene")
+            putExtra(Intent.EXTRA_TEXT, text)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        app.startActivity(Intent.createChooser(send, "Deel scene").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
+
+    fun applyEarBreak() {
+        val rest = ListeningScenes.byId("rest") ?: return
+        val wasLocked = _locked.value
+        if (wasLocked) setSceneLocked(false)
+        applyListeningScene(rest)
+        setSafeVolume(true)
+        prefs.edit().putLong("last_ear_break", System.currentTimeMillis()).apply()
+        Toast.makeText(app, "Oorpauze — 5 min zachter", Toast.LENGTH_SHORT).show()
     }
 
     fun startSleepTimer(minutes: Int) {
