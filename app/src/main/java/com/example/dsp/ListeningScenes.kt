@@ -92,7 +92,15 @@ object ListeningScenes {
         ListeningScene("djset", "DJ-set", "🎛️", "Lange mix, punch + glitter", "Electronic & Festival EDM", AncMode.ADAPTIVE),
         ListeningScene("liquid", "Liquid DnB", "💧", "Zachte rolling bass + vocaal", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE),
         ListeningScene("lecture", "College", "🧑‍🏫", "Spraakhelder + veilig", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
-        ListeningScene("commute_rain", "Pendelen regen", "☔", "Max ANC + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.BALANCED_660)
+        ListeningScene("commute_rain", "Pendelen regen", "☔", "Max ANC + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.BALANCED_660),
+        ListeningScene("morning", "Ochtend", "🌅", "Warme mids, zachte start", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
+        ListeningScene("basscheck", "Bass-check", "🔊", "Sub + kick om laag te testen", "Hip-Hop & Urban R&B", AncMode.OFF),
+        ListeningScene("stereotest", "Stereo-test", "↔️", "Links/rechts + breedte", "Classical & Live Concert 3D", AncMode.OFF),
+        ListeningScene("reference", "Referentie", "🎚️", "Vlak A/B zonder extra DSP", "Flat Studio Monitor (0 dB)", AncMode.OFF),
+        ListeningScene("speaker", "Speaker", "🔈", "Speaker-achtig: minder stereo-split", "Vocal & Acoustic Warmth", AncMode.OFF),
+        ListeningScene("studio", "Studio", "🎛️", "Vlak + helder, mix-check", "Flat Studio Monitor (0 dB)", AncMode.OFF),
+        ListeningScene("nightshift", "Nachtdienst", "🌙", "Zacht + alert + veilig", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("market", "Markt", "🛒", "Transparantie in de drukte", "Vocal & Acoustic Warmth", AncMode.AMBIENT)
     )
 
     val GROUPS: List<Pair<String, Set<String>>> = listOf(
@@ -109,7 +117,9 @@ object ListeningScenes {
             "drill", "trance", "ukg", "jazz", "vinyl", "house", "techno", "dubstep", "liquid", "ambient"
         ),
         "Game" to setOf("game", "fps", "voicechat"),
-        "Nacht" to setOf("night", "sleep", "rest", "meditate", "asmr", "latework", "nature", "ambient", "saver", "liquid")
+        "Nacht" to setOf("night", "sleep", "rest", "meditate", "asmr", "latework", "nature", "ambient", "saver", "liquid", "nightshift"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook"),
+        "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear")
     )
 
     fun byId(id: String?): ListeningScene? = ALL.firstOrNull { it.id == id }
@@ -143,13 +153,14 @@ object ListeningScenes {
         }
         if (friday && hour in 19..22) return ALL.first { it.id == "party" }
         return when (hour) {
-            in 6..8 -> ALL.first { it.id == "commute" }
+            in 6..8 -> ALL.first { it.id == "morning" }
             in 9..11 -> ALL.first { it.id == "focus" }
             in 12..13 -> ALL.first { it.id == "office" }
             in 14..16 -> ALL.first { it.id == "school" }
             in 17..19 -> ALL.first { it.id == "commute" }
             in 20..21 -> ALL.first { it.id == "film" }
             in 22..23 -> ALL.first { it.id == "latework" }
+            in 0..5 -> ALL.first { it.id == "nightshift" }
             else -> ALL.first { it.id == "night" }
         }
     }
@@ -233,6 +244,9 @@ object ListeningScenes {
             blob.contains("edm") || blob.contains("electro") -> "gym"
             blob.contains("rock") || blob.contains("metal") -> "game"
             blob.contains("meditat") || blob.contains("yoga") || blob.contains("nature sound") -> "nature"
+            blob.contains("referentie") || blob.contains("reference track") || blob.contains("mixcheck") -> "reference"
+            blob.contains("speaker") || blob.contains("luidspreker") -> "speaker"
+            blob.contains("nachtwerk") || blob.contains("night shift") -> "nightshift"
             else -> return null
         }
         return byId(id)
