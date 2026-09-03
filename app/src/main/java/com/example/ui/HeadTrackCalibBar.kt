@@ -14,28 +14,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.dsp.HeadTrackerHolder
 import com.example.ui.theme.ImmersiveTextSecondary
 
 @Composable
-fun HeadTrackCalibBar(viewModel: MainViewModel) {
+fun HeadTrackCalibBar() {
     val context = LocalContext.current
-    val tracker = viewModel.dspManager.headTracker ?: return
+    val tracker = remember { HeadTrackerHolder.get(context) }
     val available by tracker.available.collectAsStateWithLifecycle()
     val enabled by tracker.enabled.collectAsStateWithLifecycle()
     val yaw by tracker.yawDeg.collectAsStateWithLifecycle()
     val pitch by tracker.pitchDeg.collectAsStateWithLifecycle()
     val calibrated by tracker.calibrated.collectAsStateWithLifecycle()
     val prefs = remember { context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE) }
-    var trackingPref by remember { mutableStateOf(prefs.getBoolean("head_tracking", false)) }
+    val trackingPref = prefs.getBoolean("head_tracking", false)
 
     if (!available && !trackingPref) return
 
@@ -53,6 +52,7 @@ fun HeadTrackCalibBar(viewModel: MainViewModel) {
                 onClick = {
                     tracker.calibrateNeutral()
                     if (!enabled) tracker.start()
+                    prefs.edit().putBoolean("head_tracking", true).apply()
                 },
                 enabled = available,
                 modifier = Modifier.weight(1f).testTag("head_track_calibrate")

@@ -11,13 +11,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.math.roundToInt
 
+object HeadTrackerHolder {
+    @Volatile var instance: HeadTracker? = null
+    fun get(context: Context): HeadTracker {
+        instance?.let { return it }
+        val created = HeadTracker(context.applicationContext)
+        instance = created
+        return created
+    }
+}
+
 class HeadTracker(
     context: Context,
-    private val onPose: (yawDeg: Float, pitchDeg: Float) -> Unit
+    private var onPose: (yawDeg: Float, pitchDeg: Float) -> Unit = { _, _ -> }
 ) : SensorEventListener {
     private val TAG = "HeadTracker"
-    private val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
-    private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private val appContext = context.applicationContext
+    private val prefs = appContext.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+    private val sensorManager = appContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val rotation = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
     private val orientation = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
@@ -41,6 +52,10 @@ class HeadTracker(
 
     private val _calibrated = MutableStateFlow(yawOffset != 0f || pitchOffset != 0f)
     val calibrated: StateFlow<Boolean> = _calibrated.asStateFlow()
+
+    fun setOnPose(cb: (Float, Float) -> Unit) {
+        onPose = cb
+    }
 
     fun start() {
         if (rotation == null) {
