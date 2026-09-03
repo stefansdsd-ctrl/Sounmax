@@ -18,14 +18,17 @@ object ExtraListeningScenes {
         ListeningScene("basscheck", "Bass-check", "🔊", "Sub + kick om laag te testen", "Hip-Hop & Urban R&B", AncMode.OFF),
         ListeningScene("stereotest", "Stereo-test", "↔️", "Links/rechts + breedte", "Classical & Live Concert 3D", AncMode.OFF),
         ListeningScene("reference", "Referentie", "🎚️", "Vlak A/B zonder extra DSP", "Flat Studio Monitor (0 dB)", AncMode.OFF),
-        ListeningScene("speaker", "Speaker", "🔈", "Speaker-achtig: minder stereo-split", "Vocal & Acoustic Warmth", AncMode.OFF)
+        ListeningScene("speaker", "Speaker", "🔈", "Speaker-achtig: minder stereo-split", "Vocal & Acoustic Warmth", AncMode.OFF),
+        ListeningScene("studio", "Studio", "🎛️", "Vlak + helder, mix-check", "Flat Studio Monitor (0 dB)", AncMode.OFF),
+        ListeningScene("nightshift", "Nachtdienst", "🌙", "Zacht + alert + veilig", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("market", "Markt", "🛒", "Transparantie in de drukte", "Vocal & Acoustic Warmth", AncMode.AMBIENT)
     )
 
     val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
-    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference")
-    val NIGHT_IDS = setOf("ambient", "saver", "liquid")
+    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio")
+    val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift")
     val WORK_IDS = setOf("lecture")
     val COMMUTE_IDS = setOf("commute_rain")
-    val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker")
-    val DAY_IDS = setOf("morning")
+    val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker", "studio")
+    val DAY_IDS = setOf("morning", "market")
 }

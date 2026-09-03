@@ -6,8 +6,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Nieuw
 - Head-track kalibratie: kijk recht vooruit → nulpunt voor yaw/pitch
 - Wear-complicatie tik wisselt naar de volgende scene
-- Scenes Ochtend, Bass-check, Stereo-test, Referentie, Speaker in ALL + groepen Dag/Tools
-- Werkdag 06–08 suggereert Ochtend
+- Scenes Ochtend, Bass-check, Stereo-test, Referentie, Speaker, Studio, Nachtdienst, Markt
+- Groepen Dag + Tools
+- Werkdag 06–08 suggereert Ochtend; 00–05 Nachtdienst
 - Auto veilig-volume vanaf 180 min vandaag
 - Snelle chips: A/B, Oorpauze, Deel + sleep 90m
 - Auto-Saver bij headset-accu ≤15%
