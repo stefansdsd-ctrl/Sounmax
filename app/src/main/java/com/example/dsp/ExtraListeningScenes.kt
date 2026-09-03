@@ -16,14 +16,16 @@ object ExtraListeningScenes {
         ListeningScene("commute_rain", "Pendelen regen", "☔", "Max ANC + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.BALANCED_660),
         ListeningScene("morning", "Ochtend", "🌅", "Warme mids, zachte start", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
         ListeningScene("basscheck", "Bass-check", "🔊", "Sub + kick om laag te testen", "Hip-Hop & Urban R&B", AncMode.OFF),
-        ListeningScene("stereotest", "Stereo-test", "↔️", "Links/rechts + breedte", "Classical & Live Concert 3D", AncMode.OFF)
+        ListeningScene("stereotest", "Stereo-test", "↔️", "Links/rechts + breedte", "Classical & Live Concert 3D", AncMode.OFF),
+        ListeningScene("reference", "Referentie", "🎚️", "Vlak A/B zonder extra DSP", "Flat Studio Monitor (0 dB)", AncMode.OFF),
+        ListeningScene("speaker", "Speaker", "🔈", "Speaker-achtig: minder stereo-split", "Vocal & Acoustic Warmth", AncMode.OFF)
     )
 
     val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
-    val MEDIA_IDS = setOf("radio", "tv", "djset")
+    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference")
     val NIGHT_IDS = setOf("ambient", "saver", "liquid")
     val WORK_IDS = setOf("lecture")
     val COMMUTE_IDS = setOf("commute_rain")
-    val TOOL_IDS = setOf("basscheck", "stereotest")
+    val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker")
     val DAY_IDS = setOf("morning")
 }
