@@ -4,6 +4,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Head-track kalibratie: kijk recht vooruit → nulpunt voor yaw/pitch
+- Wear-complicatie tik wisselt naar de volgende scene
 - Scenes Ochtend, Bass-check, Stereo-test, Referentie, Speaker in ALL + groepen Dag/Tools
 - Werkdag 06–08 suggereert Ochtend
 - Auto veilig-volume vanaf 180 min vandaag
