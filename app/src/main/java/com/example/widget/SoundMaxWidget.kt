@@ -13,6 +13,7 @@ import com.example.MainActivity
 import com.example.R
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.media.EarBreakWatch
 import com.example.media.SleepFade
 import com.example.media.WeatherAdvisor
 
@@ -57,7 +58,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 cycleSleep(context)
                 refreshAll(context)
             }
-            ACTION_TICK, ACTION_REFRESH -> refreshAll(context)
+            ACTION_TICK, ACTION_REFRESH -> {
+                EarBreakWatch.tick(context)
+                refreshAll(context)
+            }
         }
     }
 
@@ -79,10 +83,19 @@ class SoundMaxWidget : AppWidgetProvider() {
 
         fun cycleScene(context: Context, step: Int = 1) {
             val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
-            val current = prefs.getString("last_scene_id", ListeningScenes.ALL.first().id)
-            val idx = ListeningScenes.ALL.indexOfFirst { it.id == current }.coerceAtLeast(0)
-            val size = ListeningScenes.ALL.size
-            val next = ListeningScenes.ALL[((idx + step) % size + size) % size]
+            val favs = prefs.getString("fav_scenes", "")
+                ?.split(',')
+                ?.filter { it.isNotBlank() }
+                .orEmpty()
+            val pool = if (favs.size >= 2) {
+                favs.mapNotNull { ListeningScenes.byId(it) }
+            } else {
+                ListeningScenes.ALL
+            }
+            val current = prefs.getString("last_scene_id", pool.first().id)
+            val idx = pool.indexOfFirst { it.id == current }.let { if (it < 0) 0 else it }
+            val size = pool.size.coerceAtLeast(1)
+            val next = pool[((idx + step) % size + size) % size]
             prefs.edit().putString("last_scene_id", next.id).putBoolean("pending_widget_scene", true).apply()
             DspControlService.start(context)
         }
