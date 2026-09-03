@@ -13,14 +13,17 @@ import android.os.VibratorManager
 
 /**
  * Dubbel volume-omhoog binnen 450 ms = volgende scene.
- * Volume wordt teruggezet zodat het nummer niet harder gaat.
+ * Dubbel volume-omlaag = vorige scene.
+ * Volume wordt teruggezet zodat het nummer niet harder/zachter gaat.
  */
 class VolumeSceneCycler(
     private val context: Context,
-    private val onNextScene: () -> Unit
+    private val onNextScene: () -> Unit,
+    private val onPrevScene: () -> Unit = {}
 ) {
     private val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private var lastUpAt = 0L
+    private var lastDownAt = 0L
     private var lastVolume = -1
     private var enabled = true
     private var registered = false
@@ -35,20 +38,35 @@ class VolumeSceneCycler(
             if (vol < 0) return
             val prev = lastVolume
             lastVolume = vol
-            if (prev < 0 || vol <= prev) return
+            if (prev < 0) return
             val now = SystemClock.elapsedRealtime()
-            if (now - lastUpAt in 80..450) {
-                lastUpAt = 0L
-                try {
-                    am.setStreamVolume(AudioManager.STREAM_MUSIC, prev, 0)
-                    lastVolume = prev
-                } catch (_: Exception) {
+            if (vol > prev) {
+                if (now - lastUpAt in 80..450) {
+                    lastUpAt = 0L
+                    restore(prev)
+                    buzz()
+                    onNextScene()
+                } else {
+                    lastUpAt = now
                 }
-                buzz()
-                onNextScene()
-            } else {
-                lastUpAt = now
+            } else if (vol < prev) {
+                if (now - lastDownAt in 80..450) {
+                    lastDownAt = 0L
+                    restore(prev)
+                    buzz()
+                    onPrevScene()
+                } else {
+                    lastDownAt = now
+                }
             }
+        }
+    }
+
+    private fun restore(level: Int) {
+        try {
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, level, 0)
+            lastVolume = level
+        } catch (_: Exception) {
         }
     }
 
