@@ -2,7 +2,7 @@ package com.example.media
 
 import android.content.SharedPreferences
 import com.example.dsp.ListeningScene
-import com.example.dsp.ListeningScenes
+import com.example.dsp.SceneLookup
 
 object RecentScenes {
     private const val KEY = "recent_scene_ids"
@@ -20,8 +20,8 @@ object RecentScenes {
     }
 
     fun scenes(prefs: SharedPreferences): List<ListeningScene> =
-        list(prefs).mapNotNull { ListeningScenes.byId(it) }
+        list(prefs).mapNotNull { SceneLookup.byId(it) }
 
     fun lastReal(prefs: SharedPreferences, except: String? = "recap"): ListeningScene? =
-        list(prefs).firstOrNull { it != except }?.let { ListeningScenes.byId(it) }
+        list(prefs).firstOrNull { it != except }?.let { SceneLookup.byId(it) }
 }
