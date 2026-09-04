@@ -41,6 +41,18 @@ object AdaptiveSceneEq {
             hint("livestream", -0.4f, 0.0f, 0.2f, 0.6f, 1.0f, 1.4f, 1.2f, 0.8f, 0.3f, -0.2f, -10, 0.8f)
         has(blob, "e-reader", "ereader", "kindle") ->
             hint("ereader", -1.0f, -0.6f, 0.0f, 0.3f, 0.5f, 0.6f, 0.4f, 0.0f, -0.4f, -0.8f, -20, 0.3f)
+        has(blob, "stiltecoupé", "stiltecoupe", "quiet coach") ->
+            hint("stiltecoupe", -1.2f, -0.8f, -0.2f, 0.2f, 0.4f, 0.5f, 0.3f, 0.0f, -0.4f, -0.8f, -30, 0.2f)
+        has(blob, "park wandel", "stadspark", "vondelpark") ->
+            hint("park", 0.2f, 0.3f, 0.3f, 0.4f, 0.5f, 0.6f, 0.4f, 0.1f, -0.3f, -0.6f, 0, 0.3f)
+        has(blob, "videobellen", "video call", "facetime", "google meet") ->
+            hint("videocall", -1.6f, -1.2f, -0.4f, 0.6f, 1.6f, 2.2f, 2.0f, 1.2f, 0.2f, -0.6f, -40, 1.3f)
+        has(blob, "esports", "e-sports", "toernooi game") ->
+            hint("esports", -0.6f, -0.2f, 0.2f, 0.6f, 1.0f, 1.4f, 1.8f, 1.6f, 1.0f, 0.2f, -10, 1.0f)
+        has(blob, "filmavond", "movie night") ->
+            hint("filmavond", 0.6f, 0.8f, 0.4f, 0.2f, 0.4f, 0.8f, 1.0f, 0.8f, 0.2f, -0.2f, 20, 0.4f)
+        has(blob, "ski", "snowboard", "wintersport") ->
+            hint("ski", 0.4f, 0.6f, 0.3f, 0.4f, 0.6f, 0.8f, 0.6f, 0.2f, -0.2f, -0.6f, 10, 0.4f)
         else -> null
     }
 

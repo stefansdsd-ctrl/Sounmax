@@ -59,15 +59,22 @@ object ExtraListeningScenes {
         ListeningScene("photoshoot", "Fotoshoot", "📷", "Zacht + alert, geen zware bas", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("callcenter", "Callcenter", "☎️", "Stem max + lichte ANC, veilig", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("livestream", "Livestream", "📡", "Commentaar + punch, lage latency", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
-        ListeningScene("ereader", "E-reader", "📱", "Fluister-EQ, veilig lezen", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true)
+        ListeningScene("ereader", "E-reader", "📱", "Fluister-EQ, veilig lezen", "Night Chill & Lo-Fi Relax", AncMode.ADAPTIVE, safeVolume = true),
+        ListeningScene("quietcar", "Stiltecoupé", "🤫", "Max ANC, fluister, veilig", "Night Chill & Lo-Fi Relax", AncMode.STRONG, safeVolume = true),
+        ListeningScene("park", "Park", "🌳", "Windfilter + alert buiten", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD, safeVolume = true),
+        ListeningScene("videocall", "Videobellen", "📹", "Stem max + lichte ANC", "Vocal & Acoustic Warmth", AncMode.AMBIENT, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
+        ListeningScene("esports", "Esports", "🏆", "Footsteps + lage latency", "Rock & Metal Punch", AncMode.AMBIENT, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
+        ListeningScene("movienight", "Filmavond", "🌙", "Breed stereo, zachte loudness", "Classical & Live Concert 3D", AncMode.STRONG, safeVolume = true),
+        ListeningScene("ski", "Ski", "🎿", "Wind + punch + alert", "Electronic & Festival EDM", AncMode.WIND_GUARD),
+        ListeningScene("radio_nl", "NPO Radio", "🇳🇱", "Stem + muziek NL", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE)
     )
 
     val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
-    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio", "shortform", "piano", "acoustic", "museumtour", "karaoke", "livestream", "ereader")
-    val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna", "camping", "baby")
-    val WORK_IDS = setOf("lecture", "coding", "interview", "language", "waiting", "workshop", "cowork", "exam", "callcenter")
-    val COMMUTE_IDS = setOf("commute_rain", "wind", "bike_rain", "nav", "rainwalk", "nightdrive", "ferry")
+    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio", "shortform", "piano", "acoustic", "museumtour", "karaoke", "livestream", "ereader", "movienight", "radio_nl")
+    val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna", "camping", "baby", "movienight", "quietcar")
+    val WORK_IDS = setOf("lecture", "coding", "interview", "language", "waiting", "workshop", "cowork", "exam", "callcenter", "videocall")
+    val COMMUTE_IDS = setOf("commute_rain", "wind", "bike_rain", "nav", "rainwalk", "nightdrive", "ferry", "quietcar")
     val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker", "studio", "mixcheck", "recap")
-    val DAY_IDS = setOf("morning", "market", "coding", "yoga", "garden", "waiting", "barber", "cowork", "alert", "camping", "playground", "photoshoot", "pool")
-    val SPORT_IDS = setOf("cardio", "yoga", "festival", "stadium", "pool")
+    val DAY_IDS = setOf("morning", "market", "coding", "yoga", "garden", "waiting", "barber", "cowork", "alert", "camping", "playground", "photoshoot", "pool", "park")
+    val SPORT_IDS = setOf("cardio", "yoga", "festival", "stadium", "pool", "ski", "esports")
 }
