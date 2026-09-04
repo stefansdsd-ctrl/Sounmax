@@ -1,0 +1,43 @@
+package com.example.dsp
+
+/** Scene-specifieke adaptive EQ, vóór genre-hints. */
+object AdaptiveSceneEq {
+    fun hint(blob: String): AdaptiveEqHint? = when {
+        has(blob, "festival", "tomorrowland", "lowlands", "pinkpop") ->
+            hint("festival", 2.2f, 1.8f, 0.4f, -0.4f, 0.0f, 0.4f, 1.0f, 1.6f, 1.8f, 1.2f, 80, 0.4f)
+        has(blob, "veerboot", "ferry", "westerschelde") ->
+            hint("veerboot", 1.0f, 0.8f, 0.2f, 0.0f, 0.2f, 0.4f, 0.2f, -0.2f, -0.4f, -0.6f, 20, 0.1f)
+        has(blob, "klus", "workshop", "klussen") ->
+            hint("klus", -1.0f, -0.6f, 0.2f, 0.8f, 1.4f, 1.6f, 1.2f, 0.6f, 0.0f, -0.6f, -30, 1.0f)
+        has(blob, "cowork", "wework", "kantoortuin") ->
+            hint("cowork", -0.6f, -0.4f, 0.0f, 0.2f, 0.4f, 0.6f, 0.5f, 0.2f, -0.2f, -0.5f, -10, 0.3f)
+        has(blob, "tandarts", "dentist", "dental") ->
+            hint("tandarts", -1.6f, -1.2f, -0.4f, 0.2f, 0.6f, 0.8f, 0.4f, 0.0f, -0.4f, -0.8f, -40, 0.2f)
+        has(blob, "sauna", "wellness") ->
+            hint("sauna", -0.8f, -0.4f, 0.2f, 0.4f, 0.4f, 0.3f, 0.1f, -0.2f, -0.6f, -1.0f, -20, 0.0f)
+        has(blob, "stadion", "stadium", "arena") ->
+            hint("stadion", -0.4f, 0.0f, 0.3f, 0.6f, 1.0f, 1.4f, 1.6f, 1.2f, 0.4f, -0.2f, -10, 0.9f)
+        has(blob, "audiotour", "audio guide", "museumtour", "smartify") ->
+            hint("audiotour", -1.8f, -1.4f, -0.6f, 0.4f, 1.2f, 2.0f, 2.2f, 1.4f, 0.4f, -0.6f, -50, 1.2f)
+        has(blob, "camping", "kamperen") ->
+            hint("camping", 0.3f, 0.2f, 0.2f, 0.3f, 0.4f, 0.5f, 0.4f, 0.1f, -0.3f, -0.6f, 0, 0.2f)
+        has(blob, "tentamen", "examen", "toets") ->
+            hint("tentamen", -0.4f, -0.2f, 0.0f, 0.2f, 0.3f, 0.4f, 0.3f, 0.1f, -0.2f, -0.5f, -10, 0.2f)
+        has(blob, "karaoke", "sing-along", "singalong") ->
+            hint("karaoke", -1.2f, -0.8f, 0.0f, 0.6f, 1.4f, 2.0f, 2.2f, 1.6f, 0.8f, 0.2f, -20, 1.1f)
+        has(blob, "slaaplied", "white noise baby", "babyfoon") ->
+            hint("baby", -2.0f, -1.6f, -0.8f, -0.2f, 0.2f, 0.3f, 0.1f, -0.4f, -1.0f, -1.6f, -80, 0.1f)
+        has(blob, "deurbel", "doorbell", "omgeving luisteren") ->
+            hint("alert", -1.0f, -0.6f, 0.2f, 0.8f, 1.4f, 1.8f, 1.6f, 1.0f, 0.3f, -0.4f, -40, 1.0f)
+        else -> null
+    }
+
+    private fun hint(label: String, vararg v: Float): AdaptiveEqHint {
+        val bands = v.take(10)
+        val bass = if (v.size > 10) v[10].toInt() else 0
+        val clarity = if (v.size > 11) v[11] else 0f
+        return AdaptiveEqHint(label, bands, bass, clarity)
+    }
+
+    private fun has(blob: String, vararg keys: String) = keys.any { blob.contains(it) }
+}
