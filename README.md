@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Groepen: Shorts/Tuin/Wachten/Nacht-auto in Media/Dag/Onderweg; tip-chip tikt de scene
+- Scenes Festival, Veerboot, Klus + extra in ListeningScenes.ALL
+- Auto-scene: BeReal/Threads/Facebook → Shorts; Bol/Amazon/IKEA/Coolblue → Winkel
 - Scenes Shorts, Tuin, Wachten, Nacht-auto, Regenwandeling
 - Auto-scene: TikTok/Insta/Snap → Shorts; Steam/Epic/Xbox/Roblox/Twitch → Game; AH/Jumbo/Lidl/Picnic → Winkel; Thuisbezorgd/Deliveroo → Koken; Flitsmeister/ANWB → Auto; Pokémon GO → Wandelen; Docs/Sheets/Figma → Kantoor/Code
 - Adaptive EQ: shorts, koken, kids, bieb, buiten, regen, nacht-auto
@@ -22,7 +25,6 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
-- Scene-groepen in UI: Shorts/Tuin/Wachten in Media/Onderweg/Dag
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

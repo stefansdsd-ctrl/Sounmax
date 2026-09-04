@@ -29,7 +29,8 @@ object AppSceneMap {
             containsAny(p, "teams", "zoom", "meet", "webex", "slack") -> "meeting"
             containsAny(p, "discord", "ts3", "teamspeak") -> "voicechat"
             containsAny(p, "whatsapp", "telegram", "signal", "viber", "imessage") -> "call"
-            containsAny(p, "nsandroid", "9292", "ovinfo", "ov-app") -> "commute"
+            containsAny(p, "nsandroid", "9292", "ovinfo", "ov-app", "ovpay",
+                "ferry", "westerschelde") -> "commute"
             containsAny(p, "nos.nl", "nu.nl", "rtlnieuws", "ad.nl", "telegraaf") -> "news"
             containsAny(p, "kindle", "readera", "moon+reader", "librera") -> "audiobook"
             containsAny(p, "tidal", "deezer", "soundcloud", "pandora") -> null
@@ -43,13 +44,15 @@ object AppSceneMap {
             containsAny(p, "linkedin") -> "office"
             containsAny(p, "headspace", "calm", "insighttimer") -> "meditate"
             containsAny(p, "spotify") -> null
-            containsAny(p, "tiktok", "instagram", "snapchat", "youtube.shorts") -> "shortform"
+            containsAny(p, "tiktok", "instagram", "snapchat", "youtube.shorts",
+                "bereal", "threads", "facebook") -> "shortform"
             containsAny(p, "steam", "epicgames", "playstation", "xboxapp",
                 "roblox", "minecraft", "fortnite", "leagueoflegends", "twitch") -> "game"
             containsAny(p, "pokemongo", "ingress", "pikmin") -> "walk"
             containsAny(p, "flitsmeister", "anwb", "wdw") -> "car"
             containsAny(p, "ah.nl", "albertheijn", "jumbo", "lidl", "plus.nl",
-                "picnic", "dirk", "aldi") -> "shop"
+                "picnic", "dirk", "aldi", "bol.com", "amazon", "ikea",
+                "coolblue", "marktplaats", "action") -> "shop"
             containsAny(p, "thuisbezorgd", "deliveroo", "ubereats", "justeat",
                 "nyt.cooking", "kitchenstories", "jow", "recipe") -> "cook"
             containsAny(p, "tikkie", "bunq", "ing.mobile", "rabobank", "abnamro") -> null
