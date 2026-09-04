@@ -8,7 +8,7 @@ object SceneGroups {
         "Onderweg" to setOf(
             "commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk",
             "station", "airport", "commute_rain", "nav", "rainwalk", "nightdrive",
-            "wind", "bike_rain", "ferry", "waiting", "quietcar", "nsint", "raincar"
+            "wind", "bike_rain", "ferry", "waiting", "quietcar", "nsint", "raincar", "nightbus"
         ),
         "Werk" to setOf(
             "focus", "deepwork", "office", "latework", "wfh", "meeting", "school",
@@ -33,7 +33,7 @@ object SceneGroups {
             "ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna",
             "camping", "baby", "movienight", "quietcar", "museum_night", "memorial"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction"),
         "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap", "abcompare")
     )
 
