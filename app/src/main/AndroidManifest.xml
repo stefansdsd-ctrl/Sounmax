@@ -148,6 +148,17 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".qs.FocusQuickTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="SoundMax Focus 25"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".media.ActivityTransitionReceiver"
             android:exported="false">
@@ -178,6 +189,14 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.example.ACTION_SCENE_HOURLY" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".media.FocusEndReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.ACTION_FOCUS_END" />
             </intent-filter>
         </receiver>
 
