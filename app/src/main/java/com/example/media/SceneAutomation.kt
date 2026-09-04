@@ -19,7 +19,7 @@ object SceneAutomation {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         if (!prefs.getBoolean("pending_widget_scene", false)) return
         prefs.edit().putBoolean("pending_widget_scene", false).apply()
-        var scene = ListeningScenes.byId(prefs.getString("last_scene_id", null)) ?: return
+        var scene = com.example.dsp.SceneLookup.byId(prefs.getString("last_scene_id", null)) ?: return
         if (scene.id == "recap") {
             scene = RecentScenes.lastReal(prefs) ?: scene
         }
@@ -29,6 +29,9 @@ object SceneAutomation {
     fun writeSuggested(context: Context) {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         if (prefs.getBoolean("scene_locked", false)) return
+        if (prefs.getBoolean(FocusSession.KEY_ACTIVE, false) &&
+            prefs.getLong(FocusSession.KEY_END, 0L) > System.currentTimeMillis()
+        ) return
         if (!prefs.getBoolean("auto_scene", true)) return
         ContentSceneAdvisor.restore(prefs)
         val weekDose = weekDoseMinutes(prefs)
