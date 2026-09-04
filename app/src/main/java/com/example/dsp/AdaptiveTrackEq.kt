@@ -12,7 +12,7 @@ object AdaptiveTrackEq {
 
     fun hint(genre: String, title: String, artist: String): AdaptiveEqHint {
         val blob = "$genre $title $artist".lowercase()
-        val raw = rawHint(blob)
+        val raw = AdaptiveSceneEq.hint(blob) ?: rawHint(blob)
         return CircadianEq.blend(raw, CircadianEq.overlay())
     }
 
