@@ -32,7 +32,8 @@ object AppSceneMap {
             containsAny(p, "nsandroid", "9292", "ovinfo", "ov-app", "ovpay",
                 "ferry", "westerschelde") -> "commute"
             containsAny(p, "nos.nl", "nu.nl", "rtlnieuws", "ad.nl", "telegraaf") -> "news"
-            containsAny(p, "kindle", "readera", "moon+reader", "librera") -> "audiobook"
+            containsAny(p, "kindle", "readera", "moon+reader", "librera",
+                "kobo", "goodreads", "pocket") -> "ereader"
             containsAny(p, "tidal", "deezer", "soundcloud", "pandora") -> null
             containsAny(p, "notion", "obsidian", "vscode", "termux", "jetbrains",
                 "openai.chatgpt", "anthropic.claude", "cursor", "figma") -> "coding"
@@ -76,6 +77,15 @@ object AppSceneMap {
             containsAny(p, "telegram.x", "org.telegram") -> "call"
             containsAny(p, "church", "youversion", "bible") -> "church"
             containsAny(p, "doordash") -> "cook"
+            containsAny(p, "myswimpro", "swim.com", "form.swim", "zwem") -> "pool"
+            containsAny(p, "gcam", "google.android.GoogleCamera", "lightroom",
+                "snapseed", "vsco", "photoshop.express", "halide") -> "photoshoot"
+            containsAny(p, "youtubekids", "youtube.kids") -> "kids"
+            containsAny(p, "kick.live", "kick.com", "trovo", "afreeca") -> "livestream"
+            containsAny(p, "genesys", "five9", "zendesk", "freshdesk",
+                "nice.incontact") -> "callcenter"
+            containsAny(p, "perplexity", "google.android.apps.bard", "gemini") -> "coding"
+            containsAny(p, "schoolplanner", "somtoday", "magister") -> "school"
             else -> null
         }
     }
