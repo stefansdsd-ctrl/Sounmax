@@ -1,5 +1,6 @@
 package com.example.media
 
+import android.content.SharedPreferences
 import com.example.data.NowPlayingApp
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
@@ -11,9 +12,16 @@ object ContentSceneAdvisor {
         "rain", "wind", "commute_rain", "bike_rain", "plane", "saver", "rest", "airport"
     )
 
+    private var prefs: SharedPreferences? = null
+
     fun adjust(scene: ListeningScene): ListeningScene {
         val pkg = NowPlayingApp.packageName?.takeIf { it.isNotBlank() } ?: return scene
         if (scene.id in KEEP) return scene
+        prefs?.let { p ->
+            AppSceneMemory.recall(p, pkg)?.let { id ->
+                SceneLookup.byId(id)?.let { return it }
+            }
+        }
         AppSceneMap.sceneId(pkg)?.let { id ->
             SceneLookup.byId(id)?.let { return it }
         }
@@ -22,7 +30,8 @@ object ContentSceneAdvisor {
         return scene
     }
 
-    fun remember(prefs: android.content.SharedPreferences) {
+    fun remember(prefs: SharedPreferences) {
+        this.prefs = prefs
         prefs.edit()
             .putString("np_pkg", NowPlayingApp.packageName)
             .putString("np_title", NowPlayingApp.title)
@@ -32,7 +41,8 @@ object ContentSceneAdvisor {
         AppSceneMemory.remember(prefs, NowPlayingApp.packageName, prefs.getString("last_scene_id", null))
     }
 
-    fun restore(prefs: android.content.SharedPreferences) {
+    fun restore(prefs: SharedPreferences) {
+        this.prefs = prefs
         if (!NowPlayingApp.packageName.isNullOrBlank()) return
         NowPlayingApp.packageName = prefs.getString("np_pkg", null)
         NowPlayingApp.title = prefs.getString("np_title", null)
