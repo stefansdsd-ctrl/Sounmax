@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Groepen: yoga/nav/taal/cardio/code + extra onderweg/media-scenes
+- Auto-scene: WhatsApp/Telegram/Signal → Bel; Notion/Obsidian → Code; Uber/Bolt → Auto; KLM/Booking → Vliegtuig
+- Adaptive EQ: yoga, taal, livesport, café, code/lofi
 - Focus 25: QS-tegel Deep work + scene-lock; na 25 min automatische oorpauze
 - Auto-scene: laatst gebruikte scene per app eerst
 - Extra app-map: Teams/Zoom/Meet/Slack → Vergadering; Discord → Voicechat; NS/9292 → Pendelen; NOS/NU → Nieuws; YouTube/Plex/Videoland → TV
