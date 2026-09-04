@@ -16,8 +16,15 @@ class SceneQuickTileService : TileService() {
     override fun onClick() {
         val prefs = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         val current = prefs.getString("last_scene_id", "focus")
-        val idx = ListeningScenes.ALL.indexOfFirst { it.id == current }.let { if (it < 0) 0 else it }
-        val next = ListeningScenes.ALL[(idx + 1) % ListeningScenes.ALL.size]
+        val favCsv = prefs.getString("fav_scenes", "") ?: ""
+        val favs = favCsv.split(',').map { it.trim() }.filter { it.isNotBlank() }
+        val pool = if (favs.size >= 2) {
+            favs.mapNotNull { ListeningScenes.byId(it) ?: com.example.dsp.SceneLookup.byId(it) }
+        } else {
+            com.example.dsp.SceneLookup.ALL
+        }
+        val idx = pool.indexOfFirst { it.id == current }.let { if (it < 0) 0 else it }
+        val next = pool[(idx + 1) % pool.size]
         prefs.edit().putString("last_scene_id", next.id).apply()
         sendBroadcast(
             Intent(ACTION_CYCLE_SCENE).setPackage(packageName).putExtra("scene_id", next.id)
