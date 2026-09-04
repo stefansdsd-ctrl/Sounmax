@@ -12,6 +12,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Auto-scene: Crunchyroll → Anime; Smule → Karaoke; Forest/Brain.fm → Tentamen; babyfoon → Baby; bijbel-apps → Kerk
 - Shorts-apps mappen naar Shorts i.p.v. Party
 - Weer/vlucht/accu wint nog steeds van media bij tandarts/ziekenhuis/baby
+- Scenes Stiltecoupé, Park, Videobellen, Esports, Filmavond, Ski, NPO Radio
+- Auto-scene: NPO/TuneIn/Shazam→Radio; Viaplay/Ziggo/Apple TV→TV; Genshin/Clash→Esports; Meet/Duo→Videobellen; Buienradar→Regen; Ski-apps→Ski
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)

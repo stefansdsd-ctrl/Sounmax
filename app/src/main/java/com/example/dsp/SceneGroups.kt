@@ -8,17 +8,17 @@ object SceneGroups {
         "Onderweg" to setOf(
             "commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk",
             "station", "airport", "commute_rain", "nav", "rainwalk", "nightdrive",
-            "wind", "bike_rain", "ferry", "waiting"
+            "wind", "bike_rain", "ferry", "waiting", "quietcar"
         ),
         "Werk" to setOf(
             "focus", "deepwork", "office", "latework", "wfh", "meeting", "school",
-            "study", "library", "lecture", "language", "coding", "interview", "workshop", "cowork", "exam", "callcenter"
+            "study", "library", "lecture", "language", "coding", "interview", "workshop", "cowork", "exam", "callcenter", "videocall"
         ),
-        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival", "stadium", "pool"),
+        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival", "stadium", "pool", "ski"),
         "Media" to setOf(
             "film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic",
             "lofistudy", "concert", "anime", "radio", "tv", "djset", "shortform", "piano", "acoustic",
-            "museumtour", "livesport", "karaoke", "livestream", "ereader"
+            "museumtour", "livesport", "karaoke", "livestream", "ereader", "movienight", "radio_nl"
         ),
         "Genre" to setOf(
             "classic", "dnb", "nederhop", "lofistudy", "synthwave", "hyperpop",
@@ -26,13 +26,13 @@ object SceneGroups {
             "reggae", "latin", "anime", "country", "gospel", "boombap", "metalcore",
             "drill", "trance", "ukg", "jazz", "vinyl", "house", "techno", "dubstep", "liquid", "ambient"
         ),
-        "Game" to setOf("game", "fps", "voicechat"),
+        "Game" to setOf("game", "fps", "voicechat", "esports"),
         "Nacht" to setOf(
             "night", "sleep", "rest", "meditate", "asmr", "latework", "nature",
             "ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna",
-            "camping", "baby"
+            "camping", "baby", "movienight", "quietcar"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park"),
         "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap")
     )
 
