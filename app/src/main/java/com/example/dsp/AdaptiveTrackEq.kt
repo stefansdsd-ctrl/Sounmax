@@ -12,11 +12,15 @@ object AdaptiveTrackEq {
 
     fun hint(genre: String, title: String, artist: String): AdaptiveEqHint {
         val blob = "$genre $title $artist".lowercase()
-        return when {
+        val raw = rawHint(blob)
+        return CircadianEq.blend(raw, CircadianEq.overlay())
+    }
+
+    private fun rawHint(blob: String): AdaptiveEqHint = when {
             containsAny(blob, "stereo test", "left right", "links rechts") ->
                 AdaptiveEqHint("stereo", offs(0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.2f, 0.8f), 0, 0.6f)
             containsAny(blob, "bass test", "bass-check", "sub sweep") ->
-                AdaptiveEqHint("basscheck", offs(4f, 3.2f, 1.2f, -0.6f, -1.2f, -0.4f, 0.2f, 0.4f, 0.2f, 0.2f, 0f), 140, 0.1f)
+                AdaptiveEqHint("basscheck", offs(4f, 3.2f, 1.2f, -0.6f, -1.2f, -0.4f, 0.2f, 0.4f, 0.2f, 0.2f), 140, 0.1f)
             containsAny(blob, "ochtend", "morning mix", "good morning") ->
                 AdaptiveEqHint("ochtend", offs(0.8f, 0.6f, 0.4f, 0.2f, 0.4f, 0.8f, 1.0f, 0.8f, 0.4f, 0.1f), 20, 0.4f)
             containsAny(blob, "podcast", "speech", "interview", "nieuws", "news", "talk") ->
@@ -35,6 +39,20 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("cafe", offs(0.6f, 0.4f, 0.2f, 0.2f, 0.4f, 0.8f, 1.0f, 0.8f, 0.3f, 0.0f), 10, 0.4f)
             containsAny(blob, "lofi beats", "study beats", "coding mix") ->
                 AdaptiveEqHint("code", offs(0.4f, 0.2f, -0.2f, 0.0f, 0.3f, 0.6f, 0.8f, 0.6f, 0.2f, -0.4f), 10, 0.2f)
+            containsAny(blob, "tiktok", "shorts", "reels", "snap") ->
+                AdaptiveEqHint("shorts", offs(1.4f, 1.0f, 0.2f, -0.2f, 0.2f, 0.6f, 1.2f, 1.6f, 1.4f, 0.8f), 40, 0.6f)
+            containsAny(blob, "koken", "cooking", "recipe", "keuken") ->
+                AdaptiveEqHint("koken", offs(-0.8f, -0.4f, 0.2f, 0.6f, 1.0f, 1.4f, 1.2f, 0.8f, 0.2f, -0.4f), -20, 0.9f)
+            containsAny(blob, "kids", "kinderen", "peuter", "nursery") ->
+                AdaptiveEqHint("kids", offs(-1.4f, -1.0f, -0.4f, 0.2f, 0.8f, 1.2f, 1.0f, 0.4f, -0.2f, -0.8f), -40, 0.5f)
+            containsAny(blob, "bibliotheek", "library", "study hall") ->
+                AdaptiveEqHint("bieb", offs(-0.8f, -0.6f, -0.2f, 0.2f, 0.4f, 0.6f, 0.4f, 0.1f, -0.3f, -0.6f), -20, 0.2f)
+            containsAny(blob, "wandelen", "walking", "tuin", "garden") ->
+                AdaptiveEqHint("buiten", offs(0.4f, 0.3f, 0.2f, 0.2f, 0.4f, 0.6f, 0.6f, 0.3f, 0.0f, -0.3f), 10, 0.3f)
+            containsAny(blob, "regen", "rain walk", "rainy") ->
+                AdaptiveEqHint("regen", offs(0.8f, 0.6f, 0.2f, 0.0f, 0.2f, 0.4f, 0.2f, -0.1f, -0.3f, -0.4f), 20, 0.1f)
+            containsAny(blob, "nacht rit", "night drive", "nacht-auto") ->
+                AdaptiveEqHint("nacht-auto", offs(1.2f, 1.0f, 0.4f, 0.0f, -0.2f, 0.2f, 0.4f, 0.2f, -0.4f, -0.8f), 30, 0.1f)
             containsAny(blob, "hip hop", "hip-hop", "rap", "r&b", "rnb", "trap") ->
                 AdaptiveEqHint("urban", offs(2.5f, 2f, 1f, 0f, -0.5f, -0.5f, 0f, 0.5f, 1f, 0.5f), 80, 0.2f)
             containsAny(blob, "drum and bass", "liquid funk", "jungle") ->
@@ -105,7 +123,6 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("film", offs(1f, 0.8f, 0.3f, 0f, 0.3f, 0.6f, 0.8f, 1.2f, 1.5f, 1.2f), 20, 0.4f)
             else -> NONE
         }
-    }
 
     private fun offs(vararg v: Float): List<Float> = v.toList().let {
         if (it.size == 10) it else List(10) { i -> it.getOrElse(i) { 0f } }
