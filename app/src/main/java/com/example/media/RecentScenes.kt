@@ -9,7 +9,7 @@ object RecentScenes {
     private const val MAX = 8
 
     fun push(prefs: SharedPreferences, id: String?) {
-        if (id.isNullOrBlank() || id == "recap") return
+        if (id.isNullOrBlank() || id == "recap" || id == "abcompare") return
         val next = listOf(id) + list(prefs).filter { it != id }
         prefs.edit().putString(KEY, next.take(MAX).joinToString(",")).apply()
     }
@@ -23,5 +23,5 @@ object RecentScenes {
         list(prefs).mapNotNull { SceneLookup.byId(it) }
 
     fun lastReal(prefs: SharedPreferences, except: String? = "recap"): ListeningScene? =
-        list(prefs).firstOrNull { it != except }?.let { SceneLookup.byId(it) }
+        list(prefs).firstOrNull { it != except && it != "recap" && it != "abcompare" }?.let { SceneLookup.byId(it) }
 }

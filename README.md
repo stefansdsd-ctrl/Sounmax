@@ -4,6 +4,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Groepen tonen nu alle extra scenes (SceneGroups-fix)
+- Scenes Formule 1, Bruiloft, Uitvaart, NS Internationaal, Thuisworkout, Podcast NL, Commentaar, Regen-auto, Museum-nacht, Supermarkt, A/B vorige
+- Auto-scene: F1TV→Formule 1; Ziggo Sport/ESPN/DAZN→Commentaar; Eurostar/Thalys/DB→NS Internationaal; NPO Luister→Podcast NL
+- A/B-scene wisselt naar de vorige scene
 - Scenes Zwembad, Schoolplein, Fotoshoot, Callcenter, Livestream, E-reader
 - Groepen tonen extra scenes; QS-tegel Alert; scene-tegel fietst favorieten
 - Auto-scene: camera→Fotoshoot, Kindle/Kobo→E-reader, zwem-apps→Zwembad, Kick→Livestream, Zendesk→Callcenter
