@@ -4,6 +4,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Scenes Code + Cardio; Recap/Wind/Piano/Akoestisch nu ook in ALL + groepen
+- Auto-scene: Bandcamp, Castbox, Podcast Addict, Apple Podcasts
+- Adaptive EQ: akoestisch + cardio
+- Oorpauze: melding + sessie reset na 50 min (gelijkgetrokken)
 - Auto-scene volgt Now Playing (podcast/film/game/genre), weer/vlucht/accu blijven leidend
 - Extra podcast-apps: Podcast Addict, Castbox
 - Scenes: Wind, Fiets-regen, Interview, Mix-check, Vlucht-slaap, Piano, Akoestisch, Recap
