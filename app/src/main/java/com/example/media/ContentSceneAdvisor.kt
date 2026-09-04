@@ -9,7 +9,7 @@ import com.example.dsp.SceneLookup
 /** Media wint van tijd-scene, niet van weer/accu/vlucht. */
 object ContentSceneAdvisor {
     private val KEEP = setOf(
-        "rain", "wind", "commute_rain", "bike_rain", "plane", "saver", "rest", "airport"
+        "rain", "wind", "commute_rain", "bike_rain", "plane", "saver", "rest", "airport", "dentist", "hospital", "baby"
     )
 
     private var prefs: SharedPreferences? = null

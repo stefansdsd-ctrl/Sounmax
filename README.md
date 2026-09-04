@@ -4,6 +4,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Scenes Camping, Tentamen, Karaoke, Baby, Alert
+- Adaptive EQ: festival, veerboot, klus, cowork, tandarts, sauna, stadion, audiotour, camping, tentamen, karaoke, baby
+- Auto-scene: Crunchyroll → Anime; Smule → Karaoke; Forest/Brain.fm → Tentamen; babyfoon → Baby; bijbel-apps → Kerk
+- Shorts-apps mappen naar Shorts i.p.v. Party
+- Weer/vlucht/accu wint nog steeds van media bij tandarts/ziekenhuis/baby
+
 - Scenes Cowork, Kapper, Tandarts, Sauna, Stadion, Audiotour
 - Auto-scene: CapCut/Canva → Shorts; Fitbit/Garmin → Cardio; Sleep Cycle → Inslapen; Thuisarts → Ziekenhuis; Treatwell → Kapper; ticketapps → Stadion
 - Adaptive EQ: festival, veerboot, klus, stadion, audiotour
