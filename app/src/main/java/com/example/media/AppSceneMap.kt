@@ -86,6 +86,24 @@ object AppSceneMap {
                 "nice.incontact") -> "callcenter"
             containsAny(p, "perplexity", "google.android.apps.bard", "gemini") -> "coding"
             containsAny(p, "schoolplanner", "somtoday", "magister") -> "school"
+            containsAny(p, "npo.", "nporadio", "npoplus", "radio.nl", "tunelin", "tunein",
+                "shazam", "soundhound") -> "radio_nl"
+            containsAny(p, "viaplay", "ziggo", "kijk.nl", "nlziet", "appletv",
+                "paramount", "bbc.iplayer", "nl.avrotros") -> "tv"
+            containsAny(p, "bandlab", "flstudio", "cubasis", "garageband",
+                "n-track", "audiolab") -> "studio"
+            containsAny(p, "genshin", "honkai", "clashofclans", "clashroyale",
+                "brawlstars", "pokemonunite", "valorant") -> "esports"
+            containsAny(p, "tachyon", "duo.android", "facetime", "whereby",
+                "jitsi") -> "videocall"
+            containsAny(p, "buienradar", "buienalarm", "weather.yahoo") -> "rain"
+            containsAny(p, "wikipedia", "wikimedia") -> "lecture"
+            containsAny(p, "tesla", "android.car") -> "car"
+            containsAny(p, "slopes", "piste", "onx.ski", "wintersport") -> "ski"
+            containsAny(p, "parkrun", "komoot") -> "park"
+            containsAny(p, "myfitnesspal", "yazio", "lifesum") -> "gym"
+            containsAny(p, "kinemaster", "premiere.rush", "davinci") -> "shortform"
+            containsAny(p, "apple.android.music", "amazon.mp3") -> null
             else -> null
         }
     }
