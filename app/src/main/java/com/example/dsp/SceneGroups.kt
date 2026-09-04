@@ -12,12 +12,13 @@ object SceneGroups {
         ),
         "Werk" to setOf(
             "focus", "deepwork", "office", "latework", "wfh", "meeting", "school",
-            "study", "library", "lecture", "language", "coding", "interview", "workshop"
+            "study", "library", "lecture", "language", "coding", "interview", "workshop", "cowork"
         ),
-        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival"),
+        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival", "stadium"),
         "Media" to setOf(
             "film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic",
-            "lofistudy", "concert", "anime", "radio", "tv", "djset", "shortform", "piano", "acoustic"
+            "lofistudy", "concert", "anime", "radio", "tv", "djset", "shortform", "piano", "acoustic",
+            "museumtour", "livesport"
         ),
         "Genre" to setOf(
             "classic", "dnb", "nederhop", "lofistudy", "synthwave", "hyperpop",
@@ -28,9 +29,9 @@ object SceneGroups {
         "Game" to setOf("game", "fps", "voicechat"),
         "Nacht" to setOf(
             "night", "sleep", "rest", "meditate", "asmr", "latework", "nature",
-            "ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep"
+            "ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist"),
         "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap")
     )
 

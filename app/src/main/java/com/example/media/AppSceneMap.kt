@@ -55,6 +55,15 @@ object AppSceneMap {
                 "coolblue", "marktplaats", "action") -> "shop"
             containsAny(p, "thuisbezorgd", "deliveroo", "ubereats", "justeat",
                 "nyt.cooking", "kitchenstories", "jow", "recipe") -> "cook"
+            containsAny(p, "capcut", "vn.video", "inshot", "alight", "canva") -> "shortform"
+            containsAny(p, "sleepcycle", "sleep.tracker", "pillow") -> "sleep"
+            containsAny(p, "google.android.apps.fitness", "fitbit", "garmin") -> "cardio"
+            containsAny(p, "thuisarts", "apotheek", "farmacie") -> "hospital"
+            containsAny(p, "sauna", "wellness") -> "sauna"
+            containsAny(p, "treatwell", "boekafspraak", "salonized") -> "barber"
+            containsAny(p, "wework", "spaces.nl", "regus") -> "cowork"
+            containsAny(p, "audiogids", "izi.travel", "smartify") -> "museumtour"
+            containsAny(p, "viagogo", "ticketmaster", "eventim") -> "stadium"
             containsAny(p, "tikkie", "bunq", "ing.mobile", "rabobank", "abnamro") -> null
             else -> null
         }
