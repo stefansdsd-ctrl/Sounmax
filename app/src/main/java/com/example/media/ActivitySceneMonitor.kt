@@ -11,6 +11,7 @@ import com.google.android.gms.location.ActivityRecognition
 import com.google.android.gms.location.ActivityTransition
 import com.google.android.gms.location.ActivityTransitionRequest
 import com.google.android.gms.location.DetectedActivity
+import java.util.Calendar
 
 class ActivitySceneMonitor(private val context: Context) {
 
@@ -64,12 +65,18 @@ class ActivitySceneMonitor(private val context: Context) {
         const val ACTION = "com.example.ACTION_ACTIVITY_SCENE"
         const val EXTRA_TYPE = "activity_type"
 
-        fun sceneIdFor(type: Int): String? = when (type) {
-            DetectedActivity.IN_VEHICLE -> "car"
-            DetectedActivity.ON_BICYCLE -> "bike"
-            DetectedActivity.RUNNING -> "sport"
-            DetectedActivity.WALKING, DetectedActivity.ON_FOOT -> "walk"
-            else -> null
+        fun sceneIdFor(type: Int): String? {
+            val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+            val dow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+            val weekday = dow in Calendar.MONDAY..Calendar.FRIDAY
+            return when (type) {
+                DetectedActivity.IN_VEHICLE -> if (hour in 7..9 || hour in 16..19) "commute" else "car"
+                DetectedActivity.ON_BICYCLE -> "bike"
+                DetectedActivity.RUNNING -> "cardio"
+                DetectedActivity.WALKING, DetectedActivity.ON_FOOT -> "walk"
+                DetectedActivity.STILL -> if (weekday && hour in 9..17) "office" else null
+                else -> null
+            }
         }
 
         fun labelFor(type: Int): String = when (type) {

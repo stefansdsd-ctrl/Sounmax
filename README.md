@@ -4,6 +4,13 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Scenes Yoga, Navigatie, Taal (Duolingo/Babbel)
+- Auto-scene: Strava/Nike/Garmin-run → Cardio; Peloton/Zwift → Gym; Maps/Waze → Nav; Coursera/Udemy → College
+- Scene per app onthouden
+- Sleep-timer 120 min
+- STILL op werkdag 9–17 → Kantoor; hardlopen → Cardio; spitstijd in auto → Pendelen
+- SceneLookup toont extra-scenes in Alles + groepen
+- Adaptive EQ: yoga / navigatie / taal
 - Scenes Code + Cardio; Recap/Wind/Piano/Akoestisch nu ook in ALL + groepen
 - Auto-scene: Bandcamp, Castbox, Podcast Addict, Apple Podcasts
 - Adaptive EQ: akoestisch + cardio

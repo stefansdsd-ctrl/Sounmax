@@ -175,7 +175,7 @@ fun ListeningScenesBar(
                 colors = chipColors(),
                 modifier = Modifier.testTag("share_scene_chip")
             )
-            listOf(15, 30, 45, 60, 90).forEach { mins ->
+            listOf(15, 30, 45, 60, 90, 120).forEach { mins ->
                 FilterChip(
                     selected = sleepLeft == mins,
                     onClick = {
@@ -186,7 +186,7 @@ fun ListeningScenesBar(
                     colors = chipColors()
                 )
             }
-            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 45, 60, 90)) {
+            if (sleepLeft > 0 && sleepLeft !in listOf(15, 30, 45, 60, 90, 120)) {
                 FilterChip(
                     selected = true,
                     onClick = { sceneController.cancelSleepTimer() },
