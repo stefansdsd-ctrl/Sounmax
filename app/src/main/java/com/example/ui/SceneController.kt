@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.example.dsp.BuiltinPresets
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
+import com.example.dsp.SceneLookup
 import com.example.dsp.SoftwareAnc
 import com.example.media.BatteryPowerAdvisor
 import com.example.media.CallTransparencyGuard
@@ -70,12 +71,22 @@ class SceneController(private val viewModel: MainViewModel) {
     fun filteredScenes(query: String, group: String): List<ListeningScene> {
         val q = query.trim().lowercase()
         val ids = ListeningScenes.GROUPS.firstOrNull { it.first == group }?.second
+        val extraIds = when (group) {
+            "Sport" -> setOf("cardio", "yoga")
+            "Werk" -> setOf("language", "coding")
+            "Onderweg" -> setOf("nav")
+            "Nacht" -> setOf("yoga")
+            else -> emptySet()
+        }
         val favs = favoriteIds()
-        return ListeningScenes.ALL.filter { scene ->
+        return SceneLookup.ALL.filter { scene ->
             val inGroup = when (group) {
                 "Alles", "" -> true
                 "Favorieten" -> scene.id in favs
-                else -> ids.isNullOrEmpty() || scene.id in ids
+                else -> {
+                    val base = ids.orEmpty() + extraIds
+                    base.isEmpty() || scene.id in base
+                }
             }
             if (!inGroup) return@filter false
             if (q.isBlank()) true
@@ -92,7 +103,7 @@ class SceneController(private val viewModel: MainViewModel) {
             ?.split(',')
             ?.filter { it.isNotBlank() }
             ?: emptyList()
-        return ids.mapNotNull { ListeningScenes.byId(it) }.distinctBy { it.id }.take(8)
+        return ids.mapNotNull { SceneLookup.byId(it) }.distinctBy { it.id }.take(8)
     }
 
     fun setSceneGroup(label: String) {
@@ -106,7 +117,7 @@ class SceneController(private val viewModel: MainViewModel) {
         if (!added) next.remove(id)
         prefs.edit().putString("fav_scenes", next.joinToString(",")).apply()
         _favoriteSceneIds.value = next
-        val name = ListeningScenes.byId(id)?.name ?: id
+        val name = SceneLookup.byId(id)?.name ?: id
         Toast.makeText(app, if (added) "★ $name" else "☆ $name", Toast.LENGTH_SHORT).show()
     }
 
@@ -172,7 +183,7 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun swapAbScene() {
         val other = prefs.getString("ab_scene_id", null) ?: recentScenes().getOrNull(1)?.id
-        val scene = ListeningScenes.byId(other)
+        val scene = SceneLookup.byId(other)
         if (scene == null) {
             Toast.makeText(app, "Nog geen A/B-scene", Toast.LENGTH_SHORT).show()
             return
@@ -181,7 +192,7 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun shareCurrentScene() {
-        val scene = ListeningScenes.byId(_activeSceneId.value)
+        val scene = SceneLookup.byId(_activeSceneId.value)
         val text = buildString {
             appendLine("Sounmax scene")
             appendLine("${scene?.emoji ?: ""} ${scene?.name ?: _activeSceneId.value}")
@@ -199,7 +210,7 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun applyEarBreak() {
-        val rest = ListeningScenes.byId("rest") ?: return
+        val rest = SceneLookup.byId("rest") ?: ListeningScenes.byId("rest") ?: return
         val wasLocked = _locked.value
         if (wasLocked) setSceneLocked(false)
         applyListeningScene(rest)
