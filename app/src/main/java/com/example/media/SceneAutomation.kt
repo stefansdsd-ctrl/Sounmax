@@ -63,8 +63,8 @@ object SceneAutomation {
         val started = prefs.getLong("session_started_at", 0L)
         val lastBreak = prefs.getLong("last_ear_break", 0L)
         val now = System.currentTimeMillis()
-        if (started == 0L || now - started < 45 * 60_000L) return
-        if (now - lastBreak < 45 * 60_000L) return
+        if (started == 0L || now - started < 50 * 60_000L) return
+        if (now - lastBreak < 50 * 60_000L) return
         val rest = ListeningScenes.byId("rest") ?: return
         prefs.edit()
             .putString("last_scene_id", rest.id)
