@@ -65,6 +65,17 @@ object AppSceneMap {
             containsAny(p, "audiogids", "izi.travel", "smartify") -> "museumtour"
             containsAny(p, "viagogo", "ticketmaster", "eventim") -> "stadium"
             containsAny(p, "tikkie", "bunq", "ing.mobile", "rabobank", "abnamro") -> null
+            containsAny(p, "crunchyroll", "funimation", "hidive", "bilibili") -> "anime"
+            containsAny(p, "smule", "starmaker", "singa", "karaoke") -> "karaoke"
+            containsAny(p, "forest", "focusto", "brain.fm", "endel") -> "exam"
+            containsAny(p, "owlet", "babyphone", "nanit", "babymonitor") -> "baby"
+            containsAny(p, "camping", "natuurkampeer", "pitchup") -> "camping"
+            containsAny(p, "plexamp", "poweramp", "neutron", "foobar") -> null
+            containsAny(p, "whatsapp.w4b", "conversations") -> "call"
+            containsAny(p, "google.android.apps.messaging") -> "call"
+            containsAny(p, "telegram.x", "org.telegram") -> "call"
+            containsAny(p, "church", "youversion", "bible") -> "church"
+            containsAny(p, "doordash") -> "cook"
             else -> null
         }
     }
