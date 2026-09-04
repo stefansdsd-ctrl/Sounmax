@@ -34,15 +34,20 @@ object ExtraListeningScenes {
         ListeningScene("cardio", "Cardio", "🏃", "Punch + ademruimte buiten", "Electronic & Festival EDM", AncMode.WIND_GUARD),
         ListeningScene("yoga", "Yoga", "🧘", "Zacht + ruimtelijk + veilig", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("nav", "Navigatie", "📍", "Stemhelder + lichte ANC", "Vocal & Acoustic Warmth", AncMode.AMBIENT),
-        ListeningScene("language", "Taal", "🌍", "Spraakmax + veilig", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true)
+        ListeningScene("language", "Taal", "🌍", "Spraakmax + veilig", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("shortform", "Shorts", "⚡", "Korte clips: punch + helder, geen zware ANC", "Electronic & Festival EDM", AncMode.ADAPTIVE),
+        ListeningScene("garden", "Tuin", "🌱", "Buiten alert + windfilter", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
+        ListeningScene("waiting", "Wachten", "⏳", "Zacht + veilig in de rij", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("nightdrive", "Nacht-auto", "🌃", "Lage latency + minder hoog", "Rock & Metal Punch", AncMode.WIND_GUARD, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
+        ListeningScene("rainwalk", "Regenwandeling", "💦", "ANC + wind + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG)
     )
 
     val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
-    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio")
-    val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift", "yoga")
-    val WORK_IDS = setOf("lecture", "coding", "interview", "language")
-    val COMMUTE_IDS = setOf("commute_rain", "wind", "bike_rain", "nav")
+    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio", "shortform")
+    val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive")
+    val WORK_IDS = setOf("lecture", "coding", "interview", "language", "waiting")
+    val COMMUTE_IDS = setOf("commute_rain", "wind", "bike_rain", "nav", "rainwalk", "nightdrive")
     val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker", "studio", "mixcheck", "recap")
-    val DAY_IDS = setOf("morning", "market", "coding", "yoga")
+    val DAY_IDS = setOf("morning", "market", "coding", "yoga", "garden")
     val SPORT_IDS = setOf("cardio", "yoga")
 }

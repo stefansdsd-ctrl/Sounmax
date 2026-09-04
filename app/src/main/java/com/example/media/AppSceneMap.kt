@@ -34,14 +34,25 @@ object AppSceneMap {
             containsAny(p, "kindle", "readera", "moon+reader", "librera") -> "audiobook"
             containsAny(p, "tidal", "deezer", "soundcloud", "pandora") -> null
             containsAny(p, "notion", "obsidian", "vscode", "termux", "jetbrains",
-                "openai.chatgpt", "anthropic.claude", "cursor") -> "coding"
+                "openai.chatgpt", "anthropic.claude", "cursor", "figma") -> "coding"
             containsAny(p, "uber", "bolt", "free.now", "lyft") -> "car"
             containsAny(p, "klm", "booking", "expedia", "transavia", "ryanair") -> "plane"
             containsAny(p, "twitter", "x.android", "reddit") -> "news"
-            containsAny(p, "calendar", "outlook", "gmail") -> "office"
+            containsAny(p, "calendar", "outlook", "gmail", "docs.editors",
+                "android.gm", "sheets", "slides") -> "office"
             containsAny(p, "linkedin") -> "office"
             containsAny(p, "headspace", "calm", "insighttimer") -> "meditate"
             containsAny(p, "spotify") -> null
+            containsAny(p, "tiktok", "instagram", "snapchat", "youtube.shorts") -> "shortform"
+            containsAny(p, "steam", "epicgames", "playstation", "xboxapp",
+                "roblox", "minecraft", "fortnite", "leagueoflegends", "twitch") -> "game"
+            containsAny(p, "pokemongo", "ingress", "pikmin") -> "walk"
+            containsAny(p, "flitsmeister", "anwb", "wdw") -> "car"
+            containsAny(p, "ah.nl", "albertheijn", "jumbo", "lidl", "plus.nl",
+                "picnic", "dirk", "aldi") -> "shop"
+            containsAny(p, "thuisbezorgd", "deliveroo", "ubereats", "justeat",
+                "nyt.cooking", "kitchenstories", "jow", "recipe") -> "cook"
+            containsAny(p, "tikkie", "bunq", "ing.mobile", "rabobank", "abnamro") -> null
             else -> null
         }
     }
