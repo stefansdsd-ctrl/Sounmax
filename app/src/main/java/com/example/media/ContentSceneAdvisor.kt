@@ -3,6 +3,7 @@ package com.example.media
 import com.example.data.NowPlayingApp
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
+import com.example.dsp.SceneLookup
 
 /** Media wint van tijd-scene, niet van weer/accu/vlucht. */
 object ContentSceneAdvisor {
@@ -13,8 +14,12 @@ object ContentSceneAdvisor {
     fun adjust(scene: ListeningScene): ListeningScene {
         val pkg = NowPlayingApp.packageName?.takeIf { it.isNotBlank() } ?: return scene
         if (scene.id in KEEP) return scene
-        return ListeningScenes.fromNowPlaying(pkg, NowPlayingApp.genre.orEmpty(), NowPlayingApp.blob())
-            ?: scene
+        AppSceneMap.sceneId(pkg)?.let { id ->
+            SceneLookup.byId(id)?.let { return it }
+        }
+        ListeningScenes.fromNowPlaying(pkg, NowPlayingApp.genre.orEmpty(), NowPlayingApp.blob())
+            ?.let { return it }
+        return scene
     }
 
     fun remember(prefs: android.content.SharedPreferences) {
@@ -24,6 +29,7 @@ object ContentSceneAdvisor {
             .putString("np_artist", NowPlayingApp.artist)
             .putString("np_genre", NowPlayingApp.genre)
             .apply()
+        AppSceneMemory.remember(prefs, NowPlayingApp.packageName, prefs.getString("last_scene_id", null))
     }
 
     fun restore(prefs: android.content.SharedPreferences) {
