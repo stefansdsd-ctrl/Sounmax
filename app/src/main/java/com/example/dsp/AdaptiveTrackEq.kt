@@ -25,6 +25,16 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("verhaal", offs(-2f, -1.5f, -1f, 0f, 1f, 2f, 2f, 1f, 0f, -1f), -60, 1.0f)
             containsAny(blob, "asmr") ->
                 AdaptiveEqHint("asmr", offs(-3f, -2.5f, -1.5f, -0.5f, 0.5f, 1f, 1.5f, 2f, 1.5f, 0.5f), -120, 0.8f)
+            containsAny(blob, "yoga", "pilates", "stretch") ->
+                AdaptiveEqHint("yoga", offs(-1.2f, -0.8f, -0.2f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 0.6f, 0.2f), -40, 0.3f)
+            containsAny(blob, "duolingo", "taalles", "language lesson", "vocabulary") ->
+                AdaptiveEqHint("taal", offs(-1.8f, -1.4f, -0.6f, 0.2f, 1.0f, 1.8f, 2.0f, 1.4f, 0.4f, -0.6f), -50, 1.1f)
+            containsAny(blob, "eredivisie", "live sport", "wedstrijd", "commentary") ->
+                AdaptiveEqHint("sport", offs(-0.6f, -0.2f, 0.2f, 0.4f, 0.8f, 1.2f, 1.4f, 1.0f, 0.4f, -0.2f), -20, 0.8f)
+            containsAny(blob, "cafe", "coffeehouse", "koffie") ->
+                AdaptiveEqHint("cafe", offs(0.6f, 0.4f, 0.2f, 0.2f, 0.4f, 0.8f, 1.0f, 0.8f, 0.3f, 0.0f), 10, 0.4f)
+            containsAny(blob, "lofi beats", "study beats", "coding mix") ->
+                AdaptiveEqHint("code", offs(0.4f, 0.2f, -0.2f, 0.0f, 0.3f, 0.6f, 0.8f, 0.6f, 0.2f, -0.4f), 10, 0.2f)
             containsAny(blob, "hip hop", "hip-hop", "rap", "r&b", "rnb", "trap") ->
                 AdaptiveEqHint("urban", offs(2.5f, 2f, 1f, 0f, -0.5f, -0.5f, 0f, 0.5f, 1f, 0.5f), 80, 0.2f)
             containsAny(blob, "drum and bass", "liquid funk", "jungle") ->
