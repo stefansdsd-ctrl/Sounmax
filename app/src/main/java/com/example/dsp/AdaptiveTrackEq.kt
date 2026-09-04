@@ -16,7 +16,7 @@ object AdaptiveTrackEq {
             containsAny(blob, "stereo test", "left right", "links rechts") ->
                 AdaptiveEqHint("stereo", offs(0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.2f, 0.8f), 0, 0.6f)
             containsAny(blob, "bass test", "bass-check", "sub sweep") ->
-                AdaptiveEqHint("basscheck", offs(4f, 3.2f, 1.2f, -0.6f, -1.2f, -0.4f, 0.2f, 0.4f, 0.2f, 0f), 140, 0.1f)
+                AdaptiveEqHint("basscheck", offs(4f, 3.2f, 1.2f, -0.6f, -1.2f, -0.4f, 0.2f, 0.4f, 0.2f, 0.2f, 0f), 140, 0.1f)
             containsAny(blob, "ochtend", "morning mix", "good morning") ->
                 AdaptiveEqHint("ochtend", offs(0.8f, 0.6f, 0.4f, 0.2f, 0.4f, 0.8f, 1.0f, 0.8f, 0.4f, 0.1f), 20, 0.4f)
             containsAny(blob, "podcast", "speech", "interview", "nieuws", "news", "talk") ->
@@ -57,8 +57,12 @@ object AdaptiveTrackEq {
                 AdaptiveEqHint("metalcore", offs(0.8f, 0.6f, 0.2f, 0.8f, 1.4f, 1.8f, 1.6f, 1.2f, 0.6f, 0.2f), 30, 0.7f)
             containsAny(blob, "metal", "rock", "punk") ->
                 AdaptiveEqHint("rock", offs(0.5f, 0.5f, 0f, 0.5f, 1f, 1.5f, 1.5f, 1f, 0.5f, 0f), 20, 0.6f)
+            containsAny(blob, "acoustic", "unplugged", "akoestisch") ->
+                AdaptiveEqHint("akoestisch", offs(-0.6f, -0.2f, 0.4f, 0.8f, 1.2f, 1.4f, 1.2f, 0.8f, 0.3f, -0.2f), -10, 0.7f)
             containsAny(blob, "classic", "orchestra", "symphony", "piano", "opera") ->
                 AdaptiveEqHint("klassiek", offs(-1.5f, -1f, -0.5f, 0f, 0.5f, 1f, 1.5f, 1.5f, 2f, 1.5f), -40, 0.8f)
+            containsAny(blob, "cardio", "running", "workout mix") ->
+                AdaptiveEqHint("cardio", offs(2.0f, 1.6f, 0.4f, -0.4f, 0.0f, 0.4f, 0.8f, 1.2f, 1.4f, 1.0f), 70, 0.4f)
             containsAny(blob, "jazz", "blues", "soul") ->
                 AdaptiveEqHint("jazz", offs(0.5f, 0.5f, 0.5f, 1f, 1.5f, 1f, 0.5f, 0.5f, 0f, -0.5f), 10, 0.3f)
             containsAny(blob, "lofi", "lo-fi", "chill", "ambient", "sleep", "nature") ->
