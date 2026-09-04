@@ -15,7 +15,7 @@ object ExtraListeningScenes {
         ListeningScene("lecture", "College", "🧑‍🏫", "Spraakhelder + veilig", "Vocal & Acoustic Warmth", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("commute_rain", "Pendelen regen", "☔", "Max ANC + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.BALANCED_660),
         ListeningScene("morning", "Ochtend", "🌅", "Warme mids, zachte start", "Vocal & Acoustic Warmth", AncMode.ADAPTIVE),
-        ListeningScene("basscheck", "Bass-check", "🔊", "Sub + kick om laag te testen", "Hip-Hop & Urban R&B", AncMode.OFF),
+        ListeningScene("basscheck", "Bass-check", "📢", "Sub + kick om laag te testen", "Hip-Hop & Urban R&B", AncMode.OFF),
         ListeningScene("stereotest", "Stereo-test", "↔️", "Links/rechts + breedte", "Classical & Live Concert 3D", AncMode.OFF),
         ListeningScene("reference", "Referentie", "🎚️", "Vlak A/B zonder extra DSP", "Flat Studio Monitor (0 dB)", AncMode.OFF),
         ListeningScene("speaker", "Speaker", "🔈", "Speaker-achtig: minder stereo-split", "Vocal & Acoustic Warmth", AncMode.OFF),
@@ -39,15 +39,18 @@ object ExtraListeningScenes {
         ListeningScene("garden", "Tuin", "🌱", "Buiten alert + windfilter", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
         ListeningScene("waiting", "Wachten", "⏳", "Zacht + veilig in de rij", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("nightdrive", "Nacht-auto", "🌃", "Lage latency + minder hoog", "Rock & Metal Punch", AncMode.WIND_GUARD, preferredCodec = BluetoothCodec.APTX_ADAPTIVE),
-        ListeningScene("rainwalk", "Regenwandeling", "💦", "ANC + wind + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG)
+        ListeningScene("rainwalk", "Regenwandeling", "💦", "ANC + wind + warme mids", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("festival", "Festival", "🎪", "Hard buiten + wind + punch", "Electronic & Festival EDM", AncMode.WIND_GUARD),
+        ListeningScene("ferry", "Veerboot", "⛴️", "ANC tegen motor + wind", "Philips TAH6519 Pro ANC", AncMode.STRONG),
+        ListeningScene("workshop", "Klus", "🔧", "Alert + ANC tegen machines", "Vocal & Acoustic Warmth", AncMode.AMBIENT)
     )
 
     val GENRE_IDS = setOf("house", "techno", "dubstep", "ambient", "djset", "liquid")
-    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio", "shortform")
-    val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive")
-    val WORK_IDS = setOf("lecture", "coding", "interview", "language", "waiting")
-    val COMMUTE_IDS = setOf("commute_rain", "wind", "bike_rain", "nav", "rainwalk", "nightdrive")
+    val MEDIA_IDS = setOf("radio", "tv", "djset", "speaker", "reference", "studio", "shortform", "piano", "acoustic")
+    val NIGHT_IDS = setOf("ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep")
+    val WORK_IDS = setOf("lecture", "coding", "interview", "language", "waiting", "workshop")
+    val COMMUTE_IDS = setOf("commute_rain", "wind", "bike_rain", "nav", "rainwalk", "nightdrive", "ferry")
     val TOOL_IDS = setOf("basscheck", "stereotest", "reference", "speaker", "studio", "mixcheck", "recap")
-    val DAY_IDS = setOf("morning", "market", "coding", "yoga", "garden")
-    val SPORT_IDS = setOf("cardio", "yoga")
+    val DAY_IDS = setOf("morning", "market", "coding", "yoga", "garden", "waiting")
+    val SPORT_IDS = setOf("cardio", "yoga", "festival")
 }
