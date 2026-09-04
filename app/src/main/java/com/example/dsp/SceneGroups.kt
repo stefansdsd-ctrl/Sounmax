@@ -8,17 +8,18 @@ object SceneGroups {
         "Onderweg" to setOf(
             "commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk",
             "station", "airport", "commute_rain", "nav", "rainwalk", "nightdrive",
-            "wind", "bike_rain", "ferry", "waiting", "quietcar"
+            "wind", "bike_rain", "ferry", "waiting", "quietcar", "nsint", "raincar"
         ),
         "Werk" to setOf(
             "focus", "deepwork", "office", "latework", "wfh", "meeting", "school",
             "study", "library", "lecture", "language", "coding", "interview", "workshop", "cowork", "exam", "callcenter", "videocall"
         ),
-        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival", "stadium", "pool", "ski"),
+        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival", "stadium", "pool", "ski", "homeworkout", "f1"),
         "Media" to setOf(
             "film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic",
             "lofistudy", "concert", "anime", "radio", "tv", "djset", "shortform", "piano", "acoustic",
-            "museumtour", "livesport", "karaoke", "livestream", "ereader", "movienight", "radio_nl"
+            "museumtour", "livesport", "karaoke", "livestream", "ereader", "movienight", "radio_nl",
+            "f1", "podcast_nl", "commentary", "museum_night"
         ),
         "Genre" to setOf(
             "classic", "dnb", "nederhop", "lofistudy", "synthwave", "hyperpop",
@@ -30,10 +31,10 @@ object SceneGroups {
         "Nacht" to setOf(
             "night", "sleep", "rest", "meditate", "asmr", "latework", "nature",
             "ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna",
-            "camping", "baby", "movienight", "quietcar"
+            "camping", "baby", "movienight", "quietcar", "museum_night", "memorial"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park"),
-        "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap")
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding"),
+        "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap", "abcompare")
     )
 
     fun ids(group: String): Set<String>? =
