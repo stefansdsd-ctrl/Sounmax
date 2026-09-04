@@ -33,9 +33,14 @@ object AppSceneMap {
             containsAny(p, "nos.nl", "nu.nl", "rtlnieuws", "ad.nl", "telegraaf") -> "news"
             containsAny(p, "kindle", "readera", "moon+reader", "librera") -> "audiobook"
             containsAny(p, "tidal", "deezer", "soundcloud", "pandora") -> null
-            containsAny(p, "notion", "obsidian", "vscode", "termux", "jetbrains") -> "coding"
+            containsAny(p, "notion", "obsidian", "vscode", "termux", "jetbrains",
+                "openai.chatgpt", "anthropic.claude", "cursor") -> "coding"
             containsAny(p, "uber", "bolt", "free.now", "lyft") -> "car"
             containsAny(p, "klm", "booking", "expedia", "transavia", "ryanair") -> "plane"
+            containsAny(p, "twitter", "x.android", "reddit") -> "news"
+            containsAny(p, "calendar", "outlook", "gmail") -> "office"
+            containsAny(p, "linkedin") -> "office"
+            containsAny(p, "headspace", "calm", "insighttimer") -> "meditate"
             containsAny(p, "spotify") -> null
             else -> null
         }
