@@ -22,14 +22,16 @@ object WifiPlaceAdvisor {
     fun workSsid(context: Context): String? = prefs(context).getString(KEY_WORK, null)?.ifBlank { null }
 
     fun pinCurrentAsHome(context: Context): String? {
-        val ssid = currentSsid(context) ?: return null
-        prefs(context).edit().putString(KEY_HOME, ssid).apply()
+        val ssid = currentSsid(context)
+        if (ssid != null) prefs(context).edit().putString(KEY_HOME, ssid).apply()
+        GeofencePlaceAdvisor.pinHome(context)
         return ssid
     }
 
     fun pinCurrentAsWork(context: Context): String? {
-        val ssid = currentSsid(context) ?: return null
-        prefs(context).edit().putString(KEY_WORK, ssid).apply()
+        val ssid = currentSsid(context)
+        if (ssid != null) prefs(context).edit().putString(KEY_WORK, ssid).apply()
+        GeofencePlaceAdvisor.pinWork(context)
         return ssid
     }
 
