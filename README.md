@@ -8,11 +8,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Auto-scene: Buienradar/KNMI → regen; 9292/vertrektijden → spits
 - Adaptive EQ-hints voor regen, spits, thuisavond en de nieuwe scenes
 - Extra scenes zichtbaar in groepenfilter (Onderweg / Dag / Nacht)
+- Wifi-plaats: pin huidige SSID als thuis/werk → wfh / office / thuisavond
+- Vliegtuigmodus → flightsleep/quietcar
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
-- Wear-complicatie voor 1-tap scene
-- Crossfeed-bestanden controleren op main
+- Wear-complicatie: status-sync fine-tunen
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
