@@ -38,6 +38,7 @@ object SceneAutomation {
         var scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow(weekDose))
         scene = CommuteAdvisor.adjust(context, scene)
         scene = WifiPlaceAdvisor.adjust(context, scene)
+        scene = GeofencePlaceAdvisor.adjust(context, scene)
         scene = FlightAdvisor.adjust(context, scene)
         scene = CalendarMeetingAdvisor.adjust(context, scene)
         scene = ContentSceneAdvisor.adjust(scene)
