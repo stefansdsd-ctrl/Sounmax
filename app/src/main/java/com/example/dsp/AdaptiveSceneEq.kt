@@ -93,6 +93,24 @@ object AdaptiveSceneEq {
             hint("marktplein", -0.4f, -0.2f, 0.2f, 0.6f, 1.0f, 1.2f, 0.8f, 0.3f, -0.2f, -0.6f, -20, 0.8f)
         has(blob, "basic-fit", "basicfit", "trainmore") ->
             hint("basicfit", 1.6f, 1.8f, 0.6f, 0.2f, 0.4f, 0.8f, 1.0f, 0.8f, 0.2f, -0.2f, 40, 0.4f)
+        has(blob, "regen", "buienradar", "regenfiets") ->
+            hint("regen", 0.6f, 0.8f, 0.3f, 0.2f, 0.4f, 0.6f, 0.4f, 0.0f, -0.3f, -0.6f, 20, 0.3f)
+        has(blob, "spits", "volle ov") ->
+            hint("spits", 0.3f, 0.2f, 0.1f, 0.4f, 0.8f, 1.0f, 0.6f, 0.1f, -0.3f, -0.5f, 0, 0.5f)
+        has(blob, "thuisavond", "avond thuis") ->
+            hint("thuisavond", 0.5f, 0.6f, 0.4f, 0.2f, 0.2f, 0.1f, 0.0f, -0.2f, -0.5f, -0.8f, 10, 0.1f)
+        has(blob, "nachttrein", "nachtnet") ->
+            hint("nachttrein", -0.6f, -0.4f, 0.0f, 0.2f, 0.3f, 0.4f, 0.2f, -0.1f, -0.5f, -0.8f, -20, 0.2f)
+        has(blob, "intercity", "ic direct") ->
+            hint("intercity", 0.2f, 0.2f, 0.1f, 0.3f, 0.5f, 0.6f, 0.4f, 0.0f, -0.3f, -0.5f, 0, 0.3f)
+        has(blob, "koffietent", "coffee", "starbucks") ->
+            hint("koffietent", -0.6f, -0.3f, 0.2f, 0.6f, 1.0f, 1.2f, 0.8f, 0.3f, -0.2f, -0.6f, -20, 0.8f)
+        has(blob, "huisarts", "wachtkamer") ->
+            hint("huisarts", -1.4f, -1.0f, -0.2f, 0.6f, 1.4f, 1.8f, 1.4f, 0.6f, -0.2f, -0.6f, -40, 1.1f)
+        has(blob, "ziekenhuis", "umc", "poli ") ->
+            hint("ziekenhuis", -1.6f, -1.2f, -0.4f, 0.4f, 1.0f, 1.4f, 1.0f, 0.4f, -0.3f, -0.8f, -50, 1.0f)
+        has(blob, "thuiskids", "kinderen thuis") ->
+            hint("thuiskids", -1.0f, -0.6f, 0.0f, 0.4f, 0.8f, 1.0f, 0.6f, 0.1f, -0.4f, -0.8f, -30, 0.7f)
         else -> null
     }
 
