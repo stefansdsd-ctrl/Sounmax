@@ -67,6 +67,16 @@ object AdaptiveSceneEq {
             hint("gvb", 0.4f, 0.3f, 0.1f, 0.2f, 0.6f, 0.8f, 0.4f, 0.0f, -0.4f, -0.6f, 0, 0.3f)
         has(blob, "lo-fi", "lofi", "chillhop") ->
             hint("lofi", 0.4f, 0.6f, 0.4f, 0.2f, 0.2f, 0.1f, 0.0f, -0.2f, -0.4f, -0.6f, 10, 0.1f)
+        has(blob, "bibliotheek", "library", "oba ") ->
+            hint("bibliotheek", -1.4f, -1.0f, -0.2f, 0.2f, 0.4f, 0.5f, 0.3f, 0.0f, -0.4f, -0.8f, -30, 0.2f)
+        has(blob, "concertzaal", "concertgebouw", "de doelen") ->
+            hint("concertzaal", 0.2f, 0.4f, 0.3f, 0.2f, 0.4f, 0.8f, 1.2f, 1.0f, 0.4f, -0.2f, 0, 0.5f)
+        has(blob, "horeca", "restaurant", "thefork") ->
+            hint("horeca", -0.6f, -0.3f, 0.2f, 0.6f, 1.0f, 1.2f, 0.8f, 0.3f, -0.2f, -0.6f, -20, 0.9f)
+        has(blob, "ikea") ->
+            hint("ikea", -0.6f, -0.3f, 0.2f, 0.5f, 0.9f, 1.1f, 0.7f, 0.2f, -0.2f, -0.5f, -10, 0.8f)
+        has(blob, "thuiswerken", "wfh", "home office") ->
+            hint("wfh", -0.4f, -0.2f, 0.0f, 0.2f, 0.3f, 0.4f, 0.3f, 0.1f, -0.2f, -0.5f, -10, 0.2f)
         else -> null
     }
 
