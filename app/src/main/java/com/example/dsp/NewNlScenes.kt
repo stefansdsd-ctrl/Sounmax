@@ -26,6 +26,10 @@ object NewNlScenes {
         ListeningScene("onweer", "Onweer", "⛈", "Max ANC tegen donder + stabiele stream", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("sneeuw", "Sneeuw", "❄", "Windfilter + zachte aanwezigheid", "Outdoor Wind Guard", AncMode.WIND_GUARD, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("hitte", "Hittegolf", "🥵", "Zacht, veilig volume, weinig bass", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
-        ListeningScene("schoolochtend", "Schoolochtend", "🎒", "Alert + verkeer, stemmen helder", "Podcast Voice", AncMode.AMBIENT, preferredLdac = LdacQualityMode.CONNECTION_330)
+        ListeningScene("schoolochtend", "Schoolochtend", "🎒", "Alert + verkeer, stemmen helder", "Podcast Voice", AncMode.AMBIENT, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("avondfiets", "Avondfiets", "🚲", "Windfilter + alert verkeer, veilig volume", "Outdoor Wind Guard", AncMode.WIND_GUARD, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("file", "File", "🚗", "Max ANC in file, stabiele stream", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("sportschool", "Sportschool", "🏋", "Beat + ANC tegen machines", "Philips TAH6519 Pro ANC", AncMode.ADAPTIVE),
+        ListeningScene("winddown", "Avondrust", "🕯", "Zacht volume, weinig bass, klaar voor slaap", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true)
     )
 }
