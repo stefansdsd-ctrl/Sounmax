@@ -20,6 +20,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - RSSI → LDAC 330 bij zwak signaal (≤ −75 dBm)
 - Nieuwe scenes: Weekendmarkt, Terrasavond, Zondagochtend, Bibliotheek stil, Wasstraat, Kerk
 - Wear-status: weekdosis + RSSI
+- Weer: onweer / sneeuw / hittegolf-scenes via Open-Meteo
+- Schoolochtend-advisor: ma–vr 07:00–08:30 → alert + verkeer
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
