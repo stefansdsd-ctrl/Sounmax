@@ -85,6 +85,11 @@ class MainActivity : ComponentActivity() {
             needed += Manifest.permission.ACCESS_COARSE_LOCATION
             needed += Manifest.permission.ACCESS_FINE_LOCATION
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            needed += Manifest.permission.READ_CALENDAR
+        }
         if (needed.isNotEmpty()) {
             ActivityCompat.requestPermissions(this, needed.toTypedArray(), 42)
         }
