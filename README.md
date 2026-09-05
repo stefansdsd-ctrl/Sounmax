@@ -10,10 +10,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Extra scenes zichtbaar in groepenfilter (Onderweg / Dag / Nacht)
 - Wifi-plaats: pin huidige SSID als thuis/werk → wfh / office / thuisavond
 - Vliegtuigmodus → flightsleep/quietcar
+- Agenda: lopend event → meeting of videocall (Meet/Zoom/Teams)
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
 - Wear-complicatie: status-sync fine-tunen
+- Geofence als wifi-SSID onzichtbaar is
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
