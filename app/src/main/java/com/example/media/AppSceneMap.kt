@@ -109,6 +109,11 @@ object AppSceneMap {
             containsAny(p, "myfitnesspal", "yazio", "lifesum") -> "gym"
             containsAny(p, "kinemaster", "premiere.rush", "davinci") -> "shortform"
             containsAny(p, "apple.android.music", "amazon.mp3") -> null
+            containsAny(p, "pathe", "kinepolis", "vuecinemas", "vue.") -> "bioscoop"
+            containsAny(p, "efteling", "walibi", "toverland") -> "pretpark"
+            containsAny(p, "gvb", "ret.nl", "htm.", "keolis", "qbuzz", "arriva.ov") -> "gvb"
+            containsAny(p, "schiphol", "customs", "douane") -> "douane"
+            containsAny(p, "lofi", "lofigirl", "chillhop") -> "lofi"
             else -> null
         }
     }
