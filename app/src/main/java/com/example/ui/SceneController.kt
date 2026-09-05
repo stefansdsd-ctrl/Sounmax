@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.example.dsp.BuiltinPresets
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
+import com.example.dsp.SceneGroups
 import com.example.dsp.SceneLookup
 import com.example.dsp.SoftwareAnc
 import com.example.media.BatteryPowerAdvisor
@@ -70,23 +71,13 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun filteredScenes(query: String, group: String): List<ListeningScene> {
         val q = query.trim().lowercase()
-        val ids = ListeningScenes.GROUPS.firstOrNull { it.first == group }?.second
-        val extraIds = when (group) {
-            "Sport" -> setOf("cardio", "yoga")
-            "Werk" -> setOf("language", "coding")
-            "Onderweg" -> setOf("nav")
-            "Nacht" -> setOf("yoga")
-            else -> emptySet()
-        }
+        val ids = SceneGroups.ids(group)
         val favs = favoriteIds()
         return SceneLookup.ALL.filter { scene ->
             val inGroup = when (group) {
                 "Alles", "" -> true
                 "Favorieten" -> scene.id in favs
-                else -> {
-                    val base = ids.orEmpty() + extraIds
-                    base.isEmpty() || scene.id in base
-                }
+                else -> ids.isNullOrEmpty() || scene.id in ids
             }
             if (!inGroup) return@filter false
             if (q.isBlank()) true
