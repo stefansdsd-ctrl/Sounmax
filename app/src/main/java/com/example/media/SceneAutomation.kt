@@ -41,6 +41,8 @@ object SceneAutomation {
         scene = GeofencePlaceAdvisor.adjust(context, scene)
         scene = FlightAdvisor.adjust(context, scene)
         scene = CalendarMeetingAdvisor.adjust(context, scene)
+        scene = WeekendAdvisor.adjust(context, scene)
+        scene = RssiCodecAdvisor.adjust(context, scene)
         scene = ContentSceneAdvisor.adjust(scene)
         val battery = prefs.getInt("last_battery", -1).takeIf { it in 0..100 }
         scene = BatteryPowerAdvisor.adjust(context, scene, battery)
