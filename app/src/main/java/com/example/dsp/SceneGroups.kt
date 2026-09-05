@@ -9,7 +9,7 @@ object SceneGroups {
             "commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk",
             "station", "airport", "commute_rain", "nav", "rainwalk", "nightdrive",
             "wind", "bike_rain", "ferry", "waiting", "quietcar", "nsint", "raincar", "nightbus",
-            "gvb", "douane", "ovchip", "swapfiets", "treinwerk", "nsdruk"
+            "gvb", "douane", "ovchip", "swapfiets", "treinwerk", "nsdruk", "rain", "spits"
         ),
         "Werk" to setOf(
             "focus", "deepwork", "office", "latework", "wfh", "meeting", "school",
@@ -33,9 +33,9 @@ object SceneGroups {
         "Nacht" to setOf(
             "night", "sleep", "rest", "meditate", "asmr", "latework", "nature",
             "ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna",
-            "camping", "baby", "movienight", "quietcar", "museum_night", "memorial"
+            "camping", "baby", "movienight", "quietcar", "museum_night", "memorial", "thuisavond"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat", "rain"),
         "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap", "abcompare")
     )
 
