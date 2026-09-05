@@ -31,6 +31,11 @@ object AppSceneMap {
             containsAny(p, "whatsapp", "telegram", "signal", "viber", "imessage") -> "call"
             containsAny(p, "nsandroid", "9292", "ovinfo", "ov-app", "ovpay",
                 "ferry", "westerschelde") -> "commute"
+            containsAny(p, "eurostar", "thalys", "dbnavigator", "db.navigator",
+                "sncf", "trainline", "obb.tickets") -> "nsint"
+            containsAny(p, "f1tv", "formula1", "fiaformula") -> "f1"
+            containsAny(p, "espn", "dazn", "viaplay.sport", "ziggosport",
+                "foxsports") -> "commentary"
             containsAny(p, "nos.nl", "nu.nl", "rtlnieuws", "ad.nl", "telegraaf") -> "news"
             containsAny(p, "kindle", "readera", "moon+reader", "librera",
                 "kobo", "goodreads", "pocket") -> "ereader"
