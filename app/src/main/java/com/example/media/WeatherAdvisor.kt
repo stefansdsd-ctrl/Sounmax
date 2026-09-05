@@ -26,16 +26,22 @@ data class WeatherSnapshot(
         get() = precipitationMm >= 0.2 || weatherCode in RAIN_CODES
     val windy: Boolean
         get() = windKmh >= 28.0
+    val thunder: Boolean
+        get() = weatherCode in 95..99
+    val snowing: Boolean
+        get() = weatherCode in 71..77 || weatherCode in 85..86
 
     fun sceneOverride(): ListeningScene? {
         val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
         val commuteHours = hour in 6..9 || hour in 16..19
         return when {
+            thunder -> SceneLookup.byId("onweer")
+            snowing && outdoor -> SceneLookup.byId("sneeuw")
             raining && commuteHours -> SceneLookup.byId("commute_rain")
             raining && outdoor && hour in 7..20 -> SceneLookup.byId("bike_rain")
             raining -> SceneLookup.byId("rain")
             outdoor && windy -> SceneLookup.byId("wind")
-            outdoor && temperatureC >= 28.0 -> SceneLookup.byId("walk")
+            outdoor && temperatureC >= 28.0 -> SceneLookup.byId("hitte")
             outdoor && temperatureC <= 2.0 -> SceneLookup.byId("commute")
             outdoor -> SceneLookup.byId("walk")
             else -> null
@@ -44,6 +50,8 @@ data class WeatherSnapshot(
 
     fun label(): String {
         val sky = when {
+            thunder -> "onweer"
+            snowing -> "sneeuw"
             raining -> "regen"
             weatherCode in 1..3 -> "bewolkt"
             else -> "helder"
