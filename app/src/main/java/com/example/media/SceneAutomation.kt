@@ -37,6 +37,8 @@ object SceneAutomation {
         val weekDose = weekDoseMinutes(prefs)
         var scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow(weekDose))
         scene = CommuteAdvisor.adjust(context, scene)
+        scene = WifiPlaceAdvisor.adjust(context, scene)
+        scene = FlightAdvisor.adjust(context, scene)
         scene = ContentSceneAdvisor.adjust(scene)
         val battery = prefs.getInt("last_battery", -1).takeIf { it in 0..100 }
         scene = BatteryPowerAdvisor.adjust(context, scene, battery)
