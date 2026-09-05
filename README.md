@@ -5,8 +5,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Nieuw
 - Scenes: Bioscoop, Terras, Pretpark, Hackathon, Winkelcentrum, Douane, GVB/RET, Nachtmarkt, Lo-fi
+- Plus: Bibliotheek, Concertzaal, Horeca, IKEA, Thuiswerken
 - Auto-scene: Pathé/Kinepolis→bioscoop; Efteling/Walibi→pretpark; GVB/RET/HTM→gvb; Schiphol→douane
-- Adaptive EQ-hints voor bioscoop, terras, pretpark, hackathon, mall, GVB, lo-fi
+- Auto: bibliotheek-apps→library; TheFork/Resy→horeca; Concertgebouw/Ticketmaster→concertzaal; IKEA-app→ikea
+- Adaptive EQ-hints voor bioscoop, terras, pretpark, hackathon, mall, GVB, lo-fi, bibliotheek, concertzaal, horeca, IKEA, WFH
 - Tip-chip, ExtraListeningScenes, speaker-crossfeed, pendel-advisor, BLE 0x1843/0x1844
 
 ## Volgende
