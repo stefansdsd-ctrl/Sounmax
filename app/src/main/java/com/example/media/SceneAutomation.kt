@@ -44,8 +44,10 @@ object SceneAutomation {
         scene = CalendarMeetingAdvisor.adjust(context, scene)
         scene = WeekendAdvisor.adjust(context, scene)
         scene = SchoolMorningAdvisor.adjust(context, scene)
+        scene = EveningWindDownAdvisor.adjust(context, scene)
         scene = RssiCodecAdvisor.adjust(context, scene)
         scene = ContentSceneAdvisor.adjust(scene)
+        scene = PhoneBatteryAdvisor.adjust(context, scene)
         val battery = prefs.getInt("last_battery", -1).takeIf { it in 0..100 }
         scene = BatteryPowerAdvisor.adjust(context, scene, battery)
         ContentSceneAdvisor.remember(prefs)

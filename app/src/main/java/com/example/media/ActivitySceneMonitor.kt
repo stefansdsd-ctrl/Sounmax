@@ -70,11 +70,24 @@ class ActivitySceneMonitor(private val context: Context) {
             val dow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
             val weekday = dow in Calendar.MONDAY..Calendar.FRIDAY
             return when (type) {
-                DetectedActivity.IN_VEHICLE -> if (hour in 7..9 || hour in 16..19) "commute" else "car"
-                DetectedActivity.ON_BICYCLE -> "bike"
+                DetectedActivity.IN_VEHICLE -> when {
+                    hour in 7..9 || hour in 16..19 -> "commute"
+                    hour >= 21 || hour < 6 -> "nightdrive"
+                    else -> "car"
+                }
+                DetectedActivity.ON_BICYCLE -> if (hour >= 19 || hour < 6) "avondfiets" else "bike"
                 DetectedActivity.RUNNING -> "cardio"
-                DetectedActivity.WALKING, DetectedActivity.ON_FOOT -> "walk"
-                DetectedActivity.STILL -> if (weekday && hour in 9..17) "office" else null
+                DetectedActivity.WALKING, DetectedActivity.ON_FOOT -> when {
+                    hour >= 20 || hour < 6 -> "avondwandeling"
+                    weekday && hour in 7..9 -> "podcastwalk"
+                    else -> "walk"
+                }
+                DetectedActivity.STILL -> when {
+                    weekday && hour in 9..17 -> "office"
+                    weekday && hour in 18..21 -> "homeworkout"
+                    hour >= 22 || hour < 6 -> "thuisavond"
+                    else -> null
+                }
                 else -> null
             }
         }
