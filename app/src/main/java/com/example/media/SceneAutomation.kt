@@ -33,6 +33,7 @@ object SceneAutomation {
             prefs.getLong(FocusSession.KEY_END, 0L) > System.currentTimeMillis()
         ) return
         if (!prefs.getBoolean("auto_scene", true)) return
+        if (prefs.getLong("manual_scene_until", 0L) > System.currentTimeMillis()) return
         ContentSceneAdvisor.restore(prefs)
         val weekDose = weekDoseMinutes(prefs)
         var scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow(weekDose))
