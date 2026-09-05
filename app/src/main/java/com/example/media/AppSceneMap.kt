@@ -103,7 +103,7 @@ object AppSceneMap {
                 "brawlstars", "pokemonunite", "valorant") -> "esports"
             containsAny(p, "tachyon", "duo.android", "facetime", "whereby",
                 "jitsi") -> "videocall"
-            containsAny(p, "buienradar", "buienalarm", "weather.yahoo") -> "rain"
+            containsAny(p, "buienradar", "buienalarm", "weather.yahoo", "knmi") -> "rain"
             containsAny(p, "wikipedia", "wikimedia") -> "lecture"
             containsAny(p, "tesla", "android.car") -> "car"
             containsAny(p, "slopes", "piste", "onx.ski", "wintersport") -> "ski"
@@ -125,6 +125,7 @@ object AppSceneMap {
             containsAny(p, "ns.", "nsandroid", "nsinternational", "treinreiziger") -> "nsdruk"
             containsAny(p, "basicfit", "basic-fit", "basic.fit", "trainmore", "sportcity", "fitforfree") -> "basicfit"
             containsAny(p, "brightspace", "canvas.student", "somtoday", "magister") -> "collegezaal"
+            containsAny(p, "ov9292", "vertrektijden") -> "spits"
             else -> null
         }
     }
