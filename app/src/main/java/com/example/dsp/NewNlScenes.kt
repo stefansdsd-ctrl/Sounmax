@@ -12,11 +12,16 @@ object NewNlScenes {
         ListeningScene("ziekenhuis", "Ziekenhuis", "🏦", "Zacht, alert op omroepen", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("thuiskids", "Thuis + kids", "🧒", "Transparantie + veilig volume", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("regenfiets", "Regenfiets", "🌧", "Windfilter + extra aanwezigheid", "Outdoor Wind Guard", AncMode.WIND_GUARD, preferredLdac = LdacQualityMode.CONNECTION_330),
-        ListeningScene("weekendmarkt", "Weekendmarkt", "🫺", "Transparantie tussen kramen", "Podcast Voice", AncMode.AMBIENT),
+        ListeningScene("weekendmarkt", "Weekendmarkt", "🩺", "Transparantie tussen kramen", "Podcast Voice", AncMode.AMBIENT),
         ListeningScene("terrasavond", "Terrasavond", "🍹", "Stemmen + lichte wind, zacht", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD, safeVolume = true),
         ListeningScene("zondagochtend", "Zondagochtend", "🥐", "Zacht, ruim, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("bibliotheekstil", "Bibliotheek stil", "📚", "Minimaal volume, focus", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("wasstraat", "Wasstraat", "🚿", "Max ANC tegen hogedruk + muziek", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
-        ListeningScene("kerk", "Kerk / aula", "⛪", "Zacht + ruimtelijk, veilig", "Classical & Live Concert 3D", AncMode.OFF, safeVolume = true)
+        ListeningScene("kerk", "Kerk / aula", "⛪", "Zacht + ruimtelijk, veilig", "Classical & Live Concert 3D", AncMode.OFF, safeVolume = true),
+        ListeningScene("podcastwalk", "Podcastwandeling", "🎧", "Stemmen helder, verkeer hoorbaar", "Podcast Voice", AncMode.AMBIENT, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("avondwandeling", "Avondwandeling", "🌙", "Zacht + windfilter, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.WIND_GUARD, safeVolume = true),
+        ListeningScene("kantooropen", "Open kantoor", "🏢", "ANC tegen gebabbel, stemmen in calls", "Podcast Voice", AncMode.ADAPTIVE),
+        ListeningScene("wachtrij", "Wachtrij", "⏳", "Zacht, alert op naam-oproep", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("treinstilte", "Stiltecoupé", "🤫", "Max ANC, veilig volume", "Flat Studio Monitor (0 dB)", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330)
     )
 }
