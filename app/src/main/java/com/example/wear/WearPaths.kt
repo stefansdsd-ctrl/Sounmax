@@ -17,6 +17,8 @@ object WearPaths {
     const val KEY_QUIET = "quiet"
     const val KEY_DOSE = "dose_min"
     const val KEY_VOLUME = "vol"
+    const val KEY_WEEK_DOSE = "week_dose"
+    const val KEY_RSSI = "rssi"
 
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
