@@ -56,8 +56,9 @@ object AppSceneMap {
                 "roblox", "minecraft", "fortnite", "leagueoflegends", "twitch") -> "game"
             containsAny(p, "pokemongo", "ingress", "pikmin") -> "walk"
             containsAny(p, "flitsmeister", "anwb", "wdw") -> "car"
+            containsAny(p, "ikea") -> "ikea"
             containsAny(p, "ah.nl", "albertheijn", "jumbo", "lidl", "plus.nl",
-                "picnic", "dirk", "aldi", "bol.com", "amazon", "ikea",
+                "picnic", "dirk", "aldi", "bol.com", "amazon",
                 "coolblue", "marktplaats", "action") -> "shop"
             containsAny(p, "thuisbezorgd", "deliveroo", "ubereats", "justeat",
                 "nyt.cooking", "kitchenstories", "jow", "recipe") -> "cook"
@@ -69,7 +70,8 @@ object AppSceneMap {
             containsAny(p, "treatwell", "boekafspraak", "salonized") -> "barber"
             containsAny(p, "wework", "spaces.nl", "regus") -> "cowork"
             containsAny(p, "audiogids", "izi.travel", "smartify") -> "museumtour"
-            containsAny(p, "viagogo", "ticketmaster", "eventim") -> "stadium"
+            containsAny(p, "viagogo", "ticketmaster", "eventim", "concertgebouw",
+                "concertgebouworkest", "de.doelen") -> "concertzaal"
             containsAny(p, "tikkie", "bunq", "ing.mobile", "rabobank", "abnamro") -> null
             containsAny(p, "crunchyroll", "funimation", "hidive", "bilibili") -> "anime"
             containsAny(p, "smule", "starmaker", "singa", "karaoke") -> "karaoke"
@@ -114,6 +116,10 @@ object AppSceneMap {
             containsAny(p, "gvb", "ret.nl", "htm.", "keolis", "qbuzz", "arriva.ov") -> "gvb"
             containsAny(p, "schiphol", "customs", "douane") -> "douane"
             containsAny(p, "lofi", "lofigirl", "chillhop") -> "lofi"
+            containsAny(p, "bibliotheek", "oba.", "obamsterdam", "wise.library",
+                "libbyapp", "overdrive.media") -> "library"
+            containsAny(p, "thefork", "resy", "opentable", "quandoo", "eet.nu") -> "horeca"
+            containsAny(p, "anydesk", "teamviewer", "rustdesk") -> "wfh"
             else -> null
         }
     }
