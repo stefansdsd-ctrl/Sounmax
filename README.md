@@ -22,6 +22,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Wear-status: weekdosis + RSSI
 - Weer: onweer / sneeuw / hittegolf-scenes via Open-Meteo
 - Schoolochtend-advisor: ma–vr 07:00–08:30 → alert + verkeer
+- Avondrust-advisor: 22:00 thuisavond, 23:00–06:00 sleep
+- Telefoonaccu ≤15% → saver + LDAC 330
+- Activiteit: avondwandeling / avondfiets / nightdrive / homeworkout
+- Scenes: Avondfiets, File, Sportschool, Avondrust
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
