@@ -28,6 +28,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Telefoonaccu ≤15% → saver + LDAC 330
 - Activiteit: avondwandeling / avondfiets / nightdrive / homeworkout
 - Scenes: Avondfiets, File, Sportschool, Avondrust
+- Avond-timer: vanaf 22:00 automatisch 45m slaaptimer + fade als muziek speelt
+- Scene: Podcast in bed
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
