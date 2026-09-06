@@ -4,32 +4,22 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
-- Schema-uren instelbaar: lang indrukken op Pin schema (6/7/8 · 8/9/10 · 16/17/18 · 21/22/23)
-- Tijdschema: ook weekend-slot (za/zo 9–17) en nacht-slot (22–7)
-- Pin schema-chip: huidige scene vastzetten op ochtend (7–9), werk (9–17), weekend, avond (17–22) of nacht
-- Focus 25 toggle (aan/uit) + lock-status
-- Schema-label in waarom-regel
-- Agenda: alleen echte meetings/videocalls (titel + Zoom/Meet/Teams-link), 5 min vóór start
-- Waarom-chip toont agendatitel
-- Geofence: ook PASSIVE-locatie (beter op Android 13+ zonder zichtbare SSID)
+- SceneController hersteld (bestand was leeg)
+- Werk/weekend-pin per weekdag (ma-vr + za/zo), fallback op oud slot
+- Schema-uren instelbaar: lang indrukken op Pin schema
+- Tijdschema: weekend-slot en nacht-slot
+- Pin schema-chip + Focus 25 + schema-label in waarom-regel
+- Agenda: echte meetings, 5 min pre-roll
+- Geofence PASSIVE, wifi-plaats, pendel, vliegtuigmodus
 - Scenes: OV-overstap, Kapper, Museum, IKEA, Bouw/wegwerk
-- Focus-25: 1-tap deep work + slot, daarna oorpauze
-- Waarom-chip: toont welke advisor de scene koos (weer, pendel, agenda…)
-- Undo laatste scene + 1-tap tip toepassen
-- Soft-hold: handmatige scene pauzeert auto-scene 30 min
-- Groepenfilter gebruikt alle extra scenes (niet alleen de basislijst)
-- Tip-chip: voorgestelde scene in 1 tap
-- Zoekbalk + favorieten (★ lang indrukken)
-- Auto-scene: Buienradar/KNMI → regen; 9292/vertrektijden → spits
-- Wifi-plaats + geofence + agenda + vliegtuigmodus
-- RSSI → LDAC 330 bij zwak signaal (≤ −75 dBm)
-- Wear-status: weekdosis + RSSI
-- Favorieten-widget: 4 scenes in 1 tap (30 min soft-hold)
+- Undo, tip-chip, zoek + favorieten, soft-hold
+- RSSI naar LDAC 330 bij zwak signaal
+- Wear-status + favorieten-widget
 
 ## Volgende
-- Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
+- Philips ANC via echte GATT-UUIDs (koppel headset, deel GATT-dump)
 - Wear-complicatie: status-sync fine-tunen
-- Schema-slots per weekdag apart
+- ListeningScenesBar long-press uren koppelen als build klaar is
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
