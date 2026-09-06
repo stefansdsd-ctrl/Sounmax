@@ -13,7 +13,9 @@ import com.example.media.BatteryPowerAdvisor
 import com.example.media.CallTransparencyGuard
 import com.example.media.HeadsetStatus
 import com.example.media.HeadsetStatusMonitor
+import com.example.media.RecentScenes
 import com.example.media.SceneAutomation
+import com.example.media.SceneReason
 import com.example.media.SleepFade
 import com.example.media.WeatherAdvisor
 import com.example.widget.SoundMaxWidget
@@ -52,6 +54,9 @@ class SceneController(private val viewModel: MainViewModel) {
 
     private val _sleepLeft = MutableStateFlow(remainingSleep())
     val sleepTimerMinutes: StateFlow<Int> = _sleepLeft.asStateFlow()
+
+    private val _sceneReason = MutableStateFlow(SceneReason.read(prefs))
+    val sceneReason: StateFlow<String> = _sceneReason.asStateFlow()
 
     val suggestedScene: StateFlow<ListeningScene> = MutableStateFlow(currentSuggested())
     val listeningMinutesToday: StateFlow<Int> = MutableStateFlow(doseToday())
@@ -168,8 +173,30 @@ class SceneController(private val viewModel: MainViewModel) {
             .putString("ab_scene_id", previous)
             .putLong("session_started_at", System.currentTimeMillis())
             .apply()
+        SceneReason.save(prefs, emptyList(), "Handmatig · ${weather.name}")
+        _sceneReason.value = SceneReason.read(prefs)
         SoundMaxWidget.refreshAll(app)
         Toast.makeText(app, "${weather.emoji} ${weather.name}", Toast.LENGTH_SHORT).show()
+    }
+
+    fun undoLastScene() {
+        val other = prefs.getString(SceneReason.KEY_PREV, null)
+            ?: RecentScenes.list(prefs).getOrNull(1)
+        val scene = SceneLookup.byId(other)
+        if (scene == null) {
+            Toast.makeText(app, "Niets om terug te zetten", Toast.LENGTH_SHORT).show()
+            return
+        }
+        applyListeningScene(scene)
+        SceneReason.save(prefs, emptyList(), "Ongedaan gemaakt")
+        _sceneReason.value = SceneReason.read(prefs)
+    }
+
+    fun applySuggestedScene() {
+        val scene = currentSuggested()
+        applyListeningScene(scene)
+        SceneReason.save(prefs, emptyList(), "Tip toegepast")
+        _sceneReason.value = SceneReason.read(prefs)
     }
 
     fun swapAbScene() {
