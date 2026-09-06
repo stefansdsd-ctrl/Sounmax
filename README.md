@@ -4,6 +4,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Waarom-chip: toont welke advisor de scene koos (weer, pendel, agenda…)
+- Undo laatste scene + 1-tap tip toepassen
 - Soft-hold: handmatige scene pauzeert auto-scene 30 min
 - Groepenfilter gebruikt alle extra scenes (niet alleen de basislijst)
 - Tip-chip: voorgestelde scene in 1 tap
