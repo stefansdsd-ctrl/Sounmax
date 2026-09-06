@@ -60,6 +60,7 @@ fun ListeningScenesBar(
     val sceneGroup by sceneController.sceneGroup.collectAsStateWithLifecycle()
     val doseWarning by sceneController.doseWarning.collectAsStateWithLifecycle()
     val favoriteIds by sceneController.favoriteSceneIds.collectAsStateWithLifecycle()
+    val sceneReason by sceneController.sceneReason.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     val scenes = remember(query, sceneGroup, favoriteIds) { sceneController.filteredScenes(query, sceneGroup) }
     val recents = remember(activeSceneId) { sceneController.recentScenes() }
@@ -76,6 +77,27 @@ fun ListeningScenesBar(
         )
         doseWarning?.let {
             Text(it, color = ImmersiveLavenderAccent, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+        }
+        Text(
+            text = "Waarom: $sceneReason",
+            color = ImmersiveTextSecondary,
+            fontSize = 11.sp
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.applySuggestedScene() },
+                label = { Text("Tip ${suggested.emoji}", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("apply_tip_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.undoLastScene() },
+                label = { Text("Undo", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("undo_scene_chip")
+            )
         }
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(com.example.dsp.ListeningScenes.GROUPS, key = { it.first }) { (label, _) ->
