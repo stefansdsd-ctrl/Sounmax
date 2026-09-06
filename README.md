@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Agenda: alleen echte meetings/videocalls (titel + Zoom/Meet/Teams-link), 5 min vóór start
+- Waarom-chip toont agendatitel
+- Geofence: ook PASSIVE-locatie (beter op Android 13+ zonder zichtbare SSID)
 - Scenes: OV-overstap, Kapper, Museum, IKEA, Bouw/wegwerk
 - Focus-25: 1-tap deep work + slot, daarna oorpauze
 - Waarom-chip: toont welke advisor de scene koos (weer, pendel, agenda…)
