@@ -98,6 +98,13 @@ fun ListeningScenesBar(
                 colors = chipColors(),
                 modifier = Modifier.testTag("undo_scene_chip")
             )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.startFocusSession() },
+                label = { Text("Focus 25", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("focus_25_chip")
+            )
         }
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(com.example.dsp.ListeningScenes.GROUPS, key = { it.first }) { (label, _) ->
