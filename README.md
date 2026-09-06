@@ -16,11 +16,11 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Wifi-plaats + geofence + agenda + vliegtuigmodus
 - RSSI → LDAC 330 bij zwak signaal (≤ −75 dBm)
 - Wear-status: weekdosis + RSSI
+- Favorieten-widget: 4 scenes in 1 tap (30 min soft-hold)
 
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
 - Wear-complicatie: status-sync fine-tunen
-- Home-widget: favoriete scene in 1 tap
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
