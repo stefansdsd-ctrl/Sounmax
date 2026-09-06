@@ -11,6 +11,7 @@ import android.os.SystemClock
 import android.widget.RemoteViews
 import com.example.MainActivity
 import com.example.R
+import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
 import com.example.media.EarBreakWatch
@@ -58,6 +59,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 cycleSleep(context)
                 refreshAll(context)
             }
+            ACTION_APPLY_SCENE -> {
+                applyScene(context, intent.getStringExtra(EXTRA_SCENE_ID))
+                refreshAll(context)
+            }
             ACTION_TICK, ACTION_REFRESH -> {
                 EarBreakWatch.tick(context)
                 refreshAll(context)
@@ -73,12 +78,42 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val ACTION_CYCLE_SLEEP = "com.example.widget.CYCLE_SLEEP"
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
         const val ACTION_TICK = "com.example.widget.TICK"
+        const val ACTION_APPLY_SCENE = "com.example.widget.APPLY_SCENE"
+        const val EXTRA_SCENE_ID = "scene_id"
         private val SLEEP_STEPS = intArrayOf(0, 15, 30, 60, 90, 120)
 
         fun refreshAll(context: Context) {
             val mgr = AppWidgetManager.getInstance(context)
             val ids = mgr.getAppWidgetIds(ComponentName(context, SoundMaxWidget::class.java))
             ids.forEach { updateWidget(context, mgr, it) }
+            FavoriteScenesWidget.refreshAll(context)
+        }
+
+        fun applyScene(context: Context, sceneId: String?) {
+            val scene = ListeningScenes.byId(sceneId) ?: return
+            val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            prefs.edit()
+                .putString("last_scene_id", scene.id)
+                .putBoolean("pending_widget_scene", true)
+                .putBoolean("scene_locked", true)
+                .putLong("scene_hold_until", System.currentTimeMillis() + 30 * 60_000L)
+                .apply()
+            DspControlService.start(context)
+        }
+
+        fun favoriteScenes(context: Context): List<ListeningScene> {
+            val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            val favs = prefs.getString("fav_scenes", "")
+                ?.split(',')
+                ?.filter { it.isNotBlank() }
+                .orEmpty()
+            val mapped = favs.mapNotNull { ListeningScenes.byId(it) }
+            return if (mapped.isNotEmpty()) mapped else listOf(
+                ListeningScenes.byId("focus"),
+                ListeningScenes.byId("commute"),
+                ListeningScenes.byId("podcast"),
+                ListeningScenes.byId("sleep")
+            ).filterNotNull()
         }
 
         fun cycleScene(context: Context, step: Int = 1) {
