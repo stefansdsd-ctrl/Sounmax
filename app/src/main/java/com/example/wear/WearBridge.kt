@@ -7,8 +7,10 @@ import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
 import com.example.media.FindHeadsetHelper
+import com.example.media.FocusSession
 import com.example.media.MediaRemote
 import com.example.media.QuietHours
+import com.example.media.SceneScheduleAdvisor
 import com.example.qs.AncQuickTileService
 import com.example.qs.SpatialQuickTileService
 import com.example.widget.SoundMaxWidget
@@ -47,6 +49,13 @@ object WearBridge {
                 dataMap.putBoolean(WearPaths.KEY_QUIET, QuietHours.isQuietNow(context) && QuietHours.enabled(context))
                 dataMap.putInt(WearPaths.KEY_DOSE, todayDose(wellness))
                 dataMap.putInt(WearPaths.KEY_VOLUME, MediaRemote.musicVolumePercent(context))
+                dataMap.putBoolean(WearPaths.KEY_FOCUS, FocusSession.isActive(context))
+                dataMap.putInt(
+                    WearPaths.KEY_FOCUS_LEFT,
+                    (FocusSession.remainingMs(context) / 60_000L).toInt()
+                )
+                dataMap.putBoolean(WearPaths.KEY_LOCKED, wellness.getBoolean("scene_locked", false))
+                dataMap.putString(WearPaths.KEY_SCHEDULE, SceneScheduleAdvisor.label(wellness))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -71,6 +80,9 @@ object WearBridge {
             WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
             WearPaths.CMD_VOL_UP -> MediaRemote.volume(context, raise = true)
             WearPaths.CMD_VOL_DOWN -> MediaRemote.volume(context, raise = false)
+            WearPaths.CMD_FOCUS -> FocusSession.toggle(context)
+            WearPaths.CMD_UNDO -> undoScene(context)
+            WearPaths.CMD_LOCK -> toggleLock(context)
         }
         DspControlService.start(context)
         publishStatus(context)
@@ -118,5 +130,22 @@ object WearBridge {
                 .putExtra("enabled", nextSpatial)
                 .putExtra("head_tracking", nextTrack)
         )
+    }
+
+    private fun undoScene(context: Context) {
+        val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        val prev = prefs.getString("prev_scene_id", null) ?: return
+        val current = prefs.getString("last_scene_id", null)
+        prefs.edit()
+            .putString("last_scene_id", prev)
+            .putString("prev_scene_id", current)
+            .putBoolean("pending_widget_scene", true)
+            .apply()
+        SoundMaxWidget.refreshAll(context)
+    }
+
+    private fun toggleLock(context: Context) {
+        val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("scene_locked", !prefs.getBoolean("scene_locked", false)).apply()
     }
 }
