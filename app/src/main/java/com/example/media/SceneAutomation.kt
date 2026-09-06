@@ -49,7 +49,7 @@ object SceneAutomation {
         next = FlightAdvisor.adjust(context, scene)
         scene = SceneReason.step(scene, next, "vluchtmodus", reasons)
         next = CalendarMeetingAdvisor.adjust(context, scene)
-        scene = SceneReason.step(scene, next, "agenda", reasons)
+        scene = SceneReason.step(scene, next, CalendarMeetingAdvisor.reasonLabel(), reasons)
         next = WeekendAdvisor.adjust(context, scene)
         scene = SceneReason.step(scene, next, "weekend", reasons)
         next = SchoolMorningAdvisor.adjust(context, scene)
