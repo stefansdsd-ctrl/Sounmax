@@ -7,7 +7,8 @@ object NowPlayingApp {
     @Volatile var title: String? = null
     @Volatile var artist: String? = null
     @Volatile var genre: String? = null
+    @Volatile var album: String? = null
     @Volatile var onBoundPreset: ((EqPreset) -> Unit)? = null
 
-    fun blob(): String = listOfNotNull(genre, title, artist).joinToString(" ")
+    fun blob(): String = listOfNotNull(genre, title, artist, album).joinToString(" ")
 }

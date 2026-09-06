@@ -4,27 +4,23 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
-- Scene-EQ crossfade 600 ms (geen klik bij wissel)
-- Undo: vorige scene altijd opgeslagen bij wissel
-- Week-/dagdosis bijgewerkt na oorpauze
-- Wear: Focus 25, undo, scene-lock + schema in status-sync
-- Scene-wissel slaat vorige scene op en pusht Wear
-- SceneController hersteld (bestand was leeg)
-- Werk/weekend-pin per weekdag (ma-vr + za/zo), fallback op oud slot
-- Schema-uren instelbaar: lang indrukken op Pin schema
-- Tijdschema: weekend-slot en nacht-slot
-- Pin schema-chip + Focus 25 + schema-label in waarom-regel
-- Agenda: echte meetings, 5 min pre-roll
-- Geofence PASSIVE, wifi-plaats, pendel, vliegtuigmodus
-- Scenes: OV-overstap, Kapper, Museum, IKEA, Bouw/wegwerk
-- Undo, tip-chip, zoek + favorieten, soft-hold
-- RSSI naar LDAC 330 bij zwak signaal
-- Wear-status + favorieten-widget
+- Undo-tegel + Undo in DSP-notificatie
+- Scene-wissel slaat vorige scene op (`prev_scene_id`)
+- Genre-EQ: album + extra metadata (niet alleen YT Music)
+- Scene-EQ crossfade 600 ms
+- Wear: Focus 25, undo, scene-lock + schema
+- Werk/weekend-pin, schema-uren, agenda pre-roll
+- Geofence, wifi-plaats, pendel, vliegtuigmodus
+- RSSI → LDAC 330 bij zwak signaal
 
-## Volgende
-- Philips ANC via echte GATT-UUIDs (koppel headset, deel GATT-dump)
-- Wear-complicatie: status-sync fine-tunen
-- ListeningScenesBar long-press uren koppelen als build klaar is
+## Betere volgende functies
+1. Soft-ANC via mic-ruisvloer (zonder GATT)
+2. Auto-modus: activiteit + agenda + plaats + weer samen
+3. Gespreksboost / sidetone-sim
+4. Headset-profiel per MAC (TAH vs andere)
+5. Drive-backup van presets
+6. Wear-complicatie status-sync
+7. Echte Philips ANC-GATT (dump nodig)
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

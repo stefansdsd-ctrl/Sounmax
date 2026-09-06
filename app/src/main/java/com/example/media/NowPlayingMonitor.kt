@@ -16,7 +16,8 @@ data class NowPlayingTrack(
     val title: String,
     val artist: String,
     val genre: String,
-    val packageName: String
+    val packageName: String,
+    val album: String = ""
 )
 
 class NowPlayingMonitor(
@@ -86,20 +87,30 @@ class NowPlayingMonitor(
         }
     }
 
+    private fun meta(md: MediaMetadata, vararg keys: String): String {
+        for (k in keys) {
+            val v = md.getString(k).orEmpty().trim()
+            if (v.isNotBlank()) return v
+        }
+        return ""
+    }
+
     private fun publish(controller: MediaController?) {
         val md = controller?.metadata ?: return
-        val title = md.getString(MediaMetadata.METADATA_KEY_TITLE).orEmpty()
-        val artist = md.getString(MediaMetadata.METADATA_KEY_ARTIST).orEmpty()
-        val genre = md.getString(MediaMetadata.METADATA_KEY_GENRE).orEmpty()
+        val title = meta(md, MediaMetadata.METADATA_KEY_TITLE, MediaMetadata.METADATA_KEY_DISPLAY_TITLE)
+        val artist = meta(md, MediaMetadata.METADATA_KEY_ARTIST, MediaMetadata.METADATA_KEY_ALBUM_ARTIST, MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE)
+        val genre = meta(md, MediaMetadata.METADATA_KEY_GENRE)
+        val album = meta(md, MediaMetadata.METADATA_KEY_ALBUM, MediaMetadata.METADATA_KEY_DISPLAY_DESCRIPTION)
         if (title.isBlank()) return
-        val key = "${controller.packageName}|$title|$artist"
+        val key = "${controller.packageName}|$title|$artist|$album"
         if (key == lastKey) return
         lastKey = key
         NowPlayingApp.packageName = controller.packageName
         NowPlayingApp.title = title
         NowPlayingApp.artist = artist
         NowPlayingApp.genre = genre
+        NowPlayingApp.album = album
         appEqMemory.load(controller.packageName)?.let { NowPlayingApp.onBoundPreset?.invoke(it) }
-        onTrack(NowPlayingTrack(title, artist, genre, controller.packageName))
+        onTrack(NowPlayingTrack(title, artist, genre, controller.packageName, album))
     }
 }
