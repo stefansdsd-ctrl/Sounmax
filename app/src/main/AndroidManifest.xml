@@ -223,6 +223,18 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/soundmax_widget_info" />
         </receiver>
+
+        <receiver
+            android:name=".widget.FavoriteScenesWidget"
+            android:exported="true"
+            android:label="Sounmax favorieten">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/favorite_scenes_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
