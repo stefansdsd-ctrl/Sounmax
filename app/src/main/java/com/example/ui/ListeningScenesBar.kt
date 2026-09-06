@@ -61,6 +61,8 @@ fun ListeningScenesBar(
     val doseWarning by sceneController.doseWarning.collectAsStateWithLifecycle()
     val favoriteIds by sceneController.favoriteSceneIds.collectAsStateWithLifecycle()
     val sceneReason by sceneController.sceneReason.collectAsStateWithLifecycle()
+    val scheduleLabel by sceneController.scheduleLabel.collectAsStateWithLifecycle()
+    val focusActive by sceneController.focusActive.collectAsStateWithLifecycle()
     var query by remember { mutableStateOf("") }
     val scenes = remember(query, sceneGroup, favoriteIds) { sceneController.filteredScenes(query, sceneGroup) }
     val recents = remember(activeSceneId) { sceneController.recentScenes() }
@@ -79,7 +81,7 @@ fun ListeningScenesBar(
             Text(it, color = ImmersiveLavenderAccent, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
         }
         Text(
-            text = "Waarom: $sceneReason",
+            text = "Waarom: $sceneReason · $scheduleLabel",
             color = ImmersiveTextSecondary,
             fontSize = 11.sp
         )
@@ -99,11 +101,18 @@ fun ListeningScenesBar(
                 modifier = Modifier.testTag("undo_scene_chip")
             )
             FilterChip(
-                selected = false,
+                selected = focusActive,
                 onClick = { sceneController.startFocusSession() },
-                label = { Text("Focus 25", fontSize = 11.sp) },
+                label = { Text(if (focusActive) "Focus aan" else "Focus 25", fontSize = 11.sp) },
                 colors = chipColors(),
                 modifier = Modifier.testTag("focus_25_chip")
+            )
+            FilterChip(
+                selected = scheduleLabel != "Tijdschema uit",
+                onClick = { sceneController.pinScheduleSlot() },
+                label = { Text("Pin schema", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("pin_schedule_chip")
             )
         }
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Pin schema-chip: huidige scene vastzetten op ochtend (7–9), werk (9–17) of avond (17–22)
+- Focus 25 toggle (aan/uit) + lock-status
+- Schema-label in waarom-regel
 - Tijdschema: pin huidige scene op ochtend (7–9), werk (9–17) of avond (17–22)
 - Agenda: alleen echte meetings/videocalls (titel + Zoom/Meet/Teams-link), 5 min vóór start
 - Waarom-chip toont agendatitel
@@ -25,6 +28,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Philips ANC via echte GATT-UUIDs (koppel headset → Deel GATT-dump)
 - Wear-complicatie: status-sync fine-tunen
+- Weekend-slot + nacht-slot in tijdschema
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

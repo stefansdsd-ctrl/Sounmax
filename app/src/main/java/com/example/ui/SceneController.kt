@@ -11,11 +11,13 @@ import com.example.dsp.SceneLookup
 import com.example.dsp.SoftwareAnc
 import com.example.media.BatteryPowerAdvisor
 import com.example.media.CallTransparencyGuard
+import com.example.media.FocusSession
 import com.example.media.HeadsetStatus
 import com.example.media.HeadsetStatusMonitor
 import com.example.media.RecentScenes
 import com.example.media.SceneAutomation
 import com.example.media.SceneReason
+import com.example.media.SceneScheduleAdvisor
 import com.example.media.SleepFade
 import com.example.media.WeatherAdvisor
 import com.example.widget.SoundMaxWidget
@@ -57,6 +59,12 @@ class SceneController(private val viewModel: MainViewModel) {
 
     private val _sceneReason = MutableStateFlow(SceneReason.read(prefs))
     val sceneReason: StateFlow<String> = _sceneReason.asStateFlow()
+
+    private val _scheduleLabel = MutableStateFlow(SceneScheduleAdvisor.label(prefs))
+    val scheduleLabel: StateFlow<String> = _scheduleLabel.asStateFlow()
+
+    private val _focusActive = MutableStateFlow(FocusSession.isActive(app))
+    val focusActive: StateFlow<Boolean> = _focusActive.asStateFlow()
 
     val suggestedScene: StateFlow<ListeningScene> = MutableStateFlow(currentSuggested())
     val listeningMinutesToday: StateFlow<Int> = MutableStateFlow(doseToday())
@@ -145,6 +153,20 @@ class SceneController(private val viewModel: MainViewModel) {
         Toast.makeText(app, if (enabled) "Call-transparantie aan" else "Call-transparantie uit", Toast.LENGTH_SHORT).show()
     }
 
+    fun pinScheduleSlot() {
+        val id = _activeSceneId.value ?: return
+        val msg = SceneScheduleAdvisor.pinCurrent(prefs, id)
+        _scheduleLabel.value = SceneScheduleAdvisor.label(prefs)
+        Toast.makeText(app, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    fun startFocusSession() {
+        FocusSession.toggle(app)
+        _focusActive.value = FocusSession.isActive(app)
+        _locked.value = prefs.getBoolean("scene_locked", false)
+        _activeSceneId.value = prefs.getString("last_scene_id", _activeSceneId.value)
+    }
+
     fun applyListeningScene(scene: ListeningScene) {
         val previous = prefs.getString("last_scene_id", null)
         val battery = monitor.status.value.batteryPercent
@@ -217,6 +239,7 @@ class SceneController(private val viewModel: MainViewModel) {
             appendLine(scene?.description.orEmpty())
             appendLine("preset=${scene?.presetName} anc=${scene?.ancMode?.displayName}")
             appendLine("veilig=${_safeVolume.value} slot=${_locked.value} auto=${_autoScene.value}")
+            appendLine(SceneScheduleAdvisor.label(prefs))
         }
         val send = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
