@@ -71,10 +71,8 @@ object GeofencePlaceAdvisor {
             val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val gps = runCatching { lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) }.getOrNull()
             val net = runCatching { lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) }.getOrNull()
-            when {
-                gps != null && net != null -> if (gps.time >= net.time) gps else net
-                else -> gps ?: net
-            }
+            val pass = runCatching { lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) }.getOrNull()
+            listOfNotNull(gps, net, pass).maxByOrNull { it.time }
         }.getOrNull()
     }
 
