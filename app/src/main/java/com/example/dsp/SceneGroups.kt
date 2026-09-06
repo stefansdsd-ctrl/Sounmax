@@ -11,7 +11,7 @@ object SceneGroups {
             "wind", "bike_rain", "ferry", "waiting", "quietcar", "nsint", "raincar", "nightbus",
             "gvb", "douane", "ovchip", "swapfiets", "treinwerk", "nsdruk", "rain", "spits",
             "nachttrein", "intercity", "regenfiets", "wasstraat", "podcastwalk", "avondwandeling", "treinstilte",
-            "onweer", "sneeuw", "schoolochtend", "avondfiets", "file"
+            "onweer", "sneeuw", "schoolochtend", "avondfiets", "file", "ovoverstap", "bouw"
         ),
         "Werk" to setOf(
             "focus", "deepwork", "office", "latework", "wfh", "meeting", "school",
@@ -23,7 +23,7 @@ object SceneGroups {
             "film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic",
             "lofistudy", "concert", "anime", "radio", "tv", "djset", "shortform", "piano", "acoustic",
             "museumtour", "livesport", "karaoke", "livestream", "ereader", "movienight", "radio_nl",
-            "f1", "podcast_nl", "commentary", "bedpodcast", "museum_night", "voiceboost", "concertzaal", "voetbal_thuis"
+            "f1", "podcast_nl", "commentary", "bedpodcast", "museum_night", "voiceboost", "concertzaal", "voetbal_thuis", "museum"
         ),
         "Genre" to setOf(
             "classic", "dnb", "nederhop", "lofistudy", "synthwave", "hyperpop",
@@ -37,7 +37,7 @@ object SceneGroups {
             "ambient", "saver", "liquid", "nightshift", "yoga", "nightdrive", "flightsleep", "sauna",
             "camping", "baby", "movienight", "quietcar", "museum_night", "memorial", "thuisavond", "nachttrein", "zondagochtend", "kerk", "avondwandeling", "treinstilte", "winddown", "avondfiets", "bedpodcast"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat", "rain", "koffietent", "huisarts", "ziekenhuis", "thuiskids", "weekendmarkt", "terrasavond", "wachtrij", "avondwandeling", "hitte", "sneeuw", "schoolochtend"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat", "rain", "koffietent", "huisarts", "ziekenhuis", "thuiskids", "weekendmarkt", "terrasavond", "wachtrij", "avondwandeling", "hitte", "sneeuw", "schoolochtend", "kapper", "museum"),
         "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap", "abcompare")
     )
 

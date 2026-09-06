@@ -23,7 +23,7 @@ object NewNlScenes {
         ListeningScene("avondwandeling", "Avondwandeling", "🌙", "Zacht + windfilter, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.WIND_GUARD, safeVolume = true),
         ListeningScene("kantooropen", "Open kantoor", "🏢", "ANC tegen gebabbel, stemmen in calls", "Podcast Voice", AncMode.ADAPTIVE),
         ListeningScene("wachtrij", "Wachtrij", "⏳", "Zacht, alert op naam-oproep", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
-        ListeningScene("treinstilte", "Stiltecoupé", "🤫", "Max ANC, veilig volume", "Flat Studio Monitor (0 dB)", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("treinstilte", "Stiltecoupé", "🤐", "Max ANC, veilig volume", "Flat Studio Monitor (0 dB)", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("onweer", "Onweer", "⛈", "Max ANC tegen donder + stabiele stream", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("sneeuw", "Sneeuw", "❄", "Windfilter + zachte aanwezigheid", "Outdoor Wind Guard", AncMode.WIND_GUARD, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("hitte", "Hittegolf", "🥵", "Zacht, veilig volume, weinig bass", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
@@ -31,6 +31,11 @@ object NewNlScenes {
         ListeningScene("avondfiets", "Avondfiets", "🚲", "Windfilter + alert verkeer, veilig volume", "Outdoor Wind Guard", AncMode.WIND_GUARD, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("file", "File", "🚗", "Max ANC in file, stabiele stream", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("sportschool", "Sportschool", "🏋", "Beat + ANC tegen machines", "Philips TAH6519 Pro ANC", AncMode.ADAPTIVE),
-        ListeningScene("winddown", "Avondrust", "🕯", "Zacht volume, weinig bass, klaar voor slaap", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true)
+        ListeningScene("winddown", "Avondrust", "🕮", "Zacht volume, weinig bass, klaar voor slaap", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
+        ListeningScene("ovoverstap", "OV-overstap", "🚉", "Transparantie voor omroepen + perron", "Podcast Voice", AncMode.AMBIENT, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("kapper", "Kapper", "✂", "Stemmen + föhn, veilig volume", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("museum", "Museum", "🏺", "Zacht, ruim, audioguide-vriendelijk", "Classical & Live Concert 3D", AncMode.OFF, safeVolume = true),
+        ListeningScene("ikea", "IKEA", "🛒", "Transparantie in drukke paden", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("bouw", "Bouw / wegwerk", "🚧", "Max ANC tegen machines", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330)
     )
 }
