@@ -7,9 +7,9 @@ import com.example.dsp.SceneLookup
 import java.util.Calendar
 
 /**
- * Vaste tijdslots die auto-scene overschrijven.
- * Slots: ochtend 07–09, werk 09–17 (week), weekend 09–17 (za/zo),
- * avond 17–22, nacht 22–07.
+ * Tijdslots die auto-scene overschrijven.
+ * Standaard: ochtend 07–09, werk 09–17 (week), weekend 09–17 (za/zo),
+ * avond 17–22, nacht 22–07. Uren zijn instelbaar via prefs.
  */
 object SceneScheduleAdvisor {
     const val KEY_ENABLED = "scene_schedule"
@@ -19,6 +19,11 @@ object SceneScheduleAdvisor {
     private const val KEY_EVENING = "sched_evening_id"
     private const val KEY_NIGHT = "sched_night_id"
 
+    const val KEY_MORNING_START = "sched_h_morning"
+    const val KEY_WORK_START = "sched_h_work"
+    const val KEY_EVENING_START = "sched_h_evening"
+    const val KEY_NIGHT_START = "sched_h_night"
+
     private val ALL_KEYS = listOf(KEY_MORNING, KEY_WORK, KEY_WEEKEND, KEY_EVENING, KEY_NIGHT)
 
     fun enabled(prefs: SharedPreferences): Boolean = prefs.getBoolean(KEY_ENABLED, false)
@@ -27,16 +32,39 @@ object SceneScheduleAdvisor {
         prefs.edit().putBoolean(KEY_ENABLED, on).apply()
     }
 
+    fun hours(prefs: SharedPreferences): Hours {
+        val morning = prefs.getInt(KEY_MORNING_START, 7).coerceIn(5, 10)
+        val work = prefs.getInt(KEY_WORK_START, 9).coerceIn(morning + 1, 12)
+        val evening = prefs.getInt(KEY_EVENING_START, 17).coerceIn(work + 1, 20)
+        val night = prefs.getInt(KEY_NIGHT_START, 22).coerceIn(evening + 1, 23)
+        return Hours(morning, work, evening, night)
+    }
+
+    fun cycleHours(prefs: SharedPreferences): String {
+        val h = hours(prefs)
+        val nextMorning = when (h.morning) { 6 -> 7; 7 -> 8; else -> 6 }
+        val nextWork = when (h.work) { 8 -> 9; 9 -> 10; else -> 8 }
+        val nextEvening = when (h.evening) { 16 -> 17; 17 -> 18; else -> 16 }
+        val nextNight = when (h.night) { 21 -> 22; 22 -> 23; else -> 21 }
+        prefs.edit()
+            .putInt(KEY_MORNING_START, nextMorning)
+            .putInt(KEY_WORK_START, nextWork.coerceAtLeast(nextMorning + 1))
+            .putInt(KEY_EVENING_START, nextEvening.coerceAtLeast(nextWork + 1))
+            .putInt(KEY_NIGHT_START, nextNight.coerceAtLeast(nextEvening + 1))
+            .apply()
+        return label(prefs)
+    }
+
     fun adjust(context: Context, current: ListeningScene): ListeningScene {
         val prefs = context.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
         if (!enabled(prefs)) return current
-        val slot = currentSlot() ?: return current
+        val slot = currentSlot(prefs) ?: return current
         val id = prefs.getString(slot.key, null) ?: return current
         return SceneLookup.byId(id) ?: current
     }
 
     fun pinCurrent(prefs: SharedPreferences, sceneId: String): String {
-        val slot = currentSlot()
+        val slot = currentSlot(prefs)
         if (slot == null) {
             setEnabled(prefs, false)
             return "Schema: buiten slots (uit)"
@@ -52,10 +80,11 @@ object SceneScheduleAdvisor {
     }
 
     fun label(prefs: SharedPreferences): String {
-        if (!enabled(prefs)) return "Tijdschema uit"
-        val slot = currentSlot() ?: return "Tijdschema (buiten slot)"
-        val id = prefs.getString(slot.key, null) ?: return "Tijdschema ${slot.label}: leeg"
-        return "Tijdschema ${slot.label}: $id"
+        val h = hours(prefs)
+        if (!enabled(prefs)) return "Tijdschema uit · ${h.short()}"
+        val slot = currentSlot(prefs) ?: return "Tijdschema (buiten slot) · ${h.short()}"
+        val id = prefs.getString(slot.key, null) ?: return "Tijdschema ${slot.label}: leeg · ${h.short()}"
+        return "Tijdschema ${slot.label}: $id · ${h.short()}"
     }
 
     private fun hasAny(prefs: SharedPreferences, except: String): Boolean =
@@ -63,18 +92,23 @@ object SceneScheduleAdvisor {
 
     private data class Slot(val key: String, val label: String)
 
-    private fun currentSlot(): Slot? {
+    data class Hours(val morning: Int, val work: Int, val evening: Int, val night: Int) {
+        fun short(): String = "%02d/%02d/%02d/%02d".format(morning, work, evening, night)
+    }
+
+    private fun currentSlot(prefs: SharedPreferences): Slot? {
+        val h = hours(prefs)
         val cal = Calendar.getInstance()
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val weekend = cal.get(Calendar.DAY_OF_WEEK).let {
             it == Calendar.SATURDAY || it == Calendar.SUNDAY
         }
         return when {
-            hour >= 22 || hour < 7 -> Slot(KEY_NIGHT, "nacht")
-            hour in 7 until 9 -> Slot(KEY_MORNING, "ochtend")
-            hour in 9 until 17 && weekend -> Slot(KEY_WEEKEND, "weekend")
-            hour in 9 until 17 -> Slot(KEY_WORK, "werk")
-            hour in 17 until 22 -> Slot(KEY_EVENING, "avond")
+            hour >= h.night || hour < h.morning -> Slot(KEY_NIGHT, "nacht ${h.night}–${h.morning}")
+            hour in h.morning until h.work -> Slot(KEY_MORNING, "ochtend ${h.morning}–${h.work}")
+            hour in h.work until h.evening && weekend -> Slot(KEY_WEEKEND, "weekend ${h.work}–${h.evening}")
+            hour in h.work until h.evening -> Slot(KEY_WORK, "werk ${h.work}–${h.evening}")
+            hour in h.evening until h.night -> Slot(KEY_EVENING, "avond ${h.evening}–${h.night}")
             else -> null
         }
     }
