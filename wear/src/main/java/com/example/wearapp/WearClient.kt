@@ -21,7 +21,11 @@ data class WearStatus(
     val headTrack: Boolean = false,
     val quiet: Boolean = false,
     val doseMin: Int = 0,
-    val volume: Int = -1
+    val volume: Int = -1,
+    val focus: Boolean = false,
+    val focusLeft: Int = 0,
+    val locked: Boolean = false,
+    val schedule: String = ""
 )
 
 object WearClient {
@@ -43,7 +47,11 @@ object WearClient {
             headTrack = map.getBoolean(WearPaths.KEY_HEAD_TRACK, false),
             quiet = map.getBoolean(WearPaths.KEY_QUIET, false),
             doseMin = map.getInt(WearPaths.KEY_DOSE, 0),
-            volume = map.getInt(WearPaths.KEY_VOLUME, -1)
+            volume = map.getInt(WearPaths.KEY_VOLUME, -1),
+            focus = map.getBoolean(WearPaths.KEY_FOCUS, false),
+            focusLeft = map.getInt(WearPaths.KEY_FOCUS_LEFT, 0),
+            locked = map.getBoolean(WearPaths.KEY_LOCKED, false),
+            schedule = map.getString(WearPaths.KEY_SCHEDULE) ?: ""
         )
     }
 
