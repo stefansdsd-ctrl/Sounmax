@@ -51,6 +51,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 cycleScene(context, -1)
                 refreshAll(context)
             }
+            ACTION_UNDO -> {
+                undoScene(context)
+                refreshAll(context)
+            }
             ACTION_SUGGEST -> {
                 applySuggested(context)
                 refreshAll(context)
@@ -74,6 +78,7 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val ACTION_TOGGLE_DSP = "com.example.widget.TOGGLE_DSP"
         const val ACTION_NEXT_SCENE = "com.example.widget.NEXT_SCENE"
         const val ACTION_PREV_SCENE = "com.example.widget.PREV_SCENE"
+        const val ACTION_UNDO = "com.example.widget.UNDO_SCENE"
         const val ACTION_SUGGEST = "com.example.widget.SUGGEST"
         const val ACTION_CYCLE_SLEEP = "com.example.widget.CYCLE_SLEEP"
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
@@ -89,14 +94,34 @@ class SoundMaxWidget : AppWidgetProvider() {
             FavoriteScenesWidget.refreshAll(context)
         }
 
+        private fun rememberPrev(prefs: android.content.SharedPreferences, nextId: String) {
+            val current = prefs.getString("last_scene_id", null)
+            val edit = prefs.edit().putString("last_scene_id", nextId).putBoolean("pending_widget_scene", true)
+            if (!current.isNullOrBlank() && current != nextId) {
+                edit.putString("prev_scene_id", current)
+            }
+            edit.apply()
+        }
+
         fun applyScene(context: Context, sceneId: String?) {
             val scene = ListeningScenes.byId(sceneId) ?: return
             val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            rememberPrev(prefs, scene.id)
             prefs.edit()
-                .putString("last_scene_id", scene.id)
-                .putBoolean("pending_widget_scene", true)
                 .putBoolean("scene_locked", true)
                 .putLong("scene_hold_until", System.currentTimeMillis() + 30 * 60_000L)
+                .apply()
+            DspControlService.start(context)
+        }
+
+        fun undoScene(context: Context) {
+            val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            val prev = prefs.getString("prev_scene_id", null) ?: return
+            val current = prefs.getString("last_scene_id", null)
+            prefs.edit()
+                .putString("last_scene_id", prev)
+                .putString("prev_scene_id", current)
+                .putBoolean("pending_widget_scene", true)
                 .apply()
             DspControlService.start(context)
         }
@@ -131,7 +156,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             val idx = pool.indexOfFirst { it.id == current }.let { if (it < 0) 0 else it }
             val size = pool.size.coerceAtLeast(1)
             val next = pool[((idx + step) % size + size) % size]
-            prefs.edit().putString("last_scene_id", next.id).putBoolean("pending_widget_scene", true).apply()
+            rememberPrev(prefs, next.id)
             DspControlService.start(context)
         }
 
@@ -139,10 +164,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             if (prefs.getBoolean("scene_locked", false)) return
             val scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
-            prefs.edit()
-                .putString("last_scene_id", scene.id)
-                .putBoolean("pending_widget_scene", true)
-                .apply()
+            rememberPrev(prefs, scene.id)
             DspControlService.start(context)
         }
 
