@@ -46,6 +46,7 @@ class DspControlService : Service() {
             }
             ACTION_NEXT_SCENE -> SoundMaxWidget.cycleScene(this, +1)
             ACTION_PREV_SCENE -> SoundMaxWidget.cycleScene(this, -1)
+            ACTION_UNDO -> SoundMaxWidget.undoScene(this)
             ACTION_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(this)
             SleepFade.ACTION_FADE -> {
                 scope.launch { SleepFade.run(this@DspControlService, DspHolder.instance) }
@@ -92,6 +93,11 @@ class DspControlService : Service() {
             Intent(this, DspControlService::class.java).setAction(ACTION_PREV_SCENE),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
+        val undo = PendingIntent.getService(
+            this, 8,
+            Intent(this, DspControlService::class.java).setAction(ACTION_UNDO),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
         val suggest = PendingIntent.getService(
             this, 6,
             Intent(this, DspControlService::class.java).setAction(ACTION_SUGGEST),
@@ -125,6 +131,7 @@ class DspControlService : Service() {
             .addAction(0, if (enabled) "Pauzeer" else "Start", toggle)
             .addAction(0, "◀", prevScene)
             .addAction(0, "Scene", nextScene)
+            .addAction(0, "Undo", undo)
             .addAction(0, "Nu ${suggested.emoji}", suggest)
             .addAction(0, if (sleepLeft > 0) "Timer $sleepLeft" else "Timer", sleep)
             .addAction(0, "Vind", find)
@@ -153,6 +160,7 @@ class DspControlService : Service() {
         const val ACTION_TOGGLE = "com.example.DSP_TOGGLE"
         const val ACTION_NEXT_SCENE = "com.example.DSP_NEXT_SCENE"
         const val ACTION_PREV_SCENE = "com.example.DSP_PREV_SCENE"
+        const val ACTION_UNDO = "com.example.DSP_UNDO"
         const val ACTION_CYCLE_SLEEP = "com.example.DSP_CYCLE_SLEEP"
         const val ACTION_SUGGEST = "com.example.DSP_SUGGEST"
         const val ACTION_FIND = "com.example.DSP_FIND"
