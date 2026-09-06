@@ -83,7 +83,13 @@ object EarBreakWatch {
     private fun bumpDose(prefs: android.content.SharedPreferences) {
         val cal = Calendar.getInstance()
         val key = "dose_${cal.get(Calendar.YEAR)}_${cal.get(Calendar.DAY_OF_YEAR)}"
-        val today = prefs.getInt(key, 0)
-        prefs.edit().putInt(key, today + 50).apply()
+        val today = prefs.getInt(key, 0) + 50
+        val week = prefs.getInt("dose_week", 0) + 50
+        prefs.edit()
+            .putInt(key, today)
+            .putInt("dose_today", today)
+            .putInt("dose_week", week)
+            .apply()
+        WeeklyDose.remember(prefs, week)
     }
 }

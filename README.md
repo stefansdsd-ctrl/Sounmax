@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Scene-EQ crossfade 600 ms (geen klik bij wissel)
+- Undo: vorige scene altijd opgeslagen bij wissel
+- Week-/dagdosis bijgewerkt na oorpauze
 - Wear: Focus 25, undo, scene-lock + schema in status-sync
 - Scene-wissel slaat vorige scene op en pusht Wear
 - SceneController hersteld (bestand was leeg)

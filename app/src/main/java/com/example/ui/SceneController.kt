@@ -76,6 +76,10 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun applyListeningScene(scene: ListeningScene) {
+        val current = _activeSceneId.value
+        if (!current.isNullOrBlank() && current != scene.id) {
+            prefs.edit().putString("prev_scene_id", current).apply()
+        }
         _activeSceneId.value = scene.id
         prefs.edit().putString("last_scene_id", scene.id).apply()
         viewModel.applyListeningScene(scene)
