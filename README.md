@@ -4,6 +4,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Wear: Focus 25, undo, scene-lock + schema in status-sync
+- Scene-wissel slaat vorige scene op en pusht Wear
 - SceneController hersteld (bestand was leeg)
 - Werk/weekend-pin per weekdag (ma-vr + za/zo), fallback op oud slot
 - Schema-uren instelbaar: lang indrukken op Pin schema
