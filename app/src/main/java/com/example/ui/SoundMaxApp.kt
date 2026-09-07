@@ -142,7 +142,8 @@ fun SoundMaxApp(
         ) {
             ListeningScenesBar(sceneController = sceneController)
             GattInsightBar(sceneController = sceneController)
-            FindHeadsetBar(viewModel = viewModel)
+            FindHeadsetBar(viewModel = viewModel, sceneController = sceneController)
+            GenreEqBar(viewModel = viewModel)
             PlacePinBar()
             HeadTrackCalibBar()
             FavoritesBar(viewModel = viewModel)
