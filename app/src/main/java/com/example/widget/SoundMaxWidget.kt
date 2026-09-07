@@ -15,6 +15,7 @@ import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
 import com.example.media.EarBreakWatch
+import com.example.media.FocusSession
 import com.example.media.SleepFade
 import com.example.media.WeatherAdvisor
 
@@ -55,6 +56,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 undoScene(context)
                 refreshAll(context)
             }
+            ACTION_FOCUS -> {
+                FocusSession.toggle(context)
+                refreshAll(context)
+            }
             ACTION_SUGGEST -> {
                 applySuggested(context)
                 refreshAll(context)
@@ -79,6 +84,7 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val ACTION_NEXT_SCENE = "com.example.widget.NEXT_SCENE"
         const val ACTION_PREV_SCENE = "com.example.widget.PREV_SCENE"
         const val ACTION_UNDO = "com.example.widget.UNDO_SCENE"
+        const val ACTION_FOCUS = "com.example.widget.FOCUS"
         const val ACTION_SUGGEST = "com.example.widget.SUGGEST"
         const val ACTION_CYCLE_SLEEP = "com.example.widget.CYCLE_SLEEP"
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
@@ -227,6 +233,9 @@ class SoundMaxWidget : AppWidgetProvider() {
             val battery = wellness.getInt(KEY_BATTERY, -1)
             val sleepLeft = remainingSleepMinutes(wellness.getLong(KEY_SLEEP_END, 0L))
             val name = wellness.getString(KEY_HEADSET_NAME, null)
+            val focusLeft = if (FocusSession.isActive(context)) {
+                (FocusSession.remainingMs(context) / 60_000L).toInt()
+            } else 0
 
             val views = RemoteViews(context.packageName, R.layout.soundmax_widget)
             views.setTextViewText(R.id.widget_title, name?.take(18) ?: "Sounmax")
@@ -238,7 +247,15 @@ class SoundMaxWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.widget_scene, "${scene.emoji} ${scene.name}")
             views.setTextViewText(
                 R.id.widget_sleep,
-                if (sleepLeft > 0) "Slaap ${sleepLeft} min" else "Tip ${suggested.emoji} ${suggested.name}"
+                when {
+                    focusLeft > 0 -> "Focus ${focusLeft} min"
+                    sleepLeft > 0 -> "Slaap ${sleepLeft} min"
+                    else -> "Tip ${suggested.emoji} ${suggested.name}"
+                }
+            )
+            views.setTextViewText(
+                R.id.widget_focus_btn,
+                if (focusLeft > 0) "Stop $focusLeft" else "Focus 25"
             )
 
             val open = PendingIntent.getActivity(
@@ -271,12 +288,24 @@ class SoundMaxWidget : AppWidgetProvider() {
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_CYCLE_SLEEP),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
+            val undo = PendingIntent.getBroadcast(
+                context, 8,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_UNDO),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            val focus = PendingIntent.getBroadcast(
+                context, 10,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_FOCUS),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
             views.setOnClickPendingIntent(R.id.widget_root, open)
             views.setOnClickPendingIntent(R.id.widget_dsp_btn, toggle)
             views.setOnClickPendingIntent(R.id.widget_scene_btn, nextScene)
             views.setOnClickPendingIntent(R.id.widget_prev_btn, prevScene)
             views.setOnClickPendingIntent(R.id.widget_sleep_btn, sleep)
             views.setOnClickPendingIntent(R.id.widget_suggest_btn, suggest)
+            views.setOnClickPendingIntent(R.id.widget_undo_btn, undo)
+            views.setOnClickPendingIntent(R.id.widget_focus_btn, focus)
             mgr.updateAppWidget(id, views)
         }
     }
