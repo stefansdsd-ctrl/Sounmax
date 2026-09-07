@@ -24,6 +24,9 @@ class SceneGesturePrefs(private val app: Application) {
     private val _genreEqPercent = MutableStateFlow(prefs.getInt("genre_eq_percent", 100).coerceIn(25, 100))
     val genreEqPercent: StateFlow<Int> = _genreEqPercent.asStateFlow()
 
+    private val _noiseSuggest = MutableStateFlow(prefs.getBoolean("scene_noise_suggest", true))
+    val noiseSuggest: StateFlow<Boolean> = _noiseSuggest.asStateFlow()
+
     init {
         GenreEqStrength.setPercent(_genreEqPercent.value)
     }
@@ -63,5 +66,15 @@ class SceneGesturePrefs(private val app: Application) {
         _genreEqPercent.value = p
         GenreEqStrength.setPercent(p)
         prefs.edit().putInt("genre_eq_percent", p).apply()
+    }
+
+    fun setNoiseSuggest(enabled: Boolean) {
+        _noiseSuggest.value = enabled
+        prefs.edit().putBoolean("scene_noise_suggest", enabled).apply()
+        Toast.makeText(
+            app,
+            if (enabled) "Ruis-suggestie aan" else "Ruis-suggestie uit",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
