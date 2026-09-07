@@ -4,30 +4,24 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- SAF bestandskiezer: backup opslaan/openen als JSON (naast klembord)
+- Lokale snapshot-herstel vanuit BackupBar
 - Widget: tweede rij Undo + Focus 25
 - DSP-notificatie: Focus 25 toggle + resterende minuten
-- Lokale preset-snapshot (`filesDir/sounmax-backup.json`) bij export; herstel zonder clipboard
-- Soft-ANC adaptief: ruisvloer uit volume/activiteit/RSSI (geen extra mic-permissie)
+- Soft-ANC adaptief: ruisvloer uit volume/activiteit/RSSI
 - Software-ANC gekoppeld aan `setAncMode` + bass-delta
 - WHO-luisterdosis: 80 dB × 40 u, dag+week, pauze-advies
-- Auto-modus fusie: activiteit + agenda + plaats + weer (gewicht)
-- Headset-profiel per MAC (TAH vs andere), naam als fallback
-- Gespreksboost / sidetone-sim (1–4 kHz tilt + limiter)
-- Undo-tegel + Undo in DSP-notificatie
-- Scene-wissel slaat vorige scene op (`prev_scene_id`)
-- Genre-EQ: album + extra metadata (niet alleen YT Music)
-- Scene-EQ crossfade 600 ms
+- Auto-modus fusie: activiteit + agenda + plaats + weer
+- Headset-profiel per MAC, gespreksboost, undo, scene-crossfade
 - Wear: Focus 25, undo, scene-lock + schema
-- Werk/weekend-pin, schema-uren, agenda pre-roll
-- Geofence, wifi-plaats, pendel, vliegtuigmodus
-- RSSI → LDAC 330 bij zwak signaal
+- Geofence, wifi-plaats, pendel, vliegtuigmodus, RSSI→LDAC 330
 
 ## Betere volgende functies
-1. Echte mic-RMS ruisvloer (RECORD_AUDIO, optioneel)
+1. Optionele mic-RMS ruisvloer (RECORD_AUDIO)
 2. Drive-backup van presets (OAuth in-app)
 3. Wear-complicatie status-sync extra betrouwbaar
 4. Echte Philips ANC-GATT (dump nodig)
-5. SAF bestandskiezer voor backup delen
+5. Quick Settings: één gecombineerde scene+ANC+Focus tegel
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

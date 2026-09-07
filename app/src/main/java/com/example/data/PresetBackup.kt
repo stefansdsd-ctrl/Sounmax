@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,6 +12,7 @@ import java.io.File
 
 object PresetBackup {
     private const val SNAPSHOT_NAME = "sounmax-backup.json"
+    const val MIME = "application/json"
 
     suspend fun exportToClipboard(context: Context) {
         val json = buildJson(context)
@@ -27,7 +29,6 @@ object PresetBackup {
                 }.let { Intent.createChooser(it, "Deel Sounmax backup").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
             )
         } catch (_: Exception) {}
-        val n = json.count { it == '{' } - 1
         Toast.makeText(context, "Backup gekopieerd + snapshot opgeslagen", Toast.LENGTH_SHORT).show()
     }
 
@@ -52,7 +53,23 @@ object PresetBackup {
         importJson(context, raw)
     }
 
-    private suspend fun buildJson(context: Context): String {
+    suspend fun writeToUri(context: Context, uri: Uri) {
+        val json = buildJson(context)
+        writeSnapshot(context, json)
+        withContext(Dispatchers.IO) {
+            context.contentResolver.openOutputStream(uri)?.use { it.write(json.toByteArray()) }
+        }
+        Toast.makeText(context, "Backup naar bestand opgeslagen", Toast.LENGTH_SHORT).show()
+    }
+
+    suspend fun importFromUri(context: Context, uri: Uri) {
+        val raw = withContext(Dispatchers.IO) {
+            context.contentResolver.openInputStream(uri)?.bufferedReader()?.use { it.readText() }.orEmpty()
+        }
+        importJson(context, raw)
+    }
+
+    suspend fun buildJson(context: Context): String {
         val dao = SoundMaxDatabase.getDatabase(context).eqPresetDao()
         val presets = withContext(Dispatchers.IO) { dao.getAllPresetsOnce() }
         val body = presets.joinToString(",") { p ->
@@ -70,7 +87,7 @@ object PresetBackup {
 
     private suspend fun importJson(context: Context, raw: String) {
         if (!raw.contains("\"presets\"") && !raw.contains("\"bands\"")) {
-            Toast.makeText(context, "Plak eerst een Sounmax-backup JSON", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Geen geldige Sounmax-backup JSON", Toast.LENGTH_SHORT).show()
             return
         }
         val dao = SoundMaxDatabase.getDatabase(context).eqPresetDao()

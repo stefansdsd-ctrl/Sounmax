@@ -1,6 +1,8 @@
 package com.example.ui
 
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -32,6 +34,17 @@ fun BackupBar(viewModel: MainViewModel) {
     val memory = remember { AppEqMemory(context) }
     val appLabel = memory.label(NowPlayingApp.packageName)
 
+    val createDoc = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument(PresetBackup.MIME)
+    ) { uri ->
+        if (uri != null) scope.launch { PresetBackup.writeToUri(context, uri) }
+    }
+    val openDoc = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri != null) scope.launch { PresetBackup.importFromUri(context, uri) }
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,13 +54,28 @@ fun BackupBar(viewModel: MainViewModel) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         AssistChip(
+            onClick = { createDoc.launch("sounmax-backup.json") },
+            label = { Text("Bestand opslaan", fontSize = 11.sp) },
+            colors = chipColors()
+        )
+        AssistChip(
+            onClick = { openDoc.launch(arrayOf("application/json", "text/*", "*/*")) },
+            label = { Text("Bestand openen", fontSize = 11.sp) },
+            colors = chipColors()
+        )
+        AssistChip(
             onClick = { scope.launch { PresetBackup.exportToClipboard(context) } },
-            label = { Text("Backup presets", fontSize = 11.sp) },
+            label = { Text("Deel / klembord", fontSize = 11.sp) },
             colors = chipColors()
         )
         AssistChip(
             onClick = { scope.launch { PresetBackup.importFromClipboard(context) } },
-            label = { Text("Herstel backup", fontSize = 11.sp) },
+            label = { Text("Plak backup", fontSize = 11.sp) },
+            colors = chipColors()
+        )
+        AssistChip(
+            onClick = { scope.launch { PresetBackup.restoreLatestSnapshot(context) } },
+            label = { Text("Lokale snapshot", fontSize = 11.sp) },
             colors = chipColors()
         )
         AssistChip(
