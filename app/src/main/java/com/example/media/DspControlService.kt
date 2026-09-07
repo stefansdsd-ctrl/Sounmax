@@ -47,6 +47,7 @@ class DspControlService : Service() {
             ACTION_NEXT_SCENE -> SoundMaxWidget.cycleScene(this, +1)
             ACTION_PREV_SCENE -> SoundMaxWidget.cycleScene(this, -1)
             ACTION_UNDO -> SoundMaxWidget.undoScene(this)
+            ACTION_FOCUS -> FocusSession.toggle(this)
             ACTION_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(this)
             SleepFade.ACTION_FADE -> {
                 scope.launch { SleepFade.run(this@DspControlService, DspHolder.instance) }
@@ -67,9 +68,11 @@ class DspControlService : Service() {
         val battery = wellness.getInt(SoundMaxWidget.KEY_BATTERY, -1)
         val sleepLeft = SoundMaxWidget.remainingSleepMinutes(wellness.getLong(SoundMaxWidget.KEY_SLEEP_END, 0L))
         val quiet = QuietHours.isQuietNow(this) && QuietHours.enabled(this)
+        val focusLeft = if (FocusSession.isActive(this)) (FocusSession.remainingMs(this) / 60_000L).toInt() else 0
         val extra = buildString {
             if (battery in 0..100) append(" · BT $battery%")
             if (sleepLeft > 0) append(" · slaap $sleepLeft min")
+            if (focusLeft > 0) append(" · focus $focusLeft min")
             if (quiet) append(" · stil")
             if (suggested.id != scene?.id) append(" · tip ${suggested.emoji}")
         }
@@ -96,6 +99,11 @@ class DspControlService : Service() {
         val undo = PendingIntent.getService(
             this, 8,
             Intent(this, DspControlService::class.java).setAction(ACTION_UNDO),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val focus = PendingIntent.getService(
+            this, 9,
+            Intent(this, DspControlService::class.java).setAction(ACTION_FOCUS),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val suggest = PendingIntent.getService(
@@ -132,6 +140,7 @@ class DspControlService : Service() {
             .addAction(0, "◀", prevScene)
             .addAction(0, "Scene", nextScene)
             .addAction(0, "Undo", undo)
+            .addAction(0, if (focusLeft > 0) "Focus $focusLeft" else "Focus 25", focus)
             .addAction(0, "Nu ${suggested.emoji}", suggest)
             .addAction(0, if (sleepLeft > 0) "Timer $sleepLeft" else "Timer", sleep)
             .addAction(0, "Vind", find)
@@ -161,6 +170,7 @@ class DspControlService : Service() {
         const val ACTION_NEXT_SCENE = "com.example.DSP_NEXT_SCENE"
         const val ACTION_PREV_SCENE = "com.example.DSP_PREV_SCENE"
         const val ACTION_UNDO = "com.example.DSP_UNDO"
+        const val ACTION_FOCUS = "com.example.DSP_FOCUS"
         const val ACTION_CYCLE_SLEEP = "com.example.DSP_CYCLE_SLEEP"
         const val ACTION_SUGGEST = "com.example.DSP_SUGGEST"
         const val ACTION_FIND = "com.example.DSP_FIND"

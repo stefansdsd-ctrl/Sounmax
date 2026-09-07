@@ -108,4 +108,28 @@
             android:text="Timer"
             android:textSize="11sp" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/widget_undo_btn"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="Undo"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/widget_focus_btn"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:text="Focus 25"
+            android:textSize="11sp" />
+    </LinearLayout>
 </LinearLayout>

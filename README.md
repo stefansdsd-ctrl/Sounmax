@@ -4,6 +4,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Widget: tweede rij Undo + Focus 25
+- DSP-notificatie: Focus 25 toggle + resterende minuten
+- Lokale preset-snapshot (`filesDir/sounmax-backup.json`) bij export; herstel zonder clipboard
 - Soft-ANC adaptief: ruisvloer uit volume/activiteit/RSSI (geen extra mic-permissie)
 - Software-ANC gekoppeld aan `setAncMode` + bass-delta
 - WHO-luisterdosis: 80 dB × 40 u, dag+week, pauze-advies
@@ -21,10 +24,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Betere volgende functies
 1. Echte mic-RMS ruisvloer (RECORD_AUDIO, optioneel)
-2. Drive-backup van presets
+2. Drive-backup van presets (OAuth in-app)
 3. Wear-complicatie status-sync extra betrouwbaar
 4. Echte Philips ANC-GATT (dump nodig)
-5. Home-widget batterij + 3 favorieten afronden
+5. SAF bestandskiezer voor backup delen
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
