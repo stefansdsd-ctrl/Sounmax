@@ -5,7 +5,7 @@ import com.example.dsp.ListeningScene
 import com.example.dsp.SceneLookup
 
 /**
- * Combineert activiteit, agenda, plaats en weer tot één scene.
+ * Combineert activiteit, agenda, plaats, weer en ruisvloer tot één scene.
  * Hoogste gewicht wint; bij gelijkspel blijft de huidige scene.
  */
 object AutoModeFusion {
@@ -37,6 +37,9 @@ object AutoModeFusion {
         val commute = CommuteAdvisor.adjust(context, current)
         if (commute.id != current.id) votes += Vote(commute.id, 7, "pendel")
 
+        val noise = SceneNoiseSuggest.suggest(context, current)
+        if (noise != null) votes += Vote(noise.sceneId, 9, noise.reason)
+
         if (votes.isEmpty()) return current
 
         val best = votes.groupBy { it.sceneId }
@@ -44,6 +47,7 @@ object AutoModeFusion {
             .maxByOrNull { it.value.first } ?: return current
 
         if (best.value.first < 8) return current
+        prefs.edit().putString("auto_fusion_reasons", best.value.second).apply()
         return SceneLookup.byId(best.key) ?: current
     }
 

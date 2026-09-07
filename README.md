@@ -4,8 +4,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- Scene-suggestie op ruisvloer + activiteit (`SceneNoiseSuggest`, stem in AutoModeFusion)
 - Genre-EQ-sterkte-slider 25 / 50 / 75 / 100% (persistent)
-- Genre-EQ-sterkte 25–100% (`GenreEqStrength.setPercent`) — offsets zonder stapeling
 - Auto genre-EQ (opt-in): volgt nieuw nummer vanaf vaste baseline
 - Genre-EQ-balk: herkent nummer/artiest/genre en past 10-bands + bass/clarity toe
 - Zoek headset: live RSSI-ring naast laatste locatie
@@ -19,7 +19,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 3. Wear-complicatie status-sync
 4. Echte Philips ANC-GATT (dump TAH6519 nodig)
 5. Indoor-positie via wifi-RSSI-kaart
-6. Scene-suggestie op basis van ruisvloer + activiteit
+6. UI-toggle `scene_noise_suggest` + reden in statusbalk
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
