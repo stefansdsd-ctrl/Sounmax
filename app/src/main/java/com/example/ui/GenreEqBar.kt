@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.NowPlayingApp
 import com.example.dsp.AdaptiveTrackEq
+import com.example.dsp.GenreEqApply
 import com.example.ui.theme.ImmersiveTextSecondary
 import kotlinx.coroutines.delay
 
@@ -57,7 +58,18 @@ fun GenreEqBar(viewModel: MainViewModel) {
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
             FilledTonalButton(
-                onClick = { viewModel.applyGenreEqFromNowPlaying() },
+                onClick = {
+                    val dsp = viewModel.dspManager
+                    viewModel.applyPreset(
+                        GenreEqApply.presetFromNowPlaying(
+                            dsp.bandGains.value,
+                            dsp.bassBoostStrength.value,
+                            dsp.virtualizerStrength.value,
+                            dsp.loudnessGain.value,
+                            dsp.clarityGain.value
+                        )
+                    )
+                },
                 modifier = Modifier.weight(1f).testTag("genre_eq_apply")
             ) {
                 Text("Genre-EQ · $label", fontSize = 13.sp)
