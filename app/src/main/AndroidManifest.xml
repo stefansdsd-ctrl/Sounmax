@@ -182,6 +182,17 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".qs.ComboQuickTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="Sounmax Combo"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".media.ActivityTransitionReceiver"
             android:exported="false">

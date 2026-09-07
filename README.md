@@ -4,6 +4,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- QS Combo-tegel: één tik start Focus 25 + Focus-scene + ANC Maximaal
 - SAF bestandskiezer: backup opslaan/openen als JSON (naast klembord)
 - Lokale snapshot-herstel vanuit BackupBar
 - Widget: tweede rij Undo + Focus 25
@@ -21,7 +22,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 2. Drive-backup van presets (OAuth in-app)
 3. Wear-complicatie status-sync extra betrouwbaar
 4. Echte Philips ANC-GATT (dump nodig)
-5. Quick Settings: één gecombineerde scene+ANC+Focus tegel
+5. Genre-EQ vanuit alle Now Playing-apps
+6. Zoek headset: laatste locatie + RSSI-ring
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
