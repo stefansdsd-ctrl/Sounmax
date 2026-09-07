@@ -99,8 +99,15 @@ class NowPlayingMonitor(
         val md = controller?.metadata ?: return
         val title = meta(md, MediaMetadata.METADATA_KEY_TITLE, MediaMetadata.METADATA_KEY_DISPLAY_TITLE)
         val artist = meta(md, MediaMetadata.METADATA_KEY_ARTIST, MediaMetadata.METADATA_KEY_ALBUM_ARTIST, MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE)
-        val genre = meta(md, MediaMetadata.METADATA_KEY_GENRE)
+        val genre = meta(
+            md,
+            MediaMetadata.METADATA_KEY_GENRE,
+            MediaMetadata.METADATA_KEY_COMPILATION,
+            MediaMetadata.METADATA_KEY_WRITER
+        )
         val album = meta(md, MediaMetadata.METADATA_KEY_ALBUM, MediaMetadata.METADATA_KEY_DISPLAY_DESCRIPTION)
+        val extra = meta(md, MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE, MediaMetadata.METADATA_KEY_MEDIA_ID)
+        val genreRich = listOf(genre, extra).filter { it.isNotBlank() }.distinct().joinToString(" ")
         if (title.isBlank()) return
         val key = "${controller.packageName}|$title|$artist|$album"
         if (key == lastKey) return
@@ -108,9 +115,9 @@ class NowPlayingMonitor(
         NowPlayingApp.packageName = controller.packageName
         NowPlayingApp.title = title
         NowPlayingApp.artist = artist
-        NowPlayingApp.genre = genre
+        NowPlayingApp.genre = genreRich.ifBlank { genre }
         NowPlayingApp.album = album
         appEqMemory.load(controller.packageName)?.let { NowPlayingApp.onBoundPreset?.invoke(it) }
-        onTrack(NowPlayingTrack(title, artist, genre, controller.packageName, album))
+        onTrack(NowPlayingTrack(title, artist, NowPlayingApp.genre.orEmpty(), controller.packageName, album))
     }
 }

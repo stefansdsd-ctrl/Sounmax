@@ -25,13 +25,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.media.HeadsetLocator
+import com.example.media.HeadsetStatus
 import com.example.ui.theme.ImmersiveTextSecondary
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
-fun FindHeadsetBar(viewModel: MainViewModel) {
+fun FindHeadsetBar(viewModel: MainViewModel, sceneController: SceneController? = null) {
     val context = LocalContext.current
     var playing by remember { mutableStateOf(false) }
     val place by HeadsetLocator.place.collectAsStateWithLifecycle()
+    val idle = remember { MutableStateFlow(HeadsetStatus()) }
+    val live by (sceneController?.headsetStatus ?: idle).collectAsStateWithLifecycle()
     LaunchedEffect(Unit) { HeadsetLocator.load(context) }
 
     Column(
@@ -74,6 +78,22 @@ fun FindHeadsetBar(viewModel: MainViewModel) {
                 Icon(Icons.Default.Map, contentDescription = null)
                 Text("Kaart", fontSize = 13.sp, modifier = Modifier.padding(start = 6.dp))
             }
+        }
+        if (live.connected) {
+            val rssi = live.rssiDbm
+            val ring = when {
+                rssi == null -> "verbonden · signaal meten…"
+                rssi >= -55 -> "●●●● zeer dichtbij (${rssi} dBm)"
+                rssi >= -70 -> "●●●○ in de buurt (${rssi} dBm)"
+                rssi >= -85 -> "●●○○ verder weg (${rssi} dBm)"
+                else -> "●○○○ zwak (${rssi} dBm)"
+            }
+            Text(
+                text = "Live RSSI: $ring",
+                color = ImmersiveTextSecondary,
+                fontSize = 11.sp,
+                modifier = Modifier.padding(horizontal = 4.dp).testTag("find_headset_rssi")
+            )
         }
         place?.let { spot ->
             Text(
