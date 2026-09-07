@@ -3,6 +3,7 @@ package com.example.ui
 import android.app.Application
 import android.content.Context
 import android.widget.Toast
+import com.example.dsp.GenreEqStrength
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +20,13 @@ class SceneGesturePrefs(private val app: Application) {
 
     private val _autoGenreEq = MutableStateFlow(prefs.getBoolean("auto_genre_eq", false))
     val autoGenreEq: StateFlow<Boolean> = _autoGenreEq.asStateFlow()
+
+    private val _genreEqPercent = MutableStateFlow(prefs.getInt("genre_eq_percent", 100).coerceIn(25, 100))
+    val genreEqPercent: StateFlow<Int> = _genreEqPercent.asStateFlow()
+
+    init {
+        GenreEqStrength.setPercent(_genreEqPercent.value)
+    }
 
     fun setVolumeScene(enabled: Boolean) {
         _volumeScene.value = enabled
@@ -48,5 +56,12 @@ class SceneGesturePrefs(private val app: Application) {
             if (enabled) "Genre-EQ volgt elk nieuw nummer" else "Auto genre-EQ uit",
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    fun setGenreEqPercent(percent: Int) {
+        val p = percent.coerceIn(25, 100)
+        _genreEqPercent.value = p
+        GenreEqStrength.setPercent(p)
+        prefs.edit().putInt("genre_eq_percent", p).apply()
     }
 }

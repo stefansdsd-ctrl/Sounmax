@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,10 +26,12 @@ import com.example.dsp.AdaptiveTrackEq
 import com.example.dsp.GenreEqApply
 import com.example.ui.theme.ImmersiveTextSecondary
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
 fun GenreEqBar(viewModel: MainViewModel) {
     val auto by viewModel.gesturePrefs.autoGenreEq.collectAsState()
+    val strength by viewModel.gesturePrefs.genreEqPercent.collectAsState()
     var title by remember { mutableStateOf(NowPlayingApp.title.orEmpty()) }
     var artist by remember { mutableStateOf(NowPlayingApp.artist.orEmpty()) }
     var genre by remember { mutableStateOf(NowPlayingApp.genre.orEmpty()) }
@@ -108,6 +111,24 @@ fun GenreEqBar(viewModel: MainViewModel) {
                     modifier = Modifier.testTag("genre_eq_auto")
                 )
             }
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "Sterkte $strength%",
+                color = ImmersiveTextSecondary,
+                fontSize = 11.sp,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Slider(
+                value = strength.toFloat(),
+                onValueChange = { viewModel.gesturePrefs.setGenreEqPercent(it.roundToInt()) },
+                valueRange = 25f..100f,
+                steps = 2,
+                modifier = Modifier.weight(1f).testTag("genre_eq_strength")
+            )
         }
     }
 }
