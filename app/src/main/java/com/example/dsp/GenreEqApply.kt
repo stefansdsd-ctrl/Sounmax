@@ -3,13 +3,19 @@ package com.example.dsp
 import com.example.data.NowPlayingApp
 
 object GenreEqApply {
-    fun presetFromNowPlaying(current: List<Float>, bass: Int, virt: Int, loud: Int, clarity: Float): EqPreset {
+    fun presetFrom(
+        baselineGains: List<Float>,
+        bass: Int,
+        virt: Int,
+        loud: Int,
+        clarity: Float
+    ): EqPreset {
         val hint = AdaptiveTrackEq.hint(
             NowPlayingApp.genre.orEmpty(),
             NowPlayingApp.title.orEmpty(),
             NowPlayingApp.artist.orEmpty()
         )
-        val blended = current.mapIndexed { i, g ->
+        val blended = baselineGains.mapIndexed { i, g ->
             (g + hint.offsetsDb.getOrElse(i) { 0f }).coerceIn(-12f, 12f)
         }
         return EqPreset(
@@ -24,4 +30,14 @@ object GenreEqApply {
             description = listOfNotNull(NowPlayingApp.title, NowPlayingApp.artist).joinToString(" · ")
         )
     }
+
+    fun presetFromNowPlaying(current: List<Float>, bass: Int, virt: Int, loud: Int, clarity: Float): EqPreset =
+        presetFrom(current, bass, virt, loud, clarity)
+
+    fun trackKey(): String =
+        listOf(
+            NowPlayingApp.title.orEmpty(),
+            NowPlayingApp.artist.orEmpty(),
+            NowPlayingApp.genre.orEmpty()
+        ).joinToString("|")
 }

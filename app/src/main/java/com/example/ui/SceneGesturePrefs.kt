@@ -17,6 +17,9 @@ class SceneGesturePrefs(private val app: Application) {
     private val _mediaScene = MutableStateFlow(prefs.getBoolean("media_scene", true))
     val mediaScene: StateFlow<Boolean> = _mediaScene.asStateFlow()
 
+    private val _autoGenreEq = MutableStateFlow(prefs.getBoolean("auto_genre_eq", false))
+    val autoGenreEq: StateFlow<Boolean> = _autoGenreEq.asStateFlow()
+
     fun setVolumeScene(enabled: Boolean) {
         _volumeScene.value = enabled
         prefs.edit().putBoolean("volume_scene", enabled).apply()
@@ -33,6 +36,16 @@ class SceneGesturePrefs(private val app: Application) {
         Toast.makeText(
             app,
             if (enabled) "Dubbel play/pause op headset wisselt scene" else "Headset-scene uit",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    fun setAutoGenreEq(enabled: Boolean) {
+        _autoGenreEq.value = enabled
+        prefs.edit().putBoolean("auto_genre_eq", enabled).apply()
+        Toast.makeText(
+            app,
+            if (enabled) "Genre-EQ volgt elk nieuw nummer" else "Auto genre-EQ uit",
             Toast.LENGTH_SHORT
         ).show()
     }
