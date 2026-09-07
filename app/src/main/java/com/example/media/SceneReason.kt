@@ -22,6 +22,11 @@ object SceneReason {
         prefs.edit().putString(KEY, text).apply()
     }
 
-    fun read(prefs: SharedPreferences): String =
-        prefs.getString(KEY, null)?.takeIf { it.isNotBlank() } ?: "Handmatig of standaard"
+    fun read(prefs: SharedPreferences): String {
+        val base = prefs.getString(KEY, null)?.takeIf { it.isNotBlank() }
+        val fusion = prefs.getString("auto_fusion_reasons", null)?.takeIf { it.isNotBlank() }
+        val noise = prefs.getString("last_noise_suggest_reason", null)?.takeIf { it.isNotBlank() }
+        val parts = listOfNotNull(base, fusion, noise).distinct()
+        return parts.joinToString(" · ").ifBlank { "Handmatig of standaard" }
+    }
 }
