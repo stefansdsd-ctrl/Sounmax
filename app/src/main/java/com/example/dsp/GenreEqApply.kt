@@ -15,16 +15,17 @@ object GenreEqApply {
             NowPlayingApp.title.orEmpty(),
             NowPlayingApp.artist.orEmpty()
         )
+        val offsets = GenreEqStrength.scaleDb(hint.offsetsDb)
         val blended = baselineGains.mapIndexed { i, g ->
-            (g + hint.offsetsDb.getOrElse(i) { 0f }).coerceIn(-12f, 12f)
+            (g + offsets.getOrElse(i) { 0f }).coerceIn(-12f, 12f)
         }
         return EqPreset(
-            name = "Genre · ${hint.label}",
+            name = "Genre · ${hint.label} · ${(GenreEqStrength.factor * 100).toInt()}%",
             bandGains = blended,
-            bassBoost = (bass + hint.bassDelta).coerceIn(0, 1000),
+            bassBoost = (bass + GenreEqStrength.scaleBass(hint.bassDelta)).coerceIn(0, 1000),
             virtualizer = virt,
             loudness = loud,
-            clarity = (clarity + hint.clarityDelta).coerceIn(0f, 10f),
+            clarity = (clarity + GenreEqStrength.scaleClarity(hint.clarityDelta)).coerceIn(0f, 10f),
             isCustom = true,
             category = "Genre-EQ",
             description = listOfNotNull(NowPlayingApp.title, NowPlayingApp.artist).joinToString(" · ")
@@ -38,6 +39,7 @@ object GenreEqApply {
         listOf(
             NowPlayingApp.title.orEmpty(),
             NowPlayingApp.artist.orEmpty(),
-            NowPlayingApp.genre.orEmpty()
+            NowPlayingApp.genre.orEmpty(),
+            GenreEqStrength.factor.toString()
         ).joinToString("|")
 }
