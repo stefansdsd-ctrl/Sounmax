@@ -18,8 +18,11 @@ import com.example.data.SoundMaxDatabase
 import com.example.dsp.AncMode
 import com.example.dsp.AudioDspManager
 import com.example.dsp.BluetoothCodec
+import com.example.dsp.BuiltinPresets
 import com.example.dsp.EqPreset
 import com.example.dsp.HeadphoneDevice
+import com.example.dsp.ListeningScene
+import com.example.dsp.SoftwareAnc
 import com.example.media.DspControlService
 import com.example.media.FindHeadsetHelper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -154,7 +157,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setVirtualizer(strength: Int) { dspManager.setVirtualizer(strength) }
     fun setLoudness(gain: Int) { dspManager.setLoudness(gain) }
     fun setClarity(clarity: Float) { dspManager.setClarity(clarity) }
-    fun setAncMode(mode: AncMode) { dspManager.setAncMode(mode) }
+
+    fun setAncMode(mode: AncMode) {
+        dspManager.setAncMode(mode)
+        SoftwareAnc.applyWithHardware(getApplication(), mode)
+    }
+
+    fun applyListeningScene(scene: ListeningScene) {
+        dspManager.setAncMode(scene.ancMode)
+        SoftwareAnc.applyWithHardware(getApplication(), scene.ancMode)
+        val match = BuiltinPresets.PRESETS.find { it.name == scene.presetName }
+        if (match != null) applyPresetQuiet(match)
+        val headset = dspManager.connectedHeadsetName.value
+        headsetMemory.saveScene(headset, scene.id)
+        getApplication<Application>().getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            .edit().putString("last_scene_id", scene.id).apply()
+    }
+
     fun selectHeadphone(device: HeadphoneDevice) {
         dspManager.selectHeadphone(device)
         restoreHeadsetMemory(device.name)
