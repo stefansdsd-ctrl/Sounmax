@@ -1,11 +1,15 @@
 package com.example.ui
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,14 +23,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.media.GeofencePlaceAdvisor
 import com.example.media.WifiPlaceAdvisor
+import com.example.media.WifiRssiMap
+import com.example.ui.theme.ImmersiveLavenderAccent
+import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
 
 @Composable
 fun PlacePinBar() {
     val context = LocalContext.current
-    var status by remember {
-        mutableStateOf(statusLine(context))
-    }
+    var status by remember { mutableStateOf(statusLine(context)) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,6 +61,31 @@ fun PlacePinBar() {
                 Text("Pin werk", fontSize = 13.sp)
             }
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .testTag("room_pin_row"),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            WifiRssiMap.ROOMS.forEach { room ->
+                FilterChip(
+                    selected = WifiRssiMap.list(context).any { it.label == room.label },
+                    onClick = {
+                        WifiRssiMap.pinRoom(context, room.id)
+                        status = statusLine(context)
+                    },
+                    label = { Text(room.label, fontSize = 11.sp, maxLines = 1) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                        containerColor = ImmersiveSurfaceActive,
+                        labelColor = ImmersiveTextSecondary,
+                        selectedLabelColor = ImmersiveLavenderAccent
+                    ),
+                    modifier = Modifier.testTag("pin_room_${room.id}")
+                )
+            }
+        }
         Text(text = status, color = ImmersiveTextSecondary, fontSize = 12.sp)
     }
 }
@@ -70,5 +100,7 @@ private fun statusLine(context: android.content.Context): String {
         WifiPlaceAdvisor.workSsid(context)?.let { "ssid $it" },
         if (GeofencePlaceAdvisor.hasWork(context)) "gps" else null
     ).joinToString("+").ifBlank { "—" }
-    return "Nu: $ssid · thuis $home · werk $work"
+    val rooms = WifiRssiMap.list(context).joinToString(",") { it.label }.ifBlank { "geen" }
+    val match = WifiRssiMap.lastMatch(context).ifBlank { "—" }
+    return "Nu: $ssid · thuis $home · werk $work · kamers $rooms · match $match"
 }
