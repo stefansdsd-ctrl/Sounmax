@@ -47,12 +47,7 @@ fun GattInsightBar(sceneController: SceneController) {
             status.rssiDbm?.let { rssi ->
                 AssistChip(
                     onClick = {},
-                    label = {
-                        Text(
-                            text = if (status.rssiLiveGatt) "RSSI $rssi" else "RSSI $rssi",
-                            fontSize = 11.sp
-                        )
-                    }
+                    label = { Text("RSSI $rssi", fontSize = 11.sp) }
                 )
             }
             if (status.ancStatus.isNotBlank()) {
@@ -61,6 +56,10 @@ fun GattInsightBar(sceneController: SceneController) {
                     label = { Text(status.ancStatus.take(28), fontSize = 11.sp) }
                 )
             }
+            AssistChip(
+                onClick = { sceneController.openNrfConnect() },
+                label = { Text("nRF Connect", fontSize = 11.sp) }
+            )
         }
         Row(
             modifier = Modifier
@@ -95,6 +94,18 @@ fun GattInsightBar(sceneController: SceneController) {
             AssistChip(
                 onClick = { sceneController.shareGattDump("awareness") },
                 label = { Text("Dump transparant", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.importNrfClipboard() },
+                label = { Text("Import nRF", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.diffNrfDumps("baseline", "anc") },
+                label = { Text("Diff base/ANC", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.showNrfWorkflow() },
+                label = { Text("nRF help", fontSize = 11.sp) }
             )
         }
         status.discoveryLogs.take(3).forEach { log ->

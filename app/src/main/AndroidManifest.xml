@@ -25,6 +25,7 @@
     <queries>
         <package android:name="com.google.android.apps.youtube.music" />
         <package android:name="com.google.android.youtube" />
+        <package android:name="no.nordicsemi.android.mcp" />
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
@@ -32,6 +33,10 @@
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="geo" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="market" />
         </intent>
     </queries>
 

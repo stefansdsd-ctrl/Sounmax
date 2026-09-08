@@ -3,6 +3,7 @@ package com.example.ui
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.example.ble.NrfConnectTooling
 import com.example.ble.NrfStyleGattDump
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
@@ -88,7 +89,6 @@ class SceneController(private val viewModel: MainViewModel) {
         _activeSceneId.value = scene.id
         prefs.edit().putString("last_scene_id", scene.id).apply()
         viewModel.applyListeningScene(scene)
-        // hardware + soft ANC bij scene
         SoftwareAnc.applyWithHardware(app, scene.ancMode)
         monitor.refresh()
         SoundMaxWidget.refresh(app)
@@ -182,6 +182,37 @@ class SceneController(private val viewModel: MainViewModel) {
         monitor.refresh()
         NrfStyleGattDump.share(app, modeLabel)
         Toast.makeText(app, "nRF-dump: $modeLabel", Toast.LENGTH_SHORT).show()
+    }
+
+    fun openNrfConnect() {
+        NrfConnectTooling.openOrInstall(app)
+    }
+
+    fun importNrfClipboard() {
+        NrfConnectTooling.importFromClipboard(app)
+    }
+
+    fun diffNrfDumps(a: String, b: String) {
+        NrfConnectTooling.shareDiff(app, a, b)
+    }
+
+    fun showNrfWorkflow() {
+        val text = NrfConnectTooling.workflowHint()
+        try {
+            app.startActivity(
+                Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, "Sounmax nRF workflow")
+                    putExtra(Intent.EXTRA_TEXT, text)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }.let {
+                    Intent.createChooser(it, "nRF workflow")
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+            )
+        } catch (_: Exception) {
+            Toast.makeText(app, text.take(180), Toast.LENGTH_LONG).show()
+        }
     }
 
     fun filteredScenes(query: String, group: String): List<ListeningScene> {
