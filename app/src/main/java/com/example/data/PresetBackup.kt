@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.DocumentsContract
 import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +13,55 @@ import java.io.File
 
 object PresetBackup {
     private const val SNAPSHOT_NAME = "sounmax-backup.json"
+    private const val PREFS = "sounmax_backup"
+    private const val KEY_TREE = "saf_tree_uri"
     const val MIME = "application/json"
+
+    fun persistTreeUri(context: Context, uri: Uri) {
+        try {
+            context.contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            )
+        } catch (_: Exception) {}
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putString(KEY_TREE, uri.toString()).apply()
+    }
+
+    fun treeUri(context: Context): Uri? =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY_TREE, null)?.let { Uri.parse(it) }
+
+    suspend fun exportToTree(context: Context): Boolean {
+        val tree = treeUri(context) ?: return false
+        return withContext(Dispatchers.IO) {
+            try {
+                val docId = DocumentsContract.getTreeDocumentId(tree)
+                val folder = DocumentsContract.buildDocumentUriUsingTree(tree, docId)
+                val dest = DocumentsContract.buildDocumentUriUsingTree(tree, "$docId/$SNAPSHOT_NAME")
+                val json = buildJson(context)
+                writeSnapshot(context, json)
+                val out = try {
+                    context.contentResolver.openOutputStream(dest, "wt")
+                } catch (_: Exception) {
+                    val created = DocumentsContract.createDocument(
+                        context.contentResolver, folder, MIME, SNAPSHOT_NAME
+                    )
+                    created?.let { context.contentResolver.openOutputStream(it, "wt") }
+                }
+                out?.use { it.write(json.toByteArray()) } ?: return@withContext false
+                true
+            } catch (_: Exception) {
+                false
+            }
+        }.also { ok ->
+            Toast.makeText(
+                context,
+                if (ok) "Backup naar Drive-map geschreven" else "Drive-map schrijven mislukt",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     suspend fun exportToClipboard(context: Context) {
         val json = buildJson(context)
@@ -74,9 +123,9 @@ object PresetBackup {
         val presets = withContext(Dispatchers.IO) { dao.getAllPresetsOnce() }
         val body = presets.joinToString(",") { p ->
             val name = p.name.replace("\"", "'")
-            """{"name":"$name","cat":"${p.category}","bands":"${p.bandGains}","bass":${p.bassBoost},"virt":${p.virtualizer},"loud":${p.loudness},"clarity":${p.clarity},"fav":${p.isFavorite}}"""
+            """{\"name\":\"$name\",\"cat\":\"${p.category}\",\"bands\":\"${p.bandGains}\",\"bass\":${p.bassBoost},\"virt\":${p.virtualizer},\"loud\":${p.loudness},\"clarity\":${p.clarity},\"fav\":${p.isFavorite}}"""
         }
-        return """{"app":"sounmax","v":2,"ts":${System.currentTimeMillis()},"presets":[$body]}"""
+        return """{\"app\":\"sounmax\",\"v\":2,\"ts\":${System.currentTimeMillis()},\"presets\":[$body]}"""
     }
 
     private fun writeSnapshot(context: Context, json: String) {
