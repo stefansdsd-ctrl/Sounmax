@@ -90,6 +90,6 @@ object EarBreakWatch {
             .putInt("dose_today", today)
             .putInt("dose_week", week)
             .apply()
-        WeeklyDose.remember(prefs, week)
+        WeeklyDose.remember(prefs, 50)
     }
 }
