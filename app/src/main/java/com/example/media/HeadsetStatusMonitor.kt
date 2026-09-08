@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
+import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.content.BroadcastReceiver
@@ -16,6 +17,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import com.example.ble.DiscoveryLogItem
+import com.example.ble.NrfStyleGattDump
 import com.example.ble.RealAncController
 import com.example.ble.ServiceDiscoveryMapper
 import com.example.ble.VendorAncProbe
@@ -68,6 +70,7 @@ class HeadsetStatusMonitor(
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 handler.removeCallbacks(pollRssi)
                 RealAncController.detachGatt()
+                NrfStyleGattDump.detach()
             }
         }
 
@@ -76,6 +79,8 @@ class HeadsetStatusMonitor(
             val mapped = mapper.map(g)
             val ancLogs = VendorAncProbe.probe(g)
             RealAncController.attachGatt(g)
+            NrfStyleGattDump.attach(g)
+            NrfStyleGattDump.startReads(g)
             _status.value = _status.value.copy(
                 gattReady = true,
                 knownServices = mapped.knownServices.size,
@@ -101,6 +106,26 @@ class HeadsetStatusMonitor(
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 _status.value = _status.value.copy(ancStatus = RealAncController.statusLine())
             }
+        }
+
+        @Deprecated("Deprecated in Java")
+        override fun onCharacteristicRead(
+            g: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            status: Int
+        ) {
+            @Suppress("DEPRECATION")
+            val value = characteristic.value
+            NrfStyleGattDump.onCharacteristicRead(characteristic, status, value)
+        }
+
+        override fun onCharacteristicRead(
+            g: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            value: ByteArray,
+            status: Int
+        ) {
+            NrfStyleGattDump.onCharacteristicRead(characteristic, status, value)
         }
     }
 
@@ -165,6 +190,11 @@ class HeadsetStatusMonitor(
         try { context.unregisterReceiver(receiver) } catch (_: Exception) {}
     }
 
+    /** nRF-dump delen met mode-label (ANC / OFF / AWARENESS). */
+    fun exportNrfDump(modeLabel: String = "snapshot") {
+        NrfStyleGattDump.share(context, modeLabel)
+    }
+
     @SuppressLint("MissingPermission")
     fun refresh() {
         val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -220,6 +250,7 @@ class HeadsetStatusMonitor(
     private fun closeGatt() {
         handler.removeCallbacks(pollRssi)
         RealAncController.detachGatt()
+        NrfStyleGattDump.detach()
         try { gatt?.disconnect() } catch (_: Exception) {}
         try { gatt?.close() } catch (_: Exception) {}
         gatt = null
