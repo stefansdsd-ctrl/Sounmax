@@ -30,6 +30,8 @@ import com.example.widget.SoundMaxWidget
 fun OneTapBar() {
     val context = LocalContext.current
     var selected by remember { mutableStateOf(OneTapProfiles.lastId(context)) }
+    var tick by remember { mutableStateOf(0) }
+    val profiles = remember(tick) { OneTapProfiles.ranked(context) }
 
     Row(
         modifier = Modifier
@@ -40,7 +42,7 @@ fun OneTapBar() {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        OneTapProfiles.all.forEach { profile ->
+        profiles.forEach { profile ->
             val on = selected == profile.id
             FilterChip(
                 selected = on,
@@ -48,6 +50,7 @@ fun OneTapBar() {
                     if (OneTapProfiles.apply(context, profile.id)) {
                         SoundMaxWidget.applyScene(context, profile.sceneId)
                         selected = profile.id
+                        tick++
                     }
                 },
                 label = { Text(profile.label, fontSize = 11.sp, maxLines = 1) },

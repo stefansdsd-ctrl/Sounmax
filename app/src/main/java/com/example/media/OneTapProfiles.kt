@@ -10,10 +10,12 @@ import com.example.dsp.SoftwareAnc
 /**
  * Eén-tik profielen voor dagelijkse situaties.
  * Combineert scene + ANC + optionele volume-cap.
+ * Meest recent gebruikte profielen komen vooraan.
  */
 object OneTapProfiles {
     const val PREFS = "soundmax_prefs"
     const val KEY_LAST = "one_tap_last"
+    private const val KEY_ORDER = "one_tap_recent_csv"
 
     data class Profile(
         val id: String,
@@ -32,18 +34,39 @@ object OneTapProfiles {
         Profile("gym", "Sport", "sportschool", AncMode.ADAPTIVE, 85),
         Profile("train", "Trein", "intercity", AncMode.STRONG, 75),
         Profile("cafe", "Café", "koffietent", AncMode.AMBIENT, 60),
+        Profile("bike", "Fiets", "avondfiets", AncMode.WIND_GUARD, 70),
+        Profile("home", "Thuis", "thuisavond", AncMode.OFF, 55),
+        Profile("shop", "Winkelen", "mall", AncMode.AMBIENT, 60),
+        Profile("school", "School", "schoolochtend", AncMode.AMBIENT, 55),
+        Profile("kids", "Kids", "thuiskids", AncMode.AMBIENT, 45),
+        Profile("lib", "Bieb", "library", AncMode.STRONG, 40),
         Profile("off", "Uit", "default", AncMode.OFF, null)
     )
 
     fun byId(id: String): Profile? = all.find { it.id == id }
+
+    fun ranked(context: Context): List<Profile> {
+        val csv = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY_ORDER, "") ?: ""
+        val recent = csv.split(',').map { it.trim() }.filter { it.isNotEmpty() }
+        val index = recent.withIndex().associate { it.value to it.index }
+        return all.sortedBy { index[it.id] ?: Int.MAX_VALUE }
+    }
 
     fun apply(context: Context, id: String): Boolean {
         val p = byId(id) ?: return false
         val scene: ListeningScene? = SceneLookup.byId(p.sceneId)
         SoftwareAnc.applyWithHardware(context, p.anc)
         p.maxVolumePct?.let { capVolume(context, it) }
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            .edit().putString(KEY_LAST, id).apply()
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val prev = prefs.getString(KEY_ORDER, "") ?: ""
+        val next = (listOf(id) + prev.split(',').map { it.trim() }.filter { it.isNotEmpty() && it != id })
+            .take(20)
+            .joinToString(",")
+        prefs.edit()
+            .putString(KEY_LAST, id)
+            .putString(KEY_ORDER, next)
+            .apply()
         lastSceneHint = scene?.id ?: p.sceneId
         return true
     }
