@@ -4,6 +4,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- **Multipoint-wisselen** (`MultipointSwitcher`): gekoppelde A2DP-sinks tonen en actieve sink wisselen
 - **nRF-stijl GATT-dump** (`NrfStyleGattDump`): services/chars/values + share; mode-tags voor ANC-knop
 - **Eén-tik profielen** (`OneTapProfiles`): Woon-werk, Focus, Slaap, Buiten, Gesprek, Uit
 - **Echte ANC-modes** (`RealAncController`): hardware ANC/Normaal/Transparantie + soft-EQ
@@ -26,6 +27,12 @@ Bestanden: `filesDir/nrf_gatt_dump.txt` + `nrf_gatt_history.txt`
 | AMBIENT | Transparantie | spraak-boost |
 
 `SoftwareAnc.applyWithHardware(context, mode)`
+
+## Multipoint
+```kotlin
+val sinks = MultipointSwitcher.refresh(context)
+MultipointSwitcher.switchTo(context, sinks.first().address)
+```
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
