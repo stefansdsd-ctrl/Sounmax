@@ -44,6 +44,14 @@ fun BackupBar(viewModel: MainViewModel) {
     ) { uri ->
         if (uri != null) scope.launch { PresetBackup.importFromUri(context, uri) }
     }
+    val openTree = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri ->
+        if (uri != null) {
+            PresetBackup.persistTreeUri(context, uri)
+            scope.launch { PresetBackup.exportToTree(context) }
+        }
+    }
 
     Row(
         modifier = Modifier
@@ -53,6 +61,22 @@ fun BackupBar(viewModel: MainViewModel) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        AssistChip(
+            onClick = {
+                if (PresetBackup.treeUri(context) != null) {
+                    scope.launch { PresetBackup.exportToTree(context) }
+                } else {
+                    openTree.launch(null)
+                }
+            },
+            label = { Text("Drive-map", fontSize = 11.sp) },
+            colors = chipColors()
+        )
+        AssistChip(
+            onClick = { openTree.launch(null) },
+            label = { Text("Kies map", fontSize = 11.sp) },
+            colors = chipColors()
+        )
         AssistChip(
             onClick = { createDoc.launch("sounmax-backup.json") },
             label = { Text("Bestand opslaan", fontSize = 11.sp) },
