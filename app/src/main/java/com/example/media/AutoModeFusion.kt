@@ -5,7 +5,7 @@ import com.example.dsp.ListeningScene
 import com.example.dsp.SceneLookup
 
 /**
- * Combineert activiteit, agenda, plaats, weer, ruisvloer en wind tot één scene.
+ * Combineert activiteit, agenda, plaats, wifi-fingerprint, weer, ruisvloer en wind tot één scene.
  * Hoogste gewicht wint; bij gelijkspel blijft de huidige scene.
  */
 object AutoModeFusion {
@@ -30,6 +30,9 @@ object AutoModeFusion {
 
         val wifi = WifiPlaceAdvisor.adjust(context, current)
         if (wifi.id != current.id) votes += Vote(wifi.id, 6, "wifi")
+
+        val rssi = WifiRssiMap.adjust(context, current)
+        if (rssi.id != current.id) votes += Vote(rssi.id, 9, "wifi-fingerprint")
 
         val weather = WeatherAdvisor.suggest(context, current)
         if (weather.id != current.id) votes += Vote(weather.id, 4, "weer")

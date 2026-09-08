@@ -4,6 +4,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- **Wifi-RSSI-kaart**: indoor fingerprints (`WifiRssiMap.pinCurrent`) → scene via BSSID/RSSI-match
+- **Vendor ANC-probe**: GATT dump + write-kandidaat voor Philips FE-services (`VendorAncProbe`)
 - **Wind-detectie**: lopen/fietsen + hoge mic-RMS → WIND_GUARD-scene (`WindAdvisor`)
 - **Stereo-breedte slider** op EQ-scherm (`stereo_width_pct`, 0–160%)
 - **Persistente Drive-map** via SAF tree-URI (`Drive-map` / `Kies map`)
@@ -27,8 +29,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 4. Wear-complicatie scene + batterij: gedaan
 5. Headset-geheugen: gedaan
 6. Wind-scene: gedaan
-7. Echte Philips ANC-GATT (dump TAH6519 nodig)
-8. Indoor-positie via wifi-RSSI-kaart
+7. Echte Philips ANC-GATT: probe + dump klaar; echte mode-map na TAH6519 dump
+8. Indoor wifi-RSSI-kaart: gedaan (`WifiRssiMap`)
 
 ## Mic-RMS
 Zet de switch **Mic-RMS ruisvloer** aan (of `mic_rms_enabled=true` in prefs `scene_automation`).
@@ -36,6 +38,10 @@ App vraagt RECORD_AUDIO pas bij aanzetten. Korte ~80 ms VOICE_RECOGNITION-sample
 
 ## Wind
 Prefs `wind_detect_enabled` (default aan). Vereist mic-RMS + activity walk/bike/run.
+
+## Wifi-fingerprint
+`WifiRssiMap.pinCurrent(context, sceneId, label)` op een plek; auto-match in fusie (gewicht 9).
+Prefs `wifi_rssi_map` (default aan).
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

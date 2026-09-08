@@ -48,6 +48,8 @@ object SceneAutomation {
         scene = SceneReason.step(scene, next, "pendel", reasons)
         next = WifiPlaceAdvisor.adjust(context, scene)
         scene = SceneReason.step(scene, next, "wifi-plaats", reasons)
+        next = WifiRssiMap.adjust(context, scene)
+        scene = SceneReason.step(scene, next, "wifi-fingerprint", reasons)
         next = GeofencePlaceAdvisor.adjust(context, scene)
         scene = SceneReason.step(scene, next, "locatie", reasons)
         next = FlightAdvisor.adjust(context, scene)
