@@ -4,6 +4,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- **Eén-tik profielen** (`OneTapProfiles`): Woon-werk, Focus, Slaap, Buiten, Gesprek, Uit — scene + ANC + volume-cap
 - **Echte ANC-modes** (`RealAncController`): hardware ANC/Normaal/Transparantie + soft-EQ; leert UUID/payload
 - **Wifi-RSSI-kaart**: indoor fingerprints (`WifiRssiMap.pinCurrent`) → scene via BSSID/RSSI-match
 - **Vendor ANC-probe**: GATT dump + write-kandidaat voor Philips FE-services (`VendorAncProbe`)
@@ -35,6 +36,9 @@ Handleiding-knop: **ANC ↔ Normaal ↔ Transparantie**.
 Gebruik `SoftwareAnc.applyWithHardware(context, mode)`.
 Eerste geslaagde GATT-write wordt opgeslagen (`soundmax_anc_hw`).
 Zonder dump blijft soft-ANC altijd actief.
+
+## Eén-tik
+`OneTapProfiles.apply(context, "commute"|"focus"|"sleep"|"outdoor"|"talk"|"off")`
 
 ## Wifi-fingerprint
 `WifiRssiMap.pinCurrent(context, sceneId, label)` op een plek; auto-match in fusie (gewicht 9).
