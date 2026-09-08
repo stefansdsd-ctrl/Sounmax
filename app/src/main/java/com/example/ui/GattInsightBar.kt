@@ -1,10 +1,12 @@
 package com.example.ui
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.dsp.AncMode
 import com.example.ui.theme.ImmersiveTextSecondary
 
 @Composable
@@ -24,14 +27,17 @@ fun GattInsightBar(sceneController: SceneController) {
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp)
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             AssistChip(
                 onClick = {},
                 label = {
                     Text(
                         text = when {
-                            status.gattReady -> "GATT ${status.knownServices} bekend / ${status.unknownServices} nieuw"
-                            status.connected -> "GATT verbindt…"
+                            status.gattReady -> "GATT ${status.knownServices}/${status.unknownServices}"
+                            status.connected -> "GATT…"
                             else -> "Geen headset"
                         },
                         fontSize = 11.sp
@@ -43,15 +49,52 @@ fun GattInsightBar(sceneController: SceneController) {
                     onClick = {},
                     label = {
                         Text(
-                            text = if (status.rssiLiveGatt) "RSSI $rssi dBm live" else "RSSI $rssi dBm",
+                            text = if (status.rssiLiveGatt) "RSSI $rssi" else "RSSI $rssi",
                             fontSize = 11.sp
                         )
                     }
                 )
             }
+            if (status.ancStatus.isNotBlank()) {
+                AssistChip(
+                    onClick = {},
+                    label = { Text(status.ancStatus.take(28), fontSize = 11.sp) }
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .padding(top = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
             AssistChip(
-                onClick = { sceneController.shareGattDump() },
-                label = { Text("Deel GATT-dump", fontSize = 11.sp) }
+                onClick = { sceneController.setHardwareAnc(AncMode.STRONG) },
+                label = { Text("ANC aan", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.setHardwareAnc(AncMode.OFF) },
+                label = { Text("ANC uit", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.setHardwareAnc(AncMode.AMBIENT) },
+                label = { Text("Transparant", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.shareGattDump("baseline") },
+                label = { Text("Dump baseline", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.shareGattDump("anc") },
+                label = { Text("Dump ANC", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.shareGattDump("off") },
+                label = { Text("Dump off", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.shareGattDump("awareness") },
+                label = { Text("Dump transparant", fontSize = 11.sp) }
             )
         }
         status.discoveryLogs.take(3).forEach { log ->

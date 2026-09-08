@@ -3,11 +3,13 @@ package com.example.ui
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.example.ble.NrfStyleGattDump
+import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.example.dsp.SceneGroups
 import com.example.dsp.SceneLookup
-import com.example.media.BatteryPowerAdvisor
+import com.example.dsp.SoftwareAnc
 import com.example.media.CallTransparencyGuard
 import com.example.media.FocusSession
 import com.example.media.HeadsetStatus
@@ -17,7 +19,6 @@ import com.example.media.SceneAutomation
 import com.example.media.SceneReason
 import com.example.media.SceneScheduleAdvisor
 import com.example.media.SleepFade
-import com.example.media.WeatherAdvisor
 import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +27,11 @@ import kotlinx.coroutines.flow.asStateFlow
 class SceneController(private val viewModel: MainViewModel) {
     private val app = viewModel.getApplication<android.app.Application>()
     private val prefs = app.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
-    private val monitor = HeadsetStatusMonitor(app)
+    private val monitor = HeadsetStatusMonitor(
+        app,
+        onRssi = { rssi -> viewModel.dspManager.ingestLiveRssi(rssi) }
+    ).also { it.start() }
+
     val headsetStatus: StateFlow<HeadsetStatus> = monitor.status
     private val _activeSceneId = MutableStateFlow(prefs.getString("last_scene_id", "focus"))
     val activeSceneId: StateFlow<String?> = _activeSceneId.asStateFlow()
@@ -83,7 +88,21 @@ class SceneController(private val viewModel: MainViewModel) {
         _activeSceneId.value = scene.id
         prefs.edit().putString("last_scene_id", scene.id).apply()
         viewModel.applyListeningScene(scene)
+        // hardware + soft ANC bij scene
+        SoftwareAnc.applyWithHardware(app, scene.ancMode)
+        monitor.refresh()
         SoundMaxWidget.refresh(app)
+    }
+
+    fun setHardwareAnc(mode: AncMode) {
+        viewModel.setAncMode(mode)
+        val ok = SoftwareAnc.applyWithHardware(app, mode)
+        Toast.makeText(
+            app,
+            if (ok) "ANC hardware: ${mode.displayName}" else "ANC soft: ${mode.displayName}",
+            Toast.LENGTH_SHORT
+        ).show()
+        monitor.refresh()
     }
 
     fun applySuggestedScene() {
@@ -140,6 +159,7 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun applyEarBreak() {
         SceneLookup.byId("rust")?.let { applyListeningScene(it) }
+            ?: SceneLookup.byId("rest")?.let { applyListeningScene(it) }
     }
 
     fun swapAbScene() {
@@ -158,8 +178,10 @@ class SceneController(private val viewModel: MainViewModel) {
         app.startActivity(Intent.createChooser(intent, "Deel scene").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
-    fun shareGattDump() {
-        Toast.makeText(app, "GATT-dump: koppel headset en deel via issue", Toast.LENGTH_SHORT).show()
+    fun shareGattDump(modeLabel: String = "snapshot") {
+        monitor.refresh()
+        NrfStyleGattDump.share(app, modeLabel)
+        Toast.makeText(app, "nRF-dump: $modeLabel", Toast.LENGTH_SHORT).show()
     }
 
     fun filteredScenes(query: String, group: String): List<ListeningScene> {
@@ -173,6 +195,10 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun recentScenes(): List<ListeningScene> = RecentScenes.load(prefs).mapNotNull { SceneLookup.byId(it) }
+
+    fun release() {
+        monitor.stop()
+    }
 
     private fun favoriteIds(): Set<String> =
         prefs.getString("fav_scenes", "")?.split(",")?.filter { it.isNotBlank() }?.toSet() ?: emptySet()
