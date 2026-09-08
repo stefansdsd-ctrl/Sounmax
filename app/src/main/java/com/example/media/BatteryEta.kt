@@ -17,13 +17,25 @@ object BatteryEta {
             val t = bits[0].toLongOrNull() ?: return@mapNotNull null
             val p = bits[1].toIntOrNull() ?: return@mapNotNull null
             t to p
-        }.filter { now - it.first < 6 * 60 * 60 * 1000L }.toMutableList()
+        }.filter { now - it.first < 48 * 60 * 60 * 1000L }.toMutableList()
         val last = samples.lastOrNull()
         if (last == null || last.second != percent) {
             samples.add(now to percent)
         }
-        val kept = samples.takeLast(12)
+        val kept = samples.takeLast(48)
         prefs.edit().putString(KEY_SAMPLES, kept.joinToString("|") { "${it.first},${it.second}" }).apply()
+    }
+
+    fun samples(context: Context): List<Pair<Long, Int>> {
+        val raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY_SAMPLES, "") ?: return emptyList()
+        return raw.split('|').mapNotNull { part ->
+            val bits = part.split(',')
+            if (bits.size != 2) return@mapNotNull null
+            val t = bits[0].toLongOrNull() ?: return@mapNotNull null
+            val p = bits[1].toIntOrNull() ?: return@mapNotNull null
+            t to p
+        }
     }
 
     fun etaMinutes(context: Context, currentPercent: Int?): Int? {
