@@ -12,14 +12,27 @@ import kotlin.math.sqrt
 
 /**
  * Indoor plaats via wifi-RSSI-fingerprint.
- * Pin huidige scan aan een scene-id; bij match wint de dichtstbijzijnde fingerprint.
+ * Meerdere pins per scene (kamers). Match wint op hoogste score.
  */
 object WifiRssiMap {
     const val KEY_ENABLED = "wifi_rssi_map"
     private const val KEY_PRINTS = "wifi_rssi_prints_json"
     private const val KEY_LAST = "wifi_rssi_last_match"
-    private const val MAX_PRINTS = 24
-    private const val MIN_SCORE = 0.35f
+    private const val MAX_PRINTS = 48
+    private const val MIN_SCORE = 0.32f
+
+    data class RoomPin(val id: String, val label: String, val sceneId: String)
+
+    val ROOMS = listOf(
+        RoomPin("woonkamer", "Woonkamer", "thuisavond"),
+        RoomPin("keuken", "Keuken", "thuiskids"),
+        RoomPin("slaapkamer", "Slaapkamer", "sleep"),
+        RoomPin("studeerkamer", "Studeerkamer", "focus"),
+        RoomPin("kantoor", "Kantoorhoek", "kantooropen"),
+        RoomPin("sportschool", "Sportschool", "sportschool"),
+        RoomPin("koffie", "Koffietent", "koffietent"),
+        RoomPin("trein", "Trein", "intercity")
+    )
 
     fun enabled(context: Context): Boolean =
         prefs(context).getBoolean(KEY_ENABLED, true)
@@ -31,13 +44,14 @@ object WifiRssiMap {
     fun pinCurrent(context: Context, sceneId: String, label: String? = null): Boolean {
         val vector = scanVector(context) ?: return false
         if (vector.isEmpty()) return false
+        val name = label ?: sceneId
         val prints = load(context).toMutableList()
-        prints.removeAll { it.sceneId == sceneId && it.label == (label ?: sceneId) }
+        prints.removeAll { it.label.equals(name, ignoreCase = true) }
         prints.add(
             0,
             Fingerprint(
                 sceneId = sceneId,
-                label = label ?: sceneId,
+                label = name,
                 bssids = vector,
                 ts = System.currentTimeMillis()
             )
@@ -45,6 +59,16 @@ object WifiRssiMap {
         while (prints.size > MAX_PRINTS) prints.removeAt(prints.lastIndex)
         save(context, prints)
         return true
+    }
+
+    fun pinRoom(context: Context, roomId: String): Boolean {
+        val room = ROOMS.firstOrNull { it.id == roomId } ?: return false
+        return pinCurrent(context, room.sceneId, room.label)
+    }
+
+    fun removeLabel(context: Context, label: String) {
+        val next = load(context).filterNot { it.label.equals(label, ignoreCase = true) }
+        save(context, next)
     }
 
     fun clear(context: Context) {
@@ -85,19 +109,17 @@ object WifiRssiMap {
             @Suppress("DEPRECATION")
             val results: List<ScanResult> = wm.scanResults.orEmpty()
             if (results.isEmpty()) {
-                // trigger scan for next time; ignore result
                 runCatching { @Suppress("DEPRECATION") wm.startScan() }
                 return null
             }
             results
                 .filter { !it.BSSID.isNullOrBlank() }
                 .sortedByDescending { it.level }
-                .take(12)
+                .take(16)
                 .associate { it.BSSID.lowercase() to it.level }
         }.getOrNull()
     }
 
-    /** Cosine-achtige overlap op gedeelde BSSIDs, gewogen op RSSI-nabijheid. */
     private fun similarity(a: Map<String, Int>, b: Map<String, Int>): Float {
         val keys = a.keys.intersect(b.keys)
         if (keys.isEmpty()) return 0f

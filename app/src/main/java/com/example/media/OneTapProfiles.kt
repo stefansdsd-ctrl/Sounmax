@@ -29,6 +29,9 @@ object OneTapProfiles {
         Profile("sleep", "Slaap", "sleep", AncMode.ADAPTIVE, 40),
         Profile("outdoor", "Buiten", "outdoor", AncMode.WIND_GUARD, 70),
         Profile("talk", "Gesprek", "ambient", AncMode.AMBIENT, null),
+        Profile("gym", "Sport", "sportschool", AncMode.ADAPTIVE, 85),
+        Profile("train", "Trein", "intercity", AncMode.STRONG, 75),
+        Profile("cafe", "Café", "koffietent", AncMode.AMBIENT, 60),
         Profile("off", "Uit", "default", AncMode.OFF, null)
     )
 
