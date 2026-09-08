@@ -174,10 +174,13 @@ fun SoundMaxApp(
                         )
                     }
                     SoundMaxTab.HEARING -> {
-                        HearingTestScreen(
-                            viewModel = viewModel,
-                            onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER }
-                        )
+                        Column {
+                            WeeklyDoseBar()
+                            HearingTestScreen(
+                                viewModel = viewModel,
+                                onNavigateToEq = { selectedTab = SoundMaxTab.EQUALIZER }
+                            )
+                        }
                     }
                 }
             }
