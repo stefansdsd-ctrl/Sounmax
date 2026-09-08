@@ -27,5 +27,6 @@ class VolumeChangeReceiver : BroadcastReceiver() {
             .putBoolean("pending_adaptive_volume", true)
             .apply()
         QuietHours.enforce(context)
+        SafeVolume.enforce(context)
     }
 }

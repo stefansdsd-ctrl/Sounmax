@@ -49,6 +49,7 @@ object QuietHours {
         if (!prefs.getBoolean(KEY_ENABLED, true)) return
         if (isQuietNow(context)) {
             prefs.edit().putBoolean(KEY_SAFE, true).apply()
+            SafeVolume.enforce(context)
         }
     }
 

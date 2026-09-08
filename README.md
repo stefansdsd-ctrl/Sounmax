@@ -10,6 +10,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - **nRF-stijl GATT-dump** (`NrfStyleGattDump`)
 - **Eén-tik profielen** + Wear-tegel
 - **Echte ANC-modes** (`RealAncController`)
+- **Veilig volume**: cap 60% STREAM_MUSIC als vlag/stille uren aan staan
 
 ## nRF-dump (TAH6519)
 1. Headset verbinden
