@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.widget.Toast
 import com.example.dsp.GenreEqStrength
+import com.example.dsp.StereoDynamics
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,8 +28,14 @@ class SceneGesturePrefs(private val app: Application) {
     private val _noiseSuggest = MutableStateFlow(prefs.getBoolean("scene_noise_suggest", true))
     val noiseSuggest: StateFlow<Boolean> = _noiseSuggest.asStateFlow()
 
+    /** 0 = crossfeed, 100 = normaal, 160 = extra breed */
+    private val _stereoWidthPct = MutableStateFlow(prefs.getInt("stereo_width_pct", 100).coerceIn(0, 160))
+    val stereoWidthPct: StateFlow<Int> = _stereoWidthPct.asStateFlow()
+
     init {
         GenreEqStrength.setPercent(_genreEqPercent.value)
+        StereoDynamics.init()
+        StereoDynamics.stereoWidth(_stereoWidthPct.value / 100f)
     }
 
     fun setVolumeScene(enabled: Boolean) {
@@ -66,6 +73,14 @@ class SceneGesturePrefs(private val app: Application) {
         _genreEqPercent.value = p
         GenreEqStrength.setPercent(p)
         prefs.edit().putInt("genre_eq_percent", p).apply()
+    }
+
+    fun setStereoWidthPct(percent: Int) {
+        val p = percent.coerceIn(0, 160)
+        _stereoWidthPct.value = p
+        prefs.edit().putInt("stereo_width_pct", p).apply()
+        StereoDynamics.init()
+        StereoDynamics.stereoWidth(p / 100f)
     }
 
     fun setNoiseSuggest(enabled: Boolean) {
