@@ -5,7 +5,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Nieuw
 - **Wind-detectie**: lopen/fietsen + hoge mic-RMS → WIND_GUARD-scene (`WindAdvisor`)
-- **Stereo-breedte**: `StereoDynamics.stereoWidth(0..1.6)` (0=crossfeed, 1=normaal, 1.6=breed)
+- **Stereo-breedte slider** op EQ-scherm (`stereo_width_pct`, 0–160%)
+- **Persistente Drive-map** via SAF tree-URI (`Drive-map` / `Kies map`)
 - **Scene volume-cap**: safeVolume-scenes max 60% STREAM_MUSIC, herstel bij normale scene
 - UI-toggle **Mic-RMS ruisvloer** + runtime RECORD_AUDIO-prompt (`MicRmsBar`)
 - Opt-in **mic-RMS ruisvloer** (`MicRmsProbe`, prefs `mic_rms_enabled`) — blend 70/30 met proxy
@@ -20,12 +21,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Soft-ANC, WHO-luisterdosis, auto-modus fusie, Wear Focus 25
 
 ## Betere volgende functies
-1. Persistente Drive-map via SAF tree-URI (geen OAuth)
-2. UI-slider stereo-breedte koppelen aan `StereoDynamics.stereoWidth`
-3. Slaaptimer fade bestaat; volume-cap per scene is nu in `SceneVolumeCap`
-4. Wear-complicatie: scene + batterij + Focus
-5. Laatste scene/EQ per headset-MAC bestaat (`HeadsetMemory`)
-6. Wind-scene: gedaan (`WindAdvisor` + fusie-gewicht 11)
+1. Persistente Drive-map: gedaan
+2. Stereo-breedte slider: gedaan
+3. Slaaptimer fade + scene volume-cap: gedaan
+4. Wear-complicatie scene + batterij: gedaan
+5. Headset-geheugen: gedaan
+6. Wind-scene: gedaan
 7. Echte Philips ANC-GATT (dump TAH6519 nodig)
 8. Indoor-positie via wifi-RSSI-kaart
 
