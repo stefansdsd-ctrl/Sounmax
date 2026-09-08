@@ -61,25 +61,44 @@ object StereoDynamics {
     }
 
     fun crossfeed(on: Boolean) {
+        stereoWidth(if (on) 0.35f else 1f)
+    }
+
+    /**
+     * 0 = mono/crossfeed, 1 = normaal, >1 tot 1.6 = extra breed.
+     * Gebruikt tegengestelde L/R shelf + lichte limiter.
+     */
+    fun stereoWidth(amount: Float) {
         if (Build.VERSION.SDK_INT < 28) return
         val dp = engine ?: return
         if (!available) return
+        val w = amount.coerceIn(0f, 1.6f)
         try {
-            val offsets = if (on) {
-                listOf(1.5f, 1.2f, 0.8f, 0.4f, 0.2f, 0f, -0.4f, -0.8f, -1.2f, -1.6f)
-            } else List(FREQS.size) { 0f }
-            applyBands(offsets, offsets)
+            val narrow = (1f - w).coerceIn(0f, 1f)
+            val wide = (w - 1f).coerceIn(0f, 0.6f)
+            val left = FREQS.mapIndexed { i, _ ->
+                val n = listOf(1.6f, 1.3f, 0.9f, 0.5f, 0.25f, 0f, -0.35f, -0.7f, -1.1f, -1.5f)[i]
+                val wd = listOf(-0.4f, -0.2f, 0f, 0.2f, 0.4f, 0.6f, 0.9f, 1.2f, 1.5f, 1.8f)[i]
+                (n * narrow + wd * wide).coerceIn(-12f, 12f)
+            }
+            val right = FREQS.mapIndexed { i, _ ->
+                val n = listOf(1.6f, 1.3f, 0.9f, 0.5f, 0.25f, 0f, -0.35f, -0.7f, -1.1f, -1.5f)[i]
+                val wd = listOf(-0.4f, -0.2f, 0f, 0.2f, 0.4f, 0.6f, 0.9f, 1.2f, 1.5f, 1.8f)[i]
+                (n * narrow - wd * wide * 0.35f).coerceIn(-12f, 12f)
+            }
+            applyBands(left, right)
+            val postGain = if (w < 0.5f) -2f else if (w > 1.2f) -1f else 0f
             for (ch in 0..1) {
                 val lim = DynamicsProcessing.Limiter(
                     true, true, 0,
                     1f, 40f, 8f,
-                    if (on) -2f else 0f,
-                    if (on) 0.8f else 0f
+                    postGain,
+                    if (w < 0.6f) 0.8f else 0f
                 )
                 dp.setLimiterByChannelIndex(ch, lim)
             }
         } catch (e: Exception) {
-            Log.w(TAG, "crossfeed: ${e.message}")
+            Log.w(TAG, "stereoWidth: ${e.message}")
         }
     }
 
