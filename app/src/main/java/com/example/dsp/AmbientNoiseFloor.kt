@@ -6,14 +6,19 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Schat omgevingsruis zonder extra RECORD_AUDIO-permissie.
- * Mix van mediavolume, ringer, activiteit en RSSI → 0f (stil) … 1f (luid).
+ * Schat omgevingsruis. Zonder mic: volume/ringer/activiteit/RSSI.
+ * Met opt-in RECORD_AUDIO: blend mic-RMS (zwaarder gewicht).
  */
 object AmbientNoiseFloor {
+    private const val PREFS = "scene_automation"
+
     @Volatile var lastIntensity: Float = 0.45f
         private set
 
     @Volatile var lastLabel: String = "gemiddeld"
+        private set
+
+    @Volatile var lastSource: String = "proxy"
         private set
 
     fun estimate(
@@ -50,7 +55,17 @@ object AmbientNoiseFloor {
         }
 
         val place = if (outdoor) 0.2f else 0f
-        val raw = (act * 0.40f) + (musicNorm * 0.20f) + (ringer * 0.15f) + (rf * 0.15f) + place
+        val proxy = (act * 0.40f) + (musicNorm * 0.20f) + (ringer * 0.15f) + (rf * 0.15f) + place
+
+        val micOn = MicRmsProbe.enabled(context, PREFS)
+        val mic = if (micOn) MicRmsProbe.sample(context) else null
+        val raw = if (mic != null) {
+            lastSource = "mic"
+            mic * 0.70f + proxy * 0.30f
+        } else {
+            lastSource = "proxy"
+            proxy
+        }
         val v = min(1f, max(0f, raw))
         lastIntensity = v
         lastLabel = when {
