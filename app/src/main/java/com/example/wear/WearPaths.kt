@@ -38,4 +38,5 @@ object WearPaths {
     const val CMD_FOCUS = "toggle_focus"
     const val CMD_UNDO = "undo_scene"
     const val CMD_LOCK = "toggle_lock"
+    const val CMD_ONE_TAP_PREFIX = "one_tap:"
 }
