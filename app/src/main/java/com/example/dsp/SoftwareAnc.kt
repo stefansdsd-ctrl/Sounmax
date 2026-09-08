@@ -1,8 +1,10 @@
 package com.example.dsp
 
+import android.content.Context
+import com.example.ble.RealAncController
+
 /**
- * Software-ANC tot echte Philips GATT-UUIDs bekend zijn.
- * Maskeert rumble / tilt spraak via DynamicsProcessing + EQ-offsets.
+ * Software-ANC + doorverwijzing naar [RealAncController] voor hardware.
  * ADAPTIVE schaalt met AmbientNoiseFloor (0–1).
  */
 object SoftwareAnc {
@@ -58,12 +60,18 @@ object SoftwareAnc {
         )
     }
 
+    /** Alleen soft-EQ (zonder hardware). */
     fun apply(mode: AncMode, intensity: Float = AmbientNoiseFloor.lastIntensity) {
         val profile = profile(mode, intensity)
         StereoDynamics.init()
         StereoDynamics.applyBands(profile.offsetsDb, profile.offsetsDb)
         StereoDynamics.speechBoost(profile.speechBoost)
         StereoDynamics.safeLimiter(profile.limiter)
+    }
+
+    /** Hardware + soft. Gebruik dit vanuit scenes/UI. */
+    fun applyWithHardware(context: Context, mode: AncMode, intensity: Float = AmbientNoiseFloor.lastIntensity): Boolean {
+        return RealAncController.apply(context, mode, intensity)
     }
 
     private fun offs(vararg v: Float): List<Float> = v.toList()

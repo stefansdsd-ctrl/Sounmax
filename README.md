@@ -4,6 +4,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- **Echte ANC-modes** (`RealAncController`): hardware ANC/Normaal/Transparantie + soft-EQ; leert UUID/payload
 - **Wifi-RSSI-kaart**: indoor fingerprints (`WifiRssiMap.pinCurrent`) → scene via BSSID/RSSI-match
 - **Vendor ANC-probe**: GATT dump + write-kandidaat voor Philips FE-services (`VendorAncProbe`)
 - **Wind-detectie**: lopen/fietsen + hoge mic-RMS → WIND_GUARD-scene (`WindAdvisor`)
@@ -22,26 +23,21 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - SAF backup JSON, snapshot-herstel, widget Undo + Focus 25
 - Soft-ANC, WHO-luisterdosis, auto-modus fusie, Wear Focus 25
 
-## Betere volgende functies
-1. Persistente Drive-map: gedaan
-2. Stereo-breedte slider: gedaan
-3. Slaaptimer fade + scene volume-cap: gedaan
-4. Wear-complicatie scene + batterij: gedaan
-5. Headset-geheugen: gedaan
-6. Wind-scene: gedaan
-7. Echte Philips ANC-GATT: probe + dump klaar; echte mode-map na TAH6519 dump
-8. Indoor wifi-RSSI-kaart: gedaan (`WifiRssiMap`)
+## ANC (TAH6519)
+Handleiding-knop: **ANC ↔ Normaal ↔ Transparantie**.
 
-## Mic-RMS
-Zet de switch **Mic-RMS ruisvloer** aan (of `mic_rms_enabled=true` in prefs `scene_automation`).
-App vraagt RECORD_AUDIO pas bij aanzetten. Korte ~80 ms VOICE_RECOGNITION-sample, max 1x per 8 s. Geen persistente opname.
+| App-modus | Hardware | Soft-EQ |
+|-----------|----------|---------|
+| OFF | Normaal | passief |
+| STRONG / ADAPTIVE / WIND_GUARD | ANC | ja (adaptief/wind) |
+| AMBIENT | Transparantie | spraak-boost |
 
-## Wind
-Prefs `wind_detect_enabled` (default aan). Vereist mic-RMS + activity walk/bike/run.
+Gebruik `SoftwareAnc.applyWithHardware(context, mode)`.
+Eerste geslaagde GATT-write wordt opgeslagen (`soundmax_anc_hw`).
+Zonder dump blijft soft-ANC altijd actief.
 
 ## Wifi-fingerprint
 `WifiRssiMap.pinCurrent(context, sceneId, label)` op een plek; auto-match in fusie (gewicht 9).
-Prefs `wifi_rssi_map` (default aan).
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

@@ -16,7 +16,9 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import com.example.ble.DiscoveryLogItem
+import com.example.ble.RealAncController
 import com.example.ble.ServiceDiscoveryMapper
+import com.example.ble.VendorAncProbe
 import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +34,8 @@ data class HeadsetStatus(
     val gattReady: Boolean = false,
     val knownServices: Int = 0,
     val unknownServices: Int = 0,
-    val discoveryLogs: List<DiscoveryLogItem> = emptyList()
+    val discoveryLogs: List<DiscoveryLogItem> = emptyList(),
+    val ancStatus: String = ""
 )
 
 class HeadsetStatusMonitor(
@@ -64,17 +67,21 @@ class HeadsetStatusMonitor(
                 handler.postDelayed(pollRssi, 8_000L)
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 handler.removeCallbacks(pollRssi)
+                RealAncController.detachGatt()
             }
         }
 
         override fun onServicesDiscovered(g: BluetoothGatt, status: Int) {
             if (status != BluetoothGatt.GATT_SUCCESS) return
             val mapped = mapper.map(g)
+            val ancLogs = VendorAncProbe.probe(g)
+            RealAncController.attachGatt(g)
             _status.value = _status.value.copy(
                 gattReady = true,
                 knownServices = mapped.knownServices.size,
                 unknownServices = mapped.unknownServices.size,
-                discoveryLogs = mapped.logs.take(12)
+                discoveryLogs = (mapped.logs + ancLogs).take(16),
+                ancStatus = RealAncController.statusLine()
             )
         }
 
@@ -83,6 +90,16 @@ class HeadsetStatusMonitor(
                 _status.value = _status.value.copy(rssiDbm = rssi, rssiLiveGatt = true)
                 onRssi(rssi)
                 HeadsetLocator.rememberIfConnected(context, _status.value)
+            }
+        }
+
+        override fun onCharacteristicWrite(
+            g: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            status: Int
+        ) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                _status.value = _status.value.copy(ancStatus = RealAncController.statusLine())
             }
         }
     }
@@ -165,7 +182,8 @@ class HeadsetStatusMonitor(
             batteryPercent = battery,
             wired = wired,
             rssiDbm = rssi,
-            rssiLiveGatt = _status.value.rssiLiveGatt && gatt != null
+            rssiLiveGatt = _status.value.rssiLiveGatt && gatt != null,
+            ancStatus = RealAncController.statusLine()
         )
         persist(name, battery)
         HeadsetLocator.rememberIfConnected(context, _status.value)
@@ -201,6 +219,7 @@ class HeadsetStatusMonitor(
     @SuppressLint("MissingPermission")
     private fun closeGatt() {
         handler.removeCallbacks(pollRssi)
+        RealAncController.detachGatt()
         try { gatt?.disconnect() } catch (_: Exception) {}
         try { gatt?.close() } catch (_: Exception) {}
         gatt = null

@@ -2,14 +2,11 @@ package com.example.ble
 
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothGattService
 import android.util.Log
-import java.util.UUID
 
 /**
- * Probeert Philips/vendor FE-services voor ANC-achtige characteristics.
- * Zonder officiële dump: leest/schrijft niets gevaarlijks; alleen discovery + log.
- * Slaat dump-string op in prefs via [lastDump] voor later reverse-engineeren.
+ * Discovery van Philips/vendor FE-services voor ANC.
+ * Gebruikt door [RealAncController] als kandidaat-bron.
  */
 object VendorAncProbe {
     private const val TAG = "VendorAncProbe"
@@ -22,7 +19,6 @@ object VendorAncProbe {
     var lastAncCandidate: BluetoothGattCharacteristic? = null
         private set
 
-    /** UUIDs die vaak bij TWS/ANC vendors voorkomen (gok + FE-range). */
     private val candidateServiceHints = listOf(
         "fe", "fd", "ff", "anc", "noise", "ambient", "hear"
     )
@@ -31,6 +27,7 @@ object VendorAncProbe {
         val logs = mutableListOf<DiscoveryLogItem>()
         val sb = StringBuilder()
         lastAncCandidate = null
+        val writeCandidates = mutableListOf<BluetoothGattCharacteristic>()
 
         gatt.services.orEmpty().forEach { service ->
             val su = service.uuid.toString().lowercase()
@@ -48,31 +45,21 @@ object VendorAncProbe {
                 val props = propsLabel(c.properties)
                 sb.appendLine("  C ${c.uuid} props=$props")
                 logs += DiscoveryLogItem("Char", "${c.uuid} · $props")
-                if (vendorish && canWrite(c.properties) && lastAncCandidate == null) {
-                    lastAncCandidate = c
+                if (vendorish && canWrite(c.properties)) {
+                    writeCandidates += c
                     logs += DiscoveryLogItem("ANC write-kandidaat", c.uuid.toString())
                 }
             }
         }
 
+        // Voorkeur: char met WRITE (niet alleen NO_RESPONSE) in FE-service
+        lastAncCandidate = writeCandidates.firstOrNull {
+            (it.properties and BluetoothGattCharacteristic.PROPERTY_WRITE) != 0
+        } ?: writeCandidates.firstOrNull()
+
         lastDump = sb.toString().take(8000)
         Log.i(TAG, "GATT dump (${lastDump.length} chars), candidate=${lastAncCandidate?.uuid}")
         return logs
-    }
-
-    /**
-     * Probeert een 1-byte mode write op de laatste kandidaat.
-     * Modes: 0=off, 1=strong, 2=adaptive, 3=ambient, 4=wind — gok, veilig no-op bij fail.
-     */
-    fun tryWriteMode(gatt: BluetoothGatt, mode: Int): Boolean {
-        val c = lastAncCandidate ?: return false
-        return runCatching {
-            val value = byteArrayOf((mode.coerceIn(0, 4) and 0xFF).toByte())
-            @Suppress("DEPRECATION")
-            c.value = value
-            @Suppress("DEPRECATION")
-            gatt.writeCharacteristic(c)
-        }.getOrDefault(false)
     }
 
     fun dumpSummary(): String {
