@@ -17,10 +17,14 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Soft-ANC, WHO-luisterdosis, auto-modus fusie, Wear Focus 25
 
 ## Betere volgende functies
-1. Drive-backup van presets
-2. Wear-complicatie status-sync
-3. Echte Philips ANC-GATT (dump TAH6519 nodig)
-4. Indoor-positie via wifi-RSSI-kaart
+1. Persistente Drive-map via SAF tree-URI (geen OAuth)
+2. Crossfeed + stereo-breedte (DSP)
+3. Slaaptimer met fade-out + volume-cap per scene
+4. Wear-complicatie: scene + batterij + Focus
+5. Laatste scene/EQ per headset-MAC
+6. Wind-scene: lopen + hoge mic-RMS
+7. Echte Philips ANC-GATT (dump TAH6519 nodig)
+8. Indoor-positie via wifi-RSSI-kaart
 
 ## Mic-RMS
 Zet de switch **Mic-RMS ruisvloer** aan (of `mic_rms_enabled=true` in prefs `scene_automation`).
