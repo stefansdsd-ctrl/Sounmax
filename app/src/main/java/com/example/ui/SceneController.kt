@@ -3,6 +3,7 @@ package com.example.ui
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.example.ble.AncNotifyLearner
 import com.example.ble.NrfConnectTooling
 import com.example.ble.NrfStyleGattDump
 import com.example.dsp.AncMode
@@ -176,6 +177,11 @@ class SceneController(private val viewModel: MainViewModel) {
             putExtra(Intent.EXTRA_TEXT, "Sounmax scene: $id")
         }
         app.startActivity(Intent.createChooser(intent, "Deel scene").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
+
+    fun startAncLearn(modeLabel: String = "anc") {
+        monitor.startAncLearn(modeLabel)
+        Toast.makeText(app, AncNotifyLearner.lastHint, Toast.LENGTH_SHORT).show()
     }
 
     fun shareGattDump(modeLabel: String = "snapshot") {
