@@ -4,6 +4,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- **EQ A/B**: sla twee curves op (EQ A / EQ B) en wissel live (`EqSnapshot`)
+- **Plak-chip**: SceneShare-JSON vanaf klembord in de scenes-balk
 - **Wear ANC-tegel**: compacte tegel, tik wisselt modus (`SounmaxAncTileService`)
 - **Live codec in widget/Wear**: LDAC/aptX/AAC + bitrate (kbps) naast accu
 - **Scene-plak**: chip “Plak” importeert SceneShare-JSON vanaf klembord (`SceneShare.importFromClipboard`)
