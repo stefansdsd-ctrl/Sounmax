@@ -80,6 +80,18 @@ fun GattInsightBar(sceneController: SceneController) {
                 label = { Text("Transparant", fontSize = 11.sp) }
             )
             AssistChip(
+                onClick = { sceneController.startAncLearn("anc") },
+                label = { Text("Leer ANC-knop", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.startAncLearn("off") },
+                label = { Text("Leer uit-knop", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { sceneController.startAncLearn("aware") },
+                label = { Text("Leer transparant", fontSize = 11.sp) }
+            )
+            AssistChip(
                 onClick = { sceneController.shareGattDump("baseline") },
                 label = { Text("Dump baseline", fontSize = 11.sp) }
             )
