@@ -6,6 +6,7 @@ import android.content.Context
 import android.util.Log
 import com.example.dsp.AncMode
 import com.example.dsp.SoftwareAnc
+import com.example.media.AncHaptics
 import java.util.UUID
 
 /**
@@ -71,8 +72,8 @@ object RealAncController {
         if (g != null) {
             hwOk = writeHw(context, g, hw)
         }
-        // Soft altijd: vult adaptief/wind/spraak in waar hardware 3-standen mist
         SoftwareAnc.apply(mode, noiseIntensity)
+        AncHaptics.pulse(context, mode)
         lastHwOk = hwOk
         lastMessage = if (hwOk) {
             "hardware ${hw.label} + soft ${mode.displayName}"
@@ -105,13 +106,11 @@ object RealAncController {
         val learnedSvc = prefs.getString(KEY_SVC, null)
         val learnedPayload = prefs.getString(KEY_PAYLOAD_PREFIX + hw.code, null)?.let { parsePayload(it) }
 
-        // 1) geleerde char + payload
         if (learnedChar != null && learnedPayload != null) {
             val c = findChar(g, learnedSvc, learnedChar)
             if (c != null && writeBytes(g, c, learnedPayload)) return true
         }
 
-        // 2) VendorAncProbe-kandidaat met payload-varianten
         val candidate = VendorAncProbe.lastAncCandidate
         if (candidate != null) {
             for (payload in payloadsFor(hw)) {
@@ -128,7 +127,6 @@ object RealAncController {
             }
         }
 
-        // 3) scan alle write-chars in FE/FD services
         for (svc in g.services.orEmpty()) {
             val su = svc.uuid.toString().lowercase()
             if (!su.startsWith("0000fe") && !su.startsWith("0000fd") && !su.startsWith("0000ff")) continue
@@ -145,10 +143,6 @@ object RealAncController {
         return false
     }
 
-    /**
-     * Veelvoorkomende 1–3 byte frames bij TWS/ANC SoCs (BES/Bluetrum-achtig).
-     * Eerste match die write accepteert wordt geleerd.
-     */
     private fun payloadsFor(hw: HwMode): List<ByteArray> {
         val v = hw.code.toByte()
         return listOf(
@@ -161,7 +155,6 @@ object RealAncController {
             byteArrayOf(0x00, 0x01, v),
             byteArrayOf(0x01, 0x00, v),
             byteArrayOf(0xFE.toByte(), v),
-            // sommige stacks: off=0x00 anc=0x01 ambient=0x03
             when (hw) {
                 HwMode.OFF -> byteArrayOf(0x00)
                 HwMode.ANC -> byteArrayOf(0x01)
