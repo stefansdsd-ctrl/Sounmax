@@ -12,16 +12,16 @@ object EqSnapshot {
     private const val KEY_B = "gains_b"
     private const val KEY_SIDE = "side"
 
-    fun saveA(context: Context, gains: List<Float>) {
+    fun saveA(context: Context, gains: List<Float>, toast: Boolean = true) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit().putString(KEY_A, gains.joinToString(",")).apply()
-        Toast.makeText(context, "EQ A opgeslagen", Toast.LENGTH_SHORT).show()
+        if (toast) Toast.makeText(context, "EQ A opgeslagen", Toast.LENGTH_SHORT).show()
     }
 
-    fun saveB(context: Context, gains: List<Float>) {
+    fun saveB(context: Context, gains: List<Float>, toast: Boolean = true) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit().putString(KEY_B, gains.joinToString(",")).apply()
-        Toast.makeText(context, "EQ B opgeslagen", Toast.LENGTH_SHORT).show()
+        if (toast) Toast.makeText(context, "EQ B opgeslagen", Toast.LENGTH_SHORT).show()
     }
 
     fun toggle(context: Context, current: List<Float>, apply: (List<Float>) -> Unit): String {
