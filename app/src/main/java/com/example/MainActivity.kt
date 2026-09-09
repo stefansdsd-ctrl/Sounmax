@@ -13,14 +13,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.media.AncHaptics
 import com.example.media.CallTransparencyGuard
 import com.example.media.DspControlService
 import com.example.media.VolumeSceneCycler
 import com.example.ui.MainViewModel
 import com.example.ui.SoundMaxApp
 import com.example.ui.theme.MyApplicationTheme
-import com.example.ui.theme.StudioDarkBackground
+import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
 
 class MainActivity : ComponentActivity() {
@@ -44,9 +46,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
+                val oled = AncHaptics.oledEnabled(LocalContext.current)
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = StudioDarkBackground
+                    color = appBackground(oled)
                 ) {
                     val viewModel: MainViewModel = viewModel()
                     SoundMaxApp(viewModel = viewModel)
