@@ -31,6 +31,7 @@ object WearPaths {
     const val CMD_CYCLE_SLEEP = "cycle_sleep"
     const val CMD_SUGGEST = "suggest"
     const val CMD_CYCLE_ANC = "cycle_anc"
+    const val CMD_SET_ANC_PREFIX = "set_anc:"
     const val CMD_CYCLE_SPATIAL = "cycle_spatial"
     const val CMD_FIND_HEADSET = "find_headset"
     const val CMD_PLAY_PAUSE = "play_pause"
