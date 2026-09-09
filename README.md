@@ -4,12 +4,13 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
 ## Nieuw
+- **Scene-plak**: chip “Plak” importeert SceneShare-JSON vanaf klembord (`SceneShare.importFromClipboard`)
+- **Share-intent**: `ACTION_SEND` text/plain met scene-JSON activeert de scene
 - **OLED-thema**: Compose zwart-schema + chip “OLED”
 - **Scene-delen per chip**: JSON via `SceneShare`
 - **Accu-historie widget**: sparkline + ETA
 - **ANC-haptic** (`AncHaptics`): korte tril per modus, uit te zetten
 - **OLED-zwart vlag** (`AncHaptics.KEY_OLED`)
-- **Scene-delen JSON** (`SceneShare`)
 - **Head-track kalibratie-offset** (`HeadTrackCalib` + bestaande `HeadTracker.calibrateNeutral()`)
 - **Kamer-wifi-pins**: woonkamer, keuken, slaapkamer, studeerkamer, kantoor, sportschool, koffie, trein (max 48 fingerprints)
 - **One-tap extra**: Sport, Trein, Café
