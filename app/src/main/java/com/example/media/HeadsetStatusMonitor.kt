@@ -17,6 +17,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import com.example.ble.DiscoveryLogItem
+import com.example.ble.AncNotifyLearner
 import com.example.ble.NrfStyleGattDump
 import com.example.ble.RealAncController
 import com.example.ble.ServiceDiscoveryMapper
@@ -70,6 +71,7 @@ class HeadsetStatusMonitor(
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 handler.removeCallbacks(pollRssi)
                 RealAncController.detachGatt()
+                AncNotifyLearner.stop()
                 NrfStyleGattDump.detach()
             }
         }
@@ -81,6 +83,7 @@ class HeadsetStatusMonitor(
             RealAncController.attachGatt(g)
             NrfStyleGattDump.attach(g)
             NrfStyleGattDump.startReads(g)
+            AncNotifyLearner.subscribeAll(g)
             _status.value = _status.value.copy(
                 gattReady = true,
                 knownServices = mapped.knownServices.size,
@@ -126,6 +129,26 @@ class HeadsetStatusMonitor(
             status: Int
         ) {
             NrfStyleGattDump.onCharacteristicRead(characteristic, status, value)
+        }
+
+        @Deprecated("Deprecated in Java")
+        override fun onCharacteristicChanged(
+            g: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic
+        ) {
+            @Suppress("DEPRECATION")
+            val value = characteristic.value
+            AncNotifyLearner.onNotify(context, characteristic, value)
+            _status.value = _status.value.copy(ancStatus = AncNotifyLearner.lastHint.ifBlank { RealAncController.statusLine() })
+        }
+
+        override fun onCharacteristicChanged(
+            g: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            value: ByteArray
+        ) {
+            AncNotifyLearner.onNotify(context, characteristic, value)
+            _status.value = _status.value.copy(ancStatus = AncNotifyLearner.lastHint.ifBlank { RealAncController.statusLine() })
         }
     }
 
@@ -190,7 +213,17 @@ class HeadsetStatusMonitor(
         try { context.unregisterReceiver(receiver) } catch (_: Exception) {}
     }
 
-    /** nRF-dump delen met mode-label (ANC / OFF / AWARENESS). */
+    fun startAncLearn(modeLabel: String) {
+        val hw = when (modeLabel.lowercase()) {
+            "off", "normaal" -> RealAncController.HwMode.OFF
+            "aware", "transparant", "awareness" -> RealAncController.HwMode.AWARENESS
+            else -> RealAncController.HwMode.ANC
+        }
+        AncNotifyLearner.start(context, gatt, hw)
+        _status.value = _status.value.copy(ancStatus = AncNotifyLearner.lastHint)
+        Toast.makeText(context, AncNotifyLearner.lastHint, Toast.LENGTH_SHORT).show()
+    }
+
     fun exportNrfDump(modeLabel: String = "snapshot") {
         NrfStyleGattDump.share(context, modeLabel)
     }
@@ -250,6 +283,7 @@ class HeadsetStatusMonitor(
     private fun closeGatt() {
         handler.removeCallbacks(pollRssi)
         RealAncController.detachGatt()
+        AncNotifyLearner.stop()
         NrfStyleGattDump.detach()
         try { gatt?.disconnect() } catch (_: Exception) {}
         try { gatt?.close() } catch (_: Exception) {}
