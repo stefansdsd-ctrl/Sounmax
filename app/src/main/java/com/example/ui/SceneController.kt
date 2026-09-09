@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.example.ble.AncNotifyLearner
 import com.example.ble.NrfConnectTooling
 import com.example.ble.NrfStyleGattDump
+import com.example.data.SceneShare
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
@@ -171,12 +172,11 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun shareCurrentScene() {
-        val id = _activeSceneId.value ?: return
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, "Sounmax scene: $id")
-        }
-        app.startActivity(Intent.createChooser(intent, "Deel scene").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        SceneShare.shareById(app, _activeSceneId.value ?: return)
+    }
+
+    fun shareScene(sceneId: String) {
+        SceneShare.shareById(app, sceneId)
     }
 
     fun startAncLearn(modeLabel: String = "anc") {
