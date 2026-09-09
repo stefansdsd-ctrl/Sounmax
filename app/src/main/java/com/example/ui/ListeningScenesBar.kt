@@ -114,6 +114,34 @@ fun ListeningScenesBar(
                 colors = chipColors(),
                 modifier = Modifier.testTag("pin_schedule_chip")
             )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.importSharedScene() },
+                label = { Text("Plak", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("paste_scene_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.toggleEqAb() },
+                label = { Text("EQ A/B", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("eq_ab_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.saveEqA() },
+                label = { Text("EQ A", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("eq_save_a_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = { sceneController.saveEqB() },
+                label = { Text("EQ B", fontSize = 11.sp) },
+                colors = chipColors(),
+                modifier = Modifier.testTag("eq_save_b_chip")
+            )
         }
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(com.example.dsp.ListeningScenes.GROUPS, key = { it.first }) { (label, _) ->
