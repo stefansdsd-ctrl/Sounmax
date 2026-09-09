@@ -179,6 +179,15 @@ class SceneController(private val viewModel: MainViewModel) {
         SceneShare.shareById(app, sceneId)
     }
 
+    fun importSharedScene() {
+        SceneShare.importFromClipboard(app) { applyListeningScene(it) }
+    }
+
+    fun importSharedSceneFromIntent(intent: Intent?) {
+        val id = SceneShare.parseFromIntent(intent) ?: return
+        SceneLookup.byId(id)?.let { applyListeningScene(it) }
+    }
+
     fun startAncLearn(modeLabel: String = "anc") {
         monitor.startAncLearn(modeLabel)
         Toast.makeText(app, AncNotifyLearner.lastHint, Toast.LENGTH_SHORT).show()
