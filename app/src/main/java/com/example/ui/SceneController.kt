@@ -11,6 +11,7 @@ import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.example.dsp.SceneGroups
+import com.example.dsp.EqSnapshot
 import com.example.dsp.SceneLookup
 import com.example.dsp.SoftwareAnc
 import com.example.media.CallTransparencyGuard
@@ -181,6 +182,20 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun importSharedScene() {
         SceneShare.importFromClipboard(app) { applyListeningScene(it) }
+    }
+
+    fun saveEqA() {
+        EqSnapshot.saveA(app, viewModel.dspManager.bandGains.value)
+    }
+
+    fun saveEqB() {
+        EqSnapshot.saveB(app, viewModel.dspManager.bandGains.value)
+    }
+
+    fun toggleEqAb() {
+        EqSnapshot.toggle(app, viewModel.dspManager.bandGains.value) { gains ->
+            gains.forEachIndexed { i, g -> viewModel.updateBandGain(i, g) }
+        }
     }
 
     fun importSharedSceneFromIntent(intent: Intent?) {
