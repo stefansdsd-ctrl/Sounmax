@@ -31,6 +31,7 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val context = LocalContext.current
     val suggest = remember { SceneUsage.suggestNow(context) }
     var nightOn by remember { mutableStateOf(NightVolumeGuard.enabled(context)) }
+    var locked by remember { mutableStateOf(sceneController.sceneLocked.value) }
     val nightNow = NightVolumeGuard.isNight()
 
     Row(
@@ -73,6 +74,21 @@ fun SmartSuggestBar(sceneController: SceneController) {
                 selectedLabelColor = ImmersiveLavenderAccent
             ),
             modifier = Modifier.testTag("night_volume_chip")
+        )
+        FilterChip(
+            selected = locked,
+            onClick = {
+                locked = !locked
+                sceneController.setSceneLocked(locked)
+            },
+            label = { Text(if (locked) "Scene vast" else "Lock", fontSize = 11.sp, maxLines = 1) },
+            colors = FilterChipDefaults.filterChipColors(
+                selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveTextSecondary,
+                selectedLabelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("scene_lock_chip")
         )
     }
 }
