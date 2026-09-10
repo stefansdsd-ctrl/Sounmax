@@ -66,6 +66,11 @@ class DspControlService : Service() {
         val sceneLabel = scene?.let { "${it.emoji} ${it.name}" } ?: "Scene"
         val suggested = ListeningScenes.suggestedNow()
         val battery = wellness.getInt(SoundMaxWidget.KEY_BATTERY, -1)
+        LowBatteryAncSaver.tick(this, battery.takeIf { it in 0..100 })
+        val codecLabel = BtCodecProbe.label(this, null)
+        if (!codecLabel.isNullOrBlank()) {
+            wellness.edit().putString(SoundMaxWidget.KEY_CODEC, codecLabel).apply()
+        }
         val sleepLeft = SoundMaxWidget.remainingSleepMinutes(wellness.getLong(SoundMaxWidget.KEY_SLEEP_END, 0L))
         val quiet = QuietHours.isQuietNow(this) && QuietHours.enabled(this)
         val focusLeft = if (FocusSession.isActive(this)) (FocusSession.remainingMs(this) / 60_000L).toInt() else 0
