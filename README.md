@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-10e)
+- **SceneUsage**: telt scene-gebruik per uur; suggestie “Nu: …” op basis van jouw patroon.
+- **SmartSuggestBar**: één tik naar de meest waarschijnlijke scene.
+- **NightVolumeGuard**: tussen 22:00–07:00 volume-cap 50% (uit te zetten).
+
 ## Nieuw (2026-09-10d)
 - **CommuteHint** in auto-scene-loop + pendel-chip (SSID/activiteit).
 - **Wear**: weekdosis + pauze-hint, swipe links/rechts voor scene, OLED-contrast.
@@ -15,17 +20,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - **CommuteHint**: NS/GVB/wifi + activity → trein/metro/fiets/auto.
 
 ## Nieuw (2026-09-10b)
-- **Scene-zoek + tags**: `SceneSearch.query("trein")` filtert op naam, id, beschrijving en groep-tags.
-- **Wifi-hysteresis 90s**: geen flikker café/trein bij korte SSID-wissel (`WifiPlaceAdvisor`).
-- **Luisterdosis**: `ListenDose` houdt 7 dagen volume×minuten bij + pauze-hint boven 480 min-eq.
-- **EQ-fade**: `EqFade.steps()` interpolateert 10 bands bij scene-wissel (~320 ms).
+- **Scene-zoek + tags**, wifi-hysteresis 90s, luisterdosis, EQ-fade.
 
 ## Nieuw (2026-09-10)
-- **Scene-historie + undo**: ringbuffer van 8 scene-id's (`SceneHistory`). `undo()` = vorige scene.
-- **LDAC-waarschuwing**: bij LDAC + accu < 20% of RSSI < -75 dBm snackbar.
-- **Per-app EQ-sterkte**: slider 0–100%, default 70%.
-- **Backup Drive**: export/share-sheet / SAF-import.
-- **Crash-log klembord** + **offline AI-cache** (laatste 3 Gemini-curves).
+- Scene-historie + undo, LDAC-waarschuwing, per-app EQ-sterkte, Drive-backup, crash-log, AI-cache.
 
 ## Al aanwezig
 - EQ A/B, SceneShare, Wear ANC-tegel, widgets, QS-tegels

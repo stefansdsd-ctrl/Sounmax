@@ -142,6 +142,7 @@ fun SoundMaxApp(
         ) {
             ListeningScenesBar(sceneController = sceneController)
             OneTapBar()
+            SmartSuggestBar(sceneController = sceneController)
             BatteryHistoryBar()
             GattInsightBar(sceneController = sceneController)
             FindHeadsetBar(viewModel = viewModel, sceneController = sceneController)

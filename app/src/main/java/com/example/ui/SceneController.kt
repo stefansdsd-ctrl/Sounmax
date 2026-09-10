@@ -7,6 +7,7 @@ import com.example.ble.AncNotifyLearner
 import com.example.ble.NrfConnectTooling
 import com.example.ble.NrfStyleGattDump
 import com.example.data.SceneShare
+import com.example.data.SceneUsage
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
@@ -18,6 +19,7 @@ import com.example.media.CallTransparencyGuard
 import com.example.media.FocusSession
 import com.example.media.HeadsetStatus
 import com.example.media.HeadsetStatusMonitor
+import com.example.media.NightVolumeGuard
 import com.example.media.RecentScenes
 import com.example.media.SceneAutomation
 import com.example.media.SceneReason
@@ -93,6 +95,8 @@ class SceneController(private val viewModel: MainViewModel) {
         prefs.edit().putString("last_scene_id", scene.id).apply()
         viewModel.applyListeningScene(scene)
         SoftwareAnc.applyWithHardware(app, scene.ancMode)
+        SceneUsage.record(app, scene.id)
+        NightVolumeGuard.applyIfNeeded(app)
         monitor.refresh()
         SoundMaxWidget.refresh(app)
     }
@@ -268,5 +272,7 @@ class SceneController(private val viewModel: MainViewModel) {
     private fun doseToday(): Int = prefs.getInt("dose_today", 0)
     private fun doseWeek(): Int = prefs.getInt("dose_week", 0)
     private fun currentSuggested(): ListeningScene =
-        SceneLookup.byId(prefs.getString("suggested_scene", "focus")) ?: ListeningScenes.defaultScene()
+        SceneUsage.suggestNow(app)
+            ?: SceneLookup.byId(prefs.getString("suggested_scene", "focus"))
+            ?: ListeningScenes.defaultScene()
 }
