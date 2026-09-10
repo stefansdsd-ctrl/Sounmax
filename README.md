@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-10h)
+- **CallModeGuard**: tijdens bel → gesprek/transparency + speech-EQ, daarna vorige scene.
+- **BtDisconnectPause**: media pauze bij ACL-disconnect.
+- **FindHeadset**: chirp om de koptelefoon te vinden.
+- **WeeklyListenReport**: 7-daagse luisterminuten + hint.
+
 ## Nieuw (2026-09-10g)
 - **SleepTimerBar**: 15/30/45/60/90 min in de app (fade + pauze).
 - **BalanceMonoBar**: L/R-balans + mono-mix, onthouden.
@@ -43,6 +49,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
+- CallModeGuard / FindHeadset in MainActivity bedraden
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
