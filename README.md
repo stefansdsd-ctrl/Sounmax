@@ -8,6 +8,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - **LDAC-waarschuwing**: bij LDAC + accu < 20% of RSSI < -75 dBm snackbar “bitrate daalt — dichterbij of AAC” (`LdacWarn`, cooldown 90s).
 - **Per-app EQ-sterkte**: slider 0–100%, default 70% (`AppEqMemory.strength` + `GenreEqStrength`).
 - **Backup Drive**: `PresetBackup.exportToTree` / share-sheet / SAF-import.
+- **Crash-log klembord**: chip in GATT-balk (`CrashLog`).
+- **Offline AI-cache**: laatste 3 Gemini-curves (`AiCurveCache`).
 
 ## Al aanwezig
 - EQ A/B, SceneShare-plak, Wear ANC-tegel, live codec in widget
