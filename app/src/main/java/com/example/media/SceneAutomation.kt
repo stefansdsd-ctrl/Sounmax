@@ -46,6 +46,10 @@ object SceneAutomation {
         scene = SceneReason.step(scene, next, "weer", reasons)
         next = CommuteAdvisor.adjust(context, scene)
         scene = SceneReason.step(scene, next, "pendel", reasons)
+        val act = prefs.getString("last_activity", null)
+        val actFresh = System.currentTimeMillis() - prefs.getLong("last_activity_at", 0L) < 8 * 60_000L
+        next = CommuteHint.suggestedScene(context, if (actFresh) act else null) ?: scene
+        scene = SceneReason.step(scene, next, "pendel-hint", reasons)
         next = WifiPlaceAdvisor.adjust(context, scene)
         scene = SceneReason.step(scene, next, "wifi-plaats", reasons)
         next = WifiRssiMap.adjust(context, scene)
