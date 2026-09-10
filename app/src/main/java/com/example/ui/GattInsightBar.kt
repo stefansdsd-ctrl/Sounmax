@@ -12,14 +12,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.dsp.AncMode
+import com.example.data.CrashLog
 import com.example.ui.theme.ImmersiveTextSecondary
 
 @Composable
 fun GattInsightBar(sceneController: SceneController) {
+    val context = LocalContext.current
     val status by sceneController.headsetStatus.collectAsStateWithLifecycle()
     if (!status.connected && status.discoveryLogs.isEmpty()) return
     Column(
@@ -118,6 +121,10 @@ fun GattInsightBar(sceneController: SceneController) {
             AssistChip(
                 onClick = { sceneController.showNrfWorkflow() },
                 label = { Text("nRF help", fontSize = 11.sp) }
+            )
+            AssistChip(
+                onClick = { CrashLog.copyToClipboard(context) },
+                label = { Text("Crash-log", fontSize = 11.sp) }
             )
         }
         status.discoveryLogs.take(3).forEach { log ->

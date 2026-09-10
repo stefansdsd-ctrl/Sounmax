@@ -24,12 +24,14 @@ import com.example.ui.SoundMaxApp
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
+import com.example.data.CrashLog
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        CrashLog.install(this)
         handleSceneIntent(intent)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
