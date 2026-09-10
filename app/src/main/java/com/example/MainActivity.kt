@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.media.AncHaptics
 import com.example.media.CallTransparencyGuard
 import com.example.media.DspControlService
+import com.example.media.ListenDoseTicker
 import com.example.media.VolumeSceneCycler
 import com.example.ui.MainViewModel
 import com.example.ui.SoundMaxApp
@@ -35,6 +36,7 @@ class MainActivity : ComponentActivity() {
         handleSceneIntent(intent)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
+        ListenDoseTicker.start(this)
         val wellness = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         volumeCycler = VolumeSceneCycler(
             this,
