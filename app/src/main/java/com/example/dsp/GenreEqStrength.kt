@@ -1,14 +1,16 @@
 package com.example.dsp
 
-/** Schaalt genre-offsets. 100 = vol, 50 = half. Geen stapeling. */
+/** Schaalt genre-offsets. 100 = vol, 0 = uit. Default 70%. */
 object GenreEqStrength {
     @Volatile
-    var factor: Float = 1f
+    var factor: Float = 0.7f
         private set
 
     fun setPercent(percent: Int) {
-        factor = (percent.coerceIn(25, 100) / 100f)
+        factor = (percent.coerceIn(0, 100) / 100f)
     }
+
+    fun percent(): Int = (factor * 100f).toInt()
 
     fun scaleDb(offsets: List<Float>): List<Float> =
         offsets.map { it * factor }

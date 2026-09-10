@@ -2,11 +2,13 @@ package com.example.data
 
 import android.content.Context
 import com.example.dsp.EqPreset
+import com.example.dsp.GenreEqStrength
 
 data class AppEqBinding(
     val packageName: String,
     val presetName: String,
-    val label: String
+    val label: String,
+    val strength: Int
 )
 
 class AppEqMemory(context: Context) {
@@ -16,7 +18,19 @@ class AppEqMemory(context: Context) {
         get() = prefs.getBoolean("enabled", true)
         set(value) { prefs.edit().putBoolean("enabled", value).apply() }
 
-    fun save(packageName: String?, preset: EqPreset, bands: List<Float>) {
+    var defaultStrength: Int
+        get() = prefs.getInt("default_strength", 70)
+        set(value) {
+            val p = value.coerceIn(0, 100)
+            prefs.edit().putInt("default_strength", p).apply()
+            GenreEqStrength.setPercent(p)
+        }
+
+    init {
+        GenreEqStrength.setPercent(defaultStrength)
+    }
+
+    fun save(packageName: String?, preset: EqPreset, bands: List<Float>, strength: Int = defaultStrength) {
         val pkg = packageName?.takeIf { it.isNotBlank() } ?: return
         prefs.edit()
             .putString("$pkg.name", preset.name)
@@ -25,7 +39,25 @@ class AppEqMemory(context: Context) {
             .putInt("$pkg.virt", preset.virtualizer)
             .putInt("$pkg.loud", preset.loudness)
             .putFloat("$pkg.clarity", preset.clarity)
+            .putInt("$pkg.strength", strength.coerceIn(0, 100))
             .apply()
+    }
+
+    fun strength(packageName: String?): Int {
+        val pkg = packageName?.takeIf { it.isNotBlank() } ?: return defaultStrength
+        return if (prefs.contains("$pkg.strength")) prefs.getInt("$pkg.strength", defaultStrength)
+        else defaultStrength
+    }
+
+    fun setStrength(packageName: String?, percent: Int) {
+        val pkg = packageName?.takeIf { it.isNotBlank() } ?: return
+        val p = percent.coerceIn(0, 100)
+        prefs.edit().putInt("$pkg.strength", p).apply()
+        GenreEqStrength.setPercent(p)
+    }
+
+    fun applyStrengthFor(packageName: String?) {
+        GenreEqStrength.setPercent(strength(packageName))
     }
 
     fun load(packageName: String?, ignoreEnabled: Boolean = false): EqPreset? {
@@ -37,16 +69,18 @@ class AppEqMemory(context: Context) {
             ?.mapNotNull { it.toFloatOrNull() }
             ?: return null
         if (bands.size != 10) return null
+        applyStrengthFor(pkg)
+        val f = GenreEqStrength.factor
         return EqPreset(
             name = name,
-            bandGains = bands,
-            bassBoost = prefs.getInt("$pkg.bass", 0),
+            bandGains = bands.map { it * f },
+            bassBoost = (prefs.getInt("$pkg.bass", 0) * f).toInt(),
             virtualizer = prefs.getInt("$pkg.virt", 0),
             loudness = prefs.getInt("$pkg.loud", 0),
-            clarity = prefs.getFloat("$pkg.clarity", 0f),
+            clarity = prefs.getFloat("$pkg.clarity", 0f) * f,
             isCustom = true,
             category = "Per-app",
-            description = "EQ voor $pkg"
+            description = "EQ voor $pkg (${(f * 100).toInt()}%)"
         )
     }
 
@@ -59,6 +93,7 @@ class AppEqMemory(context: Context) {
             .remove("$pkg.virt")
             .remove("$pkg.loud")
             .remove("$pkg.clarity")
+            .remove("$pkg.strength")
             .apply()
     }
 
@@ -68,7 +103,7 @@ class AppEqMemory(context: Context) {
             .mapNotNull { key ->
                 val pkg = key.removeSuffix(".name")
                 val name = prefs.getString(key, null) ?: return@mapNotNull null
-                AppEqBinding(pkg, name, label(pkg))
+                AppEqBinding(pkg, name, label(pkg), strength(pkg))
             }
             .sortedBy { it.label.lowercase() }
     }
