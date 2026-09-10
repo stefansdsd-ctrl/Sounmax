@@ -14,6 +14,8 @@ object RecentScenes {
         prefs.edit().putString(KEY, next.take(MAX).joinToString(",")).apply()
     }
 
+    fun load(prefs: SharedPreferences?): List<String> = list(prefs)
+
     fun list(prefs: SharedPreferences? = null): List<String> {
         val raw = prefs?.getString(KEY, null) ?: return emptyList()
         return raw.split(',').map { it.trim() }.filter { it.isNotEmpty() }
