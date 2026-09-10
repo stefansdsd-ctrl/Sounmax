@@ -3,6 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-10f)
+- **LowBatteryAncSaver**: ANC automatisch uit onder 15% headset-accu, terug boven 25%.
+- **Widget**: codec + ANC-kortlabel naast accu/DSP.
+
 ## Nieuw (2026-09-10e)
 - **SceneUsage**: telt scene-gebruik per uur; suggestie “Nu: …” op basis van jouw patroon.
 - **SmartSuggestBar**: één tik naar de meest waarschijnlijke scene.
