@@ -3,31 +3,30 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-10b)
+- **Scene-zoek + tags**: `SceneSearch.query("trein")` filtert op naam, id, beschrijving en groep-tags.
+- **Wifi-hysteresis 90s**: geen flikker café/trein bij korte SSID-wissel (`WifiPlaceAdvisor`).
+- **Luisterdosis**: `ListenDose` houdt 7 dagen volume×minuten bij + pauze-hint boven 480 min-eq.
+- **EQ-fade**: `EqFade.steps()` interpolateert 10 bands bij scene-wissel (~320 ms).
+
 ## Nieuw (2026-09-10)
 - **Scene-historie + undo**: ringbuffer van 8 scene-id's (`SceneHistory`). `undo()` = vorige scene.
-- **LDAC-waarschuwing**: bij LDAC + accu < 20% of RSSI < -75 dBm snackbar “bitrate daalt — dichterbij of AAC” (`LdacWarn`, cooldown 90s).
-- **Per-app EQ-sterkte**: slider 0–100%, default 70% (`AppEqMemory.strength` + `GenreEqStrength`).
-- **Backup Drive**: `PresetBackup.exportToTree` / share-sheet / SAF-import.
-- **Crash-log klembord**: chip in GATT-balk (`CrashLog`).
-- **Offline AI-cache**: laatste 3 Gemini-curves (`AiCurveCache`).
+- **LDAC-waarschuwing**: bij LDAC + accu < 20% of RSSI < -75 dBm snackbar.
+- **Per-app EQ-sterkte**: slider 0–100%, default 70%.
+- **Backup Drive**: export/share-sheet / SAF-import.
+- **Crash-log klembord** + **offline AI-cache** (laatste 3 Gemini-curves).
 
 ## Al aanwezig
-- EQ A/B, SceneShare-plak, Wear ANC-tegel, live codec in widget
+- EQ A/B, SceneShare, Wear ANC-tegel, widgets, QS-tegels
 - OLED-thema, ANC-haptic, head-track kalibratie
 - Kamer-wifi-pins, multipoint, nRF GATT-dump, RealAncController
 - Veilig volume 60% cap
 
-## nRF-dump (TAH6519)
-1. Headset verbinden
-2. Dump baseline, druk ANC-knop, dump opnieuw
-3. Vergelijk `Value:`-regels
-
-## ANC
-| App-modus | Hardware | Soft-EQ |
-|-----------|----------|---------|
-| OFF | Normaal | passief |
-| STRONG / ADAPTIVE / WIND_GUARD | ANC | ja |
-| AMBIENT | Transparantie | spraak-boost |
+## Nog open (hardware / UI-draad)
+- Philips ANC-GATT bevestigen met dump op TAH6519
+- `ListenDose.record()` aanroepen vanuit mediasessie-tick
+- `EqFade` koppelen in `AudioDspManager` bij scene-apply
+- Zoekveld in scenes-tab (`SceneSearch.query`)
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
