@@ -199,6 +199,7 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val KEY_SLEEP_MINUTES = "sleep_minutes"
         const val KEY_BATTERY = "headset_battery"
         const val KEY_HEADSET_NAME = "headset_name"
+        const val KEY_CODEC = "headset_codec"
 
         private fun tickIntent(context: Context): PendingIntent {
             return PendingIntent.getBroadcast(
@@ -231,6 +232,8 @@ class SoundMaxWidget : AppWidgetProvider() {
                 ?: ListeningScenes.ALL.first()
             val suggested = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
             val battery = wellness.getInt(KEY_BATTERY, -1)
+            val codec = wellness.getString(KEY_CODEC, null)
+            val anc = wellness.getString("last_anc", "STRONG") ?: "STRONG"
             val sleepLeft = remainingSleepMinutes(wellness.getLong(KEY_SLEEP_END, 0L))
             val name = wellness.getString(KEY_HEADSET_NAME, null)
             val focusLeft = if (FocusSession.isActive(context)) {
@@ -241,9 +244,15 @@ class SoundMaxWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.widget_title, name?.take(18) ?: "Sounmax")
             views.setTextViewText(
                 R.id.widget_battery,
-                if (battery in 0..100) "BT $battery%" else "BT --%"
+                buildString {
+                    append(if (battery in 0..100) "BT $battery%" else "BT --%")
+                    if (!codec.isNullOrBlank()) append(" · ").append(codec.take(10))
+                }
             )
-            views.setTextViewText(R.id.widget_dsp, if (enabled) "DSP aan" else "DSP uit")
+            views.setTextViewText(
+                R.id.widget_dsp,
+                "${if (enabled) "DSP aan" else "DSP uit"} · ANC ${anc.take(3)}"
+            )
             views.setTextViewText(R.id.widget_scene, "${scene.emoji} ${scene.name}")
             views.setTextViewText(
                 R.id.widget_sleep,
