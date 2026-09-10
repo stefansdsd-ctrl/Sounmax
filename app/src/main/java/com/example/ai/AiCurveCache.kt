@@ -7,6 +7,9 @@ import org.json.JSONObject
 
 /** Cache laatste 3 AI-EQ-curves voor offline hergebruik. */
 object AiCurveCache {
+    @Volatile private var appCtx: Context? = null
+    fun bind(context: Context) { appCtx = context.applicationContext }
+    fun rememberBound(rec: AiAcousticRecommendation) { appCtx?.let { remember(it, rec) } }
     private const val PREFS = "sounmax_ai_cache"
     private const val KEY = "curves"
     private const val MAX = 3

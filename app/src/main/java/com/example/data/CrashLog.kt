@@ -1,6 +1,7 @@
 package com.example.data
 
 import android.content.ClipData
+import com.example.ai.AiCurveCache
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
@@ -19,6 +20,7 @@ object CrashLog {
 
     fun install(context: Context) {
         val app = context.applicationContext
+        AiCurveCache.bind(app)
         val previous = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
             append(app, "FATAL ${t.name}", e)
