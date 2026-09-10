@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-10c)
+- **EQ-fade live** in `AudioDspManager.applyPreset`.
+- **ListenDose ticker** elke minuut bij volume > 0.
+- **SceneSearch** in scene-chips + **SceneHistory** undo.
+- **CommuteHint**: NS/GVB/wifi + activity → trein/metro/fiets/auto.
+
 ## Nieuw (2026-09-10b)
 - **Scene-zoek + tags**: `SceneSearch.query("trein")` filtert op naam, id, beschrijving en groep-tags.
 - **Wifi-hysteresis 90s**: geen flikker café/trein bij korte SSID-wissel (`WifiPlaceAdvisor`).
@@ -24,9 +30,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 
 ## Nog open (hardware / UI-draad)
 - Philips ANC-GATT bevestigen met dump op TAH6519
-- `ListenDose.record()` aanroepen vanuit mediasessie-tick
-- `EqFade` koppelen in `AudioDspManager` bij scene-apply
-- Zoekveld in scenes-tab (`SceneSearch.query`)
+- CommuteHint koppelen in auto-scene loop (`SceneAutomation`)
+- Wear-tegel: weekdosis + pauze-hint
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
