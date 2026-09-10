@@ -149,6 +149,7 @@ fun SoundMaxApp(
             MicRmsBar()
             PlacePinBar()
             HeadTrackCalibBar()
+            SpatialHorizonBar()
             FavoritesBar(viewModel = viewModel)
             BackupBar(viewModel = viewModel)
             AppEqBar(viewModel = viewModel)
