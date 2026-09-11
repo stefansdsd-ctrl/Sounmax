@@ -282,7 +282,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/battery_history_widget_info" />
+                android:resource="@xml/favorite_scenes_widget_info" />
         </receiver>
 
         <receiver
