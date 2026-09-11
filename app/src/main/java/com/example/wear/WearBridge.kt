@@ -10,6 +10,7 @@ import com.example.media.FindHeadsetHelper
 import com.example.media.FocusSession
 import com.example.media.MediaRemote
 import com.example.media.QuietHours
+import com.example.media.RssiCodecAdvisor
 import com.example.media.SceneScheduleAdvisor
 import com.example.qs.AncQuickTileService
 import com.example.qs.SpatialQuickTileService
@@ -56,6 +57,11 @@ object WearBridge {
                 )
                 dataMap.putBoolean(WearPaths.KEY_LOCKED, wellness.getBoolean("scene_locked", false))
                 dataMap.putString(WearPaths.KEY_SCHEDULE, SceneScheduleAdvisor.label(wellness))
+                dataMap.putString(
+                    WearPaths.KEY_CODEC,
+                    wellness.getString(SoundMaxWidget.KEY_CODEC, "") ?: ""
+                )
+                dataMap.putInt(WearPaths.KEY_RSSI, wellness.getInt(RssiCodecAdvisor.KEY_RSSI, 0))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
