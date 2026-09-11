@@ -17,6 +17,7 @@ object RssiCodecAdvisor {
     fun remember(context: Context, rssiDbm: Int) {
         context.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
             .edit().putInt(KEY_RSSI, rssiDbm).apply()
+        RssiEarDetect.tick(context, rssiDbm)
     }
 
     fun adjust(context: Context, scene: ListeningScene): ListeningScene {

@@ -21,6 +21,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <queries>
         <package android:name="com.google.android.apps.youtube.music" />
@@ -105,6 +107,17 @@
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="SoundMax Scene"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".qs.SceneSearchQuickTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="SoundMax Zoek scene"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -241,6 +254,14 @@
         </receiver>
 
         <receiver
+            android:name=".media.DndAutoFocus"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.app.action.INTERRUPTION_FILTER_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".widget.SoundMaxWidget"
             android:exported="true"
             android:label="Sounmax DSP">
@@ -261,7 +282,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/favorite_scenes_widget_info" />
+                android:resource="@xml/battery_history_widget_info" />
         </receiver>
 
         <receiver
