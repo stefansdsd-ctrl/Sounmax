@@ -11,10 +11,14 @@ class ComplicationTapActivity : ComponentActivity() {
         val prefs = getSharedPreferences("wear_complic", MODE_PRIVATE)
         val now = System.currentTimeMillis()
         val last = prefs.getLong("last_tap", 0L)
-        val doubleTap = now - last < 900
-        prefs.edit().putLong("last_tap", now).apply()
+        val count = if (now - last < 1100) prefs.getInt("tap_count", 1) + 1 else 1
+        prefs.edit().putLong("last_tap", now).putInt("tap_count", count).apply()
         lifecycleScope.launch {
-            val cmd = if (doubleTap) WearPaths.CMD_FIND_HEADSET else WearPaths.CMD_NEXT_SCENE
+            val cmd = when {
+                count >= 3 -> WearPaths.CMD_CYCLE_ANC
+                count == 2 -> WearPaths.CMD_FIND_HEADSET
+                else -> WearPaths.CMD_NEXT_SCENE
+            }
             runCatching { WearClient.send(this@ComplicationTapActivity, cmd) }
             finish()
         }
