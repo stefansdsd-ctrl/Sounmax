@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.AppEqMemory
+import androidx.compose.ui.platform.testTag
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -72,6 +73,19 @@ fun AppEqBar(viewModel: MainViewModel) {
                     }
                 },
                 label = { Text("${binding.label} · ${binding.presetName}", fontSize = 11.sp) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveTextSecondary
+                )
+            )
+            AssistChip(
+                onClick = {
+                    val next = ((memory.strength(binding.packageName) + 15) % 105).coerceIn(0, 100)
+                    memory.setStrength(binding.packageName, next)
+                    bindings = memory.listBindings()
+                    Toast.makeText(context, "${binding.label} EQ ${next}%", Toast.LENGTH_SHORT).show()
+                },
+                label = { Text("${binding.label} ${binding.strength}%", fontSize = 11.sp) },
                 colors = AssistChipDefaults.assistChipColors(
                     containerColor = ImmersiveSurfaceActive,
                     labelColor = ImmersiveTextSecondary
