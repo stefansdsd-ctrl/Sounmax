@@ -41,6 +41,7 @@ object FocusSession {
             .putLong("session_started_at", System.currentTimeMillis())
             .apply()
         scheduleEnd(context, end)
+        DndFocusFilter.enter(context)
         DspControlService.start(context)
         SoundMaxWidget.refreshAll(context)
         Toast.makeText(context, "Focus $minutes min · Deep work vergrendeld", Toast.LENGTH_SHORT).show()
@@ -55,6 +56,7 @@ object FocusSession {
             .apply()
         val am = context.getSystemService(AlarmManager::class.java) ?: return
         am.cancel(pending(context))
+        DndFocusFilter.exit(context)
         SoundMaxWidget.refreshAll(context)
     }
 
@@ -73,6 +75,7 @@ object FocusSession {
                 .putBoolean("pending_widget_scene", true)
                 .apply()
         }
+        DndFocusFilter.exit(context)
         DspControlService.start(context)
         SoundMaxWidget.refreshAll(context)
         Toast.makeText(context, "Focus klaar · oorpauze", Toast.LENGTH_LONG).show()
