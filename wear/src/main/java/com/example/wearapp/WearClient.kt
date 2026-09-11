@@ -25,7 +25,9 @@ data class WearStatus(
     val focus: Boolean = false,
     val focusLeft: Int = 0,
     val locked: Boolean = false,
-    val schedule: String = ""
+    val schedule: String = "",
+    val codec: String = "",
+    val rssi: Int = 0
 )
 
 object WearClient {
@@ -51,7 +53,9 @@ object WearClient {
             focus = map.getBoolean(WearPaths.KEY_FOCUS, false),
             focusLeft = map.getInt(WearPaths.KEY_FOCUS_LEFT, 0),
             locked = map.getBoolean(WearPaths.KEY_LOCKED, false),
-            schedule = map.getString(WearPaths.KEY_SCHEDULE) ?: ""
+            schedule = map.getString(WearPaths.KEY_SCHEDULE) ?: "",
+            codec = map.getString(WearPaths.KEY_CODEC) ?: "",
+            rssi = map.getInt(WearPaths.KEY_RSSI, 0)
         )
     }
 
