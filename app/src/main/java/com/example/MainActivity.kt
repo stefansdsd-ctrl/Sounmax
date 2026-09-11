@@ -21,6 +21,7 @@ import com.example.media.CallModeGuard
 import com.example.media.CallTransparencyGuard
 import com.example.media.DspControlService
 import com.example.media.ListenDoseTicker
+import com.example.media.OffEarPause
 import com.example.media.VolumeSceneCycler
 import com.example.ui.MainViewModel
 import com.example.ui.SoundMaxApp
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
             }
         )
         BtDisconnectPause.register(this, wellnessPrefs.getString("headset_address", null))
+        OffEarPause.start(this)
         val wellness = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         volumeCycler = VolumeSceneCycler(
             this,
