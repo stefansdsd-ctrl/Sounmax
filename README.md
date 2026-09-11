@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-11f)
+- **OutdoorSafetyAdvisor**: wandelen/rennen/fietsen → walk/bike/cardio + volume ≤ 55%.
+- Chip op home (tik = uit). Gewicht 12 in AutoModeFusion.
+- Aangesloten op SceneAutomation-pipeline.
+
 ## Nieuw (2026-09-11e)
 - Wear-complication: scene + ANC + accu + codec + RSSI.
 - Dubbeltik op complication zoekt headset; enkele tik = volgende scene.
