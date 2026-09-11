@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.media.AncHaptics
+import com.example.media.BtDisconnectPause
+import com.example.media.CallModeGuard
 import com.example.media.CallTransparencyGuard
 import com.example.media.DspControlService
 import com.example.media.ListenDoseTicker
@@ -37,6 +39,20 @@ class MainActivity : ComponentActivity() {
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
+        val wellnessPrefs = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
+        CallModeGuard.start(
+            this,
+            currentSceneId = { wellnessPrefs.getString("last_scene_id", "focus") },
+            applyScene = { scene ->
+                wellnessPrefs.edit()
+                    .putString("last_scene_id", scene.id)
+                    .putBoolean("pending_widget_scene", true)
+                    .putBoolean("auto_scene", false)
+                    .apply()
+                SoundMaxWidget.applyScene(this, scene.id)
+            }
+        )
+        BtDisconnectPause.register(this, wellnessPrefs.getString("headset_address", null))
         val wellness = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         volumeCycler = VolumeSceneCycler(
             this,
@@ -96,6 +112,11 @@ class MainActivity : ComponentActivity() {
             != PackageManager.PERMISSION_GRANTED
         ) {
             needed += Manifest.permission.READ_CALENDAR
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            needed += Manifest.permission.READ_PHONE_STATE
         }
         if (needed.isNotEmpty()) {
             ActivityCompat.requestPermissions(this, needed.toTypedArray(), 42)

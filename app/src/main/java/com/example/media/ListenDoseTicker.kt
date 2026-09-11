@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
+import com.example.data.WeeklyListenReport
 
 /** Elke minuut volume×1 min bijschrijven als muziekstream > 0. */
 object ListenDoseTicker {
@@ -23,6 +24,7 @@ object ListenDoseTicker {
                     if (cur > 0) {
                         val pct = (100 * cur) / max
                         ListenDose.record(app, pct, 1)
+                        WeeklyListenReport.addMinute(app, pct)
                         val wellness = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
                         wellness.edit()
                             .putInt("dose_today", ListenDose.weekMinutes(app).lastOrNull()?.second?.toInt() ?: 0)
