@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-11e)
+- Wear-complication: scene + ANC + accu + codec + RSSI.
+- Dubbeltik op complication zoekt headset; enkele tik = volgende scene.
+- WearBridge stuurt codec en GATT-RSSI mee.
+
 ## Nieuw (2026-09-11d)
 - **SceneHistory** gekoppeld aan elke scene-wissel (ringbuffer 8).
 - Undo-chip toont vorige scene-emoji.
