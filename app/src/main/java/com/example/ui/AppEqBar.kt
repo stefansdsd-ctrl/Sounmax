@@ -3,14 +3,17 @@ package com.example.ui
 import android.widget.Toast
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +27,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.AppEqMemory
-import androidx.compose.ui.platform.testTag
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -78,19 +80,19 @@ fun AppEqBar(viewModel: MainViewModel) {
                     labelColor = ImmersiveTextSecondary
                 )
             )
-            AssistChip(
-                onClick = {
-                    val next = ((memory.strength(binding.packageName) + 15) % 105).coerceIn(0, 100)
-                    memory.setStrength(binding.packageName, next)
-                    bindings = memory.listBindings()
-                    Toast.makeText(context, "${binding.label} EQ ${next}%", Toast.LENGTH_SHORT).show()
-                },
-                label = { Text("${binding.label} ${binding.strength}%", fontSize = 11.sp) },
-                colors = AssistChipDefaults.assistChipColors(
-                    containerColor = ImmersiveSurfaceActive,
-                    labelColor = ImmersiveTextSecondary
+            Column(modifier = Modifier.width(140.dp)) {
+                Text("${binding.label} ${binding.strength}%", fontSize = 10.sp, color = ImmersiveTextSecondary)
+                Slider(
+                    value = binding.strength.toFloat(),
+                    onValueChange = { v ->
+                        val next = v.toInt().coerceIn(0, 100)
+                        memory.setStrength(binding.packageName, next)
+                        bindings = memory.listBindings()
+                    },
+                    valueRange = 0f..100f,
+                    modifier = Modifier.testTag("app_eq_slider_${binding.packageName}")
                 )
-            )
+            }
             AssistChip(
                 onClick = {
                     memory.delete(binding.packageName)

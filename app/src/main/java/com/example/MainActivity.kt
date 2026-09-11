@@ -29,6 +29,7 @@ import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
 import com.example.data.CrashLog
+import com.example.data.NightlyBackup
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -37,6 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         CrashLog.install(this)
         handleSceneIntent(intent)
+        NightlyBackup.schedule(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
@@ -87,7 +89,12 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleSceneIntent(intent: Intent?) {
-        val sceneId = intent?.getStringExtra("scene_id") ?: return
+        if (intent == null) return
+        intent.getStringExtra("open_tab")?.let { tab ->
+            getSharedPreferences("soundmax_ui", MODE_PRIVATE)
+                .edit().putString("last_tab", tab).apply()
+        }
+        val sceneId = intent.getStringExtra("scene_id") ?: return
         getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
             .edit()
             .putString("last_scene_id", sceneId)
