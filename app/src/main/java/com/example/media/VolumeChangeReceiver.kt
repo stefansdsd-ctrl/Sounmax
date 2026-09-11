@@ -28,5 +28,6 @@ class VolumeChangeReceiver : BroadcastReceiver() {
             .apply()
         QuietHours.enforce(context)
         SafeVolume.enforce(context)
+        OutdoorSafetyAdvisor.enforceVolume(context)
     }
 }

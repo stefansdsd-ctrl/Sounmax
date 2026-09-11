@@ -46,6 +46,9 @@ object AutoModeFusion {
         val wind = WindAdvisor.suggest(context, current)
         if (wind != null) votes += Vote(wind.id, 11, "wind")
 
+        val outdoor = OutdoorSafetyAdvisor.adjust(context, current)
+        if (outdoor.id != current.id) votes += Vote(outdoor.id, 12, "buiten-veilig")
+
         if (votes.isEmpty()) return current
 
         val best = votes.groupBy { it.sceneId }
