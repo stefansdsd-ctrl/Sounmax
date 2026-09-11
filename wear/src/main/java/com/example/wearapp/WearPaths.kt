@@ -20,6 +20,7 @@ object WearPaths {
     const val KEY_LOCKED = "locked"
     const val KEY_SCHEDULE = "schedule"
     const val KEY_CODEC = "codec"
+    const val KEY_RSSI = "rssi"
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
     const val CMD_PREV_SCENE = "prev_scene"
