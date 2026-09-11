@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-11c)
+- **DndFocusFilter**: Focus zet DND-priority; herstelt filter daarna.
+- **NotificationListener**: sociale apps dempen tijdens Focus.
+- **ACCESS_NOTIFICATION_POLICY** in manifest.
+- Per-app EQ-sterkte-chip (tik +15%).
+
 ## Nieuw (2026-09-11b)
 - **OffEarPause**: A2DP idle + geen media → pauze-key na 25s.
 - **FindHeadset QS-tegel**: chirp vanuit snelle instellingen.
