@@ -141,6 +141,7 @@ fun SoundMaxApp(
                 .background(ImmersiveBackground)
         ) {
             ListeningScenesBar(sceneController = sceneController)
+            LdacStatusBar(sceneController = sceneController)
             OneTapBar()
             SmartSuggestBar(sceneController = sceneController)
             SleepTimerBar()
