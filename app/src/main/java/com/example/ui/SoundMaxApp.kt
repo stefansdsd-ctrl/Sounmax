@@ -142,6 +142,7 @@ fun SoundMaxApp(
         ) {
             ListeningScenesBar(sceneController = sceneController)
             LdacStatusBar(sceneController = sceneController)
+            OutdoorSafetyBar()
             OneTapBar()
             SmartSuggestBar(sceneController = sceneController)
             SleepTimerBar()
