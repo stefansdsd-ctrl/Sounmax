@@ -146,6 +146,7 @@ fun SoundMaxApp(
             DailyBudgetBar()
             OneTapBar()
             SmartSuggestBar(sceneController = sceneController)
+            TalkThroughBar()
             SleepTimerBar()
             CrossfeedBar()
             BalanceMonoBar()
