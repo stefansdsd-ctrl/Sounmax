@@ -10,6 +10,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,15 +23,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.SceneUsage
 import com.example.media.NightVolumeGuard
+import com.example.media.WeatherSceneHint
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun SmartSuggestBar(sceneController: SceneController) {
     val context = LocalContext.current
     val suggest = remember { SceneUsage.suggestNow(context) }
     val commuteLabel = remember { sceneController.commuteSuggestLabel() }
+    var weatherLabel by remember { mutableStateOf(sceneController.weatherSuggestLabel()) }
+    LaunchedEffect(Unit) {
+        val hint = withContext(Dispatchers.IO) { WeatherSceneHint.refresh(context) }
+        weatherLabel = hint?.label
+    }
     var nightOn by remember { mutableStateOf(NightVolumeGuard.enabled(context)) }
     var locked by remember { mutableStateOf(sceneController.sceneLocked.value) }
     val nightNow = NightVolumeGuard.isNight()
@@ -52,6 +61,17 @@ fun SmartSuggestBar(sceneController: SceneController) {
                     labelColor = ImmersiveLavenderAccent
                 ),
                 modifier = Modifier.testTag("commute_suggest_chip")
+            )
+        }
+        if (weatherLabel != null) {
+            AssistChip(
+                onClick = { sceneController.applyWeatherSuggestion() },
+                label = { Text(weatherLabel!!, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("weather_suggest_chip")
             )
         }
         if (suggest != null) {
