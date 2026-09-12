@@ -59,5 +59,14 @@
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
                 android:value="120" />
         </service>
+
+        <service
+            android:name=".WearStatusListener"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/sounmax" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>
