@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-12g — één oor + stille-uren tegel)
+- Quick Settings: “Stille uren” cyclust 22–7 / 23–8 / 21–6 / uit.
+- Quick Settings: “Eén oor” = mono-mix + limiter + veilig volume (fiets/verkeer).
+- Scenes: Eén oor / fiets, College, Gamen, Nachtwerk.
+
 ## Nieuw (2026-09-12f — home + talk-through live)
 - Talk-through samplet mic-RMS elke 1,2s als chip + mic-RMS aan staan.
 - Home: scenes / LDAC / suggest / talk-through / favorieten zichtbaar; rest achter “Meer”.
