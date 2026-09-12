@@ -30,6 +30,7 @@ import com.example.ui.theme.ImmersiveTextSecondary
 fun SmartSuggestBar(sceneController: SceneController) {
     val context = LocalContext.current
     val suggest = remember { SceneUsage.suggestNow(context) }
+    val commuteLabel = remember { sceneController.commuteSuggestLabel() }
     var nightOn by remember { mutableStateOf(NightVolumeGuard.enabled(context)) }
     var locked by remember { mutableStateOf(sceneController.sceneLocked.value) }
     val nightNow = NightVolumeGuard.isNight()
@@ -42,6 +43,17 @@ fun SmartSuggestBar(sceneController: SceneController) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (commuteLabel != null) {
+            AssistChip(
+                onClick = { sceneController.applyCommuteSuggestion() },
+                label = { Text(commuteLabel, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("commute_suggest_chip")
+            )
+        }
         if (suggest != null) {
             AssistChip(
                 onClick = { sceneController.applyListeningScene(suggest) },
