@@ -67,6 +67,8 @@ class DspControlService : Service() {
         val suggested = ListeningScenes.suggestedNow()
         val battery = wellness.getInt(SoundMaxWidget.KEY_BATTERY, -1)
         LowBatteryAncSaver.tick(this, battery.takeIf { it in 0..100 })
+        ChargeReminder.tick(this, battery.takeIf { it in 0..100 })
+        DailyHearingBudget.applySoftCap(this)
         val codecLabel = BtCodecProbe.label(this, null)
         if (!codecLabel.isNullOrBlank()) {
             wellness.edit().putString(SoundMaxWidget.KEY_CODEC, codecLabel).apply()
