@@ -18,11 +18,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dsp.MicRmsProbe
 import com.example.media.TalkThrough
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 @Composable
 fun TalkThroughBar() {
@@ -31,9 +34,14 @@ fun TalkThroughBar() {
     var label by remember { mutableStateOf(TalkThrough.chipLabel()) }
     LaunchedEffect(on) {
         while (on) {
+            if (MicRmsProbe.enabled(context)) {
+                withContext(Dispatchers.IO) { MicRmsProbe.sample(context) }
+            }
             label = TalkThrough.chipLabel()
-            delay(1_000)
+            delay(1_200)
         }
+        TalkThrough.release()
+        label = TalkThrough.chipLabel()
     }
     Row(
         modifier = Modifier

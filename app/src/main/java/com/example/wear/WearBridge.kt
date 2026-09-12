@@ -3,8 +3,10 @@ package com.example.wear
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.data.FavoriteScenes
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
+import com.example.dsp.SceneLookup
 import com.example.media.DspControlService
 import com.example.media.FindHeadsetHelper
 import com.example.media.FocusSession
@@ -27,6 +29,7 @@ object WearBridge {
             val wellness = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             val scene = ListeningScenes.byId(wellness.getString("last_scene_id", null))
                 ?: ListeningScenes.ALL.first()
+            val favs = FavoriteScenes(context).scenes()
             val req = PutDataMapRequest.create(WearPaths.STATUS).apply {
                 dataMap.putBoolean(WearPaths.KEY_DSP, ui.getBoolean(DspControlService.KEY_DSP, true))
                 dataMap.putString(WearPaths.KEY_SCENE_ID, scene.id)
@@ -62,6 +65,8 @@ object WearBridge {
                     wellness.getString(SoundMaxWidget.KEY_CODEC, "") ?: ""
                 )
                 dataMap.putInt(WearPaths.KEY_RSSI, wellness.getInt(RssiCodecAdvisor.KEY_RSSI, 0))
+                dataMap.putString(WearPaths.KEY_FAV_IDS, favs.joinToString(",") { it.id })
+                dataMap.putString(WearPaths.KEY_FAV_NAMES, favs.joinToString("|") { "${it.emoji} ${it.name}" })
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -71,27 +76,55 @@ object WearBridge {
     }
 
     fun handleCommand(context: Context, cmd: String) {
-        when (cmd) {
-            WearPaths.CMD_TOGGLE_DSP -> {
+        when {
+            cmd.startsWith(WearPaths.CMD_FAV_PREFIX) -> applyFav(context, cmd.removePrefix(WearPaths.CMD_FAV_PREFIX))
+            cmd == WearPaths.CMD_TOGGLE_DSP -> {
                 val prefs = context.getSharedPreferences(DspControlService.PREFS, Context.MODE_PRIVATE)
                 prefs.edit().putBoolean(DspControlService.KEY_DSP, !prefs.getBoolean(DspControlService.KEY_DSP, true)).apply()
             }
-            WearPaths.CMD_NEXT_SCENE -> SoundMaxWidget.cycleScene(context, +1)
-            WearPaths.CMD_PREV_SCENE -> SoundMaxWidget.cycleScene(context, -1)
-            WearPaths.CMD_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(context)
-            WearPaths.CMD_SUGGEST -> SoundMaxWidget.applySuggested(context)
-            WearPaths.CMD_CYCLE_ANC -> cycleAnc(context)
-            WearPaths.CMD_CYCLE_SPATIAL -> cycleSpatial(context)
-            WearPaths.CMD_FIND_HEADSET -> FindHeadsetHelper.ping()
-            WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
-            WearPaths.CMD_VOL_UP -> MediaRemote.volume(context, raise = true)
-            WearPaths.CMD_VOL_DOWN -> MediaRemote.volume(context, raise = false)
-            WearPaths.CMD_FOCUS -> FocusSession.toggle(context)
-            WearPaths.CMD_UNDO -> undoScene(context)
-            WearPaths.CMD_LOCK -> toggleLock(context)
+            cmd == WearPaths.CMD_NEXT_SCENE -> cycleFavOrAll(context, +1)
+            cmd == WearPaths.CMD_PREV_SCENE -> cycleFavOrAll(context, -1)
+            cmd == WearPaths.CMD_CYCLE_SLEEP -> SoundMaxWidget.cycleSleep(context)
+            cmd == WearPaths.CMD_SUGGEST -> SoundMaxWidget.applySuggested(context)
+            cmd == WearPaths.CMD_CYCLE_ANC -> cycleAnc(context)
+            cmd == WearPaths.CMD_CYCLE_SPATIAL -> cycleSpatial(context)
+            cmd == WearPaths.CMD_FIND_HEADSET -> FindHeadsetHelper.ping()
+            cmd == WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
+            cmd == WearPaths.CMD_VOL_UP -> MediaRemote.volume(context, raise = true)
+            cmd == WearPaths.CMD_VOL_DOWN -> MediaRemote.volume(context, raise = false)
+            cmd == WearPaths.CMD_FOCUS -> FocusSession.toggle(context)
+            cmd == WearPaths.CMD_UNDO -> undoScene(context)
+            cmd == WearPaths.CMD_LOCK -> toggleLock(context)
         }
         DspControlService.start(context)
         publishStatus(context)
+    }
+
+    private fun applyFav(context: Context, id: String) {
+        val scene = SceneLookup.byId(id) ?: return
+        val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        val current = prefs.getString("last_scene_id", null)
+        prefs.edit()
+            .putString("prev_scene_id", current)
+            .putString("last_scene_id", scene.id)
+            .putBoolean("pending_widget_scene", true)
+            .apply()
+        SoundMaxWidget.refreshAll(context)
+    }
+
+    /** Complication: cycle alleen favorieten als er pins zijn. */
+    private fun cycleFavOrAll(context: Context, dir: Int) {
+        val favs = FavoriteScenes(context)
+        val pinned = favs.scenes()
+        if (pinned.isEmpty()) {
+            SoundMaxWidget.cycleScene(context, dir)
+            return
+        }
+        val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        val current = prefs.getString("last_scene_id", null)
+        val idx = pinned.indexOfFirst { it.id == current }.let { if (it < 0) 0 else it }
+        val next = pinned[(idx + dir + pinned.size) % pinned.size]
+        applyFav(context, next.id)
     }
 
     private fun todayDose(wellness: android.content.SharedPreferences): Int {

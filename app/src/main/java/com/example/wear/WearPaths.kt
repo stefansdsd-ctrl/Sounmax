@@ -24,6 +24,8 @@ object WearPaths {
     const val KEY_LOCKED = "locked"
     const val KEY_SCHEDULE = "schedule"
     const val KEY_CODEC = "codec"
+    const val KEY_FAV_IDS = "fav_ids"
+    const val KEY_FAV_NAMES = "fav_names"
 
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
@@ -41,4 +43,5 @@ object WearPaths {
     const val CMD_UNDO = "undo_scene"
     const val CMD_LOCK = "toggle_lock"
     const val CMD_ONE_TAP_PREFIX = "one_tap:"
+    const val CMD_FAV_PREFIX = "fav:"
 }
