@@ -30,6 +30,7 @@ object ListenDoseTicker {
                             .putInt("dose_today", ListenDose.weekMinutes(app).lastOrNull()?.second?.toInt() ?: 0)
                             .putInt("dose_week", ListenDose.weekTotal(app).toInt())
                             .apply()
+                        DailyHearingBudget.applySoftCap(app)
                     }
                 } catch (_: Exception) {
                 }

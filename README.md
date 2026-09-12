@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-12h — bel-restore + dosis-cap)
+- Bel: ConversationBoost + talk-through + gesprek-scene; na ophangen vorige scene terug.
+- Dosis ≥ 180 min: veilig volume + rust-hint tot middernacht (chip op home).
+- Per-app EQ-slider en Drive/SAF-backup blijven beschikbaar.
+
 ## Nieuw (2026-09-12g — één oor + stille-uren tegel)
 - Quick Settings: “Stille uren” cyclust 22–7 / 23–8 / 21–6 / uit.
 - Quick Settings: “Eén oor” = mono-mix + limiter + veilig volume (fiets/verkeer).
