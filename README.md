@@ -3,6 +3,14 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-12b — batch 12)
+- Favoriete scenes: max 4 pins, long-press pin/unpin, rij boven zoek.
+- EQ A/B compare: chip wisselt live, haptic, 8s timeout terug naar A.
+- Commute-geheugen: eerste ochtendscene 06:30–09:30, suggestie volgende dag.
+- Haptic scene-confirm per groep (werk / outdoor / slaap).
+- QS-tile: volgende favoriet.
+- One-ear fallback: L/R-delta >25% of één dop offline → soft-mono + crossfeed 60%.
+
 ## Nieuw (2026-09-12)
 - Slaaptimer fade zet ANC uit na pauze.
 - Dagelijks gehoorbudget-chip + soft-cap volume bij 100%.
@@ -13,6 +21,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
+- Wear-complication: alleen favorieten (module nog koppelen)
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
