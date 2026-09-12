@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,11 +33,13 @@ import kotlinx.coroutines.delay
 fun SleepTimerBar() {
     val context = LocalContext.current
     var left by remember { mutableIntStateOf(0) }
+    var afterTrack by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         while (true) {
             val prefs = context.getSharedPreferences("soundmax_wellness", android.content.Context.MODE_PRIVATE)
             left = SoundMaxWidget.remainingSleepMinutes(prefs.getLong(SoundMaxWidget.KEY_SLEEP_END, 0L))
+            afterTrack = prefs.getBoolean(SleepFade.KEY_AFTER_TRACK, false)
             delay(15_000)
         }
     }
@@ -63,7 +66,23 @@ fun SleepTimerBar() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text("Timer", fontSize = 11.sp, color = ImmersiveTextSecondary)
-        listOf(0, 15, 30, 45, 60, 90).forEach { min ->
+        FilterChip(
+            selected = afterTrack,
+            onClick = {
+                afterTrack = !afterTrack
+                context.getSharedPreferences("soundmax_wellness", android.content.Context.MODE_PRIVATE)
+                    .edit().putBoolean(SleepFade.KEY_AFTER_TRACK, afterTrack).apply()
+            },
+            label = { Text("Na nummer", fontSize = 11.sp, maxLines = 1) },
+            colors = FilterChipDefaults.filterChipColors(
+                selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveTextSecondary,
+                selectedLabelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("sleep_after_track")
+        )
+        listOf(0, 10, 15, 30, 45, 60, 90).forEach { min ->
             val selected = if (min == 0) left == 0 else left in (min - 7)..(min + 7)
             FilterChip(
                 selected = selected,

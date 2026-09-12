@@ -3,6 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-12i — slaaptimer na nummer)
+- Chip “Na nummer”: fade start pas aan het einde van het huidige nummer (max 8 min).
+- Extra timer-optie 10 minuten.
+
 ## Nieuw (2026-09-12h — bel-restore + dosis-cap)
 - Bel: ConversationBoost + talk-through + gesprek-scene; na ophangen vorige scene terug.
 - Dosis ≥ 180 min: veilig volume + rust-hint tot middernacht (chip op home).
