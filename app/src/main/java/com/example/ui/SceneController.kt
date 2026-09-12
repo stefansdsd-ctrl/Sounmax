@@ -6,8 +6,11 @@ import android.widget.Toast
 import com.example.ble.AncNotifyLearner
 import com.example.ble.NrfConnectTooling
 import com.example.ble.NrfStyleGattDump
+import com.example.data.CommuteMemory
+import com.example.data.FavoriteScenes
 import com.example.data.SceneShare
 import com.example.data.SceneUsage
+import com.example.dsp.EqAbCompare
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
@@ -15,7 +18,9 @@ import com.example.dsp.SceneGroups
 import com.example.dsp.EqSnapshot
 import com.example.dsp.SceneLookup
 import com.example.dsp.SoftwareAnc
+import com.example.media.AncHaptics
 import com.example.media.CallTransparencyGuard
+import com.example.media.OneEarFallback
 import com.example.media.FocusSession
 import com.example.media.HeadsetStatus
 import com.example.media.HeadsetStatusMonitor
@@ -33,6 +38,9 @@ import kotlinx.coroutines.flow.asStateFlow
 class SceneController(private val viewModel: MainViewModel) {
     private val app = viewModel.getApplication<android.app.Application>()
     private val prefs = app.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
+    private val favorites = FavoriteScenes(app)
+    private val commute = CommuteMemory(app)
+    private var lastOneEarActive = false
     private val monitor = HeadsetStatusMonitor(
         app,
         onRssi = { rssi -> viewModel.dspManager.ingestLiveRssi(rssi) }
@@ -96,8 +104,11 @@ class SceneController(private val viewModel: MainViewModel) {
         viewModel.applyListeningScene(scene)
         SoftwareAnc.applyWithHardware(app, scene.ancMode)
         SceneUsage.record(app, scene.id)
+        commute.onScene(scene.id)
+        AncHaptics.sceneConfirm(app, scene.id)
         NightVolumeGuard.applyIfNeeded(app)
         monitor.refresh()
+        evaluateOneEar()
         SoundMaxWidget.refresh(app)
     }
 
@@ -148,10 +159,42 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun toggleFavoriteScene(id: String) {
-        val next = favoriteIds().toMutableSet()
-        if (id in next) next.remove(id) else next.add(id)
-        prefs.edit().putString("fav_scenes", next.joinToString(",")).apply()
-        _favoriteSceneIds.value = next
+        favorites.toggle(id)
+        _favoriteSceneIds.value = favorites.ids().toSet()
+        Toast.makeText(
+            app,
+            if (favorites.isPinned(id)) "Favoriet gepind" else "Favoriet los",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    fun favoriteScenes(): List<ListeningScene> = favorites.scenes()
+
+    fun commuteSuggestLabel(): String? = commute.suggestLabel()
+
+    fun applyCommuteSuggestion() {
+        commute.suggestedScene()?.let { applyListeningScene(it) }
+    }
+
+    fun evaluateOneEar() {
+        val st = monitor.status.value
+        val connected = st.connected
+        val batt = st.batteryPercent
+        val decision = OneEarFallback.evaluate(
+            leftPct = batt,
+            rightPct = batt,
+            leftOnline = connected,
+            rightOnline = connected
+        )
+        if (decision.active && !lastOneEarActive) {
+            OneEarFallback.notify(app, decision)
+            viewModel.dspManager.setMonoMix(decision.softMono)
+            app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+                .edit().putInt("crossfeed_pct", 60).apply()
+            com.example.dsp.StereoDynamics.init()
+            com.example.dsp.StereoDynamics.stereoWidth(0.40f)
+        }
+        lastOneEarActive = decision.active
     }
 
     fun startSleepTimer(mins: Int) {
@@ -197,7 +240,11 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun toggleEqAb() {
-        EqSnapshot.toggle(app, viewModel.dspManager.bandGains.value) { gains ->
+        val current = viewModel.dspManager.bandGains.value
+        if (!EqAbCompare.showingB) {
+            EqAbCompare.snapshotCurrentAsA(app, current)
+        }
+        EqAbCompare.toggle(app, current) { gains ->
             gains.forEachIndexed { i, g -> viewModel.updateBandGain(i, g) }
         }
     }
@@ -265,8 +312,13 @@ class SceneController(private val viewModel: MainViewModel) {
         monitor.stop()
     }
 
-    private fun favoriteIds(): Set<String> =
-        prefs.getString("fav_scenes", "")?.split(",")?.filter { it.isNotBlank() }?.toSet() ?: emptySet()
+    private fun favoriteIds(): Set<String> {
+        val fromNew = favorites.ids()
+        if (fromNew.isNotEmpty()) return fromNew.toSet()
+        val legacy = prefs.getString("fav_scenes", "")?.split(",")?.filter { it.isNotBlank() }.orEmpty()
+        legacy.take(FavoriteScenes.MAX).forEach { favorites.pin(it) }
+        return favorites.ids().toSet()
+    }
 
     private fun remainingSleep(): Int = SleepFade.remainingMinutes(app)
     private fun doseToday(): Int = prefs.getInt("dose_today", 0)
