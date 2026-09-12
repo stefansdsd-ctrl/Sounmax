@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.widget.Toast
+import com.example.dsp.AncMode
 import com.example.dsp.AudioDspManager
 import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.delay
@@ -65,6 +66,7 @@ object SleepFade {
                 delay(7_500)
             }
             MediaRemote.pause(context)
+            dsp?.setAncMode(AncMode.OFF)
             dsp?.setDspEnabled(false)
             dsp?.setLoudness(startLoud)
             dsp?.setBassBoost(startBass)

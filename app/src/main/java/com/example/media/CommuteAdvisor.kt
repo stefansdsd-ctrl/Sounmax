@@ -20,6 +20,17 @@ object CommuteAdvisor {
     fun adjust(context: Context, scene: ListeningScene): ListeningScene {
         if (!enabled(context)) return scene
         if (!isCommuteWindow()) return scene
+        if (OutdoorSafetyAdvisor.isOutdoorMoving(context)) {
+            OutdoorSafetyAdvisor.enforceVolume(context)
+            val type = context.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
+                .getInt("last_activity_type", -1)
+            val id = when (type) {
+                1 -> "bike"
+                8 -> "cardio"
+                else -> "walk"
+            }
+            return SceneLookup.byId(id) ?: SceneLookup.byId("commute") ?: scene
+        }
         val rainy = WeatherAdvisor.lastLabel(context)?.contains("regen", ignoreCase = true) == true
         val id = if (rainy) "commute_rain" else "commute"
         return SceneLookup.byId(id) ?: scene
