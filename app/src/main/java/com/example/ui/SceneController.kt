@@ -30,6 +30,7 @@ import com.example.media.SceneAutomation
 import com.example.media.SceneReason
 import com.example.media.SceneScheduleAdvisor
 import com.example.media.SleepFade
+import com.example.media.WeatherSceneHint
 import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -123,9 +124,7 @@ class SceneController(private val viewModel: MainViewModel) {
         monitor.refresh()
     }
 
-    fun applySuggestedScene() {
-        applyListeningScene(currentSuggested())
-    }
+    fun applySuggestedScene() { applyListeningScene(currentSuggested()) }
 
     fun undoLastScene() {
         val prev = prefs.getString("prev_scene_id", null) ?: return
@@ -161,122 +160,69 @@ class SceneController(private val viewModel: MainViewModel) {
     fun toggleFavoriteScene(id: String) {
         favorites.toggle(id)
         _favoriteSceneIds.value = favorites.ids().toSet()
-        Toast.makeText(
-            app,
-            if (favorites.isPinned(id)) "Favoriet gepind" else "Favoriet los",
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(app, if (favorites.isPinned(id)) "Favoriet gepind" else "Favoriet los", Toast.LENGTH_SHORT).show()
     }
 
     fun favoriteScenes(): List<ListeningScene> = favorites.scenes()
-
     fun commuteSuggestLabel(): String? = commute.suggestLabel()
-
-    fun applyCommuteSuggestion() {
-        commute.suggestedScene()?.let { applyListeningScene(it) }
+    fun applyCommuteSuggestion() { commute.suggestedScene()?.let { applyListeningScene(it) } }
+    fun weatherSuggestLabel(): String? = WeatherSceneHint.cachedHint()?.label
+    fun applyWeatherSuggestion() {
+        WeatherSceneHint.cachedHint()?.scene?.let { applyListeningScene(it) }
+            ?: WeatherSceneHint.refresh(app)?.scene?.let { applyListeningScene(it) }
     }
 
     fun evaluateOneEar() {
         val st = monitor.status.value
-        val connected = st.connected
-        val batt = st.batteryPercent
-        val decision = OneEarFallback.evaluate(
-            leftPct = batt,
-            rightPct = batt,
-            leftOnline = connected,
-            rightOnline = connected
-        )
+        val decision = OneEarFallback.evaluate(st.batteryPercent, st.batteryPercent, st.connected, st.connected)
         if (decision.active && !lastOneEarActive) {
             OneEarFallback.notify(app, decision)
             viewModel.dspManager.setMonoMix(decision.softMono)
-            app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
-                .edit().putInt("crossfeed_pct", 60).apply()
+            app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE).edit().putInt("crossfeed_pct", 60).apply()
             com.example.dsp.StereoDynamics.init()
             com.example.dsp.StereoDynamics.stereoWidth(0.40f)
         }
         lastOneEarActive = decision.active
     }
 
-    fun startSleepTimer(mins: Int) {
-        SleepFade.start(app, mins)
-        _sleepLeft.value = mins
-    }
-
-    fun cancelSleepTimer() {
-        SleepFade.cancel(app)
-        _sleepLeft.value = 0
-    }
-
+    fun startSleepTimer(mins: Int) { SleepFade.start(app, mins); _sleepLeft.value = mins }
+    fun cancelSleepTimer() { SleepFade.cancel(app); _sleepLeft.value = 0 }
     fun applyEarBreak() {
         SceneLookup.byId("rust")?.let { applyListeningScene(it) }
             ?: SceneLookup.byId("rest")?.let { applyListeningScene(it) }
     }
-
     fun swapAbScene() {
         val a = prefs.getString("ab_a", _activeSceneId.value)
         val b = prefs.getString("ab_b", "focus")
         val next = if (_activeSceneId.value == a) b else a
         SceneLookup.byId(next ?: return)?.let { applyListeningScene(it) }
     }
-
-    fun shareCurrentScene() {
-        SceneShare.shareById(app, _activeSceneId.value ?: return)
-    }
-
-    fun shareScene(sceneId: String) {
-        SceneShare.shareById(app, sceneId)
-    }
-
-    fun importSharedScene() {
-        SceneShare.importFromClipboard(app) { applyListeningScene(it) }
-    }
-
-    fun saveEqA() {
-        EqSnapshot.saveA(app, viewModel.dspManager.bandGains.value)
-    }
-
-    fun saveEqB() {
-        EqSnapshot.saveB(app, viewModel.dspManager.bandGains.value)
-    }
-
+    fun shareCurrentScene() { SceneShare.shareById(app, _activeSceneId.value ?: return) }
+    fun shareScene(sceneId: String) { SceneShare.shareById(app, sceneId) }
+    fun importSharedScene() { SceneShare.importFromClipboard(app) { applyListeningScene(it) } }
+    fun saveEqA() { EqSnapshot.saveA(app, viewModel.dspManager.bandGains.value) }
+    fun saveEqB() { EqSnapshot.saveB(app, viewModel.dspManager.bandGains.value) }
     fun toggleEqAb() {
         val current = viewModel.dspManager.bandGains.value
-        if (!EqAbCompare.showingB) {
-            EqAbCompare.snapshotCurrentAsA(app, current)
-        }
-        EqAbCompare.toggle(app, current) { gains ->
-            gains.forEachIndexed { i, g -> viewModel.updateBandGain(i, g) }
-        }
+        if (!EqAbCompare.showingB) EqAbCompare.snapshotCurrentAsA(app, current)
+        EqAbCompare.toggle(app, current) { gains -> gains.forEachIndexed { i, g -> viewModel.updateBandGain(i, g) } }
     }
-
     fun importSharedSceneFromIntent(intent: Intent?) {
         val id = SceneShare.parseFromIntent(intent) ?: return
         SceneLookup.byId(id)?.let { applyListeningScene(it) }
     }
-
     fun startAncLearn(modeLabel: String = "anc") {
         monitor.startAncLearn(modeLabel)
         Toast.makeText(app, AncNotifyLearner.lastHint, Toast.LENGTH_SHORT).show()
     }
-
     fun shareGattDump(modeLabel: String = "snapshot") {
         monitor.refresh()
         NrfStyleGattDump.share(app, modeLabel)
         Toast.makeText(app, "nRF-dump: $modeLabel", Toast.LENGTH_SHORT).show()
     }
-
-    fun openNrfConnect() {
-        NrfConnectTooling.openOrInstall(app)
-    }
-
-    fun importNrfClipboard() {
-        NrfConnectTooling.importFromClipboard(app)
-    }
-
-    fun diffNrfDumps(a: String, b: String) {
-        NrfConnectTooling.shareDiff(app, a, b)
-    }
-
+    fun openNrfConnect() { NrfConnectTooling.openOrInstall(app) }
+    fun importNrfClipboard() { NrfConnectTooling.importFromClipboard(app) }
+    fun diffNrfDumps(a: String, b: String) { NrfConnectTooling.shareDiff(app, a, b) }
     fun showNrfWorkflow() {
         val text = NrfConnectTooling.workflowHint()
         try {
@@ -286,16 +232,12 @@ class SceneController(private val viewModel: MainViewModel) {
                     putExtra(Intent.EXTRA_SUBJECT, "Sounmax nRF workflow")
                     putExtra(Intent.EXTRA_TEXT, text)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }.let {
-                    Intent.createChooser(it, "nRF workflow")
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
+                }.let { Intent.createChooser(it, "nRF workflow").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
             )
         } catch (_: Exception) {
             Toast.makeText(app, text.take(180), Toast.LENGTH_LONG).show()
         }
     }
-
     fun filteredScenes(query: String, group: String): List<ListeningScene> {
         val all = SceneGroups.allScenes()
         val q = query.trim().lowercase()
@@ -305,13 +247,8 @@ class SceneController(private val viewModel: MainViewModel) {
             inGroup && match
         }
     }
-
     fun recentScenes(): List<ListeningScene> = RecentScenes.load(prefs).mapNotNull { SceneLookup.byId(it) }
-
-    fun release() {
-        monitor.stop()
-    }
-
+    fun release() { monitor.stop() }
     private fun favoriteIds(): Set<String> {
         val fromNew = favorites.ids()
         if (fromNew.isNotEmpty()) return fromNew.toSet()
@@ -319,7 +256,6 @@ class SceneController(private val viewModel: MainViewModel) {
         legacy.take(FavoriteScenes.MAX).forEach { favorites.pin(it) }
         return favorites.ids().toSet()
     }
-
     private fun remainingSleep(): Int = SleepFade.remainingMinutes(app)
     private fun doseToday(): Int = prefs.getInt("dose_today", 0)
     private fun doseWeek(): Int = prefs.getInt("dose_week", 0)
