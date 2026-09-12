@@ -212,6 +212,28 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".qs.QuietHoursQuickTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="SoundMax Stille uren"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".qs.OneEarQuickTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="SoundMax Eén oor"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".media.ActivityTransitionReceiver"
             android:exported="false">
