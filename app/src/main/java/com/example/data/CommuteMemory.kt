@@ -35,7 +35,7 @@ class CommuteMemory(context: Context) {
         if (storedDate != yesterday && storedDate != today) return null
         if (storedDate == today) return null
         val scene = SceneLookup.byId(storedScene) ?: return null
-        return "Gisteren pendelen: ${scene.title}"
+        return "Gisteren pendelen: ${scene.name}"
     }
 
     fun suggestedScene(): ListeningScene? {
