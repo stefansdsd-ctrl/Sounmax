@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.FilterChip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +29,7 @@ import com.example.ui.theme.ImmersiveTextSecondary
 object SceneFolder {
     private const val PREFS = "soundmax_ui"
     private const val KEY = "scene_folder"
+    private const val KEY_ORDER = "scene_folder_order"
 
     fun current(context: Context): String =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY, "Alles") ?: "Alles"
@@ -34,13 +37,34 @@ object SceneFolder {
     fun set(context: Context, label: String) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, label).apply()
     }
+
+    fun labels(context: Context): List<String> {
+        val defaults = SceneGroups.LABELS.map { it.first }
+        val raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_ORDER, "") ?: ""
+        if (raw.isBlank()) return defaults
+        val saved = raw.split('|').filter { it.isNotBlank() }
+        val extra = defaults.filter { it !in saved }
+        return (saved.filter { it in defaults } + extra)
+    }
+
+    fun moveLeft(context: Context, label: String): List<String> {
+        val list = labels(context).toMutableList()
+        val i = list.indexOf(label)
+        if (i > 0) {
+            list.removeAt(i)
+            list.add(i - 1, label)
+            context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .edit().putString(KEY_ORDER, list.joinToString("|")).apply()
+        }
+        return list
+    }
 }
 
 @Composable
 fun SceneFolderBar(sceneController: SceneController? = null) {
     val context = LocalContext.current
     var selected by remember { mutableStateOf(sceneController?.sceneGroup?.value ?: SceneFolder.current(context)) }
-    val labels = SceneGroups.LABELS.map { it.first }
+    var labels by remember { mutableStateOf(SceneFolder.labels(context)) }
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -63,7 +87,13 @@ fun SceneFolderBar(sceneController: SceneController? = null) {
                     labelColor = ImmersiveTextSecondary,
                     selectedLabelColor = ImmersiveLavenderAccent
                 ),
-                modifier = Modifier.testTag("scene_folder_$label")
+                modifier = Modifier
+                    .testTag("scene_folder_$label")
+                    .pointerInput(label) {
+                        detectTapGestures(
+                            onLongPress = { labels = SceneFolder.moveLeft(context, label) }
+                        )
+                    }
             )
         }
     }
