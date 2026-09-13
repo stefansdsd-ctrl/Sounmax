@@ -47,12 +47,17 @@ object SceneFolder {
         return (saved.filter { it in defaults } + extra)
     }
 
-    fun moveLeft(context: Context, label: String): List<String> {
+    fun moveLeft(context: Context, label: String): List<String> = move(context, label, -1)
+
+    fun moveRight(context: Context, label: String): List<String> = move(context, label, +1)
+
+    private fun move(context: Context, label: String, dir: Int): List<String> {
         val list = labels(context).toMutableList()
         val i = list.indexOf(label)
-        if (i > 0) {
+        val j = i + dir
+        if (i >= 0 && j in list.indices) {
             list.removeAt(i)
-            list.add(i - 1, label)
+            list.add(j, label)
             context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
                 .edit().putString(KEY_ORDER, list.joinToString("|")).apply()
         }
@@ -91,7 +96,8 @@ fun SceneFolderBar(sceneController: SceneController? = null) {
                     .testTag("scene_folder_$label")
                     .pointerInput(label) {
                         detectTapGestures(
-                            onLongPress = { labels = SceneFolder.moveLeft(context, label) }
+                            onLongPress = { labels = SceneFolder.moveLeft(context, label) },
+                            onDoubleTap = { labels = SceneFolder.moveRight(context, label) }
                         )
                     }
             )
