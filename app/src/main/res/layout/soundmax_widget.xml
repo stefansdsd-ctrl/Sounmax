@@ -25,5 +25,6 @@
         <Button android:id="@+id/widget_undo_btn" android:layout_width="0dp" android:layout_height="36dp" android:layout_weight="1" android:text="Undo" android:textSize="11sp" />
         <Button android:id="@+id/widget_focus_btn" android:layout_width="0dp" android:layout_height="36dp" android:layout_marginStart="4dp" android:layout_weight="1" android:text="Focus 25" android:textSize="11sp" />
         <Button android:id="@+id/widget_anc_btn" android:layout_width="0dp" android:layout_height="36dp" android:layout_marginStart="4dp" android:layout_weight="1" android:text="ANC" android:textSize="11sp" />
+        <Button android:id="@+id/widget_mp_btn" android:layout_width="0dp" android:layout_height="36dp" android:layout_marginStart="4dp" android:layout_weight="1" android:text="MP" android:textSize="11sp" />
     </LinearLayout>
 </LinearLayout>

@@ -55,6 +55,15 @@ object MultipointSwitcher {
         return list
     }
 
+    fun cycleNext(context: Context): Sink? {
+        val list = refresh(context)
+        if (list.isEmpty()) return null
+        val idx = list.indexOfFirst { it.connected }.let { if (it < 0) 0 else it }
+        val next = list[(idx + 1) % list.size]
+        switchTo(context, next.address)
+        return next
+    }
+
     @SuppressLint("MissingPermission")
     fun switchTo(context: Context, address: String): Boolean {
         val manager = context.getSystemService(BluetoothManager::class.java) ?: return false
