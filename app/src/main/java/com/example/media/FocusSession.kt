@@ -18,10 +18,30 @@ object FocusSession {
     const val KEY_MINUTES = "focus_minutes"
     const val DURATION_MS = 25 * 60_000L
 
+    private val CYCLE = intArrayOf(25, 45, 90)
+
     fun lastMinutes(context: Context): Int =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .getInt(KEY_MINUTES, 25)
             .coerceIn(5, 180)
+
+    /** Widget: uit → start laatste duur; actief → volgende duur 25/45/90. */
+    fun cycleOrToggle(context: Context) {
+        if (!isActive(context)) {
+            start(context, lastMinutes(context))
+            return
+        }
+        val cur = lastMinutes(context)
+        val idx = CYCLE.indexOfFirst { it >= cur }.let { if (it < 0) 0 else it }
+        if (idx >= CYCLE.lastIndex) {
+            cancel(context)
+            Toast.makeText(context, "Focus uit", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val next = CYCLE[idx + 1]
+        start(context, next)
+        Toast.makeText(context, "Focus $next min", Toast.LENGTH_SHORT).show()
+    }
 
     fun isActive(context: Context): Boolean {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
