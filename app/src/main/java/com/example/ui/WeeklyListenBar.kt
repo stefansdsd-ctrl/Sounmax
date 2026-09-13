@@ -1,10 +1,12 @@
 package com.example.ui
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,5 +43,27 @@ fun WeeklyListenBar() {
             }
         }
         Text(days.joinToString("  ") { "${it.label}${it.minutes}" }, color = ImmersiveTextSecondary, fontSize = 11.sp)
+        FilterChip(
+            selected = false,
+            onClick = {
+                val text = buildString {
+                    appendLine("Sounmax weekdosis")
+                    appendLine("Totaal: $week min · vandaag: $today min")
+                    appendLine(WeeklyListenReport.hint(today))
+                    days.forEach { appendLine("${it.label}: ${it.minutes} min") }
+                }
+                context.startActivity(
+                    Intent.createChooser(
+                        Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_TEXT, text)
+                        },
+                        "Deel weekdosis"
+                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+            },
+            label = { Text("Deel week", fontSize = 11.sp) },
+            modifier = Modifier.testTag("weekly_listen_share")
+        )
     }
 }

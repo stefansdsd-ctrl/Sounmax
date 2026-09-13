@@ -33,6 +33,7 @@ object OneTapProfiles {
         Profile("talk", "Gesprek", "ambient", AncMode.AMBIENT, null),
         Profile("gym", "Sport", "sportschool", AncMode.ADAPTIVE, 85),
         Profile("train", "Trein", "intercity", AncMode.STRONG, 75),
+        Profile("plane", "Vliegtuig", "intercity", AncMode.STRONG, 65),
         Profile("cafe", "Café", "koffietent", AncMode.AMBIENT, 60),
         Profile("bike", "Fiets", "avondfiets", AncMode.WIND_GUARD, 70),
         Profile("home", "Thuis", "thuisavond", AncMode.OFF, 55),
