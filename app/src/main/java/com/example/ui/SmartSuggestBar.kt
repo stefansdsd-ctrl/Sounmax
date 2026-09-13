@@ -35,6 +35,7 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val context = LocalContext.current
     val suggest = remember { SceneUsage.suggestNow(context) }
     val commuteLabel = remember { sceneController.commuteSuggestLabel() }
+    var holdLabel by remember { mutableStateOf(sceneController.manualHoldLabel()) }
     var weatherLabel by remember { mutableStateOf(sceneController.weatherSuggestLabel()) }
     LaunchedEffect(Unit) {
         val hint = withContext(Dispatchers.IO) { WeatherSceneHint.refresh(context) }
@@ -52,6 +53,20 @@ fun SmartSuggestBar(sceneController: SceneController) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (holdLabel != null) {
+            AssistChip(
+                onClick = {
+                    sceneController.clearManualHold()
+                    holdLabel = null
+                },
+                label = { Text(holdLabel!!, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("manual_hold_chip")
+            )
+        }
         if (commuteLabel != null) {
             AssistChip(
                 onClick = { sceneController.applyCommuteSuggestion() },
