@@ -147,10 +147,13 @@ fun SoundMaxApp(
             FocusBar()
             MeetingBar()
             TravelLockBar()
+            MultipointBar()
+            SceneFolderBar(sceneController = sceneController)
             BatteryEtaBar(headsetStatus.batteryPercent)
             FavoritesBar(viewModel = viewModel)
             HomeExtrasBar {
                 KidSafeBar()
+                HapticIntensityBar()
                 SealCheckBar()
                 WeeklyListenBar()
                 OutdoorSafetyBar()
