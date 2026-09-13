@@ -11,9 +11,11 @@ import android.os.SystemClock
 import android.widget.RemoteViews
 import com.example.MainActivity
 import com.example.R
+import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.qs.AncQuickTileService
 import com.example.media.EarBreakWatch
 import com.example.media.FocusSession
 import com.example.media.SleepFade
@@ -64,6 +66,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 applySuggested(context)
                 refreshAll(context)
             }
+            ACTION_CYCLE_ANC -> {
+                cycleAnc(context)
+                refreshAll(context)
+            }
             ACTION_CYCLE_SLEEP -> {
                 cycleSleep(context)
                 refreshAll(context)
@@ -86,6 +92,7 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val ACTION_UNDO = "com.example.widget.UNDO_SCENE"
         const val ACTION_FOCUS = "com.example.widget.FOCUS"
         const val ACTION_SUGGEST = "com.example.widget.SUGGEST"
+        const val ACTION_CYCLE_ANC = "com.example.widget.CYCLE_ANC"
         const val ACTION_CYCLE_SLEEP = "com.example.widget.CYCLE_SLEEP"
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
         const val ACTION_TICK = "com.example.widget.TICK"
@@ -163,6 +170,22 @@ class SoundMaxWidget : AppWidgetProvider() {
             val size = pool.size.coerceAtLeast(1)
             val next = pool[((idx + step) % size + size) % size]
             rememberPrev(prefs, next.id)
+            DspControlService.start(context)
+        }
+
+        fun cycleAnc(context: Context) {
+            val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            val current = runCatching {
+                AncMode.valueOf(prefs.getString("last_anc", AncMode.STRONG.name) ?: AncMode.STRONG.name)
+            }.getOrDefault(AncMode.STRONG)
+            val modes = AncMode.values()
+            val next = modes[(modes.indexOf(current) + 1) % modes.size]
+            prefs.edit().putString("last_anc", next.name).apply()
+            context.sendBroadcast(
+                Intent(AncQuickTileService.ACTION_CYCLE_ANC)
+                    .setPackage(context.packageName)
+                    .putExtra("anc", next.name)
+            )
             DspControlService.start(context)
         }
 
@@ -255,6 +278,15 @@ class SoundMaxWidget : AppWidgetProvider() {
             )
             views.setTextViewText(R.id.widget_scene, "${scene.emoji} ${scene.name}")
             views.setTextViewText(
+                R.id.widget_meta,
+                buildString {
+                    append("ANC ${anc.take(6)}")
+                    if (!codec.isNullOrBlank()) append(" · ").append(codec.take(8))
+                    append(if (enabled) " · DSP" else " · raw")
+                }
+            )
+            views.setTextViewText(R.id.widget_anc_btn, anc.take(4))
+            views.setTextViewText(
                 R.id.widget_sleep,
                 when {
                     focusLeft > 0 -> "Focus ${focusLeft} min"
@@ -307,6 +339,11 @@ class SoundMaxWidget : AppWidgetProvider() {
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_FOCUS),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
+            val ancCycle = PendingIntent.getBroadcast(
+                context, 11,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_CYCLE_ANC),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
             views.setOnClickPendingIntent(R.id.widget_root, open)
             views.setOnClickPendingIntent(R.id.widget_dsp_btn, toggle)
             views.setOnClickPendingIntent(R.id.widget_scene_btn, nextScene)
@@ -315,6 +352,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_suggest_btn, suggest)
             views.setOnClickPendingIntent(R.id.widget_undo_btn, undo)
             views.setOnClickPendingIntent(R.id.widget_focus_btn, focus)
+            views.setOnClickPendingIntent(R.id.widget_anc_btn, ancCycle)
             mgr.updateAppWidget(id, views)
         }
     }
