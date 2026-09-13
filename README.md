@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-13 — batch 25)
+- Verborgen scene-mappen: `HiddenScenes` (hide/show/toggle, hideUnused).
+- Alles en Favorieten blijven altijd zichtbaar.
+- UI: bind chips aan `HiddenScenes.visibleLabels(context)` + lang-druk hide.
+
 ## Nieuw (2026-09-13 — batch 24)
 - Scene-mappen: sleep na lang-druk om te sorteren (blijft bewaard).
 - Dubbeltik op **Alles** herstelt de standaard-volgorde.
@@ -30,10 +35,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
 
-## Volgende software (batch 25)
+## Volgende software (batch 26)
 - Glance-widget i.p.v. RemoteViews
 - Echte multipoint-payload na TAH6519-dump
-- Verborgen scene-mappen (hide unused)
+- HiddenScenes in chips-UI + “Toon verborgen” knop
+- Batterij-alert + auto-ANC bij lage accu
+- Quick-tile: volgende favoriet-scene
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
