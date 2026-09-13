@@ -145,9 +145,12 @@ fun SoundMaxApp(
             SmartSuggestBar(sceneController = sceneController)
             TalkThroughBar()
             FocusBar()
+            MeetingBar()
             TravelLockBar()
+            BatteryEtaBar(headsetStatus.batteryPercent)
             FavoritesBar(viewModel = viewModel)
             HomeExtrasBar {
+                KidSafeBar()
                 SealCheckBar()
                 WeeklyListenBar()
                 OutdoorSafetyBar()
