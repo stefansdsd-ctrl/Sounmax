@@ -153,6 +153,7 @@ fun SoundMaxApp(
             FavoritesBar(viewModel = viewModel)
             HomeExtrasBar {
                 KidSafeBar()
+                AppVolumeCapBar()
                 HapticIntensityBar()
                 SealCheckBar()
                 WeeklyListenBar()
