@@ -3,6 +3,13 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-13 — accu-ETA + vergadering + kindveilig)
+- Home-chip accu-ETA (~Xu Ym) uit drain-curve; korter bij ANC + LDAC.
+- Chip Vergadering: pauze + talk-through + ConversationBoost, 15/30/60 min, daarna vorige scene.
+- Agenda-hint 5 min voor event (alleen met calendar-recht).
+- Kindveilig achter Meer: volume-cap + pincode.
+- Head-off pause (OffEarPause) aanwezig in media-laag.
+
 ## Nieuw (2026-09-13 — focus-chip + duur)
 - Home-chip “Focus” met 25 / 45 / 90 min (Deep work + DND + scene-lock).
 - Reis-chip ook op home, zelfde duur-keuze.
@@ -17,35 +24,18 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Chip “Pasvorm”: 3 mic-RMS samples → seal-score (geen GATT).
 - Handmatige scene blokkeert auto-wissel 15 min; chip “Auto uit Xm” heft op.
 
-## Nieuw (2026-09-12i — slaaptimer na nummer)
-- Chip “Na nummer”: fade start pas aan het einde van het huidige nummer (max 8 min).
-- Extra timer-optie 10 minuten.
-
-## Nieuw (2026-09-12h — bel-restore + dosis-cap)
-- Bel: ConversationBoost + talk-through + gesprek-scene; na ophangen vorige scene terug.
-- Dosis ≥ 180 min: veilig volume + rust-hint tot middernacht (chip op home).
-- Per-app EQ-slider en Drive/SAF-backup blijven beschikbaar.
-
-## Nieuw (2026-09-12g — één oor + stille-uren tegel)
-- Quick Settings: “Stille uren” cyclust 22–7 / 23–8 / 21–6 / uit.
-- Quick Settings: “Eén oor” = mono-mix + limiter + veilig volume (fiets/verkeer).
-- Scenes: Eén oor / fiets, College, Gamen, Nachtwerk.
-
-## Nieuw (2026-09-12f — home + talk-through live)
-- Talk-through samplet mic-RMS elke 1,2s als chip + mic-RMS aan staan.
-- Home: scenes / LDAC / suggest / talk-through / favorieten zichtbaar; rest achter “Meer”.
-- Wear: status stuurt fav_ids; next/prev cycle alleen pins als die er zijn.
-
-## Nieuw (2026-09-12e — talk-through)
-- Chip “Talk-through”: bij harde spraak 8s ConversationBoost.
-
-## Nieuw (2026-09-12d — weer-scenes)
-- Open-Meteo hint: regen → Pendelen regen, wind → Wind, ≥28°C → Tuin.
-
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
 - Wear-complication UI-module (data-pad klaar)
+- Glanceable widget-acties: ANC-cycle / volgende favoriet / Focus 25
+
+## Volgende software (batch 18)
+- Widget-acties zonder full Activity
+- Multipoint-chip (telefoon ↔ laptop)
+- Volume-ramp bij reconnect
+- Haptic-intensiteit instelbaar
+- Scene-mappen (werk / reis / nacht)
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
