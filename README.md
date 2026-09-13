@@ -3,6 +3,13 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-13 — batch 18)
+- Widget: ANC-cycle + volgende favoriet, zonder Activity.
+- Multipoint-chip: wissel A2DP-sink (telefoon-kant).
+- Volume-ramp bij Bluetooth-reconnect (~800 ms).
+- Haptic-intensiteit: uit / zacht / normaal / sterk.
+- Scene-mappen: Werk / Onderweg / Nacht / … filterchips.
+
 ## Nieuw (2026-09-13 — accu-ETA + vergadering + kindveilig)
 - Home-chip accu-ETA (~Xu Ym) uit drain-curve; korter bij ANC + LDAC.
 - Chip Vergadering: pauze + talk-through + ConversationBoost, 15/30/60 min, daarna vorige scene.
@@ -30,12 +37,12 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Wear-complication UI-module (data-pad klaar)
 - Glanceable widget-acties: ANC-cycle / volgende favoriet / Focus 25
 
-## Volgende software (batch 18)
-- Widget-acties zonder full Activity
-- Multipoint-chip (telefoon ↔ laptop)
-- Volume-ramp bij reconnect
-- Haptic-intensiteit instelbaar
-- Scene-mappen (werk / reis / nacht)
+## Volgende software (batch 19)
+- Widget Glance-acties zonder RemoteViews-limit
+- Headset-multipoint via vendor GATT (niet alleen A2DP-switch)
+- Per-app volume-cap
+- Scene-mappen met drag-sort
+- Wear-complication UI
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.

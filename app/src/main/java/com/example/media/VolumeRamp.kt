@@ -28,4 +28,14 @@ object VolumeRamp {
         }
         tick()
     }
+
+    /** Bij reconnect: van stil naar huidig volume in ~800 ms. */
+    fun onReconnect(context: Context) {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val current = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+        if (current <= 0) return
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
+        fadeToPercent(context, (current * 100) / max)
+    }
 }
