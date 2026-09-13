@@ -3,6 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-13 — pasvorm + handmatige scene-hold)
+- Chip “Pasvorm”: 3 mic-RMS samples → seal-score (geen GATT).
+- Handmatige scene blokkeert auto-wissel 15 min; chip “Auto uit Xm” heft op.
+
 ## Nieuw (2026-09-12i — slaaptimer na nummer)
 - Chip “Na nummer”: fade start pas aan het einde van het huidige nummer (max 8 min).
 - Extra timer-optie 10 minuten.
