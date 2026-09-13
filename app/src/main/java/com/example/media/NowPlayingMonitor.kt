@@ -117,6 +117,7 @@ class NowPlayingMonitor(
         NowPlayingApp.artist = artist
         NowPlayingApp.genre = genreRich.ifBlank { genre }
         NowPlayingApp.album = album
+        AppVolumeCap.apply(context)
         appEqMemory.load(controller.packageName)?.let { NowPlayingApp.onBoundPreset?.invoke(it) }
         onTrack(NowPlayingTrack(title, artist, NowPlayingApp.genre.orEmpty(), controller.packageName, album))
     }
