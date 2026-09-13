@@ -57,7 +57,7 @@ class SoundMaxWidget : AppWidgetProvider() {
                 refreshAll(context)
             }
             ACTION_FOCUS -> {
-                FocusSession.toggle(context)
+                FocusSession.cycleOrToggle(context)
                 refreshAll(context)
             }
             ACTION_SUGGEST -> {
@@ -264,7 +264,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             )
             views.setTextViewText(
                 R.id.widget_focus_btn,
-                if (focusLeft > 0) "Stop $focusLeft" else "Focus 25"
+                "Focus ${FocusSession.lastMinutes(context)}"
             )
 
             val open = PendingIntent.getActivity(
