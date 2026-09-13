@@ -13,9 +13,12 @@ object AncHaptics {
     private const val PREFS = "sounmax_feel"
     const val KEY_HAPTIC = "anc_haptic"
     const val KEY_OLED = "oled_black"
+    private const val KEY_INTENSITY = "haptic_intensity"
 
-    fun hapticEnabled(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_HAPTIC, true)
+    fun hapticEnabled(context: Context): Boolean {
+        val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        return p.getBoolean(KEY_HAPTIC, true) && p.getInt(KEY_INTENSITY, 70) > 0
+    }
 
     fun setHaptic(context: Context, on: Boolean) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_HAPTIC, on).apply()
@@ -26,6 +29,21 @@ object AncHaptics {
 
     fun setOled(context: Context, on: Boolean) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_OLED, on).apply()
+    }
+
+    fun intensity(context: Context): Int =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_INTENSITY, 70).coerceIn(0, 100)
+
+    fun setIntensity(context: Context, pct: Int) {
+        val v = pct.coerceIn(0, 100)
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putInt(KEY_INTENSITY, v).apply()
+        if (v == 0) setHaptic(context, false) else setHaptic(context, true)
+    }
+
+    private fun amp(context: Context, base: Int): Int {
+        val i = intensity(context)
+        if (i == 0) return 0
+        return (base * i / 100).coerceIn(1, 255)
     }
 
     fun pulse(context: Context, mode: AncMode) {
@@ -60,7 +78,7 @@ object AncHaptics {
         runCatching {
             if (Build.VERSION.SDK_INT >= 26) {
                 val timings = LongArray(n * 2) { i -> if (i % 2 == 0) 18L else 70L }
-                val amps = IntArray(n * 2) { i -> if (i % 2 == 0) 180 else 0 }
+                val amps = IntArray(n * 2) { i -> if (i % 2 == 0) amp(context, 180) else 0 }
                 vib.vibrate(VibrationEffect.createWaveform(timings, amps, -1))
             } else {
                 @Suppress("DEPRECATION")
@@ -73,7 +91,7 @@ object AncHaptics {
         val vib = vibrator(context) ?: return
         runCatching {
             if (Build.VERSION.SDK_INT >= 26) {
-                vib.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE))
+                vib.vibrate(VibrationEffect.createOneShot(ms, amp(context, 180)))
             } else {
                 @Suppress("DEPRECATION")
                 vib.vibrate(ms)
