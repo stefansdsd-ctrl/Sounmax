@@ -146,6 +146,7 @@ fun SoundMaxApp(
             TalkThroughBar()
             FavoritesBar(viewModel = viewModel)
             HomeExtrasBar {
+                SealCheckBar()
                 OutdoorSafetyBar()
                 DailyBudgetBar()
                 OneTapBar()
