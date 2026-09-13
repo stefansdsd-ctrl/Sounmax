@@ -97,6 +97,15 @@ class WearMainActivity : ComponentActivity() {
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_HEADSET) } }) {
                         Text("Vind headset")
                     }
+                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FOCUS) } }) {
+                        Text(if (status.focus) "Focus ${status.focusLeft}m" else "Focus")
+                    }
+                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_UNDO) } }) {
+                        Text("Undo scene")
+                    }
+                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_SUGGEST) } }) {
+                        Text("Suggestie")
+                    }
                 }
             }
         }
