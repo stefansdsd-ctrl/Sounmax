@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-13 — focus-chip + duur)
+- Home-chip “Focus” met 25 / 45 / 90 min (Deep work + DND + scene-lock).
+- Reis-chip ook op home, zelfde duur-keuze.
+- Laatste duur wordt onthouden.
+
 ## Nieuw (2026-09-13 — reis-lock + weekdeel + vliegtuig)
 - Chip “Reis”: ANC sterk + pendel-profiel, auto-scene 45 min vast.
 - Handmatige scene zet nu écht `manual_scene_until` +15 min.

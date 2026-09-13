@@ -15,7 +15,13 @@ object FocusSession {
     const val PREFS = SceneAutomation.PREFS
     const val KEY_END = "focus_end_at"
     const val KEY_ACTIVE = "focus_active"
+    const val KEY_MINUTES = "focus_minutes"
     const val DURATION_MS = 25 * 60_000L
+
+    fun lastMinutes(context: Context): Int =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getInt(KEY_MINUTES, 25)
+            .coerceIn(5, 180)
 
     fun isActive(context: Context): Boolean {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -35,6 +41,7 @@ object FocusSession {
         prefs.edit()
             .putBoolean(KEY_ACTIVE, true)
             .putLong(KEY_END, end)
+            .putInt(KEY_MINUTES, minutes.coerceIn(5, 180))
             .putBoolean("scene_locked", true)
             .putString("last_scene_id", scene.id)
             .putBoolean("pending_widget_scene", true)

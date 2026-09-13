@@ -12,6 +12,12 @@ object TravelLock {
     const val PREFS = "soundmax_wellness"
     const val KEY_UNTIL = "manual_scene_until"
     const val HOLD_MS = 45L * 60_000L
+    const val KEY_MINUTES = "travel_lock_minutes"
+
+    fun lastMinutes(context: Context): Int =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getInt(KEY_MINUTES, 45)
+            .coerceIn(15, 180)
 
     fun isOn(context: Context): Boolean {
         val until = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -32,7 +38,11 @@ object TravelLock {
             prefs.edit().putLong(KEY_UNTIL, 0L).apply()
             false
         } else {
-            prefs.edit().putLong(KEY_UNTIL, System.currentTimeMillis() + HOLD_MS).apply()
+            val mins = lastMinutes(context)
+            prefs.edit()
+                .putLong(KEY_UNTIL, System.currentTimeMillis() + mins * 60_000L)
+                .putInt(KEY_MINUTES, mins)
+                .apply()
             val id = if (OneTapProfiles.lastId(context) in listOf("train", "commute")) {
                 OneTapProfiles.lastId(context)!!
             } else "commute"
@@ -44,9 +54,11 @@ object TravelLock {
     }
 
     fun holdMinutes(context: Context, minutes: Int) {
+        val m = minutes.coerceIn(1, 180)
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit()
-            .putLong(KEY_UNTIL, System.currentTimeMillis() + minutes.coerceIn(1, 180) * 60_000L)
+            .putLong(KEY_UNTIL, System.currentTimeMillis() + m * 60_000L)
+            .putInt(KEY_MINUTES, m)
             .apply()
     }
 

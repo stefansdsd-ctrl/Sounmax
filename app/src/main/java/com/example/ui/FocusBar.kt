@@ -18,35 +18,42 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.media.OneTapProfiles
-import com.example.media.TravelLock
+import com.example.media.FocusSession
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
 
 @Composable
-fun TravelLockBar() {
+fun FocusBar() {
     val context = LocalContext.current
-    var on by remember { mutableStateOf(TravelLock.isOn(context)) }
-    var left by remember { mutableStateOf(TravelLock.minutesLeft(context)) }
+    var on by remember { mutableStateOf(FocusSession.isActive(context)) }
+    var left by remember { mutableStateOf((FocusSession.remainingMs(context) / 60_000L).toInt()) }
+    var mins by remember { mutableStateOf(FocusSession.lastMinutes(context)) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp)
-            .testTag("travel_lock_bar"),
+            .testTag("focus_bar"),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         FilterChip(
             selected = on,
             onClick = {
-                on = TravelLock.toggle(context)
-                left = TravelLock.minutesLeft(context)
+                if (on) {
+                    FocusSession.cancel(context)
+                    on = false
+                    left = 0
+                } else {
+                    FocusSession.start(context, mins)
+                    on = true
+                    left = mins
+                }
             },
             label = {
                 Text(
-                    if (on) "Reis ${left}m" else "Reis",
+                    if (on) "Focus ${left}m" else "Focus",
                     fontSize = 11.sp,
                     maxLines = 1
                 )
@@ -57,14 +64,14 @@ fun TravelLockBar() {
                 labelColor = ImmersiveTextSecondary,
                 selectedLabelColor = ImmersiveLavenderAccent
             ),
-            modifier = Modifier.testTag("travel_lock_chip")
+            modifier = Modifier.testTag("focus_chip")
         )
         listOf(25, 45, 90).forEach { m ->
             FilterChip(
-                selected = on && left in (m - 1)..m,
+                selected = mins == m && on,
                 onClick = {
-                    TravelLock.holdMinutes(context, m)
-                    OneTapProfiles.apply(context, "commute")
+                    mins = m
+                    FocusSession.start(context, m)
                     on = true
                     left = m
                 },
@@ -75,7 +82,7 @@ fun TravelLockBar() {
                     labelColor = ImmersiveTextSecondary,
                     selectedLabelColor = ImmersiveLavenderAccent
                 ),
-                modifier = Modifier.testTag("travel_${m}_chip")
+                modifier = Modifier.testTag("focus_${m}_chip")
             )
         }
     }

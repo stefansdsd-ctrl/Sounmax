@@ -144,10 +144,11 @@ fun SoundMaxApp(
             LdacStatusBar(sceneController = sceneController)
             SmartSuggestBar(sceneController = sceneController)
             TalkThroughBar()
+            FocusBar()
+            TravelLockBar()
             FavoritesBar(viewModel = viewModel)
             HomeExtrasBar {
                 SealCheckBar()
-                TravelLockBar()
                 WeeklyListenBar()
                 OutdoorSafetyBar()
                 DailyBudgetBar()
