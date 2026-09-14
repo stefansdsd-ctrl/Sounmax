@@ -1,13 +1,19 @@
 # Sounmax — volgende features
 
-## Batch 33 (software, deze commit)
+## Batch 34 (software, deze commit)
+- Echte Glance-favorietenwidget (4 slots + “Nu”-suggestie)
+- Suggestie-QS-tegel
+- Scene-suggestie weegt uur-gebruik (`SceneUsage`) vóór weer/circadiaan
+- Widget-apply telt mee in usage
+
+## Batch 33 (software)
 - Glance home-widget (Compose) naast RemoteViews
 - Widget-knoppen: ANC-cyclus, scene-undo, slaaptimer 15/30/60
 - Bestaande widget toont STIL tijdens stille uren
 
 ## Nog te bouwen
-- Glance als enige widget (RemoteViews uitfaseren)
-- Favorieten-widget naar Glance
+- RemoteViews-hoofdwidget naar Glance
+- RemoteViews-favorieten uitfaseren
 
 ## Wacht op TAH6519 GATT-dump
 - Echte multipoint write-payload
