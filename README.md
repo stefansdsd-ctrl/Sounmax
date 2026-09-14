@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-14 — batch 32)
+- `QuietHoursBar`: venster cyclen (22–7 / 23–8 / 21–6 / uit).
+- Bedtime-arm past scene **Slaap** toe + stille uren + fade.
+- Home-widget meta toont **STIL** tijdens stille uren (volgt in widget-commit).
+
 ## Nieuw (2026-09-14 — batch 31)
 - Wear-tile: vorige scene.
 - QS scene-tile toont `BT xx%`.
@@ -14,33 +19,11 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - `SleepTimer`: 1–180 min, stop via callback.
 - Roadmap in `FEATURES.md` (Glance, Wear-scene, QS-tile, gehoor-cap).
 
-## Nieuw (2026-09-14 — batch 29)
-- Home-widget toont live `BT xx% · TEL xx%`.
-- Widget-knop **MP** toont multipoint-GATT-status.
-- Glance blijft later; RemoteViews is bijgewerkt.
-
-## Nieuw (2026-09-14 — batch 28)
-- Wear-complication toont headset + telefoonaccu (`🎧82/📱64`).
-- Wear-app statusregel: beide accu’s.
-- Home-widget: `TEL xx%` naast headset-accu.
-- Glance-widget en echte multipoint blijven open (hardware-dump).
-
-## Nieuw (2026-09-14 — batch 27)
-- Telefoon-accu alert (≤15%, niet laden): melding + toast, max 1×/3u.
-- `PhoneBatteryAdvisor.charging()` — saver/LDAC-330 alleen zonder lader.
-- Wear-status: `phone_battery` naast headset-accu.
-- DSP-service toont telefoon-% in de foreground-notificatie.
-
-## Nieuw (2026-09-14 — batch 26)
-- HiddenScenes in folder-chips: verborgen mappen verdwijnen uit de rij.
-- Chip **Toon verborgen** / **Verberg extra**.
-- Lang-druk op een map (niet Alles/Favorieten) verbergt of toont die map.
-
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
 
-## Volgende software (batch 32)
+## Volgende software (batch 33)
 - Glance-widget i.p.v. RemoteViews
 - Echte multipoint-payload na TAH6519-dump
 
