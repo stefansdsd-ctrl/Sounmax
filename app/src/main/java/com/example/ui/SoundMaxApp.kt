@@ -162,6 +162,7 @@ fun SoundMaxApp(
                 DailyBudgetBar()
                 OneTapBar()
                 SleepTimerBar()
+                QuietHoursBar()
                 CrossfeedBar()
                 BalanceMonoBar()
                 BatteryHistoryBar()
