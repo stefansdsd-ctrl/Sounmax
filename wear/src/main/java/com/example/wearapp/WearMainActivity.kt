@@ -64,7 +64,8 @@ class WearMainActivity : ComponentActivity() {
                     buildString {
                         append(if (status.dsp) "DSP aan" else "DSP uit")
                         append(" · ANC ${ancLabel(status.anc)}")
-                        if (status.battery in 0..100) append(" · ${status.battery}%")
+                        if (status.battery in 0..100) append(" · 🎧${status.battery}%")
+                        if (status.phoneBattery in 0..100) append(" · 📱${status.phoneBattery}%")
                         if (status.sleepMin > 0) append(" · slaap ${status.sleepMin}m")
                         if (status.quiet) append(" · stil")
                     }
