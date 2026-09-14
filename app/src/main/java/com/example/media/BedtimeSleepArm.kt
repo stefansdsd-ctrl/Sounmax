@@ -8,6 +8,7 @@ import java.util.Calendar
 /**
  * Vanaf 22:00: als er muziek speelt en er geen timer loopt,
  * arm eenmaal per nacht een slaaptimer (45 min) + fade.
+ * Zet ook stille uren aan en wisselt naar scene Slaap.
  */
 object BedtimeSleepArm {
     const val KEY_ENABLED = "bedtime_sleep_arm"
@@ -45,6 +46,20 @@ object BedtimeSleepArm {
             .putInt(SoundMaxWidget.KEY_SLEEP_MINUTES, minutes)
             .putInt(KEY_ARMED_DAY, day)
             .apply()
+
+        QuietHours.setEnabled(context, true)
+        QuietHours.enforce(context)
+        val scenePrefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        val current = scenePrefs.getString("last_scene_id", null)
+        if (current != "sleep") {
+            if (!current.isNullOrBlank()) {
+                scenePrefs.edit().putString("prev_scene_id", current).apply()
+            }
+            scenePrefs.edit()
+                .putString("last_scene_id", "sleep")
+                .putBoolean("pending_widget_scene", true)
+                .apply()
+        }
         SleepFade.schedule(context, until)
         SoundMaxWidget.refreshAll(context)
     }

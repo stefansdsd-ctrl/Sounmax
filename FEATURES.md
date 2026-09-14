@@ -1,10 +1,9 @@
 # Sounmax — volgende features
 
-## Batch 31 (software, deze commit)
-- Wear-tile: vorige scene
-- QS scene-tile toont headset-accu
-- `SleepTimer` plant nu `SleepFade` (laatste 60s volume-fade)
-- `ListenCap`: weekdosis ≥ WHO-limiet → volume −2 stappen (max 1×/uur)
+## Batch 32 (software, deze commit)
+- QuietHoursBar in Home extras
+- BedtimeSleepArm: slaap-scene + QuietHours + fade
+- Widget toont STIL tijdens stille uren
 
 ## Nog te bouwen (waardevol, geen hardware-dump nodig)
 1. Glance home-widget (Compose) i.p.v. RemoteViews
