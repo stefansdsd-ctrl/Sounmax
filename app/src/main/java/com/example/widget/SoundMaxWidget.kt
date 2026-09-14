@@ -9,8 +9,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
 import android.widget.RemoteViews
+import android.widget.Toast
 import com.example.MainActivity
 import com.example.R
+import com.example.ble.VendorMultipoint
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
@@ -19,6 +21,7 @@ import com.example.qs.AncQuickTileService
 import com.example.media.EarBreakWatch
 import com.example.media.FocusSession
 import com.example.media.SleepFade
+import com.example.media.PhoneBatteryAdvisor
 import com.example.media.WeatherAdvisor
 
 class SoundMaxWidget : AppWidgetProvider() {
@@ -70,6 +73,10 @@ class SoundMaxWidget : AppWidgetProvider() {
                 cycleAnc(context)
                 refreshAll(context)
             }
+            ACTION_MULTIPOINT -> {
+                showMultipoint(context)
+                refreshAll(context)
+            }
             ACTION_CYCLE_SLEEP -> {
                 cycleSleep(context)
                 refreshAll(context)
@@ -97,6 +104,7 @@ class SoundMaxWidget : AppWidgetProvider() {
         const val ACTION_REFRESH = "com.example.widget.REFRESH"
         const val ACTION_TICK = "com.example.widget.TICK"
         const val ACTION_APPLY_SCENE = "com.example.widget.APPLY_SCENE"
+        const val ACTION_MULTIPOINT = "com.example.widget.MULTIPOINT"
         const val EXTRA_SCENE_ID = "scene_id"
         private val SLEEP_STEPS = intArrayOf(0, 15, 30, 60, 90, 120)
 
@@ -197,6 +205,18 @@ class SoundMaxWidget : AppWidgetProvider() {
             DspControlService.start(context)
         }
 
+        fun showMultipoint(context: Context) {
+            val summary = VendorMultipoint.summary()
+            Toast.makeText(
+                context.applicationContext,
+                if (VendorMultipoint.lastCandidate == null)
+                    "Multipoint: nog geen GATT-dump. Koppel headset in de app."
+                else
+                    summary.take(80),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
         fun cycleSleep(context: Context) {
             val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             val remaining = remainingSleepMinutes(prefs.getLong(KEY_SLEEP_END, 0L))
@@ -255,6 +275,7 @@ class SoundMaxWidget : AppWidgetProvider() {
                 ?: ListeningScenes.ALL.first()
             val suggested = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
             val battery = wellness.getInt(KEY_BATTERY, -1)
+            val phonePct = PhoneBatteryAdvisor.level(context)
             val codec = wellness.getString(KEY_CODEC, null)
             val anc = wellness.getString("last_anc", "STRONG") ?: "STRONG"
             val sleepLeft = remainingSleepMinutes(wellness.getLong(KEY_SLEEP_END, 0L))
@@ -269,7 +290,8 @@ class SoundMaxWidget : AppWidgetProvider() {
                 R.id.widget_battery,
                 buildString {
                     append(if (battery in 0..100) "BT $battery%" else "BT --%")
-                    if (!codec.isNullOrBlank()) append(" · ").append(codec.take(10))
+                    append(" · TEL ${phonePct?.let { \"$it%\" } ?: \"--%\"}")
+                    if (!codec.isNullOrBlank()) append(" · ").append(codec.take(8))
                 }
             )
             views.setTextViewText(
@@ -344,6 +366,11 @@ class SoundMaxWidget : AppWidgetProvider() {
                 Intent(context, SoundMaxWidget::class.java).setAction(ACTION_CYCLE_ANC),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
+            val multipoint = PendingIntent.getBroadcast(
+                context, 12,
+                Intent(context, SoundMaxWidget::class.java).setAction(ACTION_MULTIPOINT),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
             views.setOnClickPendingIntent(R.id.widget_root, open)
             views.setOnClickPendingIntent(R.id.widget_dsp_btn, toggle)
             views.setOnClickPendingIntent(R.id.widget_scene_btn, nextScene)
@@ -353,6 +380,7 @@ class SoundMaxWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_undo_btn, undo)
             views.setOnClickPendingIntent(R.id.widget_focus_btn, focus)
             views.setOnClickPendingIntent(R.id.widget_anc_btn, ancCycle)
+            views.setOnClickPendingIntent(R.id.widget_mp_btn, multipoint)
             mgr.updateAppWidget(id, views)
         }
     }
