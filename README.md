@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-14 — batch 28)
+- Wear-complication toont headset + telefoonaccu (`🎧82/📱64`).
+- Wear-app statusregel: beide accu’s.
+- Home-widget: `TEL xx%` naast headset-accu.
+- Glance-widget en echte multipoint blijven open (hardware-dump).
+
 ## Nieuw (2026-09-14 — batch 27)
 - Telefoon-accu alert (≤15%, niet laden): melding + toast, max 1×/3u.
 - `PhoneBatteryAdvisor.charging()` — saver/LDAC-330 alleen zonder lader.
@@ -18,10 +24,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
 
-## Volgende software (batch 28)
+## Volgende software (batch 29)
 - Glance-widget i.p.v. RemoteViews
 - Echte multipoint-payload na TAH6519-dump
-- Wear-complication UI met phone+headset accu
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
