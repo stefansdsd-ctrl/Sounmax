@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-14 — batch 30)
+- `ReconnectScene`: laatste scene klaar bij headset-reconnect.
+- `SleepTimer`: 1–180 min, stop via callback.
+- Roadmap in `FEATURES.md` (Glance, Wear-scene, QS-tile, gehoor-cap).
+
 ## Nieuw (2026-09-14 — batch 29)
 - Home-widget toont live `BT xx% · TEL xx%`.
 - Widget-knop **MP** toont multipoint-GATT-status.
@@ -29,8 +34,10 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
 
-## Volgende software (batch 30)
+## Volgende software (batch 31)
 - Glance-widget i.p.v. RemoteViews
+- QS-tile scene + accu
+- Wear vorige/volgende scene
 - Echte multipoint-payload na TAH6519-dump
 
 ## Bouwen
