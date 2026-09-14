@@ -3,6 +3,9 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-14 — batch 37 roadmap)
+- Volgende: Wear-tile chips, Glance-only widgets, find-headset, gehoor-weekrapport.
+
 ## Nieuw (2026-09-14 — batch 36)
 - Wear: compacte chiprij ◀ / slaap / ▶.
 - Home: balk **Recent** met de laatste scenes.
@@ -18,8 +21,9 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Notify-leren testen op TAH6519
 
 ## Volgende software
-- RemoteViews-hoofdwidget uitfaseren
 - Wear-tile compacte chiprij
+- RemoteViews-widgets uitfaseren
+- Find-headset + weekrapport gehoor
 - Echte multipoint-payload na TAH6519-dump
 
 ## Bouwen
