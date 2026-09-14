@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.example.data.HiddenScenes
 import com.example.dsp.SceneGroups
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
@@ -38,6 +39,7 @@ object SceneFolder {
     private const val PREFS = "soundmax_ui"
     private const val KEY = "scene_folder"
     private const val KEY_ORDER = "scene_folder_order"
+    private const val KEY_SHOW_HIDDEN = "scene_folder_show_hidden"
 
     fun current(context: Context): String =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY, "Alles") ?: "Alles"
@@ -46,13 +48,26 @@ object SceneFolder {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, label).apply()
     }
 
-    fun labels(context: Context): List<String> {
+    fun showHidden(context: Context): Boolean =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_SHOW_HIDDEN, false)
+
+    fun setShowHidden(context: Context, value: Boolean) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putBoolean(KEY_SHOW_HIDDEN, value).apply()
+    }
+
+    fun allOrdered(context: Context): List<String> {
         val defaults = SceneGroups.LABELS.map { it.first }
         val raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_ORDER, "") ?: ""
         if (raw.isBlank()) return defaults
         val saved = raw.split('|').filter { it.isNotBlank() }
         val extra = defaults.filter { it !in saved }
         return (saved.filter { it in defaults } + extra)
+    }
+
+    fun labels(context: Context, includeHidden: Boolean = showHidden(context)): List<String> {
+        val ordered = allOrdered(context)
+        return if (includeHidden) ordered else ordered.filter { !HiddenScenes.isHidden(context, it) }
     }
 
     fun saveOrder(context: Context, order: List<String>) {
@@ -63,7 +78,7 @@ object SceneFolder {
     fun resetOrder(context: Context): List<String> {
         val defaults = SceneGroups.LABELS.map { it.first }
         saveOrder(context, defaults)
-        return defaults
+        return labels(context)
     }
 
     fun moveLeft(context: Context, label: String): List<String> = move(context, label, -1)
@@ -71,24 +86,30 @@ object SceneFolder {
     fun moveRight(context: Context, label: String): List<String> = move(context, label, +1)
 
     fun moveTo(context: Context, from: Int, to: Int): List<String> {
-        val list = labels(context).toMutableList()
-        if (from !in list.indices || to !in list.indices || from == to) return list
-        val item = list.removeAt(from)
-        list.add(to, item)
-        saveOrder(context, list)
-        return list
+        val visible = labels(context).toMutableList()
+        if (from !in visible.indices || to !in visible.indices || from == to) return visible
+        val full = allOrdered(context).toMutableList()
+        val fromLabel = visible[from]
+        val toLabel = visible[to]
+        val fi = full.indexOf(fromLabel)
+        val ti = full.indexOf(toLabel)
+        if (fi < 0 || ti < 0) return visible
+        val item = full.removeAt(fi)
+        full.add(ti, item)
+        saveOrder(context, full)
+        return labels(context)
     }
 
     private fun move(context: Context, label: String, dir: Int): List<String> {
-        val list = labels(context).toMutableList()
-        val i = list.indexOf(label)
+        val full = allOrdered(context).toMutableList()
+        val i = full.indexOf(label)
         val j = i + dir
-        if (i >= 0 && j in list.indices) {
-            list.removeAt(i)
-            list.add(j, label)
-            saveOrder(context, list)
+        if (i >= 0 && j in full.indices) {
+            full.removeAt(i)
+            full.add(j, label)
+            saveOrder(context, full)
         }
-        return list
+        return labels(context)
     }
 }
 
@@ -96,11 +117,22 @@ object SceneFolder {
 fun SceneFolderBar(sceneController: SceneController? = null) {
     val context = LocalContext.current
     val density = LocalDensity.current
+    var showHidden by remember { mutableStateOf(SceneFolder.showHidden(context)) }
     var selected by remember { mutableStateOf(sceneController?.sceneGroup?.value ?: SceneFolder.current(context)) }
-    var labels by remember { mutableStateOf(SceneFolder.labels(context)) }
+    var labels by remember { mutableStateOf(SceneFolder.labels(context, showHidden)) }
     var dragIndex by remember { mutableIntStateOf(-1) }
     var dragX by remember { mutableFloatStateOf(0f) }
     val stepPx = with(density) { 72.dp.toPx() }
+    val hiddenCount = HiddenScenes.hidden(context).size
+
+    fun reload() {
+        labels = SceneFolder.labels(context, showHidden)
+        if (selected !in labels) {
+            selected = "Alles"
+            SceneFolder.set(context, "Alles")
+            sceneController?.setSceneGroup("Alles")
+        }
+    }
 
     LazyRow(
         modifier = Modifier
@@ -111,6 +143,7 @@ fun SceneFolderBar(sceneController: SceneController? = null) {
     ) {
         itemsIndexed(labels, key = { _, label -> label }) { index, label ->
             val dragging = dragIndex == index
+            val hidden = HiddenScenes.isHidden(context, label)
             FilterChip(
                 selected = selected == label,
                 onClick = {
@@ -118,7 +151,13 @@ fun SceneFolderBar(sceneController: SceneController? = null) {
                     SceneFolder.set(context, label)
                     sceneController?.setSceneGroup(label)
                 },
-                label = { Text(label, fontSize = 11.sp, maxLines = 1) },
+                label = {
+                    Text(
+                        if (hidden) "$label ·" else label,
+                        fontSize = 11.sp,
+                        maxLines = 1
+                    )
+                },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
                     containerColor = ImmersiveSurfaceActive,
@@ -129,9 +168,16 @@ fun SceneFolderBar(sceneController: SceneController? = null) {
                     .testTag("scene_folder_$label")
                     .zIndex(if (dragging) 1f else 0f)
                     .offset { IntOffset(if (dragging) dragX.roundToInt() else 0, 0) }
-                    .pointerInput(label, index, labels) {
+                    .pointerInput(label, index, labels, showHidden) {
                         detectTapGestures(
-                            onLongPress = { labels = SceneFolder.moveLeft(context, label) },
+                            onLongPress = {
+                                if (label != "Alles" && label != "Favorieten") {
+                                    HiddenScenes.toggle(context, label)
+                                    reload()
+                                } else {
+                                    labels = SceneFolder.moveLeft(context, label)
+                                }
+                            },
                             onDoubleTap = {
                                 if (label == "Alles") {
                                     labels = SceneFolder.resetOrder(context)
@@ -168,6 +214,32 @@ fun SceneFolderBar(sceneController: SceneController? = null) {
                         )
                     }
             )
+        }
+        if (hiddenCount > 0 || showHidden) {
+            item(key = "show_hidden") {
+                FilterChip(
+                    selected = showHidden,
+                    onClick = {
+                        showHidden = !showHidden
+                        SceneFolder.setShowHidden(context, showHidden)
+                        reload()
+                    },
+                    label = {
+                        Text(
+                            if (showHidden) "Verberg extra" else "Toon verborgen ($hiddenCount)",
+                            fontSize = 11.sp,
+                            maxLines = 1
+                        )
+                    },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                        containerColor = ImmersiveSurfaceActive,
+                        labelColor = ImmersiveTextSecondary,
+                        selectedLabelColor = ImmersiveLavenderAccent
+                    ),
+                    modifier = Modifier.testTag("scene_folder_show_hidden")
+                )
+            }
         }
     }
 }
