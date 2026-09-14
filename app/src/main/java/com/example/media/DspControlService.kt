@@ -70,6 +70,7 @@ class DspControlService : Service() {
         ChargeReminder.tick(this, battery.takeIf { it in 0..100 })
         PhoneBatteryAlert.tick(this)
         DailyHearingBudget.applySoftCap(this)
+        ListenCap.tick(this)
         val codecLabel = BtCodecProbe.label(this, null)
         if (!codecLabel.isNullOrBlank()) {
             wellness.edit().putString(SoundMaxWidget.KEY_CODEC, codecLabel).apply()
