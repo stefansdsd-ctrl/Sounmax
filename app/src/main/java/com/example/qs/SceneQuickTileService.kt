@@ -7,10 +7,11 @@ import com.example.dsp.ListeningScenes
 
 class SceneQuickTileService : TileService() {
     override fun onStartListening() {
-        val id = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
-            .getString("last_scene_id", "focus")
+        val prefs = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
+        val id = prefs.getString("last_scene_id", "focus")
         val scene = ListeningScenes.byId(id) ?: ListeningScenes.ALL.first()
-        updateTile(scene.name, scene.emoji)
+        val bat = prefs.getInt(com.example.widget.SoundMaxWidget.KEY_BATTERY, -1)
+        updateTile(scene.name, scene.emoji, bat)
     }
 
     override fun onClick() {
@@ -29,14 +30,15 @@ class SceneQuickTileService : TileService() {
         sendBroadcast(
             Intent(ACTION_CYCLE_SCENE).setPackage(packageName).putExtra("scene_id", next.id)
         )
-        updateTile(next.name, next.emoji)
+        val bat = prefs.getInt(com.example.widget.SoundMaxWidget.KEY_BATTERY, -1)
+        updateTile(next.name, next.emoji, bat)
     }
 
-    private fun updateTile(name: String, emoji: String) {
+    private fun updateTile(name: String, emoji: String, battery: Int) {
         qsTile?.apply {
             state = Tile.STATE_ACTIVE
             label = name
-            subtitle = "$emoji Scene"
+            subtitle = if (battery in 0..100) "$emoji · BT $battery%" else "$emoji Scene"
             updateTile()
         }
     }

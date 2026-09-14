@@ -33,9 +33,14 @@ object SleepTimer {
     fun start(context: Context, minutes: Int, done: () -> Unit) {
         cancel()
         minutesLeft = minutes.coerceIn(1, 180)
-        onDone = done
+        onDone = {
+            SleepFade.schedule(context.applicationContext, System.currentTimeMillis() + 2_000L)
+            done()
+        }
         running = true
         handler.postDelayed(tick, 60_000L)
+        val end = System.currentTimeMillis() + minutesLeft * 60_000L
+        SleepFade.schedule(context.applicationContext, end)
         Toast.makeText(context, "Slaaptimer ${minutesLeft} min", Toast.LENGTH_SHORT).show()
     }
 
