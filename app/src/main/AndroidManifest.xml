@@ -125,6 +125,17 @@
         </service>
 
         <service
+            android:name=".qs.SuggestQuickTileService"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="Sounmax Suggestie"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
             android:name=".qs.UndoQuickTileService"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
@@ -305,6 +316,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/favorite_scenes_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.FavoriteScenesGlanceReceiver"
+            android:exported="true"
+            android:label="Sounmax favorieten (Glance)">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/favorite_scenes_glance_widget_info" />
         </receiver>
 
         <receiver
