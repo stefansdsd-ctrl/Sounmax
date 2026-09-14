@@ -105,6 +105,7 @@ class SceneController(private val viewModel: MainViewModel) {
         viewModel.applyListeningScene(scene)
         SoftwareAnc.applyWithHardware(app, scene.ancMode)
         SceneUsage.record(app, scene.id)
+        RecentScenes.push(prefs, scene.id)
         commute.onScene(scene.id)
         AncHaptics.sceneConfirm(app, scene.id)
         NightVolumeGuard.applyIfNeeded(app)
