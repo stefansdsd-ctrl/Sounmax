@@ -9,6 +9,7 @@ object WearPaths {
     const val KEY_SCENE_NAME = "scene_name"
     const val KEY_SCENE_EMOJI = "scene_emoji"
     const val KEY_BATTERY = "battery"
+    const val KEY_PHONE_BATTERY = "phone_battery"
     const val KEY_SLEEP = "sleep_min"
     const val KEY_HEADSET = "headset"
     const val KEY_ANC = "anc"

@@ -16,13 +16,22 @@ object PhoneBatteryAdvisor {
         context.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
             .getBoolean(KEY_ENABLED, true)
 
+    private fun batteryIntent(context: Context): Intent? =
+        context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+
     fun level(context: Context): Int? {
-        val intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-            ?: return null
+        val intent = batteryIntent(context) ?: return null
         val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
         val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100).coerceAtLeast(1)
         if (level < 0) return null
         return (level * 100) / scale
+    }
+
+    fun charging(context: Context): Boolean {
+        val intent = batteryIntent(context) ?: return false
+        val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+        return status == BatteryManager.BATTERY_STATUS_CHARGING ||
+            status == BatteryManager.BATTERY_STATUS_FULL
     }
 
     fun adjust(context: Context, scene: ListeningScene): ListeningScene {
@@ -30,7 +39,7 @@ object PhoneBatteryAdvisor {
         val pct = level(context) ?: return scene
         context.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
             .edit().putInt("last_phone_battery", pct).apply()
-        if (pct > 15) return scene
+        if (pct > 15 || charging(context)) return scene
         val saver = SceneLookup.byId("saver")
         return (saver ?: scene).copy(
             description = "${scene.description} · telefoon $pct%",
