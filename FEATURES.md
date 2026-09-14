@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 35 (software, deze commit)
+## Batch 36 (software, deze commit)
+- Wear-chiprij: ◀ scene ▶ + slaaptimer
+- Recent-scenes balk op home (laatste 5, zonder actieve)
+- Scene-apply schrijft nu ook `RecentScenes`
+
+## Batch 35 (software)
 - Glance-hoofdwidget (status + ANC / ◀▶ / DSP / undo / slaap / Nu)
 - STIL + dual-battery op Glance
 - refreshAll werkt Glance-hoofdwidget bij
@@ -13,7 +18,7 @@
 ## Nog te bouwen
 - RemoteViews-hoofdwidget uitfaseren
 - RemoteViews-favorieten uitfaseren
-- Wear: next/prev scene + slaaptimer-chip
+- Wear-tile: compacte chiprij i.p.v. lange lijst
 
 ## Wacht op TAH6519 GATT-dump
 - Echte multipoint write-payload
