@@ -13,19 +13,21 @@ import androidx.wear.watchface.complications.datasource.SuspendingComplicationDa
 
 class SounmaxComplicationService : SuspendingComplicationDataSourceService() {
     override fun getPreviewData(type: ComplicationType): ComplicationData {
-        return buildShort("🎧", "Focus", 82, "ANC", "LDAC")
+        return buildShort("🎧", "Focus", 82, 64, "ANC", "LDAC")
     }
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData {
         val s = runCatching { WearClient.readStatus(this) }.getOrDefault(WearStatus())
         val bat = if (s.battery in 0..100) s.battery else -1
+        val phone = if (s.phoneBattery in 0..100) s.phoneBattery else -1
         val anc = ancShort(s.anc)
         return when (request.complicationType) {
             ComplicationType.LONG_TEXT -> {
                 val codec = s.codec.takeIf { it.isNotBlank() }?.uppercase()?.take(8)
                 val rssi = if (s.rssi < 0) " ${s.rssi}dBm" else ""
                 val extra = listOfNotNull(
-                    if (bat >= 0) "$bat%" else null,
+                    if (bat >= 0) "🎧$bat%" else null,
+                    if (phone >= 0) "📱$phone%" else null,
                     anc,
                     codec,
                     if (s.focus) "FOCUS" else null
@@ -48,7 +50,7 @@ class SounmaxComplicationService : SuspendingComplicationDataSourceService() {
                 .setTitle(PlainComplicationText.Builder("${s.sceneEmoji} $anc").build())
                 .setTapAction(tap())
                 .build()
-            else -> buildShort(s.sceneEmoji, s.sceneName, bat, anc, s.codec)
+            else -> buildShort(s.sceneEmoji, s.sceneName, bat, phone, anc, s.codec)
         }
     }
 
@@ -64,16 +66,21 @@ class SounmaxComplicationService : SuspendingComplicationDataSourceService() {
         emoji: String,
         name: String,
         battery: Int,
+        phoneBattery: Int,
         anc: String,
         codec: String
     ): ComplicationData {
         val title = when {
+            battery in 0..100 && phoneBattery in 0..100 -> "${battery}/${phoneBattery}"
             battery in 0..100 -> "$battery%"
+            phoneBattery in 0..100 -> "📱$phoneBattery%"
             anc.isNotBlank() -> anc
             else -> name.take(8)
         }
         val desc = buildString {
             append("$emoji $name")
+            if (battery in 0..100) append(" 🎧$battery%")
+            if (phoneBattery in 0..100) append(" 📱$phoneBattery%")
             if (anc.isNotBlank()) append(" $anc")
             if (codec.isNotBlank()) append(" $codec")
         }
