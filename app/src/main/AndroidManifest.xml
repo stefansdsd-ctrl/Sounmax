@@ -66,281 +66,42 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-
-        <service
-            android:name=".media.SoundMaxNotificationListener"
-            android:exported="true"
-            android:label="SoundMax Now Playing"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+        <service android:name=".media.SoundMaxNotificationListener" android:exported="true" android:label="SoundMax Now Playing" android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".media.DspControlService"
-            android:exported="false"
-            android:foregroundServiceType="mediaPlayback" />
-
-        <service
-            android:name=".wear.WearCommandListener"
-            android:exported="true">
+        <service android:name=".media.DspControlService" android:exported="false" android:foregroundServiceType="mediaPlayback" />
+        <service android:name=".wear.WearCommandListener" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".qs.DspQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax DSP"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.SceneQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Scene"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.SceneSearchQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Zoek scene"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.SuggestQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="Sounmax Suggestie"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.UndoQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Undo"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.SleepTimerQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Slaaptimer"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.SpatialQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Spatial"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.EarBreakQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Oorpauze"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.AncQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax ANC"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.FocusQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Focus 25"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.AlertQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Alert"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.ComboQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="Sounmax Combo"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.QuietHoursQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Stille uren"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name=".qs.OneEarQuickTileService"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="SoundMax Eén oor"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name=".media.ActivityTransitionReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.example.ACTION_ACTIVITY_SCENE" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".media.HeadsetMediaButtonReceiver"
-            android:exported="true">
-            <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".media.BootReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".media.SceneHourlyReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.example.ACTION_SCENE_HOURLY" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".media.FocusEndReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.example.ACTION_FOCUS_END" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".media.DndAutoFocus"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.app.action.INTERRUPTION_FILTER_CHANGED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".widget.SoundMaxWidget"
-            android:exported="true"
-            android:label="Sounmax DSP">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/soundmax_widget_info" />
-        </receiver>
-
-        <receiver
-            android:name=".widget.FavoriteScenesWidget"
-            android:exported="true"
-            android:label="Sounmax favorieten">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/favorite_scenes_widget_info" />
-        </receiver>
-
-        <receiver
-            android:name=".widget.FavoriteScenesGlanceReceiver"
-            android:exported="true"
-            android:label="Sounmax favorieten (Glance)">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/favorite_scenes_glance_widget_info" />
-        </receiver>
-
-        <receiver
-            android:name=".widget.BatteryHistoryWidget"
-            android:exported="true"
-            android:label="Sounmax accu">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/battery_history_widget_info" />
-        </receiver>
+        <service android:name=".qs.DspQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax DSP" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.SceneQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Scene" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.SceneSearchQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Zoek scene" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.SuggestQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="Sounmax Suggestie" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.UndoQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Undo" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.SleepTimerQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Slaaptimer" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.SpatialQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Spatial" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.EarBreakQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Oorpauze" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.AncQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax ANC" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.FocusQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Focus 25" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.AlertQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Alert" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.ComboQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="Sounmax Combo" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.QuietHoursQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Stille uren" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <service android:name=".qs.OneEarQuickTileService" android:exported="true" android:icon="@mipmap/ic_launcher" android:label="SoundMax Eén oor" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"><intent-filter><action android:name="android.service.quicksettings.action.QS_TILE" /></intent-filter></service>
+        <receiver android:name=".media.ActivityTransitionReceiver" android:exported="false"><intent-filter><action android:name="com.example.ACTION_ACTIVITY_SCENE" /></intent-filter></receiver>
+        <receiver android:name=".media.HeadsetMediaButtonReceiver" android:exported="true"><intent-filter android:priority="1000"><action android:name="android.intent.action.MEDIA_BUTTON" /></intent-filter></receiver>
+        <receiver android:name=".media.BootReceiver" android:exported="true"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED" /><action android:name="android.intent.action.MY_PACKAGE_REPLACED" /></intent-filter></receiver>
+        <receiver android:name=".media.SceneHourlyReceiver" android:exported="false"><intent-filter><action android:name="com.example.ACTION_SCENE_HOURLY" /></intent-filter></receiver>
+        <receiver android:name=".media.FocusEndReceiver" android:exported="false"><intent-filter><action android:name="com.example.ACTION_FOCUS_END" /></intent-filter></receiver>
+        <receiver android:name=".media.DndAutoFocus" android:exported="false"><intent-filter><action android:name="android.app.action.INTERRUPTION_FILTER_CHANGED" /></intent-filter></receiver>
+        <receiver android:name=".widget.SoundMaxWidget" android:exported="true" android:label="Sounmax DSP"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/soundmax_widget_info" /></receiver>
+        <receiver android:name=".widget.FavoriteScenesWidget" android:exported="true" android:label="Sounmax favorieten"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/favorite_scenes_widget_info" /></receiver>
+        <receiver android:name=".widget.FavoriteScenesGlanceReceiver" android:exported="true" android:label="Sounmax favorieten (Glance)"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/favorite_scenes_glance_widget_info" /></receiver>
+        <receiver android:name=".widget.SoundMaxGlanceReceiver" android:exported="true" android:label="Sounmax DSP (Glance)"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/soundmax_glance_widget_info" /></receiver>
+        <receiver android:name=".widget.BatteryHistoryWidget" android:exported="true" android:label="Sounmax accu"><intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter><meta-data android:name="android.appwidget.provider" android:resource="@xml/battery_history_widget_info" /></receiver>
     </application>
-
 </manifest>
