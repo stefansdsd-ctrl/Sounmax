@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-14 — batch 29)
+- Home-widget toont live `BT xx% · TEL xx%`.
+- Widget-knop **MP** toont multipoint-GATT-status.
+- Glance blijft later; RemoteViews is bijgewerkt.
+
 ## Nieuw (2026-09-14 — batch 28)
 - Wear-complication toont headset + telefoonaccu (`🎧82/📱64`).
 - Wear-app statusregel: beide accu’s.
@@ -24,7 +29,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Notify-leren testen op TAH6519
 
-## Volgende software (batch 29)
+## Volgende software (batch 30)
 - Glance-widget i.p.v. RemoteViews
 - Echte multipoint-payload na TAH6519-dump
 
