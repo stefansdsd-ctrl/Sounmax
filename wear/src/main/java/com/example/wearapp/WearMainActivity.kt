@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.DisposableEffect
@@ -71,20 +72,22 @@ class WearMainActivity : ComponentActivity() {
                     }
                 )
                 if (!ambient) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PREV_SCENE) } }) {
+                            Text("◀")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SLEEP) } }) {
+                            Text(if (status.sleepMin > 0) "${status.sleepMin}m" else "Slaap")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_NEXT_SCENE) } }) {
+                            Text("▶")
+                        }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_TOGGLE_DSP) } }) {
                         Text(if (status.dsp) "Pauzeer DSP" else "Start DSP")
                     }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
                         Text("ANC ${ancLabel(status.anc)}")
-                    }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_NEXT_SCENE) } }) {
-                        Text("Volgende scene")
-                    }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PREV_SCENE) } }) {
-                        Text("Vorige scene")
-                    }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SLEEP) } }) {
-                        Text(if (status.sleepMin > 0) "Slaap ${status.sleepMin}m" else "Slaaptimer")
                     }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
