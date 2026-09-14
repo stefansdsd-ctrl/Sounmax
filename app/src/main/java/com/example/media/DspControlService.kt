@@ -68,6 +68,7 @@ class DspControlService : Service() {
         val battery = wellness.getInt(SoundMaxWidget.KEY_BATTERY, -1)
         LowBatteryAncSaver.tick(this, battery.takeIf { it in 0..100 })
         ChargeReminder.tick(this, battery.takeIf { it in 0..100 })
+        PhoneBatteryAlert.tick(this)
         DailyHearingBudget.applySoftCap(this)
         val codecLabel = BtCodecProbe.label(this, null)
         if (!codecLabel.isNullOrBlank()) {
@@ -76,8 +77,10 @@ class DspControlService : Service() {
         val sleepLeft = SoundMaxWidget.remainingSleepMinutes(wellness.getLong(SoundMaxWidget.KEY_SLEEP_END, 0L))
         val quiet = QuietHours.isQuietNow(this) && QuietHours.enabled(this)
         val focusLeft = if (FocusSession.isActive(this)) (FocusSession.remainingMs(this) / 60_000L).toInt() else 0
+        val phonePct = PhoneBatteryAdvisor.level(this)
         val extra = buildString {
             if (battery in 0..100) append(" · BT $battery%")
+            if (phonePct != null) append(" · tel $phonePct%")
             if (sleepLeft > 0) append(" · slaap $sleepLeft min")
             if (focusLeft > 0) append(" · focus $focusLeft min")
             if (quiet) append(" · stil")
