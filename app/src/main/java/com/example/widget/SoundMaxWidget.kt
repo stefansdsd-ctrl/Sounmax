@@ -22,7 +22,9 @@ import com.example.media.EarBreakWatch
 import com.example.media.FocusSession
 import com.example.media.SleepFade
 import com.example.media.PhoneBatteryAdvisor
+import com.example.data.SceneUsage
 import com.example.media.WeatherAdvisor
+import kotlinx.coroutines.launch
 
 class SoundMaxWidget : AppWidgetProvider() {
 
@@ -113,6 +115,9 @@ class SoundMaxWidget : AppWidgetProvider() {
             val ids = mgr.getAppWidgetIds(ComponentName(context, SoundMaxWidget::class.java))
             ids.forEach { updateWidget(context, mgr, it) }
             FavoriteScenesWidget.refreshAll(context)
+            kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Default).launch {
+                runCatching { FavoriteScenesGlanceWidget.refresh(context) }
+            }
         }
 
         private fun rememberPrev(prefs: android.content.SharedPreferences, nextId: String) {
@@ -132,6 +137,7 @@ class SoundMaxWidget : AppWidgetProvider() {
                 .putBoolean("scene_locked", true)
                 .putLong("scene_hold_until", System.currentTimeMillis() + 30 * 60_000L)
                 .apply()
+            SceneUsage.record(context, scene.id)
             DspControlService.start(context)
         }
 
@@ -200,8 +206,10 @@ class SoundMaxWidget : AppWidgetProvider() {
         fun applySuggested(context: Context) {
             val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             if (prefs.getBoolean("scene_locked", false)) return
-            val scene = WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
+            val scene = FavoriteScenesGlanceWidget.pickSuggested(context)
+                ?: WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
             rememberPrev(prefs, scene.id)
+            SceneUsage.record(context, scene.id)
             DspControlService.start(context)
         }
 
