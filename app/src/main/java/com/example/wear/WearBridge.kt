@@ -11,6 +11,7 @@ import com.example.media.DspControlService
 import com.example.media.FindHeadsetHelper
 import com.example.media.FocusSession
 import com.example.media.MediaRemote
+import com.example.media.PhoneBatteryAdvisor
 import com.example.media.QuietHours
 import com.example.media.RssiCodecAdvisor
 import com.example.media.SceneScheduleAdvisor
@@ -36,6 +37,7 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_SCENE_NAME, scene.name)
                 dataMap.putString(WearPaths.KEY_SCENE_EMOJI, scene.emoji)
                 dataMap.putInt(WearPaths.KEY_BATTERY, wellness.getInt(SoundMaxWidget.KEY_BATTERY, -1))
+                dataMap.putInt(WearPaths.KEY_PHONE_BATTERY, PhoneBatteryAdvisor.level(context) ?: -1)
                 dataMap.putInt(
                     WearPaths.KEY_SLEEP,
                     SoundMaxWidget.remainingSleepMinutes(wellness.getLong(SoundMaxWidget.KEY_SLEEP_END, 0L))
