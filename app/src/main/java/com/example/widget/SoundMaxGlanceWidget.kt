@@ -30,7 +30,10 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.media.EarRestOneTap
+import com.example.media.FindHeadset
 import com.example.media.FocusSession
+import com.example.media.MorningBoostOneTap
 import com.example.media.PhoneBatteryAdvisor
 import com.example.media.QuietHours
 
@@ -134,6 +137,14 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
                 Spacer(GlanceModifier.width(6.dp))
                 ActionChip("Nu", GlanceWidgetAction.SUGGEST)
             }
+            Spacer(GlanceModifier.height(6.dp))
+            Row(modifier = GlanceModifier.fillMaxWidth()) {
+                ActionChip("Ochtend", GlanceWidgetAction.MORNING)
+                Spacer(GlanceModifier.width(6.dp))
+                ActionChip("Pauze", GlanceWidgetAction.REST)
+                Spacer(GlanceModifier.width(6.dp))
+                ActionChip("Zoek", GlanceWidgetAction.FIND)
+            }
         }
     }
 
@@ -168,6 +179,9 @@ object GlanceWidgetAction {
     const val UNDO = "undo"
     const val SLEEP = "sleep"
     const val SUGGEST = "suggest"
+    const val MORNING = "morning"
+    const val REST = "rest"
+    const val FIND = "find"
 }
 
 class SoundMaxGlanceReceiver : GlanceAppWidgetReceiver() {
@@ -193,6 +207,9 @@ class GlanceControlAction : ActionCallback {
             }
             GlanceWidgetAction.UNDO -> SoundMaxWidget.undoScene(context)
             GlanceWidgetAction.SLEEP -> SoundMaxWidget.cycleSleep(context)
+            GlanceWidgetAction.MORNING -> MorningBoostOneTap.apply(context)
+            GlanceWidgetAction.REST -> EarRestOneTap.apply(context)
+            GlanceWidgetAction.FIND -> FindHeadset.ping(context)
             else -> SoundMaxWidget.applySuggested(context)
         }
         SoundMaxGlanceWidget().update(context, glanceId)
