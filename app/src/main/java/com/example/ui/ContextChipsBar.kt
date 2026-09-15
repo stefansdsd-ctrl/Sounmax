@@ -23,9 +23,11 @@ import androidx.compose.ui.unit.sp
 import com.example.media.CallOneTap
 import com.example.media.FlightOneTap
 import com.example.media.GameOneTap
+import com.example.media.KitchenOneTap
 import com.example.media.MovieOneTap
 import com.example.media.PodcastOneTap
 import com.example.media.RainOneTap
+import com.example.media.WalkOneTap
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -40,6 +42,8 @@ fun ContextChipsBar() {
     var gameOn by remember { mutableStateOf(GameOneTap.isOn(context)) }
     var movieOn by remember { mutableStateOf(MovieOneTap.isOn(context)) }
     var rainOn by remember { mutableStateOf(RainOneTap.isOn(context)) }
+    var kitchenOn by remember { mutableStateOf(KitchenOneTap.isOn(context)) }
+    var walkOn by remember { mutableStateOf(WalkOneTap.isOn(context)) }
 
     Row(
         modifier = Modifier
@@ -67,6 +71,12 @@ fun ContextChipsBar() {
         }
         Chip(label = if (rainOn) "Regen aan" else "Regen", selected = rainOn, tag = "rain_chip") {
             RainOneTap.toggle(context); rainOn = RainOneTap.isOn(context)
+        }
+        Chip(label = if (kitchenOn) "Koken aan" else "Koken", selected = kitchenOn, tag = "kitchen_chip") {
+            KitchenOneTap.toggle(context); kitchenOn = KitchenOneTap.isOn(context)
+        }
+        Chip(label = if (walkOn) "Wandelen aan" else "Wandelen", selected = walkOn, tag = "walk_chip") {
+            WalkOneTap.toggle(context); walkOn = WalkOneTap.isOn(context)
         }
     }
 }
