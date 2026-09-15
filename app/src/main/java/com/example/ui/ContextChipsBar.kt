@@ -1,9 +1,11 @@
 package com.example.ui
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Text
@@ -20,7 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.media.CallOneTap
 import com.example.media.FlightOneTap
+import com.example.media.GameOneTap
+import com.example.media.MovieOneTap
 import com.example.media.PodcastOneTap
+import com.example.media.RainOneTap
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -32,39 +37,36 @@ fun ContextChipsBar() {
     var podOn by remember { mutableStateOf(PodcastOneTap.isOn(context)) }
     var flightOn by remember { mutableStateOf(FlightOneTap.isOn(context)) }
     var flightLeft by remember { mutableStateOf(FlightOneTap.remainingMin(context)) }
+    var gameOn by remember { mutableStateOf(GameOneTap.isOn(context)) }
+    var movieOn by remember { mutableStateOf(MovieOneTap.isOn(context)) }
+    var rainOn by remember { mutableStateOf(RainOneTap.isOn(context)) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
             .padding(horizontal = 12.dp, vertical = 4.dp)
             .testTag("context_chips_bar"),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Chip(
-            label = if (callOn) "Bel aan" else "Bel",
-            selected = callOn,
-            tag = "call_chip"
-        ) {
-            CallOneTap.toggle(context)
-            callOn = CallOneTap.isOn(context)
+        Chip(label = if (callOn) "Bel aan" else "Bel", selected = callOn, tag = "call_chip") {
+            CallOneTap.toggle(context); callOn = CallOneTap.isOn(context)
         }
-        Chip(
-            label = if (podOn) "Podcast aan" else "Podcast",
-            selected = podOn,
-            tag = "podcast_chip"
-        ) {
-            PodcastOneTap.toggle(context)
-            podOn = PodcastOneTap.isOn(context)
+        Chip(label = if (podOn) "Podcast aan" else "Podcast", selected = podOn, tag = "podcast_chip") {
+            PodcastOneTap.toggle(context); podOn = PodcastOneTap.isOn(context)
         }
-        Chip(
-            label = if (flightOn) "Vlucht ${flightLeft}m" else "Vliegtuig",
-            selected = flightOn,
-            tag = "flight_chip"
-        ) {
-            FlightOneTap.toggle(context)
-            flightOn = FlightOneTap.isOn(context)
-            flightLeft = FlightOneTap.remainingMin(context)
+        Chip(label = if (flightOn) "Vlucht ${flightLeft}m" else "Vliegtuig", selected = flightOn, tag = "flight_chip") {
+            FlightOneTap.toggle(context); flightOn = FlightOneTap.isOn(context); flightLeft = FlightOneTap.remainingMin(context)
+        }
+        Chip(label = if (gameOn) "Game aan" else "Game", selected = gameOn, tag = "game_chip") {
+            GameOneTap.toggle(context); gameOn = GameOneTap.isOn(context)
+        }
+        Chip(label = if (movieOn) "Film aan" else "Film", selected = movieOn, tag = "movie_chip") {
+            MovieOneTap.toggle(context); movieOn = MovieOneTap.isOn(context)
+        }
+        Chip(label = if (rainOn) "Regen aan" else "Regen", selected = rainOn, tag = "rain_chip") {
+            RainOneTap.toggle(context); rainOn = RainOneTap.isOn(context)
         }
     }
 }

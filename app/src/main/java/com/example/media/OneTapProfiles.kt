@@ -7,11 +7,6 @@ import com.example.dsp.ListeningScene
 import com.example.dsp.SceneLookup
 import com.example.dsp.SoftwareAnc
 
-/**
- * Eén-tik profielen voor dagelijkse situaties.
- * Combineert scene + ANC + optionele volume-cap.
- * Meest recent gebruikte profielen komen vooraan.
- */
 object OneTapProfiles {
     const val PREFS = "soundmax_prefs"
     const val KEY_LAST = "one_tap_last"
@@ -32,11 +27,14 @@ object OneTapProfiles {
         Profile("plane", "Vliegtuig", "intercity", AncMode.STRONG, 65, "Onderweg"),
         Profile("bike", "Fiets", "avondfiets", AncMode.WIND_GUARD, 70, "Onderweg"),
         Profile("outdoor", "Buiten", "outdoor", AncMode.WIND_GUARD, 70, "Onderweg"),
+        Profile("rain", "Regen", "outdoor", AncMode.WIND_GUARD, 70, "Onderweg"),
         Profile("focus", "Focus", "focus", AncMode.STRONG, null, "Werk"),
         Profile("school", "School", "schoolochtend", AncMode.AMBIENT, 55, "Werk"),
         Profile("lib", "Bieb", "library", AncMode.STRONG, 40, "Werk"),
         Profile("gym", "Sport", "sportschool", AncMode.ADAPTIVE, 85, "Sport"),
+        Profile("game", "Game", "party", AncMode.OFF, 80, "Sport"),
         Profile("podcast", "Podcast", "library", AncMode.ADAPTIVE, 70, "Media"),
+        Profile("movie", "Film", "film", AncMode.STRONG, 75, "Media"),
         Profile("sleep", "Slaap", "sleep", AncMode.ADAPTIVE, 40, "Nacht"),
         Profile("home", "Thuis", "thuisavond", AncMode.OFF, 55, "Nacht"),
         Profile("talk", "Gesprek", "ambient", AncMode.AMBIENT, null, "Dag"),
