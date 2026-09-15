@@ -3,22 +3,17 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-15 — batch 43)
+- Home: **Avond** (thuisavond/slaap + nacht-volume).
+- Home: **Accu** (ANC uit + 50% volume).
+- Home: **Reis** (TravelLock-snelkoppeling).
+- Glance: Avond / Reis / Accu.
+- Zoek: stereo L880/R1320 Hz (AudioTrack).
+
 ## Nieuw (2026-09-15 — batch 42)
 - Home: **Focus** (25/45/90 min, deep-work lock + DND).
 - Home: **Sport** (gym-scene + ANC adaptive + volume-cap).
 - Glance: Focus / Sport.
-- Zoek-piep: L=880 Hz / R=1320 Hz (makkelijker te lokaliseren).
-
-## Nieuw (2026-09-15 — batch 41)
-- Home: **Ochtend** (pendel/thuiswerk + DSP + ANC adaptive, nacht uit).
-- Home: **Oorpauze** (rust-scene + 15m fade + volume-cap).
-- Home + Glance: **Zoek** (software-piep via headset-output).
-- Glance: Ochtend / Pauze / Zoek.
-
-## Nieuw (2026-09-15 — batch 40)
-- Home: **Nachtmodus** (slaap + stil + volume-cap + timer).
-- Glance: Herstel, Nacht, Zoek.
-- Widget: LockReconnect (DSP + laatste scene + ramp).
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
