@@ -22,28 +22,31 @@ object OneTapProfiles {
         val label: String,
         val sceneId: String,
         val anc: AncMode,
-        val maxVolumePct: Int?
+        val maxVolumePct: Int?,
+        val group: String = "Overig"
     )
 
     val all = listOf(
-        Profile("commute", "Woon-werk", "commute", AncMode.STRONG, 80),
-        Profile("focus", "Focus", "focus", AncMode.STRONG, null),
-        Profile("sleep", "Slaap", "sleep", AncMode.ADAPTIVE, 40),
-        Profile("outdoor", "Buiten", "outdoor", AncMode.WIND_GUARD, 70),
-        Profile("talk", "Gesprek", "ambient", AncMode.AMBIENT, null),
-        Profile("podcast", "Podcast", "library", AncMode.ADAPTIVE, 70),
-        Profile("gym", "Sport", "sportschool", AncMode.ADAPTIVE, 85),
-        Profile("train", "Trein", "intercity", AncMode.STRONG, 75),
-        Profile("plane", "Vliegtuig", "intercity", AncMode.STRONG, 65),
-        Profile("cafe", "Café", "koffietent", AncMode.AMBIENT, 60),
-        Profile("bike", "Fiets", "avondfiets", AncMode.WIND_GUARD, 70),
-        Profile("home", "Thuis", "thuisavond", AncMode.OFF, 55),
-        Profile("shop", "Winkelen", "mall", AncMode.AMBIENT, 60),
-        Profile("school", "School", "schoolochtend", AncMode.AMBIENT, 55),
-        Profile("kids", "Kids", "thuiskids", AncMode.AMBIENT, 45),
-        Profile("lib", "Bieb", "library", AncMode.STRONG, 40),
-        Profile("off", "Uit", "default", AncMode.OFF, null)
+        Profile("commute", "Woon-werk", "commute", AncMode.STRONG, 80, "Onderweg"),
+        Profile("train", "Trein", "intercity", AncMode.STRONG, 75, "Onderweg"),
+        Profile("plane", "Vliegtuig", "intercity", AncMode.STRONG, 65, "Onderweg"),
+        Profile("bike", "Fiets", "avondfiets", AncMode.WIND_GUARD, 70, "Onderweg"),
+        Profile("outdoor", "Buiten", "outdoor", AncMode.WIND_GUARD, 70, "Onderweg"),
+        Profile("focus", "Focus", "focus", AncMode.STRONG, null, "Werk"),
+        Profile("school", "School", "schoolochtend", AncMode.AMBIENT, 55, "Werk"),
+        Profile("lib", "Bieb", "library", AncMode.STRONG, 40, "Werk"),
+        Profile("gym", "Sport", "sportschool", AncMode.ADAPTIVE, 85, "Sport"),
+        Profile("podcast", "Podcast", "library", AncMode.ADAPTIVE, 70, "Media"),
+        Profile("sleep", "Slaap", "sleep", AncMode.ADAPTIVE, 40, "Nacht"),
+        Profile("home", "Thuis", "thuisavond", AncMode.OFF, 55, "Nacht"),
+        Profile("talk", "Gesprek", "ambient", AncMode.AMBIENT, null, "Dag"),
+        Profile("cafe", "Café", "koffietent", AncMode.AMBIENT, 60, "Dag"),
+        Profile("shop", "Winkelen", "mall", AncMode.AMBIENT, 60, "Dag"),
+        Profile("kids", "Kids", "thuiskids", AncMode.AMBIENT, 45, "Dag"),
+        Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
+
+    val GROUP_ORDER = listOf("Onderweg", "Werk", "Sport", "Media", "Nacht", "Dag", "Overig")
 
     fun byId(id: String): Profile? = all.find { it.id == id }
 

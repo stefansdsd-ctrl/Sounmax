@@ -2,6 +2,7 @@ package com.example.ui
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,36 +33,56 @@ fun OneTapBar() {
     var selected by remember { mutableStateOf(OneTapProfiles.lastId(context)) }
     var tick by remember { mutableStateOf(0) }
     val profiles = remember(tick) { OneTapProfiles.ranked(context) }
+    val grouped = remember(profiles) {
+        OneTapProfiles.GROUP_ORDER.mapNotNull { g ->
+            val items = profiles.filter { it.group == g }
+            if (items.isEmpty()) null else g to items
+        }
+    }
 
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(horizontal = 12.dp, vertical = 4.dp)
-            .testTag("one_tap_bar"),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(vertical = 2.dp)
+            .testTag("one_tap_bar")
     ) {
-        profiles.forEach { profile ->
-            val on = selected == profile.id
-            FilterChip(
-                selected = on,
-                onClick = {
-                    if (OneTapProfiles.apply(context, profile.id)) {
-                        SoundMaxWidget.applyScene(context, profile.sceneId)
-                        selected = profile.id
-                        tick++
-                    }
-                },
-                label = { Text(profile.label, fontSize = 11.sp, maxLines = 1) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
-                    containerColor = ImmersiveSurfaceActive,
-                    labelColor = ImmersiveTextSecondary,
-                    selectedLabelColor = ImmersiveLavenderAccent
-                ),
-                modifier = Modifier.testTag("one_tap_${profile.id}")
+        grouped.forEach { (group, items) ->
+            Text(
+                text = group,
+                color = ImmersiveTextSecondary,
+                fontSize = 10.sp,
+                modifier = Modifier.padding(start = 14.dp, top = 4.dp)
             )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 12.dp, vertical = 2.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items.forEach { profile ->
+                    val on = selected == profile.id
+                    FilterChip(
+                        selected = on,
+                        onClick = {
+                            if (OneTapProfiles.apply(context, profile.id)) {
+                                SoundMaxWidget.applyScene(context, profile.sceneId)
+                                selected = profile.id
+                                tick++
+                            }
+                        },
+                        label = { Text(profile.label, fontSize = 11.sp, maxLines = 1) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                            containerColor = ImmersiveSurfaceActive,
+                            labelColor = ImmersiveTextSecondary,
+                            selectedLabelColor = ImmersiveLavenderAccent
+                        ),
+                        modifier = Modifier.testTag("one_tap_${profile.id}")
+                    )
+                }
+            }
         }
     }
 }
