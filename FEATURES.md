@@ -1,6 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 41 (software, deze commit)
+## Batch 42 (software, deze commit)
+- Home-chip **Focus**: 25/45/90 min cycle, deep-work + DND
+- Home-chip **Sport**: gym-profiel + ANC adaptive
+- Glance: Focus / Sport
+- Find-headset: stereo-chirp 880/1320 Hz
+
+## Batch 41 (software)
 - Home-chip **Ochtend**: commute/wfh + DSP aan + ANC adaptive, slaap/stil uit
 - Home-chip **Oorpauze**: rust-scene + 15m fade + nacht-volume
 - Home + Glance **Zoek**: ToneGenerator-piep via STREAM_MUSIC

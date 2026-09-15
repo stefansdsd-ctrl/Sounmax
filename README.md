@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-15 — batch 42)
+- Home: **Focus** (25/45/90 min, deep-work lock + DND).
+- Home: **Sport** (gym-scene + ANC adaptive + volume-cap).
+- Glance: Focus / Sport.
+- Zoek-piep: L=880 Hz / R=1320 Hz (makkelijker te lokaliseren).
+
 ## Nieuw (2026-09-15 — batch 41)
 - Home: **Ochtend** (pendel/thuiswerk + DSP + ANC adaptive, nacht uit).
 - Home: **Oorpauze** (rust-scene + 15m fade + volume-cap).
