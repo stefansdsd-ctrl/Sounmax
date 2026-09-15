@@ -56,9 +56,10 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
         } else 0
         val quiet = QuietHours.isQuietNow(context)
         val title = wellness.getString(SoundMaxWidget.KEY_HEADSET_NAME, null)?.take(18) ?: "Sounmax"
+        val phoneTxt = phone?.let { "$it%" } ?: "--%"
         val status = buildString {
             append(if (battery in 0..100) "BT $battery%" else "BT --%")
-            append(" · TEL ${phone?.let { \"$it%\" } ?: \"--%\"}")
+            append(" · TEL $phoneTxt")
             if (quiet) append(" · STIL")
         }
         val extra = when {
