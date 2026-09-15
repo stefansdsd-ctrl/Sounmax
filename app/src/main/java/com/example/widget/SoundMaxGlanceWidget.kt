@@ -29,13 +29,16 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.example.dsp.ListeningScenes
+import com.example.media.CallOneTap
 import com.example.media.DspControlService
 import com.example.media.EarRestOneTap
 import com.example.media.FindHeadset
+import com.example.media.FlightOneTap
 import com.example.media.FocusSession
 import com.example.media.MorningBoostOneTap
 import com.example.media.OneTapProfiles
 import com.example.media.PhoneBatteryAdvisor
+import com.example.media.PodcastOneTap
 import com.example.media.QuietHours
 
 class SoundMaxGlanceWidget : GlanceAppWidget() {
@@ -63,6 +66,7 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
             if (quiet) append(" · STIL")
         }
         val extra = when {
+            FlightOneTap.isOn(context) -> "Vlucht ${FlightOneTap.remainingMin(context)}m"
             focusLeft > 0 -> "Focus ${focusLeft}m"
             sleepLeft > 0 -> "Slaap ${sleepLeft}m"
             else -> if (enabled) "DSP aan" else "DSP uit"
@@ -153,6 +157,14 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
                 Spacer(GlanceModifier.width(6.dp))
                 ActionChip("Sport", GlanceWidgetAction.GYM)
             }
+            Spacer(GlanceModifier.height(6.dp))
+            Row(modifier = GlanceModifier.fillMaxWidth()) {
+                ActionChip("Bel", GlanceWidgetAction.CALL)
+                Spacer(GlanceModifier.width(6.dp))
+                ActionChip("Podcast", GlanceWidgetAction.PODCAST)
+                Spacer(GlanceModifier.width(6.dp))
+                ActionChip("Vliegtuig", GlanceWidgetAction.FLIGHT)
+            }
         }
     }
 
@@ -192,6 +204,9 @@ object GlanceWidgetAction {
     const val FIND = "find"
     const val FOCUS = "focus"
     const val GYM = "gym"
+    const val CALL = "call"
+    const val PODCAST = "podcast"
+    const val FLIGHT = "flight"
 }
 
 class SoundMaxGlanceReceiver : GlanceAppWidgetReceiver() {
@@ -222,6 +237,9 @@ class GlanceControlAction : ActionCallback {
             GlanceWidgetAction.FIND -> FindHeadset.ping(context)
             GlanceWidgetAction.FOCUS -> FocusSession.cycleOrToggle(context)
             GlanceWidgetAction.GYM -> OneTapProfiles.apply(context, "gym")
+            GlanceWidgetAction.CALL -> CallOneTap.toggle(context)
+            GlanceWidgetAction.PODCAST -> PodcastOneTap.toggle(context)
+            GlanceWidgetAction.FLIGHT -> FlightOneTap.toggle(context)
             else -> SoundMaxWidget.applySuggested(context)
         }
         SoundMaxGlanceWidget().update(context, glanceId)

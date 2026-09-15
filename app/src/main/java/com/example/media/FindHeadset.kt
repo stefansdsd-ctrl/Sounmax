@@ -1,7 +1,6 @@
 package com.example.media
 
 import android.content.Context
-import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Handler
@@ -9,7 +8,7 @@ import android.os.Looper
 
 /**
  * Speelt een luid chirp-patroon om de koptelefoon te vinden.
- * Werkt alleen als de headset verbonden is als audio-output.
+ * Stopt na 20s of via stop().
  */
 object FindHeadset {
     private var tone: ToneGenerator? = null
@@ -34,6 +33,10 @@ object FindHeadset {
             h.postDelayed({ tick() }, 450)
         }
         tick()
+        h.postDelayed({
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, old, 0)
+            stop()
+        }, 20_000L)
     }
 
     fun stop() {
