@@ -145,6 +145,7 @@ fun SoundMaxApp(
             SmartSuggestBar(sceneController = sceneController)
             RecentScenesBar(sceneController = sceneController)
             ReconnectBar(sceneController = sceneController)
+            NightModeBar()
             TalkThroughBar()
             FocusBar()
             MeetingBar()
