@@ -12,6 +12,7 @@ import android.os.Looper
  * Werkt alleen als de headset verbonden is als audio-output.
  */
 object FindHeadset {
+    private var helper: FindHeadsetHelper? = null
     private var tone: ToneGenerator? = null
     private val h = Handler(Looper.getMainLooper())
 
@@ -21,23 +22,35 @@ object FindHeadset {
         val old = am.getStreamVolume(AudioManager.STREAM_MUSIC)
         val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         am.setStreamVolume(AudioManager.STREAM_MUSIC, (max * 0.85f).toInt().coerceAtLeast(old), 0)
-        tone = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
-        var left = bursts
-        fun tick() {
-            if (left <= 0) {
-                am.setStreamVolume(AudioManager.STREAM_MUSIC, old, 0)
-                stop()
+        val stereo = FindHeadsetHelper()
+        helper = stereo
+        runCatching { stereo.start(durationMs = (bursts * 700).coerceIn(3_000, 14_000)) }
+            .onFailure {
+                tone = ToneGenerator(AudioManager.STREAM_MUSIC, 100)
+                var left = bursts
+                fun tick() {
+                    if (left <= 0) {
+                        am.setStreamVolume(AudioManager.STREAM_MUSIC, old, 0)
+                        stop()
+                        return
+                    }
+                    tone?.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 280)
+                    left--
+                    h.postDelayed({ tick() }, 450)
+                }
+                tick()
                 return
             }
-            tone?.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 280)
-            left--
-            h.postDelayed({ tick() }, 450)
-        }
-        tick()
+        h.postDelayed({
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, old, 0)
+            stop()
+        }, (bursts * 700L).coerceIn(3_000L, 14_000L))
     }
 
     fun stop() {
         h.removeCallbacksAndMessages(null)
+        try { helper?.stop() } catch (_: Exception) {}
+        helper = null
         try { tone?.release() } catch (_: Exception) {}
         tone = null
     }
