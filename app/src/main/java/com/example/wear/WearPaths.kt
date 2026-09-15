@@ -3,7 +3,6 @@ package com.example.wear
 object WearPaths {
     const val STATUS = "/sounmax/status"
     const val CMD = "/sounmax/cmd"
-
     const val KEY_DSP = "dsp"
     const val KEY_SCENE_ID = "scene_id"
     const val KEY_SCENE_NAME = "scene_name"
@@ -27,7 +26,6 @@ object WearPaths {
     const val KEY_CODEC = "codec"
     const val KEY_FAV_IDS = "fav_ids"
     const val KEY_FAV_NAMES = "fav_names"
-
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
     const val CMD_PREV_SCENE = "prev_scene"
@@ -50,5 +48,7 @@ object WearPaths {
     const val CMD_ONE_TAP_GAME = "one_tap:game"
     const val CMD_ONE_TAP_MOVIE = "one_tap:movie"
     const val CMD_ONE_TAP_RAIN = "one_tap:rain"
+    const val CMD_ONE_TAP_KITCHEN = "one_tap:kitchen"
+    const val CMD_ONE_TAP_WALK = "one_tap:walk"
     const val CMD_FAV_PREFIX = "fav:"
 }
