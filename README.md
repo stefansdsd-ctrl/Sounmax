@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-15 — batch 45)
+- Spaar-EQ ook bij headset-accu <20%.
+- Weekrapport: top-3 scenes + luisterminuten.
+- One-tap chips gegroepeerd per situatie.
+
 ## Nieuw (2026-09-15 — batch 44)
 - Wear: **Bel / Podcast / Vliegtuig** one-tap.
 - WearBridge luistert naar `one_tap:call|podcast|plane`.

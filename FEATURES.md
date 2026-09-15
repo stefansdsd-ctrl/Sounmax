@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 44 (software, deze commit)
+## Batch 45 (software, deze commit)
+- LowBatteryEq ook op **headset-accu**
+- Weekdigest: top-3 scenes + minuten
+- Home-chips visueel gegroepeerd
+
+## Batch 44 (software)
 - Wear-chips **Bel / Podcast / Vliegtuig** (one-tap scenes)
 - WearBridge: `one_tap:` commando’s (call/podcast/plane)
 - Scene-groepen Dag / Werk / Sport / Nacht bestaan al in SceneGroups
@@ -20,9 +25,6 @@
 - Find-headset: stereo-chirp 880/1320 Hz
 
 ## Nog te bouwen
-- LowBatteryEq ook op headset-accu
-- Weekdigest-notificatie top-3 + minuten
-- Home-chips visueel groeperen in balk
 - Echte GATT find-headset piep na TAH6519-dump
 - RemoteViews-widgets verwijderen na pin-check
 
