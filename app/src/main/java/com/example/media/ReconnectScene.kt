@@ -14,5 +14,5 @@ object ReconnectScene {
         SceneLookup.byId(SceneHistory(context).current())
 
     fun label(context: Context): String =
-        last(context)?.let { "Herstel: ${it.title}" } ?: "Geen scene om te herstellen"
+        last(context)?.let { "Herstel: ${it.name}" } ?: "Geen scene om te herstellen"
 }
