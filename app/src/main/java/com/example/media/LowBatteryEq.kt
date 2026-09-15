@@ -9,12 +9,14 @@ import android.os.BatteryManager
 import android.widget.Toast
 import com.example.dsp.SceneLookup
 
-/** Accu <20%: zachtere bass-hint, lagere volume-cap, één toast per sessie. */
+/** Telefoon- of headset-accu <20%: zachtere bass, volume-cap, één toast per bron. */
 object LowBatteryEq {
     const val PREFS = SceneAutomation.PREFS
     const val KEY_ARMED = "low_batt_eq_armed"
     const val KEY_TOASTED = "low_batt_eq_toast"
+    const val KEY_TOASTED_HS = "low_batt_eq_toast_hs"
     const val THRESHOLD = 20
+    private const val WELLNESS = "soundmax_wellness"
 
     @Volatile private var registered = false
 
@@ -34,10 +36,17 @@ object LowBatteryEq {
     }
 
     fun applyIfNeeded(context: Context) {
-        val level = phoneLevel(context) ?: return
+        val phone = phoneLevel(context)
+        val headset = headsetLevel(context)
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        if (level >= THRESHOLD) {
-            prefs.edit().putBoolean(KEY_ARMED, false).putBoolean(KEY_TOASTED, false).apply()
+        val phoneLow = phone != null && phone < THRESHOLD
+        val hsLow = headset != null && headset < THRESHOLD
+        if (!phoneLow && !hsLow) {
+            prefs.edit()
+                .putBoolean(KEY_ARMED, false)
+                .putBoolean(KEY_TOASTED, false)
+                .putBoolean(KEY_TOASTED_HS, false)
+                .apply()
             return
         }
         capVolume(context, 55)
@@ -48,9 +57,13 @@ object LowBatteryEq {
                 .putBoolean("pending_widget_scene", true)
                 .apply()
         }
-        if (!prefs.getBoolean(KEY_TOASTED, false)) {
+        if (phoneLow && !prefs.getBoolean(KEY_TOASTED, false)) {
             prefs.edit().putBoolean(KEY_TOASTED, true).apply()
-            Toast.makeText(context, "Accu $level% · zachtere bass + volume-cap", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Telefoon $phone% · zachtere bass + volume-cap", Toast.LENGTH_SHORT).show()
+        }
+        if (hsLow && !prefs.getBoolean(KEY_TOASTED_HS, false)) {
+            prefs.edit().putBoolean(KEY_TOASTED_HS, true).apply()
+            Toast.makeText(context, "Headset $headset% · spaar-EQ + volume-cap", Toast.LENGTH_SHORT).show()
         }
         DspControlService.start(context)
     }
@@ -59,6 +72,12 @@ object LowBatteryEq {
         val bm = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager ?: return null
         val pct = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
         return if (pct in 0..100) pct else null
+    }
+
+    fun headsetLevel(context: Context): Int? {
+        val pct = context.getSharedPreferences(WELLNESS, Context.MODE_PRIVATE)
+            .getInt("headset_battery", -1)
+        return pct.takeIf { it in 0..100 }
     }
 
     private fun capVolume(context: Context, pct: Int) {

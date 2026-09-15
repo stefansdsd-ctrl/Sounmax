@@ -47,6 +47,8 @@ object WeeklyListenReport {
         val hours = week / 60
         val rem = week % 60
         val peakTxt = peak?.let { "${it.label} ${it.minutes} min" } ?: "—"
-        return "Deze week ${hours}u ${rem}m. Piek: $peakTxt. ${hint(days.lastOrNull()?.minutes ?: 0)}"
+        val top = SceneUsage.top(context, 3).joinToString(", ") { it.name }
+        val topTxt = if (top.isBlank()) "" else " Top-scenes: $top."
+        return "Deze week ${hours}u ${rem}m. Piek: $peakTxt.$topTxt ${hint(days.lastOrNull()?.minutes ?: 0)}"
     }
 }
