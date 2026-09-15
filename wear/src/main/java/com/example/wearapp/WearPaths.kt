@@ -42,5 +42,8 @@ object WearPaths {
     const val CMD_ONE_TAP_SLEEP = "one_tap:sleep"
     const val CMD_ONE_TAP_OUTDOOR = "one_tap:outdoor"
     const val CMD_ONE_TAP_TALK = "one_tap:talk"
+    const val CMD_ONE_TAP_CALL = "one_tap:call"
+    const val CMD_ONE_TAP_PODCAST = "one_tap:podcast"
+    const val CMD_ONE_TAP_PLANE = "one_tap:plane"
     const val CMD_ONE_TAP_OFF = "one_tap:off"
 }

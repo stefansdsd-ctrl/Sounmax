@@ -84,6 +84,17 @@ class WearMainActivity : ComponentActivity() {
                         }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CALL) } }) {
+                            Text("Bel")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_PODCAST) } }) {
+                            Text("Podcast")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_PLANE) } }) {
+                            Text("Vlieg")
+                        }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
                             Text("ANC ${ancLabel(status.anc)}")
                         }

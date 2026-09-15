@@ -44,5 +44,8 @@ object WearPaths {
     const val CMD_UNDO = "undo_scene"
     const val CMD_LOCK = "toggle_lock"
     const val CMD_ONE_TAP_PREFIX = "one_tap:"
+    const val CMD_ONE_TAP_CALL = "one_tap:call"
+    const val CMD_ONE_TAP_PODCAST = "one_tap:podcast"
+    const val CMD_ONE_TAP_PLANE = "one_tap:plane"
     const val CMD_FAV_PREFIX = "fav:"
 }

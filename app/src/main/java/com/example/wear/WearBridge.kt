@@ -80,6 +80,7 @@ object WearBridge {
     fun handleCommand(context: Context, cmd: String) {
         when {
             cmd.startsWith(WearPaths.CMD_FAV_PREFIX) -> applyFav(context, cmd.removePrefix(WearPaths.CMD_FAV_PREFIX))
+            cmd.startsWith(WearPaths.CMD_ONE_TAP_PREFIX) -> applyOneTap(context, cmd.removePrefix(WearPaths.CMD_ONE_TAP_PREFIX))
             cmd == WearPaths.CMD_TOGGLE_DSP -> {
                 val prefs = context.getSharedPreferences(DspControlService.PREFS, Context.MODE_PRIVATE)
                 prefs.edit().putBoolean(DspControlService.KEY_DSP, !prefs.getBoolean(DspControlService.KEY_DSP, true)).apply()
@@ -102,6 +103,16 @@ object WearBridge {
         publishStatus(context)
     }
 
+    private fun applyOneTap(context: Context, raw: String) {
+        val id = when (raw) {
+            "call", "bel", "talk" -> "call"
+            "podcast" -> "podcast"
+            "plane", "vliegtuig" -> "plane"
+            else -> raw
+        }
+        applyFav(context, id)
+    }
+
     private fun applyFav(context: Context, id: String) {
         val scene = SceneLookup.byId(id) ?: return
         val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
@@ -114,7 +125,6 @@ object WearBridge {
         SoundMaxWidget.refreshAll(context)
     }
 
-    /** Complication: cycle alleen favorieten als er pins zijn. */
     private fun cycleFavOrAll(context: Context, dir: Int) {
         val favs = FavoriteScenes(context)
         val pinned = favs.scenes()
