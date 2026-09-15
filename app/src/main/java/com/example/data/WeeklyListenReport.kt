@@ -39,4 +39,14 @@ object WeeklyListenReport {
         minutesToday >= 60 -> "1 uur — oké als volume ≤ 60%"
         else -> "Weekdosis rustig"
     }
+
+    fun digest(context: Context): String {
+        val days = last7Days(context)
+        val week = days.sumOf { it.minutes }
+        val peak = days.maxByOrNull { it.minutes }
+        val hours = week / 60
+        val rem = week % 60
+        val peakTxt = peak?.let { "${it.label} ${it.minutes} min" } ?: "—"
+        return "Deze week ${hours}u ${rem}m. Piek: $peakTxt. ${hint(days.lastOrNull()?.minutes ?: 0)}"
+    }
 }

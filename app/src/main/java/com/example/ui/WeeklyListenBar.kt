@@ -33,7 +33,7 @@ fun WeeklyListenBar() {
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text("7 dagen: ${week} min", color = ImmersiveTextSecondary, fontSize = 13.sp)
-        Text(WeeklyListenReport.hint(today), color = ImmersiveTextSecondary, fontSize = 12.sp)
+        Text(WeeklyListenReport.digest(context), color = ImmersiveTextSecondary, fontSize = 12.sp)
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.fillMaxWidth()) {
             days.forEach { d ->
                 LinearProgressIndicator(
