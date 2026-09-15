@@ -1,21 +1,18 @@
 # Sounmax — volgende features
 
-## Batch 42 (software, deze commit)
+## Batch 43 (software, deze commit)
+- Home-chip **Bel**: talk-through + stem-EQ + herstel na uit
+- Home-chip **Podcast**: mid-boost, ANC adaptive, 1.0x/1.2x hint
+- Home-chip **Vliegtuig**: max ANC + volume-cap + 3u timer
+- Accu <20%: zachtere scene + volume-cap + toast
+- Glance: Bel / Podcast / Vliegtuig
+- Weekdigest: top-3 scenes
+
+## Batch 42 (software)
 - Home-chip **Focus**: 25/45/90 min cycle, deep-work + DND
 - Home-chip **Sport**: gym-profiel + ANC adaptive
 - Glance: Focus / Sport
 - Find-headset: stereo-chirp 880/1320 Hz
-
-## Batch 41 (software)
-- Home-chip **Ochtend**: commute/wfh + DSP aan + ANC adaptive, slaap/stil uit
-- Home-chip **Oorpauze**: rust-scene + 15m fade + nacht-volume
-- Home + Glance **Zoek**: ToneGenerator-piep via STREAM_MUSIC
-- Glance-rij: Ochtend / Pauze / Zoek
-
-## Batch 40 (software)
-- Home-chip **Nachtmodus**: slaap-scene + stille uren + nacht-volume + 45m timer
-- Glance: **Herstel**, **Nacht**, **Zoek**
-- LockReconnect: DSP + laatste scene + volume-ramp vanaf widget
 
 ## Nog te bouwen
 - Echte GATT find-headset piep na TAH6519-dump

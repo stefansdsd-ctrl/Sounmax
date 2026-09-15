@@ -148,6 +148,7 @@ fun SoundMaxApp(
             NightModeBar()
             TalkThroughBar()
             FocusBar()
+            ContextChipsBar()
             MeetingBar()
             TravelLockBar()
             MultipointBar()
