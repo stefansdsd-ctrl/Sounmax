@@ -20,6 +20,7 @@ import com.example.media.BtDisconnectPause
 import com.example.media.CallModeGuard
 import com.example.media.CallTransparencyGuard
 import com.example.media.DspControlService
+import com.example.media.HearingDigest
 import com.example.media.ListenDoseTicker
 import com.example.media.OffEarPause
 import com.example.media.VolumeSceneCycler
@@ -42,6 +43,7 @@ class MainActivity : ComponentActivity() {
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
+        HearingDigest.maybeNotify(this)
         val wellnessPrefs = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         CallModeGuard.start(
             this,

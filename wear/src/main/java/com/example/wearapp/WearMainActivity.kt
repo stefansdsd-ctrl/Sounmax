@@ -83,11 +83,16 @@ class WearMainActivity : ComponentActivity() {
                             Text("▶")
                         }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
+                            Text("ANC ${ancLabel(status.anc)}")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_HEADSET) } }) {
+                            Text("Zoek")
+                        }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_TOGGLE_DSP) } }) {
                         Text(if (status.dsp) "Pauzeer DSP" else "Start DSP")
-                    }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
-                        Text("ANC ${ancLabel(status.anc)}")
                     }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
@@ -97,9 +102,6 @@ class WearMainActivity : ComponentActivity() {
                                 else -> "Spatial uit"
                             }
                         )
-                    }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_HEADSET) } }) {
-                        Text("Vind headset")
                     }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FOCUS) } }) {
                         Text(if (status.focus) "Focus ${status.focusLeft}m" else "Focus")
