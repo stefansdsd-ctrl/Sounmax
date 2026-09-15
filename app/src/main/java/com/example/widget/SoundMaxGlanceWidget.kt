@@ -30,11 +30,14 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.example.dsp.ListeningScenes
 import com.example.media.DspControlService
+import com.example.media.BatterySaverOneTap
 import com.example.media.EarRestOneTap
+import com.example.media.EveningWindDownOneTap
 import com.example.media.FindHeadset
 import com.example.media.FocusSession
 import com.example.media.MorningBoostOneTap
 import com.example.media.OneTapProfiles
+import com.example.media.TravelLock
 import com.example.media.PhoneBatteryAdvisor
 import com.example.media.QuietHours
 
@@ -152,6 +155,14 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
                 ActionChip("Focus", GlanceWidgetAction.FOCUS)
                 Spacer(GlanceModifier.width(6.dp))
                 ActionChip("Sport", GlanceWidgetAction.GYM)
+                Spacer(GlanceModifier.width(6.dp))
+                ActionChip("Avond", GlanceWidgetAction.EVENING)
+            }
+            Spacer(GlanceModifier.height(6.dp))
+            Row(modifier = GlanceModifier.fillMaxWidth()) {
+                ActionChip("Reis", GlanceWidgetAction.TRAVEL)
+                Spacer(GlanceModifier.width(6.dp))
+                ActionChip("Accu", GlanceWidgetAction.SAVER)
             }
         }
     }
@@ -192,6 +203,9 @@ object GlanceWidgetAction {
     const val FIND = "find"
     const val FOCUS = "focus"
     const val GYM = "gym"
+    const val EVENING = "evening"
+    const val TRAVEL = "travel"
+    const val SAVER = "saver"
 }
 
 class SoundMaxGlanceReceiver : GlanceAppWidgetReceiver() {
@@ -222,6 +236,9 @@ class GlanceControlAction : ActionCallback {
             GlanceWidgetAction.FIND -> FindHeadset.ping(context)
             GlanceWidgetAction.FOCUS -> FocusSession.cycleOrToggle(context)
             GlanceWidgetAction.GYM -> OneTapProfiles.apply(context, "gym")
+            GlanceWidgetAction.EVENING -> EveningWindDownOneTap.apply(context)
+            GlanceWidgetAction.TRAVEL -> TravelLock.toggle(context)
+            GlanceWidgetAction.SAVER -> BatterySaverOneTap.toggle(context)
             else -> SoundMaxWidget.applySuggested(context)
         }
         SoundMaxGlanceWidget().update(context, glanceId)

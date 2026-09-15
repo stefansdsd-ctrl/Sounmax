@@ -1,6 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 42 (software, deze commit)
+## Batch 43 (software, deze commit)
+- Home-chip **Avond**: thuisavond/slaap + nacht-volume
+- Home-chip **Accu**: ANC uit + 50% volume-cap
+- Home-chip **Reis** (snelkoppeling TravelLock)
+- Glance: Avond / Reis / Accu
+- Zoek-headset: stereo L880/R1320 via AudioTrack, ToneGenerator-fallback
+
+## Batch 42 (software)
 - Home-chip **Focus**: 25/45/90 min cycle, deep-work + DND
 - Home-chip **Sport**: gym-profiel + ANC adaptive
 - Glance: Focus / Sport

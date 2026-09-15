@@ -15,12 +15,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.media.BatterySaverOneTap
 import com.example.media.EarRestOneTap
+import com.example.media.EveningWindDownOneTap
 import com.example.media.FindHeadset
 import com.example.media.FocusSession
 import com.example.media.MorningBoostOneTap
 import com.example.media.NightModeOneTap
 import com.example.media.OneTapProfiles
+import com.example.media.TravelLock
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -107,6 +110,29 @@ fun NightModeBar() {
                 label = { Text("Sport", fontSize = 11.sp, maxLines = 1) },
                 colors = colors,
                 modifier = Modifier.testTag("sport_home_chip")
+            )
+            FilterChip(
+                selected = false,
+                onClick = {
+                    Toast.makeText(context, EveningWindDownOneTap.apply(context), Toast.LENGTH_SHORT).show()
+                },
+                label = { Text("Avond", fontSize = 11.sp, maxLines = 1) },
+                colors = colors,
+                modifier = Modifier.testTag("evening_winddown_chip")
+            )
+            FilterChip(
+                selected = BatterySaverOneTap.isOn(context),
+                onClick = { BatterySaverOneTap.toggle(context) },
+                label = { Text("Accu", fontSize = 11.sp, maxLines = 1) },
+                colors = colors,
+                modifier = Modifier.testTag("battery_saver_chip")
+            )
+            FilterChip(
+                selected = TravelLock.isOn(context),
+                onClick = { TravelLock.toggle(context) },
+                label = { Text("Reis", fontSize = 11.sp, maxLines = 1) },
+                colors = colors,
+                modifier = Modifier.testTag("travel_home_chip")
             )
         }
     }
