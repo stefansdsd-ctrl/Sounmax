@@ -16,7 +16,8 @@ class FindHeadsetHelper {
         val sampleRate = 44100
         val samples = (sampleRate * durationMs / 1000).coerceAtMost(sampleRate * 20)
         val stereo = ShortArray(samples * 2)
-        val beepHz = 880.0
+        val beepHzA = 880.0
+        val beepHzB = 1320.0
         val beepLen = sampleRate / 4
         val gap = sampleRate / 6
         var i = 0
@@ -29,7 +30,8 @@ class FindHeadsetHelper {
                     s > burst - 200 -> (burst - s) / 200f
                     else -> 1f
                 }
-                val v = (sin(2.0 * Math.PI * beepHz * s / sampleRate) * 0.55 * env * Short.MAX_VALUE).toInt()
+                val hz = if (left) beepHzA else beepHzB
+                val v = (sin(2.0 * Math.PI * hz * s / sampleRate) * 0.62 * env * Short.MAX_VALUE).toInt()
                     .coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
                 val idx = (i + s) * 2
                 if (left) {
