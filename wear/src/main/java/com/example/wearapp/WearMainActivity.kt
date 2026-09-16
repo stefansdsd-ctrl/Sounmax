@@ -106,6 +106,25 @@ class WearMainActivity : ComponentActivity() {
                         }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_COLLEGE) } }) {
+                            Text("College")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_MUSEUM) } }) {
+                            Text("Museum")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_BEACH) } }) {
+                            Text("Strand")
+                        }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_YOGA) } }) {
+                            Text("Yoga")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_OFF) } }) {
+                            Text("Uit")
+                        }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
                             Text("ANC ${ancLabel(status.anc)}")
                         }
