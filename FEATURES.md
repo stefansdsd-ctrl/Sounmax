@@ -1,24 +1,17 @@
 # Sounmax — volgende features
 
-## Batch 56 (software, deze commit)
-- Home-chips **Bus / Supermarkt / Thuiswerk / Tuin / Zwembad / Sauna** écht in de balk
-- Home-chips **Park / Kerk / Tentamen / Kapper**
+## Batch 57 (software, deze commit)
+- Home-chips Bus / AH / WFH / Tuin / Zwembad / Sauna écht in de balk
+- Home-chips Park / Kerk / Tentamen / Kapper / Tandarts / Hardlopen
 - Chip-zoekveld op Home
-- Alias-scenes: supermarkt, thuiswerk, tuin, zwembad + apotheek / tramhalte / pakketpunt / borrel
-- Wear: Bus, WFH, AH, Tuin, Sauna, Park, Toets
+- Alias-scenes: thuiswerk, supermarkt, tuin, zwembad, hardlopen
+- Wear: Bus, WFH, Park, Toets, Loop, Sauna
 - WearBridge + OneTap-profielen voor alle nieuwe chips
 
-## Batch 55 (software)
-- Home-chips **Bus / Supermarkt / Thuiswerk / Tuin / Zwembad / Sauna**
-- Wear: Bus, WFH, AH, Tuin, Bad, Sauna
-- Scenes: bus, supermarkt, thuiswerk, tuin, zwembad, sauna
-
-## Batch 54 (software)
-- Home-chips **College / Museum / Bouw / Uit** nu écht in ContextChipsBar
-- Home-chip **Strand**: wind-guard + zacht
-- Home-chip **Videocall**: stem-EQ + ambient
-- Home-chip **Yoga**: zacht + ruim, veilig volume
-- Wear: College / Museum / Strand / Yoga / Uit
+## Batch 56 (software)
+- Home-chips Bus / Supermarkt / Thuiswerk / Tuin / Zwembad / Sauna
+- Wear: Bus, WFH, AH, Tuin, Sauna, Park, Toets
+- Alias-scenes + OneTap
 
 ## Nog te bouwen
 - Echte GATT find-headset piep na TAH6519-dump
