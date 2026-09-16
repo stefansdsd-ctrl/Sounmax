@@ -82,6 +82,60 @@ object YogaOneTap {
     }
 }
 
+object BusOneTap {
+    const val KEY_ON = "bus_chip_on"
+    fun isOn(c: Context) = chipOn(c, KEY_ON)
+    fun toggle(c: Context) {
+        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Bus uit", Toast.LENGTH_SHORT).show(); return }
+        activate(c, KEY_ON, "bus", AncMode.ADAPTIVE, "bus", "Bus · ANC + omroep")
+    }
+}
+
+object MarketOneTap {
+    const val KEY_ON = "market_chip_on"
+    fun isOn(c: Context) = chipOn(c, KEY_ON)
+    fun toggle(c: Context) {
+        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Supermarkt uit", Toast.LENGTH_SHORT).show(); return }
+        activate(c, KEY_ON, "supermarkt", AncMode.AMBIENT, "market", "Supermarkt · ambient")
+    }
+}
+
+object WfhOneTap {
+    const val KEY_ON = "wfh_chip_on"
+    fun isOn(c: Context) = chipOn(c, KEY_ON)
+    fun toggle(c: Context) {
+        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Thuiswerk uit", Toast.LENGTH_SHORT).show(); return }
+        activate(c, KEY_ON, "thuiswerk", AncMode.ADAPTIVE, "wfh", "Thuiswerk · focus")
+    }
+}
+
+object GardenOneTap {
+    const val KEY_ON = "garden_chip_on"
+    fun isOn(c: Context) = chipOn(c, KEY_ON)
+    fun toggle(c: Context) {
+        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Tuin uit", Toast.LENGTH_SHORT).show(); return }
+        activate(c, KEY_ON, "tuin", AncMode.WIND_GUARD, "garden", "Tuin · windfilter")
+    }
+}
+
+object PoolOneTap {
+    const val KEY_ON = "pool_chip_on"
+    fun isOn(c: Context) = chipOn(c, KEY_ON)
+    fun toggle(c: Context) {
+        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Zwembad uit", Toast.LENGTH_SHORT).show(); return }
+        activate(c, KEY_ON, "zwembad", AncMode.WIND_GUARD, "pool", "Zwembad · wind + zacht")
+    }
+}
+
+object SaunaOneTap {
+    const val KEY_ON = "sauna_chip_on"
+    fun isOn(c: Context) = chipOn(c, KEY_ON)
+    fun toggle(c: Context) {
+        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Sauna uit", Toast.LENGTH_SHORT).show(); return }
+        activate(c, KEY_ON, "sauna", AncMode.OFF, "sauna", "Sauna · zacht + stil")
+    }
+}
+
 object OffOneTap {
     private val CHIP_KEYS = listOf(
         "call_chip_on", "podcast_chip_on", "flight_chip_on", "game_chip_on", "movie_chip_on",
@@ -90,7 +144,9 @@ object OffOneTap {
         "meeting_chip_on", "bike_chip_on", "shop_chip_on", "kids_chip_on", "train_chip_on",
         "car_chip_on", "metro_chip_on", "concert_chip_on", "restaurant_chip_on",
         CollegeOneTap.KEY_ON, MuseumOneTap.KEY_ON, BuildOneTap.KEY_ON,
-        BeachOneTap.KEY_ON, ZoomOneTap.KEY_ON, YogaOneTap.KEY_ON
+        BeachOneTap.KEY_ON, ZoomOneTap.KEY_ON, YogaOneTap.KEY_ON,
+        BusOneTap.KEY_ON, MarketOneTap.KEY_ON, WfhOneTap.KEY_ON,
+        GardenOneTap.KEY_ON, PoolOneTap.KEY_ON, SaunaOneTap.KEY_ON
     )
 
     fun toggle(context: Context) {
