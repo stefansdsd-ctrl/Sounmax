@@ -129,6 +129,13 @@ object WearBridge {
             "metro" -> com.example.media.MetroOneTap.toggle(context)
             "concert" -> com.example.media.ConcertOneTap.toggle(context)
             "restaurant", "eten" -> com.example.media.RestaurantOneTap.toggle(context)
+            "college" -> com.example.media.CollegeOneTap.toggle(context)
+            "museum" -> com.example.media.MuseumOneTap.toggle(context)
+            "build", "bouw" -> com.example.media.BuildOneTap.toggle(context)
+            "beach", "strand" -> com.example.media.BeachOneTap.toggle(context)
+            "zoom", "videocall" -> com.example.media.ZoomOneTap.toggle(context)
+            "yoga" -> com.example.media.YogaOneTap.toggle(context)
+            "off", "uit" -> com.example.media.OffOneTap.toggle(context)
             else -> applyFav(context, raw)
         }
     }
