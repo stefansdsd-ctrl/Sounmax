@@ -56,4 +56,8 @@ object WearPaths {
     const val CMD_ONE_TAP_LIBRARY = "one_tap:library"
     const val CMD_ONE_TAP_CAFE = "one_tap:cafe"
     const val CMD_ONE_TAP_MEETING = "one_tap:meeting"
+    const val CMD_ONE_TAP_BIKE = "one_tap:bike"
+    const val CMD_ONE_TAP_SHOP = "one_tap:shop"
+    const val CMD_ONE_TAP_KIDS = "one_tap:kids"
+    const val CMD_ONE_TAP_TRAIN = "one_tap:train"
 }
