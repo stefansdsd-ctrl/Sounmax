@@ -43,6 +43,10 @@ object OneTapProfiles {
         Profile("cafe", "Café", "koffietent", AncMode.AMBIENT, 60, "Dag"),
         Profile("shop", "Winkelen", "mall", AncMode.AMBIENT, 60, "Dag"),
         Profile("kids", "Kids", "thuiskids", AncMode.AMBIENT, 45, "Dag"),
+        Profile("car", "Auto", "car", AncMode.WIND_GUARD, 70, "Onderweg"),
+        Profile("metro", "Metro", "metro", AncMode.STRONG, 70, "Onderweg"),
+        Profile("concert", "Concert", "concert", AncMode.ADAPTIVE, 80, "Media"),
+        Profile("restaurant", "Eten", "restaurant", AncMode.AMBIENT, 55, "Dag"),
         Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
 
