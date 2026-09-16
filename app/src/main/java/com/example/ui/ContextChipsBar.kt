@@ -22,11 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.media.CallOneTap
 import com.example.media.FlightOneTap
+import com.example.media.FocusOneTap
 import com.example.media.GameOneTap
+import com.example.media.GymOneTap
 import com.example.media.KitchenOneTap
 import com.example.media.MovieOneTap
 import com.example.media.PodcastOneTap
 import com.example.media.RainOneTap
+import com.example.media.SleepOneTap
 import com.example.media.WalkOneTap
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
@@ -44,6 +47,9 @@ fun ContextChipsBar() {
     var rainOn by remember { mutableStateOf(RainOneTap.isOn(context)) }
     var kitchenOn by remember { mutableStateOf(KitchenOneTap.isOn(context)) }
     var walkOn by remember { mutableStateOf(WalkOneTap.isOn(context)) }
+    var focusOn by remember { mutableStateOf(FocusOneTap.isOn(context)) }
+    var gymOn by remember { mutableStateOf(GymOneTap.isOn(context)) }
+    var sleepOn by remember { mutableStateOf(SleepOneTap.isOn(context)) }
 
     Row(
         modifier = Modifier
@@ -77,6 +83,15 @@ fun ContextChipsBar() {
         }
         Chip(label = if (walkOn) "Wandelen aan" else "Wandelen", selected = walkOn, tag = "walk_chip") {
             WalkOneTap.toggle(context); walkOn = WalkOneTap.isOn(context)
+        }
+        Chip(label = if (focusOn) "Focus aan" else "Focus", selected = focusOn, tag = "focus_chip") {
+            FocusOneTap.toggle(context); focusOn = FocusOneTap.isOn(context)
+        }
+        Chip(label = if (gymOn) "Sport aan" else "Sport", selected = gymOn, tag = "gym_chip") {
+            GymOneTap.toggle(context); gymOn = GymOneTap.isOn(context)
+        }
+        Chip(label = if (sleepOn) "Slaap aan" else "Slaap", selected = sleepOn, tag = "sleep_chip") {
+            SleepOneTap.toggle(context); sleepOn = SleepOneTap.isOn(context)
         }
     }
 }
