@@ -56,5 +56,7 @@ object WearPaths {
     const val CMD_ONE_TAP_COMMUTE = "one_tap:commute"
     const val CMD_ONE_TAP_OFFICE = "one_tap:office"
     const val CMD_ONE_TAP_LIBRARY = "one_tap:library"
+    const val CMD_ONE_TAP_CAFE = "one_tap:cafe"
+    const val CMD_ONE_TAP_MEETING = "one_tap:meeting"
     const val CMD_FAV_PREFIX = "fav:"
 }
