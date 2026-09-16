@@ -52,6 +52,10 @@ object NewNlScenes {
         ListeningScene("apotheek", "Apotheek", "💊", "Naam-oproep + zacht, veilig", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("garage", "Garage / APK", "🔧", "Max ANC tegen machines", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("hond", "Hond uitlaten", "🐕", "Alert buiten + wind, veilig", "Outdoor Wind Guard", AncMode.WIND_GUARD, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
-        ListeningScene("pont", "Pont / veer", "⛴", "Motor-ANC + wind", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330)
+        ListeningScene("pont", "Pont / veer", "⛴", "Motor-ANC + wind", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("bioscoop", "Bioscoop", "🎬", "Zacht + ruim, veilig volume", "Classical & Live Concert 3D", AncMode.OFF, safeVolume = true),
+        ListeningScene("werkplaats", "Werkplaats", "🛠", "Max ANC tegen machines", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("vliegtuiglang", "Lange vlucht", "🛩", "Max ANC + veilig volume", "Night Chill & Lo-Fi Relax", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("wachtruimte", "Wachtruimte", "🪑", "Ambient + naam-oproep, veilig", "Podcast Voice", AncMode.AMBIENT, safeVolume = true)
     )
 }
