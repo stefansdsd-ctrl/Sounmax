@@ -50,5 +50,8 @@ object WearPaths {
     const val CMD_ONE_TAP_RAIN = "one_tap:rain"
     const val CMD_ONE_TAP_KITCHEN = "one_tap:kitchen"
     const val CMD_ONE_TAP_WALK = "one_tap:walk"
+    const val CMD_ONE_TAP_FOCUS = "one_tap:focus"
+    const val CMD_ONE_TAP_GYM = "one_tap:gym"
+    const val CMD_ONE_TAP_SLEEP = "one_tap:sleep"
     const val CMD_FAV_PREFIX = "fav:"
 }
