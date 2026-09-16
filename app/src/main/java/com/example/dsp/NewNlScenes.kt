@@ -3,7 +3,7 @@ package com.example.dsp
 /** Recente NL-scenes, gemerged via SceneLookup. */
 object NewNlScenes {
     val ALL = listOf(
-        ListeningScene("bedpodcast", "Podcast in bed", "🛌", "Zacht stem-EQ + slaaptimer-vriendelijk", "Podcast Voice", AncMode.OFF, safeVolume = true),
+        ListeningScene("bedpodcast", "Podcast in bed", "😴", "Zacht stem-EQ + slaaptimer-vriendelijk", "Podcast Voice", AncMode.OFF, safeVolume = true),
         ListeningScene("spits", "Spits", "🚦", "Max ANC + stemmen in volle OV", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("thuisavond", "Thuisavond", "💿", "Zacht + ruimtelijk, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("nachttrein", "Nachttrein", "🚆", "Sterke ANC, veilig volume in stille coupé", "Night Chill & Lo-Fi Relax", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
@@ -40,6 +40,9 @@ object NewNlScenes {
         ListeningScene("eenoor", "Eén oor / fiets", "👂", "Mono-mix, verkeer hoorbaar, veilig volume", "Outdoor Wind Guard", AncMode.AMBIENT, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("college", "College / collegezaal", "🎓", "Stem helder, zacht, alert op docent", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("gamen", "Gamen", "🎮", "Breed stereo + lichte ANC", "Philips TAH6519 Pro ANC", AncMode.ADAPTIVE, preferredLdac = LdacQualityMode.BALANCED_660),
-        ListeningScene("nachtwerk", "Nachtwerk", "🌙", "Focus + veilig volume in stille uren", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true)
+        ListeningScene("nachtwerk", "Nachtwerk", "🌙", "Focus + veilig volume in stille uren", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
+        ListeningScene("strand", "Strand", "🌺", "Windfilter + zacht, veilig volume", "Outdoor Wind Guard", AncMode.WIND_GUARD, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("zoom", "Videocall", "💻", "Stemhelder, ambient voor kamer", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("yoga", "Yoga / stretch", "🧘", "Zacht, ruim, weinig bass", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true)
     )
 }
