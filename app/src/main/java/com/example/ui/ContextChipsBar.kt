@@ -36,6 +36,14 @@ import com.example.media.OfficeOneTap
 import com.example.media.LibraryOneTap
 import com.example.media.CafeOneTap
 import com.example.media.MeetingOneTap
+import com.example.media.BikeOneTap
+import com.example.media.ShopOneTap
+import com.example.media.KidsOneTap
+import com.example.media.TrainOneTap
+import com.example.media.CarOneTap
+import com.example.media.MetroOneTap
+import com.example.media.ConcertOneTap
+import com.example.media.RestaurantOneTap
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -60,6 +68,14 @@ fun ContextChipsBar() {
     var libraryOn by remember { mutableStateOf(LibraryOneTap.isOn(context)) }
     var cafeOn by remember { mutableStateOf(CafeOneTap.isOn(context)) }
     var meetingOn by remember { mutableStateOf(MeetingOneTap.isOn(context)) }
+    var bikeOn by remember { mutableStateOf(BikeOneTap.isOn(context)) }
+    var shopOn by remember { mutableStateOf(ShopOneTap.isOn(context)) }
+    var kidsOn by remember { mutableStateOf(KidsOneTap.isOn(context)) }
+    var trainOn by remember { mutableStateOf(TrainOneTap.isOn(context)) }
+    var carOn by remember { mutableStateOf(CarOneTap.isOn(context)) }
+    var metroOn by remember { mutableStateOf(MetroOneTap.isOn(context)) }
+    var concertOn by remember { mutableStateOf(ConcertOneTap.isOn(context)) }
+    var restaurantOn by remember { mutableStateOf(RestaurantOneTap.isOn(context)) }
 
     Row(
         modifier = Modifier
@@ -117,6 +133,30 @@ fun ContextChipsBar() {
         }
         Chip(label = if (meetingOn) "Vergadering aan" else "Vergadering", selected = meetingOn, tag = "meeting_chip") {
             MeetingOneTap.toggle(context); meetingOn = MeetingOneTap.isOn(context)
+        }
+        Chip(label = if (bikeOn) "Fiets aan" else "Fiets", selected = bikeOn, tag = "bike_chip") {
+            BikeOneTap.toggle(context); bikeOn = BikeOneTap.isOn(context)
+        }
+        Chip(label = if (shopOn) "Winkelen aan" else "Winkelen", selected = shopOn, tag = "shop_chip") {
+            ShopOneTap.toggle(context); shopOn = ShopOneTap.isOn(context)
+        }
+        Chip(label = if (kidsOn) "Kids aan" else "Kids", selected = kidsOn, tag = "kids_chip") {
+            KidsOneTap.toggle(context); kidsOn = KidsOneTap.isOn(context)
+        }
+        Chip(label = if (trainOn) "Trein aan" else "Trein", selected = trainOn, tag = "train_chip") {
+            TrainOneTap.toggle(context); trainOn = TrainOneTap.isOn(context)
+        }
+        Chip(label = if (carOn) "Auto aan" else "Auto", selected = carOn, tag = "car_chip") {
+            CarOneTap.toggle(context); carOn = CarOneTap.isOn(context)
+        }
+        Chip(label = if (metroOn) "Metro aan" else "Metro", selected = metroOn, tag = "metro_chip") {
+            MetroOneTap.toggle(context); metroOn = MetroOneTap.isOn(context)
+        }
+        Chip(label = if (concertOn) "Concert aan" else "Concert", selected = concertOn, tag = "concert_chip") {
+            ConcertOneTap.toggle(context); concertOn = ConcertOneTap.isOn(context)
+        }
+        Chip(label = if (restaurantOn) "Eten aan" else "Eten", selected = restaurantOn, tag = "restaurant_chip") {
+            RestaurantOneTap.toggle(context); restaurantOn = RestaurantOneTap.isOn(context)
         }
     }
 }

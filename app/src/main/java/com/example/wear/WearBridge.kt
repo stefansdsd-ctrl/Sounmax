@@ -121,6 +121,14 @@ object WearBridge {
             "library", "bieb" -> com.example.media.LibraryOneTap.toggle(context)
             "cafe", "koffie" -> com.example.media.CafeOneTap.toggle(context)
             "meeting", "vergadering" -> com.example.media.MeetingOneTap.toggle(context)
+            "bike", "fiets" -> com.example.media.BikeOneTap.toggle(context)
+            "shop", "winkel", "winkelen" -> com.example.media.ShopOneTap.toggle(context)
+            "kids" -> com.example.media.KidsOneTap.toggle(context)
+            "train", "trein" -> com.example.media.TrainOneTap.toggle(context)
+            "car", "auto" -> com.example.media.CarOneTap.toggle(context)
+            "metro" -> com.example.media.MetroOneTap.toggle(context)
+            "concert" -> com.example.media.ConcertOneTap.toggle(context)
+            "restaurant", "eten" -> com.example.media.RestaurantOneTap.toggle(context)
             else -> applyFav(context, raw)
         }
     }
