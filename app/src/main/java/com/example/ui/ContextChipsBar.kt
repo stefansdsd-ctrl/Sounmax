@@ -34,6 +34,8 @@ import com.example.media.WalkOneTap
 import com.example.media.CommuteOneTap
 import com.example.media.OfficeOneTap
 import com.example.media.LibraryOneTap
+import com.example.media.CafeOneTap
+import com.example.media.MeetingOneTap
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -56,6 +58,8 @@ fun ContextChipsBar() {
     var commuteOn by remember { mutableStateOf(CommuteOneTap.isOn(context)) }
     var officeOn by remember { mutableStateOf(OfficeOneTap.isOn(context)) }
     var libraryOn by remember { mutableStateOf(LibraryOneTap.isOn(context)) }
+    var cafeOn by remember { mutableStateOf(CafeOneTap.isOn(context)) }
+    var meetingOn by remember { mutableStateOf(MeetingOneTap.isOn(context)) }
 
     Row(
         modifier = Modifier
@@ -107,6 +111,12 @@ fun ContextChipsBar() {
         }
         Chip(label = if (libraryOn) "Bieb aan" else "Bieb", selected = libraryOn, tag = "library_chip") {
             LibraryOneTap.toggle(context); libraryOn = LibraryOneTap.isOn(context)
+        }
+        Chip(label = if (cafeOn) "Café aan" else "Café", selected = cafeOn, tag = "cafe_chip") {
+            CafeOneTap.toggle(context); cafeOn = CafeOneTap.isOn(context)
+        }
+        Chip(label = if (meetingOn) "Vergadering aan" else "Vergadering", selected = meetingOn, tag = "meeting_chip") {
+            MeetingOneTap.toggle(context); meetingOn = MeetingOneTap.isOn(context)
         }
     }
 }
