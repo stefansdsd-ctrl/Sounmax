@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 54 (software, deze commit)
+## Batch 55 (software, deze commit)
+- Home-chips **Bus / Supermarkt / Thuiswerk / Tuin / Zwembad / Sauna**
+- Wear: Bus, WFH, AH, Tuin, Bad, Sauna
+- Scenes: bus, supermarkt, thuiswerk, tuin, zwembad, sauna
+
+## Batch 54 (software)
 - Home-chips **College / Museum / Bouw / Uit** nu écht in ContextChipsBar
 - Home-chip **Strand**: wind-guard + zacht
 - Home-chip **Videocall**: stem-EQ + ambient
