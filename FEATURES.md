@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 59 (software, deze commit)
+## Batch 60 (software, deze commit)
+- Home-chips + zoekveld: Bus, AH, WFH, Tuin, Zwembad, Sauna, Tram, Park, Tentamen, Festival, Apotheek, Garage, Hond, Pont, Bioscoop, Werkplaats, Lange vlucht, Wachtruimte, NS-storing, Baby slaapt
+- Nieuwe scenes: bus, tram, sauna, park, tentamen, festival, nsstoring, babyslaap
+- OneTapProfiles + WearBridge aliases voor alle nieuwe chips
+
+## Batch 59 (software)
 - GATT find-headset piep via RealAncController (vendor-payloads + geleerde char)
 - Soft L/R-piep blijft fallback als GATT faalt
 - Nieuwe scenes: Bioscoop / Werkplaats / Lange vlucht / Wachtruimte
