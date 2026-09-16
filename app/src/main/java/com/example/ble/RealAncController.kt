@@ -61,10 +61,6 @@ object RealAncController {
         AncMode.STRONG, AncMode.ADAPTIVE, AncMode.WIND_GUARD -> HwMode.ANC
     }
 
-    /**
-     * Zet ANC: probeer hardware write, altijd soft-EQ erna.
-     * @return true als hardware-write gestart is
-     */
     fun apply(context: Context, mode: AncMode, noiseIntensity: Float = 0.5f): Boolean {
         val hw = hwModeFor(mode)
         val g = gatt
@@ -135,6 +131,44 @@ object RealAncController {
                 for (payload in payloadsFor(hw)) {
                     if (writeBytes(g, c, payload)) {
                         learnSuccess(context, svc.uuid.toString(), c.uuid.toString(), hw, payload)
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    /** Probeert een vendor find-device piep via GATT. Soft-piep blijft fallback. */
+    fun findBeep(): Boolean {
+        val g = gatt ?: return false
+        val payloads = listOf(
+            byteArrayOf(0x03),
+            byteArrayOf(0x04),
+            byteArrayOf(0x05),
+            byteArrayOf(0x10, 0x03),
+            byteArrayOf(0x01, 0x03),
+            byteArrayOf(0xFE.toByte(), 0x03),
+            byteArrayOf(0x55, 0x03),
+            byteArrayOf(0xAA.toByte(), 0x01),
+        )
+        val candidate = VendorAncProbe.lastAncCandidate
+        if (candidate != null) {
+            for (pl in payloads) {
+                if (writeBytes(g, candidate, pl)) {
+                    lastMessage = "GATT find-beep"
+                    return true
+                }
+            }
+        }
+        for (svc in g.services.orEmpty()) {
+            val su = svc.uuid.toString().lowercase()
+            if (!su.startsWith("0000fe") && !su.startsWith("0000fd") && !su.startsWith("0000ff")) continue
+            for (c in svc.characteristics.orEmpty()) {
+                if (!canWrite(c)) continue
+                for (pl in payloads) {
+                    if (writeBytes(g, c, pl)) {
+                        lastMessage = "GATT find-beep ${c.uuid}"
                         return true
                     }
                 }
