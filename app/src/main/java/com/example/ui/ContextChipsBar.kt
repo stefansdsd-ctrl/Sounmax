@@ -44,6 +44,13 @@ import com.example.media.CarOneTap
 import com.example.media.MetroOneTap
 import com.example.media.ConcertOneTap
 import com.example.media.RestaurantOneTap
+import com.example.media.CollegeOneTap
+import com.example.media.MuseumOneTap
+import com.example.media.BuildOneTap
+import com.example.media.BeachOneTap
+import com.example.media.ZoomOneTap
+import com.example.media.YogaOneTap
+import com.example.media.OffOneTap
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -76,6 +83,12 @@ fun ContextChipsBar() {
     var metroOn by remember { mutableStateOf(MetroOneTap.isOn(context)) }
     var concertOn by remember { mutableStateOf(ConcertOneTap.isOn(context)) }
     var restaurantOn by remember { mutableStateOf(RestaurantOneTap.isOn(context)) }
+    var collegeOn by remember { mutableStateOf(CollegeOneTap.isOn(context)) }
+    var museumOn by remember { mutableStateOf(MuseumOneTap.isOn(context)) }
+    var buildOn by remember { mutableStateOf(BuildOneTap.isOn(context)) }
+    var beachOn by remember { mutableStateOf(BeachOneTap.isOn(context)) }
+    var zoomOn by remember { mutableStateOf(ZoomOneTap.isOn(context)) }
+    var yogaOn by remember { mutableStateOf(YogaOneTap.isOn(context)) }
 
     Row(
         modifier = Modifier
@@ -157,6 +170,33 @@ fun ContextChipsBar() {
         }
         Chip(label = if (restaurantOn) "Eten aan" else "Eten", selected = restaurantOn, tag = "restaurant_chip") {
             RestaurantOneTap.toggle(context); restaurantOn = RestaurantOneTap.isOn(context)
+        }
+        Chip(label = if (collegeOn) "College aan" else "College", selected = collegeOn, tag = "college_chip") {
+            CollegeOneTap.toggle(context); collegeOn = CollegeOneTap.isOn(context)
+        }
+        Chip(label = if (museumOn) "Museum aan" else "Museum", selected = museumOn, tag = "museum_chip") {
+            MuseumOneTap.toggle(context); museumOn = MuseumOneTap.isOn(context)
+        }
+        Chip(label = if (buildOn) "Bouw aan" else "Bouw", selected = buildOn, tag = "build_chip") {
+            BuildOneTap.toggle(context); buildOn = BuildOneTap.isOn(context)
+        }
+        Chip(label = if (beachOn) "Strand aan" else "Strand", selected = beachOn, tag = "beach_chip") {
+            BeachOneTap.toggle(context); beachOn = BeachOneTap.isOn(context)
+        }
+        Chip(label = if (zoomOn) "Call aan" else "Videocall", selected = zoomOn, tag = "zoom_chip") {
+            ZoomOneTap.toggle(context); zoomOn = ZoomOneTap.isOn(context)
+        }
+        Chip(label = if (yogaOn) "Yoga aan" else "Yoga", selected = yogaOn, tag = "yoga_chip") {
+            YogaOneTap.toggle(context); yogaOn = YogaOneTap.isOn(context)
+        }
+        Chip(label = "Uit", selected = false, tag = "off_chip") {
+            OffOneTap.toggle(context)
+            collegeOn = CollegeOneTap.isOn(context)
+            museumOn = MuseumOneTap.isOn(context)
+            buildOn = BuildOneTap.isOn(context)
+            beachOn = BeachOneTap.isOn(context)
+            zoomOn = ZoomOneTap.isOn(context)
+            yogaOn = YogaOneTap.isOn(context)
         }
     }
 }
