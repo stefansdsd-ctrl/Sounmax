@@ -50,6 +50,9 @@ object OneTapProfiles {
         Profile("college", "College", "college", AncMode.AMBIENT, 50, "Werk"),
         Profile("museum", "Museum", "museum", AncMode.OFF, 40, "Dag"),
         Profile("build", "Bouw", "bouw", AncMode.STRONG, 70, "Onderweg"),
+        Profile("beach", "Strand", "strand", AncMode.WIND_GUARD, 55, "Sport"),
+        Profile("zoom", "Videocall", "zoom", AncMode.AMBIENT, 50, "Werk"),
+        Profile("yoga", "Yoga", "yoga", AncMode.OFF, 40, "Sport"),
         Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
 
