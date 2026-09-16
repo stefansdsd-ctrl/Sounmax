@@ -5,6 +5,7 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Handler
 import android.os.Looper
+import com.example.ble.RealAncController
 
 /**
  * Speelt een luid chirp-patroon om de koptelefoon te vinden.
@@ -33,6 +34,7 @@ object FindHeadset {
             h.postDelayed({ tick() }, 450)
         }
         tick()
+        RealAncController.findBeep()
         FindHeadsetHelper.ping()
         h.postDelayed({
             am.setStreamVolume(AudioManager.STREAM_MUSIC, old, 0)
