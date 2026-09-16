@@ -52,4 +52,6 @@ object WearPaths {
     const val CMD_ONE_TAP_WALK = "one_tap:walk"
     const val CMD_ONE_TAP_GYM = "one_tap:gym"
     const val CMD_ONE_TAP_OFF = "one_tap:off"
+    const val CMD_ONE_TAP_OFFICE = "one_tap:office"
+    const val CMD_ONE_TAP_LIBRARY = "one_tap:library"
 }
