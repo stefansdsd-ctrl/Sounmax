@@ -95,6 +95,17 @@ class WearMainActivity : ComponentActivity() {
                         }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CAR) } }) {
+                            Text("Auto")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_METRO) } }) {
+                            Text("Metro")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CONCERT) } }) {
+                            Text("Live")
+                        }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
                             Text("ANC ${ancLabel(status.anc)}")
                         }
