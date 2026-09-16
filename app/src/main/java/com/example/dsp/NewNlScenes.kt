@@ -43,6 +43,15 @@ object NewNlScenes {
         ListeningScene("nachtwerk", "Nachtwerk", "🌙", "Focus + veilig volume in stille uren", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
         ListeningScene("strand", "Strand", "🌺", "Windfilter + zacht, veilig volume", "Outdoor Wind Guard", AncMode.WIND_GUARD, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("zoom", "Videocall", "💻", "Stemhelder, ambient voor kamer", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
-        ListeningScene("yoga", "Yoga / stretch", "🧘", "Zacht, ruim, weinig bass", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true)
+        ListeningScene("yoga", "Yoga / stretch", "🧘", "Zacht, ruim, weinig bass", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
+        ListeningScene("thuiswerk", "Thuiswerk", "🏠", "Focus + lichte ANC, veilig", "Flat Studio Monitor (0 dB)", AncMode.ADAPTIVE, safeVolume = true),
+        ListeningScene("supermarkt", "Supermarkt", "🛒", "Ambient + omroep, veilig", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("tuin", "Tuin", "🌿", "Windfilter + buiten alert", "Outdoor Wind Guard", AncMode.WIND_GUARD, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("zwembad", "Zwembad", "🏊", "Wind + water, zacht, veilig", "Outdoor Wind Guard", AncMode.WIND_GUARD, safeVolume = true),
+        ListeningScene("hardlopen", "Hardlopen", "🏃", "Punch + wind + verkeer", "Electronic & Festival EDM", AncMode.WIND_GUARD, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("apotheek", "Apotheek", "💊", "Naam-oproep + zacht, veilig", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("garage", "Garage / APK", "🔧", "Max ANC tegen machines", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("hond", "Hond uitlaten", "🐕", "Alert buiten + wind, veilig", "Outdoor Wind Guard", AncMode.WIND_GUARD, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("pont", "Pont / veer", "⛴", "Motor-ANC + wind", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330)
     )
 }
