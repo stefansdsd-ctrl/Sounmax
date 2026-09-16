@@ -104,13 +104,25 @@ object WearBridge {
     }
 
     private fun applyOneTap(context: Context, raw: String) {
-        val id = when (raw) {
-            "call", "bel", "talk" -> "call"
-            "podcast" -> "podcast"
-            "plane", "vliegtuig" -> "plane"
-            else -> raw
+        when (raw.lowercase()) {
+            "call", "bel", "talk" -> com.example.media.CallOneTap.toggle(context)
+            "podcast" -> com.example.media.PodcastOneTap.toggle(context)
+            "plane", "vliegtuig", "flight" -> com.example.media.FlightOneTap.toggle(context)
+            "game" -> com.example.media.GameOneTap.toggle(context)
+            "movie", "film" -> com.example.media.MovieOneTap.toggle(context)
+            "rain", "regen" -> com.example.media.RainOneTap.toggle(context)
+            "kitchen", "koken" -> com.example.media.KitchenOneTap.toggle(context)
+            "walk", "wandelen" -> com.example.media.WalkOneTap.toggle(context)
+            "focus" -> com.example.media.FocusOneTap.toggle(context)
+            "gym", "sport" -> com.example.media.GymOneTap.toggle(context)
+            "sleep", "slaap" -> com.example.media.SleepOneTap.toggle(context)
+            "commute", "pendelen" -> com.example.media.CommuteOneTap.toggle(context)
+            "office", "kantoor" -> com.example.media.OfficeOneTap.toggle(context)
+            "library", "bieb" -> com.example.media.LibraryOneTap.toggle(context)
+            "cafe", "koffie" -> com.example.media.CafeOneTap.toggle(context)
+            "meeting", "vergadering" -> com.example.media.MeetingOneTap.toggle(context)
+            else -> applyFav(context, raw)
         }
-        applyFav(context, id)
     }
 
     private fun applyFav(context: Context, id: String) {
