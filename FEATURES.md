@@ -1,20 +1,16 @@
 # Sounmax — volgende features
 
-## Batch 53 (software, deze commit)
-- Home-chip **College**: stem-EQ + ambient, veilig volume
-- Home-chip **Museum**: zacht + ruim (audioguide)
-- Home-chip **Bouw**: max ANC tegen machines
-- Home-chip **Uit**: alle context-chips in één tik uit
-- Wear: college / museum / bouw / uit
-- Zoek-headset: stereo L/R-piep + stop-helper
+## Batch 54 (software, deze commit)
+- Home-chips **College / Museum / Bouw / Uit** nu écht in ContextChipsBar
+- Home-chip **Strand**: wind-guard + zacht
+- Home-chip **Videocall**: stem-EQ + ambient
+- Home-chip **Yoga**: zacht + ruim, veilig volume
+- Wear: College / Museum / Strand / Yoga / Uit
 
-## Batch 52 (software)
-- Home-chip **Auto**: wind-guard + lage latency
-- Home-chip **Metro**: max ANC in tunnels
-- Home-chip **Concert**: live-ruimte + adaptive
-- Home-chip **Eten**: restaurant-transparantie
-- Home: Fiets / Winkelen / Kids / Trein nu écht in ContextChipsBar
-- Wear-rij Auto / Metro / Live
+## Batch 53 (software)
+- Home-chip College / Museum / Bouw / Uit (profiles)
+- Wear college / museum / bouw / uit paden
+- Zoek-headset: stereo L/R-piep + stop-helper
 
 ## Nog te bouwen
 - Echte GATT find-headset piep na TAH6519-dump
