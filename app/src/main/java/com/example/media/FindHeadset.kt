@@ -6,6 +6,10 @@ import android.media.ToneGenerator
 import android.os.Handler
 import android.os.Looper
 
+/**
+ * Speelt een luid chirp-patroon om de koptelefoon te vinden.
+ * Stopt na 20s of via stop().
+ */
 object FindHeadset {
     private var tone: ToneGenerator? = null
     private val h = Handler(Looper.getMainLooper())

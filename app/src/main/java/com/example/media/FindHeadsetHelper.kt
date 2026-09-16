@@ -88,5 +88,8 @@ class FindHeadsetHelper {
         fun ping() {
             shared.start()
         }
+        fun sharedStop() {
+            shared.stop()
+        }
     }
 }
