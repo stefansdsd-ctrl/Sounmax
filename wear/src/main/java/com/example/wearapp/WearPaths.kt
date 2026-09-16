@@ -64,4 +64,8 @@ object WearPaths {
     const val CMD_ONE_TAP_METRO = "one_tap:metro"
     const val CMD_ONE_TAP_CONCERT = "one_tap:concert"
     const val CMD_ONE_TAP_RESTAURANT = "one_tap:restaurant"
+    const val CMD_ONE_TAP_COLLEGE = "one_tap:college"
+    const val CMD_ONE_TAP_MUSEUM = "one_tap:museum"
+    const val CMD_ONE_TAP_BEACH = "one_tap:beach"
+    const val CMD_ONE_TAP_YOGA = "one_tap:yoga"
 }
