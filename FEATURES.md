@@ -1,6 +1,14 @@
 # Sounmax — volgende features
 
-## Batch 51 (software, deze commit)
+## Batch 52 (software, deze commit)
+- Home-chip **Auto**: wind-guard + lage latency
+- Home-chip **Metro**: max ANC in tunnels
+- Home-chip **Concert**: live-ruimte + adaptive
+- Home-chip **Eten**: restaurant-transparantie
+- Home: Fiets / Winkelen / Kids / Trein nu écht in ContextChipsBar
+- Wear-rij Auto / Metro / Live
+
+## Batch 51 (software)
 - Home-chip **Fiets**: wind-guard + veilig volume
 - Home-chip **Winkelen**: mall-transparantie
 - Home-chip **Kids**: thuiskids + veilig volume
