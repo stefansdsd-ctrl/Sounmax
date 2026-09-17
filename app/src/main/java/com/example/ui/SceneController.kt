@@ -30,6 +30,7 @@ import com.example.media.SceneAutomation
 import com.example.media.SceneReason
 import com.example.media.SceneScheduleAdvisor
 import com.example.media.SleepFade
+import com.example.media.BatterySaverHint
 import com.example.media.WeatherSceneHint
 import com.example.widget.SoundMaxWidget
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -168,6 +169,8 @@ class SceneController(private val viewModel: MainViewModel) {
     fun commuteSuggestLabel(): String? = commute.suggestLabel()
     fun applyCommuteSuggestion() { commute.suggestedScene()?.let { applyListeningScene(it) } }
     fun weatherSuggestLabel(): String? = WeatherSceneHint.cachedHint()?.label
+    fun batterySaverLabel(): String? = BatterySaverHint.label(app)
+    fun applyBatterySaver() { BatterySaverHint.scene()?.let { applyListeningScene(it) } }
     fun applyWeatherSuggestion() {
         WeatherSceneHint.cachedHint()?.scene?.let { applyListeningScene(it) }
             ?: WeatherSceneHint.refresh(app)?.scene?.let { applyListeningScene(it) }
