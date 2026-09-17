@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 60 (software, deze commit)
+## Batch 61 (software, deze commit)
+- Scenes: NS-storing, Baby slaapt, Accu laag, Stiltewerk, Stadion live
+- Home-chips + Wear one-taps + Off-reset voor die vijf
+- OneTap-profielen: bus/AH/WFH/tuin/zwembad/sauna + nieuwe vijf
+
+## Batch 60 (software)
 - Home-chips + zoekveld: Bus, AH, WFH, Tuin, Zwembad, Sauna, Tram, Park, Tentamen, Festival, Apotheek, Garage, Hond, Pont, Bioscoop, Werkplaats, Lange vlucht, Wachtruimte, NS-storing, Baby slaapt
 - Nieuwe scenes: bus, tram, sauna, park, tentamen, festival, nsstoring, babyslaap
 - OneTapProfiles + WearBridge aliases voor alle nieuwe chips
