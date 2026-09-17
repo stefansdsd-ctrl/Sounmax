@@ -27,7 +27,8 @@ object AllOffOneTap {
         "tram_chip_on", "bakery_chip_on", "parking_chip_on",
         "exam_chip_on", "laundry_chip_on", "privacyov_chip_on",
         "nachtbus_chip_on", "burenfeest_chip_on", "collegeecho_chip_on", "lekcheck_chip_on", "storm_chip_on", "kermis_chip_on", "partnerslaap_chip_on", "langecall_chip_on",
-        "thuisbios_chip_on", "openkantoor_chip_on", "wachtkamer_chip_on", "afterwork_chip_on", "windfiets_chip_on", "nachtwerk_chip_on", "speeltuin_chip_on", "pomodoro_chip_on"
+        "thuisbios_chip_on", "openkantoor_chip_on", "wachtkamer_chip_on", "afterwork_chip_on", "windfiets_chip_on", "nachtwerk_chip_on", "speeltuin_chip_on", "pomodoro_chip_on",
+        "microbreak_chip_on", "longhaul_chip_on", "voiceisolate_chip_on", "duskride_chip_on", "latefps_chip_on", "softcall_chip_on"
     )
 
     fun clearAll(context: Context) {
