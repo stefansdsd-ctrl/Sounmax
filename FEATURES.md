@@ -1,14 +1,17 @@
 # Sounmax — volgende features
 
-## Batch 62 (software, deze commit)
+## Batch 63 (software, deze commit)
+- ContextChipsBar: zoek + timer + ontbrekende one-taps écht in de balk
+- Scenes: tram, lift, parkeergarage, tentamen, kantoorcall, dakterras
+- SceneAutoOff 15/30/60
+- Wear-aliases
+
+## Batch 62 (software)
 - ContextChipsBar: zoekveld + ontbrekende chips écht in de balk
 - Nieuwe scenes: bus, sauna, scooter, klussen, nachtbus, hybride
 - OneTap + Wear-aliases + Off-reset
 
-## Batch 61 (software)
-- Scenes: NS-storing, Baby slaapt, Accu laag, Stiltewerk, Stadion live
-- Home-chips + Wear one-taps + Off-reset voor die vijf
-
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
 - Find-beep payload finetunen na echte TAH6519 GATT-dump
+- NS-storing / baby / accu-laag chips in dezelfde balk
