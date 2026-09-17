@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.SceneUsage
+import com.example.media.HourSceneSuggest
 import com.example.media.NightVolumeGuard
 import com.example.media.WeatherSceneHint
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -34,6 +35,7 @@ import kotlinx.coroutines.withContext
 fun SmartSuggestBar(sceneController: SceneController) {
     val context = LocalContext.current
     val suggest = remember { SceneUsage.suggestNow(context) }
+    val hourSuggest = remember { if (suggest == null) HourSceneSuggest.suggest(context) else null }
     val commuteLabel = remember { sceneController.commuteSuggestLabel() }
     var holdLabel by remember { mutableStateOf(sceneController.manualHoldLabel()) }
     var weatherLabel by remember { mutableStateOf(sceneController.weatherSuggestLabel()) }
@@ -98,6 +100,17 @@ fun SmartSuggestBar(sceneController: SceneController) {
                     labelColor = ImmersiveLavenderAccent
                 ),
                 modifier = Modifier.testTag("smart_suggest_chip")
+            )
+        }
+        if (hourSuggest != null && suggest == null) {
+            AssistChip(
+                onClick = { sceneController.applyListeningScene(hourSuggest) },
+                label = { Text("Rond nu: ${hourSuggest.name}", fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("hour_suggest_chip")
             )
         }
         FilterChip(
