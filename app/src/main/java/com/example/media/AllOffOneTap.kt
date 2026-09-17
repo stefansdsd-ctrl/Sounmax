@@ -23,7 +23,9 @@ object AllOffOneTap {
         "baby_chip_on", "lowbatt_chip_on",
         "dogwalk_chip_on", "pharmacy_chip_on", "terrace_chip_on",
         "rainbike_chip_on", "ferry_chip_on", "silentwork_chip_on",
-        "stadium_chip_on"
+        "stadium_chip_on",
+        "tram_chip_on", "bakery_chip_on", "parking_chip_on",
+        "exam_chip_on", "laundry_chip_on", "privacyov_chip_on"
     )
 
     fun clearAll(context: Context) {
