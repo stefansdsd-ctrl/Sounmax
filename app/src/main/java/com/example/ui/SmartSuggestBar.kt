@@ -39,6 +39,7 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val commuteLabel = remember { sceneController.commuteSuggestLabel() }
     var holdLabel by remember { mutableStateOf(sceneController.manualHoldLabel()) }
     var weatherLabel by remember { mutableStateOf(sceneController.weatherSuggestLabel()) }
+    val batteryLabel = remember { sceneController.batterySaverLabel() }
     LaunchedEffect(Unit) {
         val hint = withContext(Dispatchers.IO) { WeatherSceneHint.refresh(context) }
         weatherLabel = hint?.label
@@ -78,6 +79,17 @@ fun SmartSuggestBar(sceneController: SceneController) {
                     labelColor = ImmersiveLavenderAccent
                 ),
                 modifier = Modifier.testTag("commute_suggest_chip")
+            )
+        }
+        if (batteryLabel != null) {
+            AssistChip(
+                onClick = { sceneController.applyBatterySaver() },
+                label = { Text(batteryLabel, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("battery_saver_chip")
             )
         }
         if (weatherLabel != null) {
