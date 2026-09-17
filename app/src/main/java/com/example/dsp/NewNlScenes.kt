@@ -3,7 +3,7 @@ package com.example.dsp
 /** Recente NL-scenes, gemerged via SceneLookup. */
 object NewNlScenes {
     val ALL = listOf(
-        ListeningScene("bedpodcast", "Podcast in bed", "😴", "Zacht stem-EQ + slaaptimer-vriendelijk", "Podcast Voice", AncMode.OFF, safeVolume = true),
+        ListeningScene("bedpodcast", "Podcast in bed", "💤", "Zacht stem-EQ + slaaptimer-vriendelijk", "Podcast Voice", AncMode.OFF, safeVolume = true),
         ListeningScene("spits", "Spits", "🚦", "Max ANC + stemmen in volle OV", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("thuisavond", "Thuisavond", "💿", "Zacht + ruimtelijk, veilig volume", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true),
         ListeningScene("nachttrein", "Nachttrein", "🚆", "Sterke ANC, veilig volume in stille coupé", "Night Chill & Lo-Fi Relax", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
@@ -56,6 +56,11 @@ object NewNlScenes {
         ListeningScene("bioscoop", "Bioscoop", "🎬", "Zacht + ruim, veilig volume", "Classical & Live Concert 3D", AncMode.OFF, safeVolume = true),
         ListeningScene("werkplaats", "Werkplaats", "🛠", "Max ANC tegen machines", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("vliegtuiglang", "Lange vlucht", "🛩", "Max ANC + veilig volume", "Night Chill & Lo-Fi Relax", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
-        ListeningScene("wachtruimte", "Wachtruimte", "🪑", "Ambient + naam-oproep, veilig", "Podcast Voice", AncMode.AMBIENT, safeVolume = true)
+        ListeningScene("wachtruimte", "Wachtruimte", "🪑", "Ambient + naam-oproep, veilig", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("nsstoring", "NS-storing", "🛑", "Max ANC in volle haltrein + omroep", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("babyslaap", "Baby slaapt", "🍼", "Fluister-EQ + ambient voor huilen", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("acculaag", "Accu laag", "🔋", "Zacht + LDAC 330, headset sparen", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("stiltewerk", "Stiltewerk", "🤫", "Diepe focus, fluister, veilig", "Flat Studio Monitor (0 dB)", AncMode.STRONG, safeVolume = true),
+        ListeningScene("stadionlive", "Stadion live", "🏟", "Crowd + commentaar, wind", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD)
     )
 }
