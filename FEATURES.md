@@ -1,9 +1,8 @@
 # Sounmax — volgende features
 
-## Batch 65 (software, deze commit)
-- Wear one-taps + ExtraOneTaps: run, clinic, traffic, ikea, salon, ns, baby, lowbatt
-- Wear-UI rij: Loop / Arts / File / IKEA / Kapper / NS / Baby / Accu
-- OffOneTap reset ook deze chips
+## Batch 66 (software, deze commit)
+- One-taps + Wear: hond, apotheek, terras, regenfiets, pont, stiltewerk, stadion
+- AllOff dekt alle chip-keys
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
