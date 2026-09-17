@@ -1,10 +1,10 @@
 # Sounmax — volgende features
 
-## Batch 69 (software, deze commit)
-- Ontbrekende scenes uit batch 68 nu in SceneLookup: nachtbus, burenfeest, college-echo, lekcheck
-- Nieuwe chips/profiles: storm, kermis, partner-slaapt, lange-call
-- Wear one-taps voor dezelfde ids
-- AllOff dekt batch-69 chips
+## Batch 70 (software, deze commit)
+- Uur-suggestie als usage-geheugen leeg is (ochtend pendel, kantoor, thuisbios, nachtwerk)
+- Nieuwe scenes: thuisbios, open kantoor, wachtkamer, afterwork, windfiets, nachtwerk, speeltuin, pomodoro
+- Batch-69 scenes nu ook in OneTap-profielen
+- AllOff dekt batch-70 chips
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check

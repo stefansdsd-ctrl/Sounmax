@@ -2,7 +2,8 @@ package com.example.dsp
 
 object SceneLookup {
     val ALL: List<ListeningScene> =
-        (ListeningScenes.ALL + ExtraListeningScenes.ALL + NewNlScenes.ALL + Batch69Scenes.ALL)
+        (ListeningScenes.ALL + ExtraListeningScenes.ALL + NewNlScenes.ALL +
+            Batch69Scenes.ALL + Batch70Scenes.ALL)
             .distinctBy { it.id }
 
     fun byId(id: String?): ListeningScene? =
