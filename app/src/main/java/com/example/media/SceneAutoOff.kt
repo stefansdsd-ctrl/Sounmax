@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 
-/** Zet actieve scene na 15/30/60 min automatisch uit. */
+/** Zet actieve scene na 15/30/60/90 min automatisch uit. */
 object SceneAutoOff {
     private const val PREFS = SceneAutomation.PREFS
     private const val KEY_MIN = "scene_auto_off_min"
@@ -25,6 +25,7 @@ object SceneAutoOff {
             0 -> 15
             15 -> 30
             30 -> 60
+            60 -> 90
             else -> 0
         }
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putInt(KEY_MIN, next).apply()
