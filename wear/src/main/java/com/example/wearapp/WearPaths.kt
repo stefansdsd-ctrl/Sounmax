@@ -74,4 +74,12 @@ object WearPaths {
     const val CMD_ONE_TAP_GARDEN = "one_tap:garden"
     const val CMD_ONE_TAP_POOL = "one_tap:pool"
     const val CMD_ONE_TAP_SAUNA = "one_tap:sauna"
+    const val CMD_ONE_TAP_RUN = "one_tap:run"
+    const val CMD_ONE_TAP_CLINIC = "one_tap:clinic"
+    const val CMD_ONE_TAP_TRAFFIC = "one_tap:traffic"
+    const val CMD_ONE_TAP_IKEA = "one_tap:ikea"
+    const val CMD_ONE_TAP_SALON = "one_tap:salon"
+    const val CMD_ONE_TAP_NS = "one_tap:ns"
+    const val CMD_ONE_TAP_BABY = "one_tap:baby"
+    const val CMD_ONE_TAP_LOWBATT = "one_tap:lowbatt"
 }
