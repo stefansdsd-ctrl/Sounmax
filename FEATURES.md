@@ -1,11 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 71 (software, deze commit)
-- Echte Pomodoro: 25 min focus + 5 min oorpauze, scene-lock, DND
-- Uur-suggestie kijkt naar weer (regen/wind/onweer)
-- Scene-zoek sorteert op favorieten + gebruik
-- Find-headset: herkenbaar twee-toons chirp
-- Nieuwe scenes: Oorpauze, Lange rit, Stem-isolatie, Avondrit, Late game, Zachte call
+## Batch 72 (software, deze commit)
+- Accubesparing-chip bij headset < 20%
+- Nieuwe scenes: Zondagreset, Open kantoor, Regenwandeling, Accubesparing, Ochtendbrief, Afschakelen
+
+## Batch 71
+- Pomodoro 25/5, weer-suggestie, zoek op gebruik, find-chirp
+- Scenes: Oorpauze, Lange rit, Stem-isolatie, Avondrit, Late game, Zachte call
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
