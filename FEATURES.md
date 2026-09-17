@@ -1,8 +1,9 @@
 # Sounmax — volgende features
 
-## Batch 66 (software, deze commit)
-- One-taps + Wear: hond, apotheek, terras, regenfiets, pont, stiltewerk, stadion
-- AllOff dekt alle chip-keys
+## Batch 67 (software, deze commit)
+- Scenes + one-taps: tram, bakker, parkeergarage, tentamen, wasruimte, privacy-OV
+- ListenStreak: dagen op rij onder gehoor-dosiscap
+- AllOff dekt batch-67 chips
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
