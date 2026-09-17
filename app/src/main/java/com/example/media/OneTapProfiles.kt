@@ -73,6 +73,20 @@ object OneTapProfiles {
         Profile("exam", "Tentamen", "tentamen", AncMode.STRONG, 35, "Werk"),
         Profile("laundry", "Wasruimte", "wasruimte", AncMode.STRONG, 60, "Dag"),
         Profile("privacyov", "Privacy-OV", "privacyov", AncMode.STRONG, 45, "Onderweg"),
+        Profile("nachtbus", "Nachtbus", "nachtbus", AncMode.STRONG, 60, "Onderweg"),
+        Profile("burenfeest", "Burenfeest", "burenfeest", AncMode.STRONG, 50, "Nacht"),
+        Profile("storm", "Storm", "storm", AncMode.STRONG, 65, "Onderweg"),
+        Profile("kermis", "Kermis", "kermis", AncMode.WIND_GUARD, 55, "Dag"),
+        Profile("partnerslaap", "Partner", "partnerslaap", AncMode.AMBIENT, 30, "Nacht"),
+        Profile("langecall", "Lange call", "langecall", AncMode.AMBIENT, 50, "Werk"),
+        Profile("thuisbios", "Thuisbios", "thuisbios", AncMode.STRONG, 70, "Media"),
+        Profile("openkantoor", "Open kantoor", "openkantoor", AncMode.STRONG, 55, "Werk"),
+        Profile("wachtkamer", "Wachtkamer", "wachtkamer", AncMode.AMBIENT, 35, "Dag"),
+        Profile("afterwork", "Afterwork", "afterwork", AncMode.ADAPTIVE, 50, "Nacht"),
+        Profile("windfiets", "Windfiets", "windfiets", AncMode.WIND_GUARD, 60, "Sport"),
+        Profile("nachtwerk", "Nachtwerk", "nachtwerk", AncMode.STRONG, 45, "Nacht"),
+        Profile("speeltuin", "Speeltuin", "speeltuin", AncMode.AMBIENT, 40, "Dag"),
+        Profile("pomodoro", "Pomodoro", "pomodoro", AncMode.STRONG, 50, "Werk"),
         Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
 
