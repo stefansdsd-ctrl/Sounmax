@@ -86,4 +86,10 @@ object WearPaths {
     const val CMD_ONE_TAP_BARBER = "one_tap:barber"
     const val CMD_ONE_TAP_DENTIST = "one_tap:dentist"
     const val CMD_ONE_TAP_RUN = "one_tap:run"
+    const val CMD_ONE_TAP_TRAM = "one_tap:tram"
+    const val CMD_ONE_TAP_LIFT = "one_tap:lift"
+    const val CMD_ONE_TAP_GARAGEPARK = "one_tap:garagepark"
+    const val CMD_ONE_TAP_OFFICECALL = "one_tap:officecall"
+    const val CMD_ONE_TAP_ROOF = "one_tap:roof"
+    const val CMD_ONE_TAP_TIMER = "one_tap:timer"
 }
