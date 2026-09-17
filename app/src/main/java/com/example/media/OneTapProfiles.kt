@@ -67,6 +67,12 @@ object OneTapProfiles {
         Profile("ns", "NS-storing", "nsstoring", AncMode.STRONG, 65, "Onderweg"),
         Profile("baby", "Baby", "babyslaap", AncMode.AMBIENT, 30, "Nacht"),
         Profile("lowbatt", "Accu laag", "acculaag", AncMode.OFF, 40, "Overig"),
+        Profile("tram", "Tram", "tram", AncMode.ADAPTIVE, 65, "Onderweg"),
+        Profile("bakery", "Bakker", "bakker", AncMode.AMBIENT, 45, "Dag"),
+        Profile("parking", "Parkeer", "parkeergarage", AncMode.STRONG, 65, "Onderweg"),
+        Profile("exam", "Tentamen", "tentamen", AncMode.STRONG, 35, "Werk"),
+        Profile("laundry", "Wasruimte", "wasruimte", AncMode.STRONG, 60, "Dag"),
+        Profile("privacyov", "Privacy-OV", "privacyov", AncMode.STRONG, 45, "Onderweg"),
         Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
 
