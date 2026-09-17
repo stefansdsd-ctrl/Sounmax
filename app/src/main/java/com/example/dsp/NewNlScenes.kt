@@ -61,6 +61,12 @@ object NewNlScenes {
         ListeningScene("babyslaap", "Baby slaapt", "🍼", "Fluister-EQ + ambient voor huilen", "Night Chill & Lo-Fi Relax", AncMode.AMBIENT, safeVolume = true),
         ListeningScene("acculaag", "Accu laag", "🔋", "Zacht + LDAC 330, headset sparen", "Night Chill & Lo-Fi Relax", AncMode.OFF, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
         ListeningScene("stiltewerk", "Stiltewerk", "🤫", "Diepe focus, fluister, veilig", "Flat Studio Monitor (0 dB)", AncMode.STRONG, safeVolume = true),
-        ListeningScene("stadionlive", "Stadion live", "🏟", "Crowd + commentaar, wind", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD)
+        ListeningScene("stadionlive", "Stadion live", "🏟", "Crowd + commentaar, wind", "Vocal & Acoustic Warmth", AncMode.WIND_GUARD),
+        ListeningScene("tram", "Tram", "🚊", "Omroep + lichte ANC, veilig", "Podcast Voice", AncMode.ADAPTIVE, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("bakker", "Bakker", "🥐", "Naam-oproep, zacht", "Podcast Voice", AncMode.AMBIENT, safeVolume = true),
+        ListeningScene("parkeergarage", "Parkeergarage", "🅿", "Echo + motoren, max ANC", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("tentamen", "Tentamen", "📝", "Max stilte, fluister, veilig", "Flat Studio Monitor (0 dB)", AncMode.STRONG, safeVolume = true),
+        ListeningScene("wasruimte", "Wasruimte", "🧺", "Machine-ANC + podcast", "Philips TAH6519 Pro ANC", AncMode.STRONG, preferredLdac = LdacQualityMode.CONNECTION_330),
+        ListeningScene("privacyov", "Privacy-OV", "🛡", "Lekdicht ANC + volume-cap", "Flat Studio Monitor (0 dB)", AncMode.STRONG, safeVolume = true, preferredLdac = LdacQualityMode.CONNECTION_330)
     )
 }
