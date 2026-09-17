@@ -117,8 +117,33 @@ class WearMainActivity : ComponentActivity() {
                         }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_YOGA) } }) {
-                            Text("Yoga")
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_RUN) } }) {
+                            Text("Loop")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CLINIC) } }) {
+                            Text("Arts")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_TRAFFIC) } }) {
+                            Text("File")
+                        }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_IKEA) } }) {
+                            Text("IKEA")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_SALON) } }) {
+                            Text("Kapper")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_NS) } }) {
+                            Text("NS")
+                        }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_BABY) } }) {
+                            Text("Baby")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_LOWBATT) } }) {
+                            Text("Accu")
                         }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_OFF) } }) {
                             Text("Uit")
