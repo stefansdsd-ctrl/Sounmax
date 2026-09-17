@@ -14,7 +14,16 @@ object AllOffOneTap {
         "office_chip_on", "library_chip_on", "cafe_chip_on", "meeting_chip_on",
         "bike_chip_on", "shop_chip_on", "kids_chip_on", "train_chip_on",
         "car_chip_on", "metro_chip_on", "concert_chip_on", "restaurant_chip_on",
-        "college_chip_on", "museum_chip_on", "build_chip_on"
+        "college_chip_on", "museum_chip_on", "build_chip_on",
+        "beach_chip_on", "zoom_chip_on", "yoga_chip_on",
+        "bus_chip_on", "market_chip_on", "wfh_chip_on",
+        "garden_chip_on", "pool_chip_on", "sauna_chip_on",
+        "run_chip_on", "clinic_chip_on", "traffic_chip_on",
+        "ikea_chip_on", "salon_chip_on", "ns_chip_on",
+        "baby_chip_on", "lowbatt_chip_on",
+        "dogwalk_chip_on", "pharmacy_chip_on", "terrace_chip_on",
+        "rainbike_chip_on", "ferry_chip_on", "silentwork_chip_on",
+        "stadium_chip_on"
     )
 
     fun clearAll(context: Context) {
