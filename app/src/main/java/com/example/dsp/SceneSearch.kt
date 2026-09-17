@@ -1,5 +1,8 @@
 package com.example.dsp
 
+import android.content.Context
+import com.example.data.SceneUsage
+
 /** Zoek + tags over alle luister-scenes. */
 object SceneSearch {
     fun tagsFor(id: String): List<String> =
@@ -18,6 +21,14 @@ object SceneSearch {
                 s.presetName.lowercase().contains(n) ||
                 tagsFor(s.id).any { it.lowercase().contains(n) } ||
                 (n == "fav" && s.id in favorites)
+        }
+    }
+
+    fun queryRanked(context: Context, q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
+        val hits = query(q, favorites)
+        return hits.sortedByDescending { s ->
+            val fav = if (s.id in favorites) 1000 else 0
+            fav + SceneUsage.count(context, s.id)
         }
     }
 }
