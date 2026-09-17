@@ -53,6 +53,20 @@ object OneTapProfiles {
         Profile("beach", "Strand", "strand", AncMode.WIND_GUARD, 55, "Sport"),
         Profile("zoom", "Videocall", "zoom", AncMode.AMBIENT, 50, "Werk"),
         Profile("yoga", "Yoga", "yoga", AncMode.OFF, 40, "Sport"),
+        Profile("bus", "Bus", "bus", AncMode.ADAPTIVE, 70, "Onderweg"),
+        Profile("market", "AH", "supermarkt", AncMode.AMBIENT, 55, "Dag"),
+        Profile("wfh", "WFH", "thuiswerk", AncMode.ADAPTIVE, 55, "Werk"),
+        Profile("garden", "Tuin", "tuin", AncMode.WIND_GUARD, 60, "Sport"),
+        Profile("pool", "Zwembad", "zwembad", AncMode.WIND_GUARD, 50, "Sport"),
+        Profile("sauna", "Sauna", "sauna", AncMode.OFF, 35, "Sport"),
+        Profile("run", "Hardlopen", "hardlopen", AncMode.WIND_GUARD, 70, "Sport"),
+        Profile("clinic", "Huisarts", "huisarts", AncMode.AMBIENT, 40, "Dag"),
+        Profile("traffic", "File", "file", AncMode.STRONG, 70, "Onderweg"),
+        Profile("ikea", "IKEA", "ikea", AncMode.AMBIENT, 50, "Dag"),
+        Profile("salon", "Kapper", "kapper", AncMode.AMBIENT, 45, "Dag"),
+        Profile("ns", "NS-storing", "nsstoring", AncMode.STRONG, 65, "Onderweg"),
+        Profile("baby", "Baby", "babyslaap", AncMode.AMBIENT, 30, "Nacht"),
+        Profile("lowbatt", "Accu laag", "acculaag", AncMode.OFF, 40, "Overig"),
         Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
 
