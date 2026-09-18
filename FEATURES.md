@@ -1,14 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 85 (software, deze commit)
+## Batch 86 (software, deze commit)
+- Scenes: NS-overstap, Fietstunnel, Huisarts-wacht, Bieb-avond, Klusweekend, Regen-balkon
+- Beste-nu bias: ochtend overstap/tunnel, dag huisarts/bieb, avond balkon/bieb, weekend klus
+- Zoek-aliassen: overstap, huisarts, klus, balkon, fietstunnel
+
+## Batch 85
 - UI-toggle `Beste-nu bij verbinden` (`bestnow_on_connect`)
 - Scenes: Bakfiets, Bouwstraat, Collegezaal, Was-droger, Avondmarkt, Stiltecoupé
-- Wear one-taps idem
-- Beste-nu bias: ochtend bakfiets/stiltecoupé, kantoor college/bouw/was, avond markt
-
-## Batch 84
-- Beste-nu automatisch bij headset-connectie
-- Scenes: Schoolplein, Keuken-bel, Regen-kantoor, Slaap-trein, Druk-koken, Avond-wandel
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
