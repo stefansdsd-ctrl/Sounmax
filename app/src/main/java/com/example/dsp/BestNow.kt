@@ -6,12 +6,13 @@ import com.example.data.SceneUsage
 import com.example.media.HourSceneSuggest
 import java.util.Calendar
 
-/** Combineert usage, uur, favorieten en weer tot één “beste nu”-lijst. */
+/** Combineert usage, uur, favorieten, weekend en telefoon-accu tot “beste nu”. */
 object BestNow {
     fun ranked(context: Context, limit: Int = 5): List<ListeningScene> {
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val hourHint = HourSceneSuggest.suggest(context)?.id
         val favs = runCatching { FavoriteScenes(context).ids().toSet() }.getOrDefault(emptySet())
+        val batt = runCatching { PhoneBattery.percent(context) }.getOrDefault(100)
         return SceneLookup.ALL
             .map { scene ->
                 val uses = SceneUsage.count(context, scene.id)
@@ -32,7 +33,8 @@ object BestNow {
                     (if (scene.id in favs) 25 else 0) +
                     (if (scene.id == hourHint) 30 else 0) +
                     hourBias(hour, scene.id) +
-                    weekendBias(weekend, scene.id)
+                    weekendBias(weekend, scene.id) +
+                    batteryBias(batt, scene.id)
                 scene to score
             }
             .sortedByDescending { it.second }
@@ -47,15 +49,22 @@ object BestNow {
         top(context)?.let { "Beste nu: ${it.emoji} ${it.name}" }
 
     private fun hourBias(hour: Int, id: String): Int = when {
-        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush") -> 12
-        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus") -> 10
-        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam") -> 10
+        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus") -> 12
+        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass") -> 10
+        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold") -> 10
         hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep", "latefocus", "sleepwind") -> 14
         else -> 0
     }
 
     private fun weekendBias(weekend: Boolean, id: String): Int {
         if (!weekend) return 0
-        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit")) 8 else 0
+        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset")) 8 else 0
+    }
+
+    private fun batteryBias(percent: Int, id: String): Int = when {
+        percent <= 10 && id in setOf("saver", "batterysaveplus", "sleep", "rest") -> 40
+        percent <= 20 && id in setOf("saver", "batterysaveplus") -> 28
+        percent <= 20 && id in setOf("gympeak", "party", "festival", "concertpit") -> -12
+        else -> 0
     }
 }
