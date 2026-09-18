@@ -87,6 +87,12 @@ object OneTapProfiles {
         Profile("nachtwerk", "Nachtwerk", "nachtwerk", AncMode.STRONG, 45, "Nacht"),
         Profile("speeltuin", "Speeltuin", "speeltuin", AncMode.AMBIENT, 40, "Dag"),
         Profile("pomodoro", "Pomodoro", "pomodoro", AncMode.STRONG, 50, "Werk"),
+        Profile("neighborhood", "Buurt", "neighborhood", AncMode.STRONG, 55, "Werk"),
+        Profile("cookeve", "Avondkook", "cookeve", AncMode.AMBIENT, 55, "Dag"),
+        Profile("shortgym", "Sportkort", "shortgym", AncMode.WIND_GUARD, 75, "Sport"),
+        Profile("stillnight", "Stil nacht", "stillnight", AncMode.OFF, 30, "Nacht"),
+        Profile("inboxzero", "Inbox", "inboxzero", AncMode.STRONG, 50, "Werk"),
+        Profile("platformwait", "Perron", "platformwait", AncMode.WIND_GUARD, 60, "Onderweg"),
         Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
 
