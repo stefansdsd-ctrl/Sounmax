@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.media.AncHaptics
+import com.example.media.BtConnectBestNow
 import com.example.media.BtDisconnectPause
 import com.example.media.CallModeGuard
 import com.example.media.CallTransparencyGuard
@@ -57,7 +58,9 @@ class MainActivity : ComponentActivity() {
                 SoundMaxWidget.applyScene(this, scene.id)
             }
         )
-        BtDisconnectPause.register(this, wellnessPrefs.getString("headset_address", null))
+        val headset = wellnessPrefs.getString("headset_address", null)
+        BtDisconnectPause.register(this, headset)
+        BtConnectBestNow.register(this, headset)
         OffEarPause.start(this)
         val wellness = getSharedPreferences("soundmax_wellness", MODE_PRIVATE)
         volumeCycler = VolumeSceneCycler(
