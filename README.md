@@ -3,9 +3,9 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-18 — batch 76)
-- Scenes: Hybride-meet, Volle tram, Late AH, Kids naar bed, Garageklus, Regen-kantoor, Zondagmarkt, Stiltecoupé+.
-- Wear one-taps: Apotheek, Examen, Boot, Meet.
+## Nieuw (2026-09-18 — batch 77)
+- Scenes: Thuisbezorgd, Schoolplein, Ziekenhuiswacht, Parkeergarage+, Fietsochtend, Avondtram, Bieb-stilte+, Spoorwerk.
+- Wear one-taps: Volle tram, Kids naar bed, Stiltecoupé+, Bezorgd, Schoolplein, Ziekenhuiswacht.
 - One-tap + scene-groepen bijgewerkt.
 
 ## Nog open (hardware)
