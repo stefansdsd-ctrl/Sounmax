@@ -49,16 +49,16 @@ object BestNow {
         top(context)?.let { "Beste nu: ${it.emoji} ${it.name}" }
 
     private fun hourBias(hour: Int, id: String): Int = when {
-        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus", "mondaystart", "rainplatform") -> 12
-        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk") -> 10
-        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold") -> 10
+        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus", "mondaystart", "rainplatform", "tramspits", "ebikewind") -> 12
+        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk", "coworkcall", "ahspits") -> 10
+        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold", "tvavond", "vrijdagavond") -> 10
         hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep", "latefocus", "sleepwind", "latebus") -> 14
         else -> 0
     }
 
     private fun weekendBias(weekend: Boolean, id: String): Int {
         if (!weekend) return 0
-        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset")) 8 else 0
+        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset", "vrijdagavond", "ahspits")) 8 else 0
     }
 
     private fun batteryBias(percent: Int, id: String): Int = when {
