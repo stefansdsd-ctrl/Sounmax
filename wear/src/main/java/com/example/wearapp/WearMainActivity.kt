@@ -65,97 +65,63 @@ class WearMainActivity : ComponentActivity() {
                     buildString {
                         append(if (status.dsp) "DSP aan" else "DSP uit")
                         append(" · ANC ${ancLabel(status.anc)}")
-                        if (status.battery in 0..100) append(" · 🎧${status.battery}%")
-                        if (status.phoneBattery in 0..100) append(" · 📱${status.phoneBattery}%")
+                        if (status.battery in 0..100) append(" · HS ${status.battery}%")
+                        if (status.phoneBattery in 0..100) append(" · PH ${status.phoneBattery}%")
                         if (status.sleepMin > 0) append(" · slaap ${status.sleepMin}m")
                         if (status.quiet) append(" · stil")
                     }
                 )
                 if (!ambient) {
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PREV_SCENE) } }) {
-                            Text("◀")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PREV_SCENE) } }) { Text("<") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SLEEP) } }) {
                             Text(if (status.sleepMin > 0) "${status.sleepMin}m" else "Slaap")
                         }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_NEXT_SCENE) } }) {
-                            Text("▶")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_NEXT_SCENE) } }) { Text(">") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CALL) } }) {
-                            Text("Bel")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_PODCAST) } }) {
-                            Text("Podcast")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_PLANE) } }) {
-                            Text("Vlieg")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CALL) } }) { Text("Bel") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_PODCAST) } }) { Text("Podcast") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_PLANE) } }) { Text("Vlieg") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CAR) } }) {
-                            Text("Auto")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_METRO) } }) {
-                            Text("Metro")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CONCERT) } }) {
-                            Text("Live")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CAR) } }) { Text("Auto") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_METRO) } }) { Text("Metro") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CONCERT) } }) { Text("Live") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_COLLEGE) } }) {
-                            Text("College")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_MUSEUM) } }) {
-                            Text("Museum")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_BEACH) } }) {
-                            Text("Strand")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_COLLEGE) } }) { Text("College") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_MUSEUM) } }) { Text("Museum") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_BEACH) } }) { Text("Strand") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_RUN) } }) {
-                            Text("Loop")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CLINIC) } }) {
-                            Text("Arts")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_TRAFFIC) } }) {
-                            Text("File")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_RUN) } }) { Text("Loop") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CLINIC) } }) { Text("Arts") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_TRAFFIC) } }) { Text("File") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_IKEA) } }) {
-                            Text("IKEA")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_SALON) } }) {
-                            Text("Kapper")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_NS) } }) {
-                            Text("NS")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_IKEA) } }) { Text("IKEA") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_SALON) } }) { Text("Kapper") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_NS) } }) { Text("NS") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_BABY) } }) {
-                            Text("Baby")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_LOWBATT) } }) {
-                            Text("Accu")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_OFF) } }) {
-                            Text("Uit")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_BABY) } }) { Text("Baby") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_LOWBATT) } }) { Text("Accu") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_OFF) } }) { Text("Uit") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) {
-                            Text("ANC ${ancLabel(status.anc)}")
-                        }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_HEADSET) } }) {
-                            Text("Zoek")
-                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_FILEPLUS) } }) { Text("File+") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_LES) } }) { Text("Les") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_WAITPLUS) } }) { Text("Wacht+") }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_ACCU20) } }) { Text("Accu20") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_RAINBIKEPLUS) } }) { Text("Regen+") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_SUNDAY) } }) { Text("Zondag") }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) { Text("ANC ${ancLabel(status.anc)}") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_HEADSET) } }) { Text("Zoek") }
                     }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_TOGGLE_DSP) } }) {
                         Text(if (status.dsp) "Pauzeer DSP" else "Start DSP")
@@ -172,12 +138,8 @@ class WearMainActivity : ComponentActivity() {
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FOCUS) } }) {
                         Text(if (status.focus) "Focus ${status.focusLeft}m" else "Focus")
                     }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_UNDO) } }) {
-                        Text("Undo scene")
-                    }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_SUGGEST) } }) {
-                        Text("Suggestie")
-                    }
+                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_UNDO) } }) { Text("Undo scene") }
+                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_SUGGEST) } }) { Text("Suggestie") }
                 }
             }
         }
