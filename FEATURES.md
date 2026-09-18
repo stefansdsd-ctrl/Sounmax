@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 72 (software, deze commit)
+## Batch 73 (software, deze commit)
+- Telefoon < 15% schakelt naar Accubesparing-scene (330 kbps)
+- Scenes: Buurtlawaai, Avondkook, Sportkort, Stille nacht, Inbox-sprint, Perronwacht
+- One-taps + profielen voor die scenes
+
+## Batch 72
 - Accubesparing-chip bij headset < 20%
 - Nieuwe scenes: Zondagreset, Open kantoor, Regenwandeling, Accubesparing, Ochtendbrief, Afschakelen
 

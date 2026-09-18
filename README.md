@@ -3,9 +3,9 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-17 — batch 72)
-- Accubesparing-suggestie bij lage headset-accu.
-- Scenes: Zondagreset, Open kantoor, Regenwandeling, Accubesparing, Ochtendbrief, Afschakelen.
+## Nieuw (2026-09-18 — batch 73)
+- Lage telefoonaccu → Accubesparing-scene.
+- Scenes: Buurtlawaai, Avondkook, Sportkort, Stille nacht, Inbox-sprint, Perronwacht.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519

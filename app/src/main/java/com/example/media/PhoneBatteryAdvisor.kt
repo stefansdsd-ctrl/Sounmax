@@ -40,7 +40,7 @@ object PhoneBatteryAdvisor {
         context.getSharedPreferences(SceneAutomation.PREFS, Context.MODE_PRIVATE)
             .edit().putInt("last_phone_battery", pct).apply()
         if (pct > 15 || charging(context)) return scene
-        val saver = SceneLookup.byId("saver")
+        val saver = SceneLookup.byId("batterysave") ?: SceneLookup.byId("saver")
         return (saver ?: scene).copy(
             description = "${scene.description} · telefoon $pct%",
             preferredLdac = LdacQualityMode.CONNECTION_330
