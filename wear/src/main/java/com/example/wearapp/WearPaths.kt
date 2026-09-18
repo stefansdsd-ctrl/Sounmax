@@ -95,4 +95,10 @@ object WearPaths {
     const val CMD_ONE_TAP_ACCU20 = "one_tap:batterysaveplus"
     const val CMD_ONE_TAP_RAINBIKEPLUS = "one_tap:rainbikeplus"
     const val CMD_ONE_TAP_SUNDAY = "one_tap:sundayreset"
+    const val CMD_ONE_TAP_TRAMSPITS = "one_tap:tramspits"
+    const val CMD_ONE_TAP_AHSPITS = "one_tap:ahspits"
+    const val CMD_ONE_TAP_COWORKCALL = "one_tap:coworkcall"
+    const val CMD_ONE_TAP_TAVOND = "one_tap:tvavond"
+    const val CMD_ONE_TAP_EBIKE = "one_tap:ebikewind"
+    const val CMD_ONE_TAP_FRI = "one_tap:vrijdagavond"
 }
