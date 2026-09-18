@@ -1,12 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 77 (software, deze commit)
+## Batch 78 (software, deze commit)
+- Scenes: Pretpark, Zwembadgalm, Kermis, Tuincentrum, Bouwmarkt, Kringloop, Nachtbus+, Overstapstation
+- Wear one-taps: themepark, poolreverb, fairground, gardencenter, diyhall, thriftshop
+- Scene-zoek aliassen (Efteling/Gamma/kringloop/overstap)
+
+## Batch 77
 - Scenes: Thuisbezorgd, Schoolplein, Ziekenhuiswacht, Parkeergarage+, Fietsochtend, Avondtram, Bieb-stilte+, Spoorwerk
 - Wear one-taps: packedtram, kidsbed, quietcoach, delivery, schoolyard, hospwait
-
-## Batch 76
-- Scenes: Hybride-meet, Volle tram, Late AH, Kids naar bed, Garageklus, Regen-kantoor, Zondagmarkt, Stiltecoupé+
-- Wear one-taps batch 75/76: Apotheek, Examen, Boot, Meet
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
