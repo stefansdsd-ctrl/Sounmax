@@ -1,6 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 78 (software, deze commit)
+## Batch 79 (software, deze commit)
+- Beste-nu: combineert usage, uur, favorieten
+- Scenes: hearrest, examhall, concertpit, openplanplus, refcheck, earfatigue, callclarity, windfietsplus
+- Wear: themepark, hearrest, examhall, concertpit
+- Zoek-aliassen: tentamen/gehoor/concert/kantoor/referentie/bellen/wind
+
+## Batch 78
 - Scenes: Pretpark, Zwembadgalm, Kermis, Tuincentrum, Bouwmarkt, Kringloop, Nachtbus+, Overstapstation
 - Wear one-taps: themepark, poolreverb, fairground, gardencenter, diyhall, thriftshop
 - Scene-zoek aliassen (Efteling/Gamma/kringloop/overstap)
