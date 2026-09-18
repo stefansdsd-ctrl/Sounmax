@@ -93,6 +93,16 @@ object OneTapProfiles {
         Profile("stillnight", "Stil nacht", "stillnight", AncMode.OFF, 30, "Nacht"),
         Profile("inboxzero", "Inbox", "inboxzero", AncMode.STRONG, 50, "Werk"),
         Profile("platformwait", "Perron", "platformwait", AncMode.WIND_GUARD, 60, "Onderweg"),
+        Profile("pharmacywait", "Apotheek", "pharmacywait", AncMode.AMBIENT, 35, "Dag"),
+        Profile("carwashpro", "Wasstraat+", "carwashpro", AncMode.STRONG, 50, "Onderweg"),
+        Profile("homeexam", "Examen", "homeexam", AncMode.STRONG, 35, "Werk"),
+        Profile("nightshop", "Avondwinkel", "nightshop", AncMode.AMBIENT, 40, "Dag"),
+        Profile("boattrip", "Boot", "boattrip", AncMode.WIND_GUARD, 55, "Sport"),
+        Profile("cafefocus", "Koffiefocus", "cafefocus", AncMode.ADAPTIVE, 50, "Werk"),
+        Profile("rainmetro", "Regenmetro", "rainmetro", AncMode.STRONG, 65, "Onderweg"),
+        Profile("sundayafter", "Zondag", "sundayafter", AncMode.OFF, 35, "Nacht"),
+        Profile("waitingroom", "Wachtkamer", "waitingroom", AncMode.AMBIENT, 35, "Dag"),
+        Profile("dentist", "Tandarts", "dentist", AncMode.STRONG, 40, "Dag"),
         Profile("off", "Uit", "default", AncMode.OFF, null, "Overig")
     )
 
