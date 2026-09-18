@@ -150,6 +150,10 @@ object WearBridge {
             "baby", "babyslaap" -> com.example.media.BabyOneTap.toggle(context)
             "lowbatt", "accu", "acculaag" -> com.example.media.LowBattOneTap.toggle(context)
             "off", "uit" -> com.example.media.OffOneTap.toggle(context)
+            "pharmacy", "apotheek", "pharmacywait" -> com.example.media.PharmacyWaitOneTap.toggle(context)
+            "exam", "examen", "homeexam" -> com.example.media.HomeExamOneTap.toggle(context)
+            "boat", "boot", "boattrip" -> com.example.media.BoatTripOneTap.toggle(context)
+            "hybrid", "hybridmeet", "meet" -> com.example.media.HybridMeetOneTap.toggle(context)
             else -> applyFav(context, raw)
         }
     }
