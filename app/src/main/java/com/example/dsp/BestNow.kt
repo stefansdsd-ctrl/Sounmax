@@ -25,11 +25,14 @@ object BestNow {
                         else -> 0
                     }
                 }
+                val dow = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                val weekend = dow == Calendar.SATURDAY || dow == Calendar.SUNDAY
                 val score = uses * 3 +
                     recency +
                     (if (scene.id in favs) 25 else 0) +
                     (if (scene.id == hourHint) 30 else 0) +
-                    hourBias(hour, scene.id)
+                    hourBias(hour, scene.id) +
+                    weekendBias(weekend, scene.id)
                 scene to score
             }
             .sortedByDescending { it.second }
@@ -44,9 +47,15 @@ object BestNow {
         top(context)?.let { "Beste nu: ${it.emoji} ${it.name}" }
 
     private fun hourBias(hour: Int, id: String): Int = when {
-        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus") -> 12
-        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall") -> 10
-        hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep") -> 14
+        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush") -> 12
+        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus") -> 10
+        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam") -> 10
+        hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep", "latefocus", "sleepwind") -> 14
         else -> 0
+    }
+
+    private fun weekendBias(weekend: Boolean, id: String): Int {
+        if (!weekend) return 0
+        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit")) 8 else 0
     }
 }
