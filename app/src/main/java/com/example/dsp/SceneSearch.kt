@@ -14,7 +14,11 @@ object SceneSearch {
     fun query(q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
         val n = q.trim().lowercase()
         if (n.isEmpty()) return SceneLookup.ALL
-        val aliases = ALIASES[n].orEmpty()
+        val aliases = mutableSetOf<String>()
+        ALIASES[n]?.let { aliases += it }
+        ALIASES.forEach { (key, ids) ->
+            if (key.startsWith(n) || n.startsWith(key)) aliases += ids
+        }
         return SceneLookup.ALL.filter { s ->
             s.id.contains(n) ||
                 s.id in aliases ||
@@ -171,7 +175,25 @@ object SceneSearch {
         "werkgroep" to setOf("werkcollege"),
         "tutorial" to setOf("werkcollege"),
         "speeltuin" to setOf("speeltuin"),
-        "playground" to setOf("speeltuin")
+        "playground" to setOf("speeltuin"),
+        "hardlopen" to setOf("hardlopen"),
+        "rennen" to setOf("hardlopen"),
+        "joggen" to setOf("hardlopen"),
+        "running" to setOf("hardlopen"),
+        "teams" to setOf("teamsvergadering"),
+        "zoom" to setOf("teamsvergadering"),
+        "meet" to setOf("teamsvergadering"),
+        "vergadering" to setOf("teamsvergadering"),
+        "meeting" to setOf("teamsvergadering"),
+        "dierentuin" to setOf("dierentuin"),
+        "zoo" to setOf("dierentuin"),
+        "e-step" to setOf("estepwind"),
+        "estep" to setOf("estepwind"),
+        "scooter" to setOf("estepwind"),
+        "nachtmarkt" to setOf("nachtmarkt"),
+        "wasruimte" to setOf("wasruimte"),
+        "droger" to setOf("wasruimte"),
+        "wasmachine" to setOf("wasruimte")
     )
 
     fun queryRanked(context: Context, q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
