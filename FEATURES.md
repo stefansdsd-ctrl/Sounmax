@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 88 (software, deze commit)
+## Batch 89 (software, deze commit)
+- Scenes: Action-hal, Kruidvat-rij, AH to go, P+R parkeren, Wasstraat, Gemeente-loket
+- Beste-nu bias: ochtend prparkeren/ahtogo, dag action/kruidvat/loket, avond action/kruidvat/ahtogo/pr, weekend action/wasstraat/pr
+- Zoek-aliassen: action, kruidvat, ahtogo, pr, p+r, wasstraat, gemeente, loket
+
+## Batch 88
 - Scenes: Lidl-spits, HEMA-rij, MediaMarkt-gang, Fietskelder, Bushalte-kou, Coolblue-ophalen
 - Beste-nu bias: ochtend bushalte/kelder, dag lidl/hema/mediamarkt/coolblue, avond lidl/bushalte, weekend mediamarkt/hema/coolblue
 - Zoek-aliassen: lidl, hema, mediamarkt, fietskelder, bushalte, coolblue
