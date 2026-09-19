@@ -155,7 +155,23 @@ object SceneSearch {
         "practicum" to setOf("practicumlab"),
         "sportdag" to setOf("sportdag"),
         "douche" to setOf("douchepodcast"),
-        "badkamer" to setOf("douchepodcast")
+        "badkamer" to setOf("douchepodcast"),
+        "fysio" to setOf("fysio"),
+        "fysiotherapie" to setOf("fysio"),
+        "revalidatie" to setOf("fysio"),
+        "bioscoop" to setOf("bioscoop"),
+        "cinema" to setOf("bioscoop"),
+        "filmhuis" to setOf("bioscoop"),
+        "sauna" to setOf("sauna"),
+        "wellness" to setOf("sauna"),
+        "schaatsen" to setOf("schaatsbaan"),
+        "schaatsbaan" to setOf("schaatsbaan"),
+        "ijsbaan" to setOf("schaatsbaan"),
+        "werkcollege" to setOf("werkcollege"),
+        "werkgroep" to setOf("werkcollege"),
+        "tutorial" to setOf("werkcollege"),
+        "speeltuin" to setOf("speeltuin"),
+        "playground" to setOf("speeltuin")
     )
 
     fun queryRanked(context: Context, q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
