@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 97 (software, deze commit)
+## Batch 98 (software, deze commit)
+- Scenes: Tandarts (behandeling), Pakketpunt, BBQ/tuinfeest, Kantoortuin, Uitvaart/herdenking, APK/garage
+- Beste-nu: kantoor-uren tandarts/kantoortuin/APK/pakket, avond BBQ, weekend BBQ/pakket/APK
+- Zoek-aliassen: tandarts, pakket, dhl, bbq, tuinfeest, kantoortuin, uitvaart, crematorium, apk, garage
+
+## Batch 97 (software)
 - Scenes: Hardlopen, Teams/vergadering, Dierentuin, E-step/scooter, Nachtmarkt, Wasruimte
 - Beste-nu: ochtend hardlopen/e-step, kantoor-uren Teams, avond nachtmarkt/wasruimte, weekend dierentuin
 - Zoek: prefix-match op aliassen (typ “fys” of “hardl”)
