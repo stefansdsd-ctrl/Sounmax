@@ -51,18 +51,18 @@ object BestNow {
         top(context)?.let { "Beste nu: ${it.emoji} ${it.name}" }
 
     private fun hourBias(hour: Int, id: String): Int = when {
-        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus", "mondaystart", "rainplatform", "tramspits", "ebikewind", "slaaptrein", "bakfiets", "stiltecoupé", "nsoverstap", "fietstunnel", "bushaltekou", "fietskelder", "prparkeren", "ahtogo") -> 12
+        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus", "mondaystart", "rainplatform", "tramspits", "ebikewind", "slaaptrein", "bakfiets", "stiltecoupé", "nsoverstap", "fietstunnel", "bushaltekou", "fietskelder", "prparkeren", "ahtogo", "tankstation", "flixbus") -> 12
         hour in 7..9 && id == "schoolplein" -> 14
-        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk", "coworkcall", "ahspits", "regenkantoor", "collegezaal", "bouwstraat", "wasdroger", "huisartswacht", "biebavond", "jumbospits", "tandartswacht", "liftecho", "thuiskidsplus", "lidlspits", "hemarij", "mediamarktgang", "coolbluepickup", "actionhal", "kruidvatrij", "gemeenteloket") -> 10
-        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold", "tvavond", "vrijdagavond", "drukkoken", "keukenbellen", "avondmarkt", "terraswind", "jumbospits", "lidlspits", "bushaltekou", "actionhal", "kruidvatrij", "ahtogo", "prparkeren") -> 10
-        hour in 20..23 && id in setOf("avondwandel", "avondmarkt", "regenbalcon", "biebavond") -> 12
-        hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep", "latefocus", "sleepwind", "latebus", "slaaptrein") -> 14
+        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk", "coworkcall", "ahspits", "regenkantoor", "collegezaal", "bouwstraat", "wasdroger", "huisartswacht", "biebavond", "jumbospits", "tandartswacht", "liftecho", "thuiskidsplus", "lidlspits", "hemarij", "mediamarktgang", "coolbluepickup", "actionhal", "kruidvatrij", "gemeenteloket", "postnlpunt", "etosrij", "decathlonhal", "kapperszaak") -> 10
+        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold", "tvavond", "vrijdagavond", "drukkoken", "keukenbellen", "avondmarkt", "terraswind", "jumbospits", "lidlspits", "bushaltekou", "actionhal", "kruidvatrij", "ahtogo", "prparkeren", "tankstation", "postnlpunt", "flixbus") -> 10
+        hour in 20..23 && id in setOf("avondwandel", "avondmarkt", "regenbalcon", "biebavond", "flixbus") -> 12
+        hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep", "latefocus", "sleepwind", "latebus", "slaaptrein", "flixbus") -> 14
         else -> 0
     }
 
     private fun weekendBias(weekend: Boolean, id: String): Int {
         if (!weekend) return 0
-        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset", "vrijdagavond", "ahspits", "avondwandel", "avondmarkt", "klusweekend", "regenbalcon", "ikeazondag", "terraswind", "mediamarktgang", "hemarij", "coolbluepickup", "actionhal", "wasstraat", "prparkeren")) 8 else 0
+        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset", "vrijdagavond", "ahspits", "avondwandel", "avondmarkt", "klusweekend", "regenbalcon", "ikeazondag", "terraswind", "mediamarktgang", "hemarij", "coolbluepickup", "actionhal", "wasstraat", "prparkeren", "decathlonhal", "etosrij", "flixbus")) 8 else 0
     }
 
     private fun doseBias(context: Context, id: String): Int =

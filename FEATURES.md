@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 90 (software, deze commit)
+- Scenes: PostNL-punt, Etos-rij, Decathlon-hal, Tankstation, Kapperszaak, Flixbus
+- Beste-nu bias: ochtend tank/flixbus, dag postnl/etos/decathlon/kapper, avond tank/postnl/flixbus, weekend decathlon/etos/flixbus
+- Zoek-aliassen: postnl, pakket, etos, decathlon, tank, pomp, kapper, kapsalon, flixbus, flix
+
 ## Batch 89 (software, deze commit)
 - Scenes: Action-hal, Kruidvat-rij, AH to go, P+R parkeren, Wasstraat, Gemeente-loket
 - Beste-nu bias: ochtend prparkeren/ahtogo, dag action/kruidvat/loket, avond action/kruidvat/ahtogo/pr, weekend action/wasstraat/pr
