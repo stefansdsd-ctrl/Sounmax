@@ -1,6 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 96 (software, deze commit)
+## Batch 97 (software, deze commit)
+- Scenes: Hardlopen, Teams/vergadering, Dierentuin, E-step/scooter, Nachtmarkt, Wasruimte
+- Beste-nu: ochtend hardlopen/e-step, kantoor-uren Teams, avond nachtmarkt/wasruimte, weekend dierentuin
+- Zoek: prefix-match op aliassen (typ “fys” of “hardl”)
+- Zoek-aliassen: hardlopen, teams, zoom, meet, dierentuin, zoo, e-step, scooter, nachtmarkt, wasruimte, droger
+
+## Batch 96 (software)
 - Scenes: Fysiotherapie, Bioscoop, Sauna/wellness, Schaatsbaan, Werkcollege, Speeltuin
 - Beste-nu: overdag fysio/werkcollege, avond bioscoop/sauna, weekend ijs/speeltuin
 - Zoek-aliassen: fysio, bioscoop, cinema, sauna, schaatsen, werkcollege, speeltuin
