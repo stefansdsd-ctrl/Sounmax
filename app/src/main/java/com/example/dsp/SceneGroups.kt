@@ -23,7 +23,7 @@ object SceneGroups {
             "morningbrief", "voiceisolate", "softcall", "inboxzero", "neighborhood",
             "homeexam", "cafefocus", "longcall", "hybridmeet", "rainoffice", "libsilence", "libraryplus", "latefocus"
         ),
-        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival", "stadium", "pool", "ski", "homeworkout", "f1", "basicfit", "sportschool", "shortgym", "boattrip", "morningbike", "themepark", "poolreverb", "fairground", "gympeak", "rainwalkplus"),
+        "Sport" to setOf("sport", "gym", "hiit", "hike", "beach", "cardio", "yoga", "festival", "stadium", "pool", "ski", "homeworkout", "f1", "basicfit", "sportschool", "shortgym", "boattrip", "morningbike", "themepark", "poolreverb", "fairground", "gympeak", "rainwalkplus", "padelbaan", "klimhal", "bowlingbaan", "zwemles"),
         "Media" to setOf(
             "film", "cinema", "podcast", "audiobook", "news", "vinyl", "jazz", "classic",
             "lofistudy", "concert", "anime", "radio", "tv", "djset", "shortform", "piano", "acoustic",
@@ -43,7 +43,7 @@ object SceneGroups {
             "camping", "baby", "movienight", "quietcar", "museum_night", "memorial", "thuisavond", "nachttrein", "zondagochtend", "kerk", "avondwandeling", "treinstilte", "winddown", "avondfiets", "bedpodcast",
             "sundayreset", "batterysave", "microbreak", "stillnight", "sundayafter", "neighbors", "kidsbed", "latefocus", "sleepwind", "thuiskidsplus"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat", "rain", "koffietent", "huisarts", "ziekenhuis", "thuiskids", "weekendmarkt", "terrasavond", "wachtrij", "avondwandeling", "hitte", "sneeuw", "schoolochtend", "kapper", "museum", "cookeve", "pharmacywait", "nightshop", "waitingroom", "diy", "garage", "lateah", "sundaymarket", "garageklus", "deliverydoor", "schoolyard", "hospwait", "themepark", "poolreverb", "fairground", "gardencenter", "diyhall", "thriftshop", "libraryplus", "kitchensteam", "platformrush", "cafechat", "jumbospits", "ikeazondag", "tandartswacht", "terraswind", "liftecho", "thuiskidsplus", "huisartswacht", "klusweekend", "regenbalcon"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat", "rain", "koffietent", "huisarts", "ziekenhuis", "thuiskids", "weekendmarkt", "terrasavond", "wachtrij", "avondwandeling", "hitte", "sneeuw", "schoolochtend", "kapper", "museum", "cookeve", "pharmacywait", "nightshop", "waitingroom", "diy", "garage", "lateah", "sundaymarket", "garageklus", "deliverydoor", "schoolyard", "hospwait", "themepark", "poolreverb", "fairground", "gardencenter", "diyhall", "thriftshop", "libraryplus", "kitchensteam", "platformrush", "cafechat", "jumbospits", "ikeazondag", "tandartswacht", "terraswind", "liftecho", "thuiskidsplus", "huisartswacht", "klusweekend", "regenbalcon", "bakkerij", "dierenarts"),
         "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap", "abcompare")
     )
 

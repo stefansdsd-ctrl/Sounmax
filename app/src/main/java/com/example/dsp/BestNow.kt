@@ -36,7 +36,8 @@ object BestNow {
                     hourBias(hour, scene.id) +
                     weekendBias(weekend, scene.id) +
                     batteryBias(batt, scene.id) +
-                    doseBias(context, scene.id)
+                    doseBias(context, scene.id) +
+                    noiseBias(scene)
                 scene to score
             }
             .sortedByDescending { it.second }
@@ -51,10 +52,10 @@ object BestNow {
         top(context)?.let { "Beste nu: ${it.emoji} ${it.name}" }
 
     private fun hourBias(hour: Int, id: String): Int = when {
-        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus", "mondaystart", "rainplatform", "tramspits", "ebikewind", "slaaptrein", "bakfiets", "stiltecoupé", "nsoverstap", "fietstunnel", "bushaltekou", "fietskelder", "prparkeren", "ahtogo", "tankstation", "flixbus", "ovchippoort", "icdirect", "stationshal", "parkeergarage", "stormfiets") -> 12
+        hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus", "mondaystart", "rainplatform", "tramspits", "ebikewind", "slaaptrein", "bakfiets", "stiltecoupé", "nsoverstap", "fietstunnel", "bushaltekou", "fietskelder", "prparkeren", "ahtogo", "tankstation", "flixbus", "ovchippoort", "icdirect", "stationshal", "parkeergarage", "stormfiets", "bakkerij") -> 12
         hour in 7..9 && id == "schoolplein" -> 14
-        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk", "coworkcall", "ahspits", "regenkantoor", "collegezaal", "bouwstraat", "wasdroger", "huisartswacht", "biebavond", "jumbospits", "tandartswacht", "liftecho", "thuiskidsplus", "lidlspits", "hemarij", "mediamarktgang", "coolbluepickup", "actionhal", "kruidvatrij", "gemeenteloket", "postnlpunt", "etosrij", "decathlonhal", "kapperszaak", "woonboulevard", "picnicbezorg", "zelfscan", "hornbach", "stationshal", "ijssalon", "apotheek", "slagerij", "fitnesslocker") -> 10
-        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold", "tvavond", "vrijdagavond", "drukkoken", "keukenbellen", "avondmarkt", "terraswind", "jumbospits", "lidlspits", "bushaltekou", "actionhal", "kruidvatrij", "ahtogo", "prparkeren", "tankstation", "postnlpunt", "flixbus", "snackbar", "mcdrive", "picnicbezorg", "ovchippoort", "zelfscan", "thuisbezorgd", "parkeergarage", "ijssalon", "kinderopvang", "fitnesslocker", "slagerij") -> 10
+        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk", "coworkcall", "ahspits", "regenkantoor", "collegezaal", "bouwstraat", "wasdroger", "huisartswacht", "biebavond", "jumbospits", "tandartswacht", "liftecho", "thuiskidsplus", "lidlspits", "hemarij", "mediamarktgang", "coolbluepickup", "actionhal", "kruidvatrij", "gemeenteloket", "postnlpunt", "etosrij", "decathlonhal", "kapperszaak", "woonboulevard", "picnicbezorg", "zelfscan", "hornbach", "stationshal", "ijssalon", "apotheek", "slagerij", "fitnesslocker", "bakkerij", "dierenarts", "klimhal") -> 10
+        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold", "tvavond", "vrijdagavond", "drukkoken", "keukenbellen", "avondmarkt", "terraswind", "jumbospits", "lidlspits", "bushaltekou", "actionhal", "kruidvatrij", "ahtogo", "prparkeren", "tankstation", "postnlpunt", "flixbus", "snackbar", "mcdrive", "picnicbezorg", "ovchippoort", "zelfscan", "thuisbezorgd", "parkeergarage", "ijssalon", "kinderopvang", "fitnesslocker", "slagerij", "padelbaan", "klimhal", "bowlingbaan", "zwemles") -> 10
         hour in 20..23 && id in setOf("avondwandel", "avondmarkt", "regenbalcon", "biebavond", "flixbus", "snackbar", "icdirect", "thuisbezorgd", "ijssalon", "concertfoyer") -> 12
         hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep", "latefocus", "sleepwind", "latebus", "slaaptrein", "flixbus", "icdirect") -> 14
         else -> 0
@@ -62,7 +63,7 @@ object BestNow {
 
     private fun weekendBias(weekend: Boolean, id: String): Int {
         if (!weekend) return 0
-        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset", "vrijdagavond", "ahspits", "avondwandel", "avondmarkt", "klusweekend", "regenbalcon", "ikeazondag", "terraswind", "mediamarktgang", "hemarij", "coolbluepickup", "actionhal", "wasstraat", "prparkeren", "decathlonhal", "etosrij", "flixbus", "woonboulevard", "snackbar", "mcdrive", "icdirect", "hornbach", "ijssalon", "stationshal", "zelfscan", "concertfoyer", "slagerij", "stormfiets")) 8 else 0
+        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset", "vrijdagavond", "ahspits", "avondwandel", "avondmarkt", "klusweekend", "regenbalcon", "ikeazondag", "terraswind", "mediamarktgang", "hemarij", "coolbluepickup", "actionhal", "wasstraat", "prparkeren", "decathlonhal", "etosrij", "flixbus", "woonboulevard", "snackbar", "mcdrive", "icdirect", "hornbach", "ijssalon", "stationshal", "zelfscan", "concertfoyer", "slagerij", "stormfiets", "padelbaan", "klimhal", "bowlingbaan", "zwemles", "bakkerij")) 8 else 0
     }
 
     private fun doseBias(context: Context, id: String): Int =
@@ -71,7 +72,19 @@ object BestNow {
     private fun batteryBias(percent: Int, id: String): Int = when {
         percent <= 10 && id in setOf("saver", "batterysaveplus", "sleep", "rest") -> 40
         percent <= 20 && id in setOf("saver", "batterysaveplus") -> 28
-        percent <= 20 && id in setOf("gympeak", "party", "festival", "concertpit") -> -12
+        percent <= 20 && id in setOf("gympeak", "party", "festival", "concertpit", "padelbaan", "klimhal", "bowlingbaan") -> -12
         else -> 0
+    }
+
+    /** Harde omgeving → ANC-scenes; stil → ambient/nacht. */
+    private fun noiseBias(scene: ListeningScene): Int {
+        val n = AmbientNoiseFloor.lastIntensity
+        return when {
+            n >= 0.72f && scene.ancMode in setOf(AncMode.STRONG, AncMode.ADAPTIVE, AncMode.WIND_GUARD) -> 16
+            n >= 0.72f && scene.ancMode == AncMode.AMBIENT -> -6
+            n <= 0.28f && scene.id in setOf("sleep", "night", "libraryplus", "stiltewerk", "hearrest") -> 14
+            n <= 0.28f && scene.ancMode == AncMode.STRONG -> -8
+            else -> 0
+        }
     }
 }
