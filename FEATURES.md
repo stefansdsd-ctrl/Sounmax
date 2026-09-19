@@ -1,12 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 93 (software, deze commit)
-- Scenes: Apotheek, Kinderopvang, Fitness-locker, Stormfiets, Slagerij, Concertfoyer
-- Beste-nu bias: ochtend stormfiets, dag apotheek/slagerij/fitnesslocker, avond kinderopvang/fitnesslocker/slagerij, late concertfoyer, weekend foyer/slager/storm
-- Zoek-aliassen: apotheek, pharmacy, kinderopvang, opvang, creche, locker, kleedkamer, storm, stormfiets, slager, slagerij, foyer, concertfoyer
+## Batch 94 (software, deze commit)
+- Scenes: Bakkerij, Dierenarts, Padel, Klimhal, Bowling, Zwemles
+- Beste-nu: ruis-bias (harde omgeving → ANC, stil → ambient/nacht)
+- Zoek-aliassen: bakker, brood, vet, dierenkliniek, padel, boulderen, klimmen, bowling, zwemles
 
-## Batch 92 (software)
-- Scenes: Zelfscan, Stationshal, Hornbach, Parkeergarage, Thuisbezorgd, IJssalon
+## Batch 93 (software)
+- Scenes: Apotheek, Kinderopvang, Fitness-locker, Stormfiets, Slagerij, Concertfoyer
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
