@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 87 (software, deze commit)
+## Batch 88 (software, deze commit)
+- Scenes: Lidl-spits, HEMA-rij, MediaMarkt-gang, Fietskelder, Bushalte-kou, Coolblue-ophalen
+- Beste-nu bias: ochtend bushalte/kelder, dag lidl/hema/mediamarkt/coolblue, avond lidl/bushalte, weekend mediamarkt/hema/coolblue
+- Zoek-aliassen: lidl, hema, mediamarkt, fietskelder, bushalte, coolblue
+
+## Batch 87
 - Scenes: Jumbo-spits, IKEA-zondag, Tandarts-wacht, Terras-wind, Lift-echo, Thuis-kids+
 - Beste-nu bias: dag jumbo/tandarts/lift/kids, avond terras/jumbo, weekend IKEA/terras
 - Luisterdosis: bij weekdrempel extra score voor oor-moeheid / rust
