@@ -1,14 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 91 (software, deze commit)
-- Scenes: OV-poortjes, Snackbar, Woonboulevard, McDrive, Intercity Direct, Picnic-bezorg
-- Beste-nu bias: ochtend ovpoort/icd, dag woonboulevard/picnic, avond snackbar/mcdrive/picnic/ovpoort, nacht icd, weekend woonboulevard/snackbar/mcdrive/icd
-- Zoek-aliassen: ovpoort, poortjes, ovchip, snackbar, cafetaria, friet, woonboulevard, mcdrive, mcdonalds, drive, icd, intercity, picnic, bezorg
+## Batch 92 (software, deze commit)
+- Scenes: Zelfscan, Stationshal, Hornbach, Parkeergarage, Thuisbezorgd, IJssalon
+- Beste-nu bias: ochtend stationshal/parkeergarage, dag zelfscan/hornbach/ijssalon, avond zelfscan/thuisbezorgd/ijssalon, weekend hornbach/ijssalon/stationshal
+- Zoek-aliassen: zelfscan, scan, cs, hornbach, bouwmarkt, parkeergarage, garage, thuisbezorgd, justeat, takeaway, ijssalon, ijs, gelato
 
-## Batch 90 (software)
-- Scenes: PostNL-punt, Etos-rij, Decathlon-hal, Tankstation, Kapperszaak, Flixbus
-- Beste-nu bias: ochtend tank/flixbus, dag postnl/etos/decathlon/kapper, avond tank/postnl/flixbus, weekend decathlon/etos/flixbus
-- Zoek-aliassen: postnl, pakket, etos, decathlon, tank, pomp, kapper, kapsalon, flixbus, flix
+## Batch 91 (software)
+- Scenes: OV-poortjes, Snackbar, Woonboulevard, McDrive, Intercity Direct, Picnic-bezorg
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
