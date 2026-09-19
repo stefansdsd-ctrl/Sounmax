@@ -145,7 +145,17 @@ object SceneSearch {
         "nachtwerk" to setOf("latefocus", "latework"),
         "perron" to setOf("platformrush", "train", "transferhub"),
         "cafe" to setOf("cafechat", "cafe"),
-        "slaap" to setOf("sleepwind", "sleep", "night")
+        "slaap" to setOf("sleepwind", "sleep", "night"),
+        "rijles" to setOf("rijles"),
+        "cbr" to setOf("cbrtheorie", "rijles"),
+        "theorie" to setOf("cbrtheorie"),
+        "ziekenhuis" to setOf("ziekenhuiswacht", "ziekenhuis"),
+        "wachtkamer" to setOf("ziekenhuiswacht", "tandartswacht", "huisartswacht"),
+        "lab" to setOf("practicumlab"),
+        "practicum" to setOf("practicumlab"),
+        "sportdag" to setOf("sportdag"),
+        "douche" to setOf("douchepodcast"),
+        "badkamer" to setOf("douchepodcast")
     )
 
     fun queryRanked(context: Context, q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
