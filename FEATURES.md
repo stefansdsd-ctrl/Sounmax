@@ -1,6 +1,11 @@
 # Sounmax — volgende features
 
-## Batch 95 (software, deze commit)
+## Batch 96 (software, deze commit)
+- Scenes: Fysiotherapie, Bioscoop, Sauna/wellness, Schaatsbaan, Werkcollege, Speeltuin
+- Beste-nu: overdag fysio/werkcollege, avond bioscoop/sauna, weekend ijs/speeltuin
+- Zoek-aliassen: fysio, bioscoop, cinema, sauna, schaatsen, werkcollege, speeltuin
+
+## Batch 95 (software)
 - Scenes: Rijles, Ziekenhuiswacht, Practicum/lab, CBR-theorie, Sportdag, Douche-podcast
 - Beste-nu: ochtend rijles/sportdag, kantoor-uren lab/CBR/ziekenhuis, stilte-bias voor examen/lab
 - Zoek-aliassen: rijles, cbr, theorie, ziekenhuis, wachtkamer, lab, practicum, sportdag, douche
