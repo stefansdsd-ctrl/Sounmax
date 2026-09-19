@@ -4,9 +4,10 @@ import android.content.Context
 import com.example.data.FavoriteScenes
 import com.example.data.SceneUsage
 import com.example.media.HourSceneSuggest
+import com.example.media.ListenDose
 import java.util.Calendar
 
-/** Combineert usage, uur, favorieten, weekend en telefoon-accu tot “beste nu”. */
+/** Combineert usage, uur, favorieten, weekend, accu en luisterdosis tot “beste nu”. */
 object BestNow {
     fun ranked(context: Context, limit: Int = 5): List<ListeningScene> {
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
@@ -34,7 +35,8 @@ object BestNow {
                     (if (scene.id == hourHint) 30 else 0) +
                     hourBias(hour, scene.id) +
                     weekendBias(weekend, scene.id) +
-                    batteryBias(batt, scene.id)
+                    batteryBias(batt, scene.id) +
+                    doseBias(context, scene.id)
                 scene to score
             }
             .sortedByDescending { it.second }
@@ -51,8 +53,8 @@ object BestNow {
     private fun hourBias(hour: Int, id: String): Int = when {
         hour in 6..8 && id in setOf("commute", "train", "metro", "windfietsplus", "platformrush", "rainbikeplus", "mondaystart", "rainplatform", "tramspits", "ebikewind", "slaaptrein", "bakfiets", "stiltecoupé", "nsoverstap", "fietstunnel") -> 12
         hour in 7..9 && id == "schoolplein" -> 14
-        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk", "coworkcall", "ahspits", "regenkantoor", "collegezaal", "bouwstraat", "wasdroger", "huisartswacht", "biebavond") -> 10
-        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold", "tvavond", "vrijdagavond", "drukkoken", "keukenbellen", "avondmarkt") -> 10
+        hour in 9..17 && id in setOf("openplanplus", "focus", "office", "examhall", "libraryplus", "zoomclass", "hotdesk", "coworkcall", "ahspits", "regenkantoor", "collegezaal", "bouwstraat", "wasdroger", "huisartswacht", "biebavond", "jumbospits", "tandartswacht", "liftecho", "thuiskidsplus") -> 10
+        hour in 17..20 && id in setOf("gympeak", "cafechat", "kitchensteam", "traffichold", "tvavond", "vrijdagavond", "drukkoken", "keukenbellen", "avondmarkt", "terraswind", "jumbospits") -> 10
         hour in 20..23 && id in setOf("avondwandel", "avondmarkt", "regenbalcon", "biebavond") -> 12
         hour in 22..23 || hour < 6 && id in setOf("hearrest", "earfatigue", "night", "sleep", "latefocus", "sleepwind", "latebus", "slaaptrein") -> 14
         else -> 0
@@ -60,8 +62,11 @@ object BestNow {
 
     private fun weekendBias(weekend: Boolean, id: String): Int {
         if (!weekend) return 0
-        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset", "vrijdagavond", "ahspits", "avondwandel", "avondmarkt", "klusweekend", "regenbalcon")) 8 else 0
+        return if (id in setOf("themepark", "fairground", "cafechat", "rainwalkplus", "concertpit", "sundayreset", "vrijdagavond", "ahspits", "avondwandel", "avondmarkt", "klusweekend", "regenbalcon", "ikeazondag", "terraswind")) 8 else 0
     }
+
+    private fun doseBias(context: Context, id: String): Int =
+        if (ListenDose.shouldPause(context) && id in setOf("earfatigue", "hearrest", "sleep", "rest")) 22 else 0
 
     private fun batteryBias(percent: Int, id: String): Int = when {
         percent <= 10 && id in setOf("saver", "batterysaveplus", "sleep", "rest") -> 40
