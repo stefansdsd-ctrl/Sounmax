@@ -16,20 +16,20 @@ object HourSceneSuggest {
         val weatherId = when {
             "onweer" in weather || "thunder" in weather -> "storm"
             "regen" in weather || "rain" in weather -> if (hour in 7..9 || hour in 16..18) "windfiets" else "rain"
-            "wind" in weather -> "windfiets"
+            "wind" in weather -> "snelfietspad"
             else -> null
         }
         if (weatherId != null) SceneLookup.byId(weatherId)?.let { return it }
 
         val id = when {
             hour in 6..8 && !weekend -> "commute"
-            hour in 9..11 && !weekend -> "openkantoor"
+            hour in 9..11 && !weekend -> "kantoorflex"
             hour in 12..13 -> "restaurant"
             hour in 14..16 && !weekend -> "pomodoro"
             hour in 17..18 && !weekend -> "commute"
-            hour in 19..21 -> "thuisbios"
+            hour in 19..21 -> "keukentafelavond"
             hour in 22..23 || hour < 6 -> "nachtwerk"
-            weekend && hour in 9..12 -> "walk"
+            weekend && hour in 9..12 -> "bibliobus"
             else -> "afterwork"
         }
         return SceneLookup.byId(id)

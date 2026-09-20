@@ -1,13 +1,14 @@
 # Sounmax — volgende features
 
-## Batch 103 (software, deze commit)
-- Scenes: Huiswerktafel, Collegecampus, Marktplein, Ziekenhuisgang, Wachtkamer, Bieb-foyer
-- Beste-nu: ochtend huiswerk/campus, kantoor-uren ziekenhuis/wachtkamer/bieb, avond markt/huiswerk
-- Zoek-aliassen: huiswerk, campus, markt, ziekenhuis, wachtkamer, biebfoyer + batch-102 aliassen
-- Sessiepauze: na 60 min continu luisteren hint in wellness-prefs
+## Batch 104 (software, deze commit)
+- Scenes: Peuterspeelzaal, Slagerij, Snelfietspad, Bibliobus, Kantoorflex, Keukentafel-avond
+- Beste-nu: werkdagen 9-11 kantoorflex, weekend ochtend bibliobus, avond keukentafel, wind snelfietspad
+- Zoek-aliassen: peuter, slagerij, snelfietspad, bibliobus, hotdesk, keukentafel
+- Sessiepauze: 60 min continu (ongewijzigd)
 
-## Batch 102 (software)
-- Scenes: BSO, Sportkleedkamer, Schouwburg, Fietsenstalling, Stadspark, Kantoorpantry
+## Batch 103 (software)
+- Scenes: Huiswerktafel, Collegecampus, Marktplein, Ziekenhuisgang, Wachtkamer, Bieb-foyer
+- Sessiepauze: na 60 min continu luisteren
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
