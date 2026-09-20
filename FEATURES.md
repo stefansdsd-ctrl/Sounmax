@@ -1,6 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 106 (software, deze commit)
+## Batch 107 (software, deze commit)
+- Scenes: Strandpaviljoen, Bouwkeet, Spoorwegovergang, Studentenkamer, Bioscoopfoyer, Gemeentebalie
+- Groep Nieuw (106+107)
+- Beste-nu: weekend 12-16 strandpaviljoen, week 21-22 studentenkamer
+- Zoek-aliassen: strandtent, keet, overweg, studentenkot, filmfoyer, balie + ontbrekende 105/106-aliassen
+- Sessiepauze: 60 min continu (ongewijzigd)
+
+## Batch 106 (software)
 - Scenes: Foodcourt, Yogales, Makerspace, Polderweg, Garagebox, Buurtsuper
 - Beste-nu: weekdag 9-17 makerspace/foodcourt, avond yoga, weekend ochtend buurtsuper, wind polderweg
 - Zoek-aliassen: foodplaza, yoga, fablab, polder, klusbox, buurtwinkel
@@ -11,16 +18,6 @@
 - Beste-nu: lunch weekdagen 12-13 lunchwandeling, 14-16 stilteruimte, 22-23 avondonderweg bushalte
 - Zoek-aliassen: wasserette, huisgenoot, lunchwandeling, stiltekamer, trappenhuis, nachtbushalte
 - Sessiepauze: 60 min continu (ongewijzigd)
-
-## Batch 104 (software)
-- Scenes: Peuterspeelzaal, Slagerij, Snelfietspad, Bibliobus, Kantoorflex, Keukentafel-avond
-- Beste-nu: werkdagen 9-11 kantoorflex, weekend ochtend bibliobus, avond keukentafel, wind snelfietspad
-- Zoek-aliassen: peuter, slagerij, snelfietspad, bibliobus, hotdesk, keukentafel
-- Sessiepauze: 60 min continu (ongewijzigd)
-
-## Batch 103 (software)
-- Scenes: Huiswerktafel, Collegecampus, Marktplein, Ziekenhuisgang, Wachtkamer, Bieb-foyer
-- Sessiepauze: na 60 min continu luisteren
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
