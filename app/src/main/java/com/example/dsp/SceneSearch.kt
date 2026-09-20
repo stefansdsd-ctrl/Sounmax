@@ -166,7 +166,7 @@ object SceneSearch {
         "concert" to setOf("concertpit", "concert"),
         "kantoor" to setOf("openplanplus", "office", "openoffice", "kantoortuin", "kantoorflex"),
         "referentie" to setOf("refcheck", "reference"),
-        "bellen" to setOf("callclarity", "call"),
+        "bellen" to setOf("callclarity", "call", "callbooth"),
         "wind" to setOf("windfietsplus", "wind", "snelfietspad"),
         "bieb" to setOf("libraryplus", "library", "studiezaal", "bibliobus", "biebfoyer"),
         "studiezaal" to setOf("studiezaal"),
@@ -190,9 +190,10 @@ object SceneSearch {
         "fysio" to setOf("fysio"),
         "fysiotherapie" to setOf("fysio"),
         "revalidatie" to setOf("fysio"),
-        "bioscoop" to setOf("bioscoop", "bioscoopfoyer"),
-        "cinema" to setOf("bioscoop"),
-        "filmhuis" to setOf("bioscoop"),
+        "bioscoop" to setOf("bioscoopzaal", "bioscoop", "bioscoopfoyer"),
+        "cinema" to setOf("bioscoopzaal", "bioscoop"),
+        "filmhuis" to setOf("bioscoopzaal", "bioscoop"),
+        "film" to setOf("bioscoopzaal"),
         "sauna" to setOf("sauna"),
         "wellness" to setOf("sauna"),
         "schaatsen" to setOf("schaatsbaan"),
@@ -305,7 +306,14 @@ object SceneSearch {
         "laptoptrein" to setOf("treinwerk"),
         "praktijklokaal" to setOf("praktijklokaal"),
         "lokaal" to setOf("praktijklokaal"),
-        "kantoorkantine" to setOf("kantoorkantine")
+        "kantoorkantine" to setOf("kantoorkantine"),
+        "theater" to setOf("theaterzaal"),
+        "schouwburg" to setOf("theaterzaal"),
+        "kerk" to setOf("kerkzaal"),
+        "picknick" to setOf("picknickpark"),
+        "belcel" to setOf("callbooth"),
+        "callbooth" to setOf("callbooth"),
+        "nachttrein" to setOf("nachttreinwerk", "nachttrein")
     )
 
     fun queryRanked(context: Context, q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
