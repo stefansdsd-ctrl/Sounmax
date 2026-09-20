@@ -1,6 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 104 (software, deze commit)
+## Batch 105 (software, deze commit)
+- Scenes: Wasserette, Studentenhuis, Lunchwandeling, Stilteruimte, Trapportaal, Avondbushalte
+- Beste-nu: lunch weekdagen 12-13 lunchwandeling, 14-16 stilteruimte, 22-23 avondonderweg bushalte
+- Zoek-aliassen: wasserette, huisgenoot, lunchwandeling, stiltekamer, trappenhuis, nachtbushalte
+- Sessiepauze: 60 min continu (ongewijzigd)
+
+## Batch 104 (software)
 - Scenes: Peuterspeelzaal, Slagerij, Snelfietspad, Bibliobus, Kantoorflex, Keukentafel-avond
 - Beste-nu: werkdagen 9-11 kantoorflex, weekend ochtend bibliobus, avond keukentafel, wind snelfietspad
 - Zoek-aliassen: peuter, slagerij, snelfietspad, bibliobus, hotdesk, keukentafel
