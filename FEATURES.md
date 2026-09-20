@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 100 (software, deze commit)
+- Scenes: Rechtbank, Notaris, Fietsenmaker, Waterbus/pont, Consultatiebureau, Skatepark
+- Beste-nu: kantoor-uren rechtbank/notaris/consultatie/fietsenmaker, ochtend/avond waterbus, weekend skate/pont/fietsenmaker
+- Zoek-aliassen: rechtbank, zitting, notaris, akte, fietsenmaker, waterbus, pontje, consultatie, ggd, cjg, skatepark
+- Stilte-bias: rechtbank + notaris
+
 ## Batch 99 (software, deze commit)
 - Scenes: IKEA-restaurant, Voetbalkantine, Campingdouche, Belastingkantoor, Campus/aula, Weekmarkt
 - Beste-nu: kantoor-uren campus/belasting/IKEA/markt, avond kantine/IKEA/markt, weekend IKEA/kantine/camping/markt
