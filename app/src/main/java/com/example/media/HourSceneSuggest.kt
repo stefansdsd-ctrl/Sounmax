@@ -2,6 +2,7 @@ package com.example.media
 
 import android.content.Context
 import com.example.dsp.ListeningScene
+import com.example.data.SceneUsage
 import com.example.dsp.SceneLookup
 import java.util.Calendar
 
@@ -20,6 +21,9 @@ object HourSceneSuggest {
             else -> null
         }
         if (weatherId != null) SceneLookup.byId(weatherId)?.let { return it }
+        SceneUsage.suggestNow(context)?.let { used ->
+            if (SceneUsage.count(context, used.id) >= 2) return used
+        }
 
         val id = when {
             hour in 6..8 && !weekend -> "commute"
@@ -30,6 +34,7 @@ object HourSceneSuggest {
             hour in 17..18 && !weekend -> "commute"
             hour in 19..20 -> "yogales"
             hour in 21..22 && !weekend -> "studentenkamer"
+            hour in 20..23 && weekend -> "bioscoopzaal"
             hour in 17..19 && weekend -> "dakterras"
             hour in 22..23 -> "nachtwinkel"
             hour < 6 -> "nachtwerk"

@@ -1,18 +1,17 @@
 # Sounmax — volgende features
 
-## Batch 109 (software, deze commit)
+## Batch 110 (software, deze commit)
+- Scenes: Theaterzaal, Kerkzaal, Bioscoopzaal, Skatepark, Picknickpark, Belcel, Nachttreinwerk
+- Groep Nieuw (106–110)
+- Beste-nu: usage-first (min. 2 taps dit uur), weekendavond bioscoop
+- Zoek-aliassen: theater, schouwburg, kerk, bioscoop, film, skate, picknick, belcel, nachttrein
+- Sessiepauze: 60 min continu (ongewijzigd)
+
+## Batch 109 (software)
 - Scenes: Bibliotheekzaal, Zwembad, Kapsalon, Marktkraam, Eetcafé, Ziekenhuiswacht, Thuiskantoor
 - Groep Nieuw (106–109)
 - Beste-nu: week 9-11 thuiskantoor, lunch eetcafé, weekendmarkt 9-11
 - Zoek-aliassen: bieb, bad, kapper, markt, cafe, wachtkamer, homeoffice, garage
-- Sessiepauze: 60 min continu (ongewijzigd)
-
-## Batch 108 (software)
-- Scenes: Fietstunnel, Dakterras, Nachtwinkel, Treinwerk, Praktijklokaal, Parkeergarage, Kantoorkantine
-- Groep Nieuw (106–108)
-- Beste-nu: weekend 17-19 dakterras, 22-23 nachtwinkel
-- Zoek-aliassen: tunnel, dak, avondwinkel, laptoptrein, lokaal, garage, kantine
-- Zoek: recencyScore (laatste 2u / 24u / 72u) bovenop tap-count
 - Sessiepauze: 60 min continu (ongewijzigd)
 
 ## Nog te bouwen
