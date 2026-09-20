@@ -70,7 +70,7 @@ object SceneSearch {
         "jumbo" to setOf("jumbospits"),
         "ikea" to setOf("ikeazondag", "ikearestaurant"),
         "tandarts" to setOf("tandartswacht", "tandartsstoel"),
-        "terras" to setOf("terraswind"),
+        "terras" to setOf("terraswind", "dakterras"),
         "lift" to setOf("liftecho"),
         "kids" to setOf("thuiskidsplus"),
         "lidl" to setOf("lidlspits"),
@@ -123,7 +123,7 @@ object SceneSearch {
         "hornbach" to setOf("hornbach"),
         "bouwmarkt" to setOf("hornbach", "diyhall"),
         "parkeergarage" to setOf("parkeergarage"),
-        "garage" to setOf("parkeergarage", "apkkeuring"),
+        "garage" to setOf("parkeergarage", "garagebox", "apkkeuring"),
         "apk" to setOf("apkkeuring"),
         "thuisbezorgd" to setOf("thuisbezorgd"),
         "justeat" to setOf("thuisbezorgd"),
@@ -242,7 +242,7 @@ object SceneSearch {
         "milieustraat" to setOf("milieustraat"),
         "recycling" to setOf("milieustraat"),
         "afval" to setOf("milieustraat"),
-        "kantine" to setOf("schoolkantine", "voetbalkantine"),
+        "kantine" to setOf("schoolkantine", "voetbalkantine", "kantoorkantine"),
         "schoolkantine" to setOf("schoolkantine"),
         "buurthuis" to setOf("buurthuis"),
         "wijkcentrum" to setOf("buurthuis"),
@@ -295,7 +295,17 @@ object SceneSearch {
         "bioscoopfoyer" to setOf("bioscoopfoyer"),
         "filmfoyer" to setOf("bioscoopfoyer"),
         "gemeentebalie" to setOf("gemeentebalie"),
-        "balie" to setOf("gemeentebalie", "gemeenteloket")
+        "balie" to setOf("gemeentebalie", "gemeenteloket"),
+        "tunnel" to setOf("fietstunnel"),
+        "dak" to setOf("dakterras"),
+        "dakterras" to setOf("dakterras"),
+        "nachtwinkel" to setOf("nachtwinkel"),
+        "avondwinkel" to setOf("nachtwinkel"),
+        "treinwerk" to setOf("treinwerk"),
+        "laptoptrein" to setOf("treinwerk"),
+        "praktijklokaal" to setOf("praktijklokaal"),
+        "lokaal" to setOf("praktijklokaal"),
+        "kantoorkantine" to setOf("kantoorkantine")
     )
 
     fun queryRanked(context: Context, q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
@@ -306,7 +316,7 @@ object SceneSearch {
             val exact = if (s.id == n || name == n) 200 else 0
             val prefix = if (s.id.startsWith(n) || name.startsWith(n)) 80 else 0
             val fav = if (s.id in favorites) 1000 else 0
-            fav + exact + prefix + SceneUsage.count(context, s.id)
+            fav + exact + prefix + SceneUsage.count(context, s.id) + SceneUsage.recencyScore(context, s.id)
         }
     }
 }
