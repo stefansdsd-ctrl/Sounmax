@@ -34,6 +34,28 @@ object SceneUsage {
             .take(limit)
     }
 
+    fun recent(context: Context, limit: Int = 8): List<ListeningScene> {
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        return prefs.all.entries
+            .filter { it.key.startsWith("last_") && it.value is Long }
+            .sortedByDescending { it.value as Long }
+            .mapNotNull { SceneLookup.byId(it.key.removePrefix("last_")) }
+            .take(limit)
+    }
+
+    fun recencyScore(context: Context, sceneId: String): Int {
+        val last = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getLong("last_$sceneId", 0L)
+        if (last == 0L) return 0
+        val ageH = ((System.currentTimeMillis() - last) / 3_600_000L).toInt()
+        return when {
+            ageH < 2 -> 40
+            ageH < 24 -> 18
+            ageH < 72 -> 8
+            else -> 0
+        }
+    }
+
     fun suggestNow(context: Context): ListeningScene? {
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
