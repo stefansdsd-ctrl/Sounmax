@@ -2,6 +2,7 @@ package com.example.dsp
 
 import android.content.Context
 import com.example.data.SceneUsage
+import kotlin.math.min
 
 /** Zoek + tags over alle luister-scenes. */
 object SceneSearch {
@@ -19,7 +20,7 @@ object SceneSearch {
         ALIASES.forEach { (key, ids) ->
             if (key.startsWith(n) || n.startsWith(key)) aliases += ids
         }
-        return SceneLookup.ALL.filter { s ->
+        val exact = SceneLookup.ALL.filter { s ->
             s.id.contains(n) ||
                 s.id in aliases ||
                 s.name.lowercase().contains(n) ||
@@ -28,12 +29,33 @@ object SceneSearch {
                 tagsFor(s.id).any { it.lowercase().contains(n) } ||
                 (n == "fav" && s.id in favorites)
         }
+        if (exact.isNotEmpty() || n.length < 4) return exact
+        return SceneLookup.ALL.filter { s ->
+            editDistance(n, s.id) <= 2 || editDistance(n, s.name.lowercase()) <= 2
+        }
+    }
+
+    private fun editDistance(a: String, b: String): Int {
+        if (a == b) return 0
+        if (a.isEmpty()) return b.length
+        if (b.isEmpty()) return a.length
+        if (kotlin.math.abs(a.length - b.length) > 2) return 99
+        val m = Array(a.length + 1) { IntArray(b.length + 1) }
+        for (i in 0..a.length) m[i][0] = i
+        for (j in 0..b.length) m[0][j] = j
+        for (i in 1..a.length) {
+            for (j in 1..b.length) {
+                val cost = if (a[i - 1] == b[j - 1]) 0 else 1
+                m[i][j] = min(min(m[i - 1][j] + 1, m[i][j - 1] + 1), m[i - 1][j - 1] + cost)
+            }
+        }
+        return m[a.length][b.length]
     }
 
     private val ALIASES = mapOf(
         "efteling" to setOf("themepark"),
         "walibi" to setOf("themepark"),
-        "zwembad" to setOf("poolreverb", "pool"),
+        "zwembad" to setOf("poolreverb", "pool", "zwembadtribune", "zwemles"),
         "kermis" to setOf("fairground"),
         "intratuin" to setOf("gardencenter"),
         "gamma" to setOf("diyhall"),
@@ -46,8 +68,8 @@ object SceneSearch {
         "balkon" to setOf("regenbalcon"),
         "fietstunnel" to setOf("fietstunnel"),
         "jumbo" to setOf("jumbospits"),
-        "ikea" to setOf("ikeazondag"),
-        "tandarts" to setOf("tandartswacht"),
+        "ikea" to setOf("ikeazondag", "ikearestaurant"),
+        "tandarts" to setOf("tandartswacht", "tandartsstoel"),
         "terras" to setOf("terraswind"),
         "lift" to setOf("liftecho"),
         "kids" to setOf("thuiskidsplus"),
@@ -66,14 +88,16 @@ object SceneSearch {
         "wasstraat" to setOf("wasstraat"),
         "gemeente" to setOf("gemeenteloket"),
         "loket" to setOf("gemeenteloket"),
-        "postnl" to setOf("postnlpunt"),
-        "pakket" to setOf("postnlpunt"),
+        "postnl" to setOf("postnlpunt", "pakketpunt"),
+        "pakket" to setOf("postnlpunt", "pakketpunt"),
+        "dhl" to setOf("pakketpunt"),
         "etos" to setOf("etosrij"),
         "decathlon" to setOf("decathlonhal"),
         "tank" to setOf("tankstation"),
         "pomp" to setOf("tankstation"),
-        "kapper" to setOf("kapperszaak"),
-        "kapsalon" to setOf("kapperszaak"),
+        "kapper" to setOf("kapperszaak", "kappersstoel"),
+        "kapsalon" to setOf("kapperszaak", "kappersstoel"),
+        "kapperstoel" to setOf("kappersstoel"),
         "flixbus" to setOf("flixbus"),
         "flix" to setOf("flixbus"),
         "ovpoort" to setOf("ovchippoort"),
@@ -99,7 +123,8 @@ object SceneSearch {
         "hornbach" to setOf("hornbach"),
         "bouwmarkt" to setOf("hornbach", "diyhall"),
         "parkeergarage" to setOf("parkeergarage"),
-        "garage" to setOf("parkeergarage"),
+        "garage" to setOf("parkeergarage", "apkkeuring"),
+        "apk" to setOf("apkkeuring"),
         "thuisbezorgd" to setOf("thuisbezorgd"),
         "justeat" to setOf("thuisbezorgd"),
         "takeaway" to setOf("thuisbezorgd"),
@@ -133,16 +158,18 @@ object SceneSearch {
         "bowling" to setOf("bowlingbaan"),
         "bowlingbaan" to setOf("bowlingbaan"),
         "zwemles" to setOf("zwemles"),
-        "zwemmen" to setOf("zwemles", "pool", "poolreverb", "zwembad"),
+        "zwemmen" to setOf("zwemles", "pool", "poolreverb", "zwembadtribune"),
+        "tribune" to setOf("zwembadtribune"),
         "nachtbus" to setOf("nightbusplus", "nightbus"),
         "tentamen" to setOf("examhall", "exam"),
         "gehoor" to setOf("hearrest", "earfatigue"),
         "concert" to setOf("concertpit", "concert"),
-        "kantoor" to setOf("openplanplus", "office", "openoffice"),
+        "kantoor" to setOf("openplanplus", "office", "openoffice", "kantoortuin"),
         "referentie" to setOf("refcheck", "reference"),
         "bellen" to setOf("callclarity", "call"),
         "wind" to setOf("windfietsplus", "wind"),
-        "bieb" to setOf("libraryplus", "library"),
+        "bieb" to setOf("libraryplus", "library", "studiezaal"),
+        "studiezaal" to setOf("studiezaal"),
         "sportschool" to setOf("gympeak", "gym", "sport"),
         "regen" to setOf("rainwalkplus", "rain"),
         "keuken" to setOf("kitchensteam", "kitchen", "cook"),
@@ -158,7 +185,7 @@ object SceneSearch {
         "lab" to setOf("practicumlab"),
         "practicum" to setOf("practicumlab"),
         "sportdag" to setOf("sportdag"),
-        "douche" to setOf("douchepodcast"),
+        "douche" to setOf("douchepodcast", "campingdouche"),
         "badkamer" to setOf("douchepodcast"),
         "fysio" to setOf("fysio"),
         "fysiotherapie" to setOf("fysio"),
@@ -193,14 +220,43 @@ object SceneSearch {
         "nachtmarkt" to setOf("nachtmarkt"),
         "wasruimte" to setOf("wasruimte"),
         "droger" to setOf("wasruimte"),
-        "wasmachine" to setOf("wasruimte")
+        "wasmachine" to setOf("wasruimte"),
+        "bbq" to setOf("barbecue"),
+        "tuinfeest" to setOf("barbecue"),
+        "kantoortuin" to setOf("kantoortuin"),
+        "uitvaart" to setOf("uitvaart"),
+        "crematorium" to setOf("uitvaart"),
+        "rechtbank" to setOf("rechtbank"),
+        "zitting" to setOf("rechtbank"),
+        "notaris" to setOf("notaris"),
+        "akte" to setOf("notaris"),
+        "fietsenmaker" to setOf("fietsenmaker"),
+        "waterbus" to setOf("waterbus"),
+        "pontje" to setOf("waterbus"),
+        "pont" to setOf("waterbus"),
+        "consultatie" to setOf("consultatiebureau"),
+        "ggd" to setOf("consultatiebureau"),
+        "cjg" to setOf("consultatiebureau"),
+        "skatepark" to setOf("skatepark"),
+        "skate" to setOf("skatepark"),
+        "milieustraat" to setOf("milieustraat"),
+        "recycling" to setOf("milieustraat"),
+        "afval" to setOf("milieustraat"),
+        "kantine" to setOf("schoolkantine", "voetbalkantine"),
+        "schoolkantine" to setOf("schoolkantine"),
+        "buurthuis" to setOf("buurthuis"),
+        "wijkcentrum" to setOf("buurthuis")
     )
 
     fun queryRanked(context: Context, q: String, favorites: Set<String> = emptySet()): List<ListeningScene> {
+        val n = q.trim().lowercase()
         val hits = query(q, favorites)
         return hits.sortedByDescending { s ->
+            val name = s.name.lowercase()
+            val exact = if (s.id == n || name == n) 200 else 0
+            val prefix = if (s.id.startsWith(n) || name.startsWith(n)) 80 else 0
             val fav = if (s.id in favorites) 1000 else 0
-            fav + SceneUsage.count(context, s.id)
+            fav + exact + prefix + SceneUsage.count(context, s.id)
         }
     }
 }
