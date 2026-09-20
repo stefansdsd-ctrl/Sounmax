@@ -1,41 +1,17 @@
 # Sounmax — volgende features
 
-## Batch 100 (software, deze commit)
+## Batch 101 (software, deze commit)
+- Scenes: Milieustraat, Schoolkantine, Zwembadtribune, Studiezaal, Buurthuis, Kappersstoel
+- Beste-nu: kantoor-uren studiezaal/buurthuis/kapper, avond schoolkantine/zwembadtribune, weekend milieustraat/zwembad/buurthuis
+- Zoek: fuzzy typo-match + prefix/exact-bonus
+- Zoek-aliassen: milieustraat, recycling, kantine, tribune, studiezaal, buurthuis, kapperstoel
+- Stilte-bias: studiezaal
+
+## Batch 100 (software)
 - Scenes: Rechtbank, Notaris, Fietsenmaker, Waterbus/pont, Consultatiebureau, Skatepark
 - Beste-nu: kantoor-uren rechtbank/notaris/consultatie/fietsenmaker, ochtend/avond waterbus, weekend skate/pont/fietsenmaker
 - Zoek-aliassen: rechtbank, zitting, notaris, akte, fietsenmaker, waterbus, pontje, consultatie, ggd, cjg, skatepark
 - Stilte-bias: rechtbank + notaris
-
-## Batch 99 (software, deze commit)
-- Scenes: IKEA-restaurant, Voetbalkantine, Campingdouche, Belastingkantoor, Campus/aula, Weekmarkt
-- Beste-nu: kantoor-uren campus/belasting/IKEA/markt, avond kantine/IKEA/markt, weekend IKEA/kantine/camping/markt
-- Zoek: prefix/exact-bonus + aliassen tandarts/pakket/garage/apk/bbq/markt/campus
-- Zoek-aliassen hersteld: tandarts→stoel+wacht, pakket→punt+PostNL, garage→APK+parkeer
-
-## Batch 98 (software)
-- Scenes: Tandarts (behandeling), Pakketpunt, BBQ/tuinfeest, Kantoortuin, Uitvaart/herdenking, APK/garage
-- Beste-nu: kantoor-uren tandarts/kantoortuin/APK/pakket, avond BBQ, weekend BBQ/pakket/APK
-- Zoek-aliassen: tandarts, pakket, dhl, bbq, tuinfeest, kantoortuin, uitvaart, crematorium, apk, garage
-
-## Batch 97 (software)
-- Scenes: Hardlopen, Teams/vergadering, Dierentuin, E-step/scooter, Nachtmarkt, Wasruimte
-- Beste-nu: ochtend hardlopen/e-step, kantoor-uren Teams, avond nachtmarkt/wasruimte, weekend dierentuin
-- Zoek: prefix-match op aliassen (typ “fys” of “hardl”)
-- Zoek-aliassen: hardlopen, teams, zoom, meet, dierentuin, zoo, e-step, scooter, nachtmarkt, wasruimte, droger
-
-## Batch 96 (software)
-- Scenes: Fysiotherapie, Bioscoop, Sauna/wellness, Schaatsbaan, Werkcollege, Speeltuin
-- Beste-nu: overdag fysio/werkcollege, avond bioscoop/sauna, weekend ijs/speeltuin
-- Zoek-aliassen: fysio, bioscoop, cinema, sauna, schaatsen, werkcollege, speeltuin
-
-## Batch 95 (software)
-- Scenes: Rijles, Ziekenhuiswacht, Practicum/lab, CBR-theorie, Sportdag, Douche-podcast
-- Beste-nu: ochtend rijles/sportdag, kantoor-uren lab/CBR/ziekenhuis, stilte-bias voor examen/lab
-- Zoek-aliassen: rijles, cbr, theorie, ziekenhuis, wachtkamer, lab, practicum, sportdag, douche
-
-## Batch 94 (software)
-- Scenes: Bakkerij, Dierenarts, Padel, Klimhal, Bowling, Zwemles
-- Beste-nu: ruis-bias (harde omgeving → ANC, stil → ambient/nacht)
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
