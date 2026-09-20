@@ -1,17 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 102 (software, deze commit)
-- Scenes: BSO, Sportkleedkamer, Schouwburg, Fietsenstalling, Stadspark, Kantoorpantry
-- Beste-nu: ochtend fietsenstalling/BSO, kantoor-uren pantry/schouwburg, avond BSO/kleedkamer/park, weekend park/schouwburg
-- Zoek-aliassen: bso, naschools, kleedkamer, theater, foyer, stalling, stadspark, pantry
-- Stilte-bias: schouwburg
+## Batch 103 (software, deze commit)
+- Scenes: Huiswerktafel, Collegecampus, Marktplein, Ziekenhuisgang, Wachtkamer, Bieb-foyer
+- Beste-nu: ochtend huiswerk/campus, kantoor-uren ziekenhuis/wachtkamer/bieb, avond markt/huiswerk
+- Zoek-aliassen: huiswerk, campus, markt, ziekenhuis, wachtkamer, biebfoyer + batch-102 aliassen
+- Sessiepauze: na 60 min continu luisteren hint in wellness-prefs
 
-## Batch 101 (software)
-- Scenes: Milieustraat, Schoolkantine, Zwembadtribune, Studiezaal, Buurthuis, Kappersstoel
-- Beste-nu: kantoor-uren studiezaal/buurthuis/kapper, avond schoolkantine/zwembadtribune, weekend milieustraat/zwembad/buurthuis
-- Zoek: fuzzy typo-match + prefix/exact-bonus
-- Zoek-aliassen: milieustraat, recycling, kantine, tribune, studiezaal, buurthuis, kapperstoel
-- Stilte-bias: studiezaal
+## Batch 102 (software)
+- Scenes: BSO, Sportkleedkamer, Schouwburg, Fietsenstalling, Stadspark, Kantoorpantry
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
