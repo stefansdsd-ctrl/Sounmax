@@ -1,6 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 105 (software, deze commit)
+## Batch 106 (software, deze commit)
+- Scenes: Foodcourt, Yogales, Makerspace, Polderweg, Garagebox, Buurtsuper
+- Beste-nu: weekdag 9-17 makerspace/foodcourt, avond yoga, weekend ochtend buurtsuper, wind polderweg
+- Zoek-aliassen: foodplaza, yoga, fablab, polder, klusbox, buurtwinkel
+- Sessiepauze: 60 min continu (ongewijzigd)
+
+## Batch 105 (software)
 - Scenes: Wasserette, Studentenhuis, Lunchwandeling, Stilteruimte, Trapportaal, Avondbushalte
 - Beste-nu: lunch weekdagen 12-13 lunchwandeling, 14-16 stilteruimte, 22-23 avondonderweg bushalte
 - Zoek-aliassen: wasserette, huisgenoot, lunchwandeling, stiltekamer, trappenhuis, nachtbushalte
