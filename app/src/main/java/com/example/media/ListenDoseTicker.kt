@@ -25,13 +25,17 @@ object ListenDoseTicker {
                         val pct = (100 * cur) / max
                         ListenDose.record(app, pct, 1)
                         WeeklyListenReport.addMinute(app, pct)
+                        SessionBreak.tick(app, playing = true, volumePct = pct)
                         val wellness = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
                         wellness.edit()
                             .putInt("dose_today", ListenDose.weekMinutes(app).lastOrNull()?.second?.toInt() ?: 0)
                             .putInt("dose_week", ListenDose.weekTotal(app).toInt())
+                            .putString("session_break_hint", SessionBreak.hint(app) ?: "")
                             .apply()
                         DailyHearingBudget.applySoftCap(app)
                         DoseLock.enforce(app)
+                    } else {
+                        SessionBreak.tick(app, playing = false, volumePct = 0)
                     }
                 } catch (_: Exception) {
                 }
