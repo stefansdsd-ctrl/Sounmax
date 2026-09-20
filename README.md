@@ -3,10 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-20 — batch 101)
-- Scenes: Milieustraat, Schoolkantine, Zwembadtribune, Studiezaal, Buurthuis, Kappersstoel.
-- Beste-nu: kantoor-uren studiezaal/buurthuis/kapper, avond kantine/zwembad, weekend milieustraat/zwembad.
-- Zoek: fuzzy (typfouten), prefix/exact-bonus, aliassen milieustraat/kantine/tribune/studiezaal/buurthuis/kapper.
+## Nieuw (2026-09-20 — batch 102)
+- Scenes: BSO, Sportkleedkamer, Schouwburg, Fietsenstalling, Stadspark, Kantoorpantry.
+- Beste-nu: ochtend stalling/BSO, kantoor pantry/schouwburg, avond BSO/kleed/park.
+- Zoek-aliassen: bso, naschools, kleedkamer, theater, stalling, pantry.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
