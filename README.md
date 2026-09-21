@@ -3,9 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-21 — batch 119)
-- Scenes: NS-werkzaamheden, Bieb-balie, Zelfscan avond, Thuis-call, Groupfit, Avondmarkt, Huisvisite.
-- Zoek-aliassen voor die scenes.
+## Nieuw (2026-09-21 — batch 120)
+- Scenes: Herfstwandel, OV-chip storing, Praktijkles, Spa-beurt, IC-stilte+, WFH + kind, Winkelcentrum zo, Avondcollege.
+- Zoek: lege query toont favorieten eerst.
+- Zoek-aliassen voor batch 120.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
