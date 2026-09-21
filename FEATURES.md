@@ -1,17 +1,17 @@
 # Sounmax — volgende features
 
-## Batch 111 (software, deze commit)
+## Batch 112 (software, deze commit)
+- Scenes: Zolderwerk, Bakfiets, Parkeerdek, Printkamer, Wasdroger, Brievenbus, Sluiswacht
+- Groep Nieuw (106–112)
+- Beste-nu: ochtend bakfiets, avond zolderwerk, weekend sluis/parkeerdek
+- Zoek-aliassen: zolder, bakfiets, parkeerdek, print, droger, brievenbus, sluis
+- Sessiepauze: 60 min continu (ongewijzigd)
+
+## Batch 111 (software)
 - Scenes: Thuisbioscoop, Festivalcamping, Tramhalte, Cowork-lounge, Kringloophal, Nachtservice, Boswandel
 - Groep Nieuw (106–111)
 - Beste-nu: avond thuisbioscoop, weekend festivalcamping/bos, ochtend tramhalte
 - Zoek-aliassen: thuisbioscoop, festivalcamping, tramhalte, cowork, kringloop, nachtservice, boswandel
-- Sessiepauze: 60 min continu (ongewijzigd)
-
-## Batch 110 (software)
-- Scenes: Theaterzaal, Kerkzaal, Bioscoopzaal, Skatepark, Picknickpark, Belcel, Nachttreinwerk
-- Groep Nieuw (106–110)
-- Beste-nu: usage-first (min. 2 taps dit uur), weekendavond bioscoop
-- Zoek-aliassen: theater, schouwburg, kerk, bioscoop, film, skate, picknick, belcel, nachttrein
 - Sessiepauze: 60 min continu (ongewijzigd)
 
 ## Nog te bouwen
