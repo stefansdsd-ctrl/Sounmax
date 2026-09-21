@@ -26,15 +26,15 @@ object HourSceneSuggest {
         }
 
         val id = when {
-            hour in 6..8 && !weekend -> "spitsfiets"
+            hour in 6..8 && !weekend -> "ovchippoortplus"
             hour in 9..11 && !weekend -> "zolderwerk"
             hour in 12..13 && !weekend -> "kantinehal"
             hour in 12..16 && weekend -> "sluiswacht"
-            hour in 14..16 && !weekend -> "wasdrogerthuis"
-            hour in 17..18 && !weekend -> "parkeerdek"
-            hour in 19..20 -> "zolderwerk"
-            hour in 21..22 && !weekend -> "wasdrogerthuis"
-            hour in 20..23 && weekend -> "thuisbioscoop"
+            hour in 14..16 && !weekend -> "apotheekwacht"
+            hour in 17..18 && !weekend -> "regenperron"
+            hour in 19..20 -> "avondcollege"
+            hour in 21..22 && !weekend -> "thuisfilmlaat"
+            hour in 20..23 && weekend -> "thuisfilmlaat"
             hour in 17..19 && weekend -> "parkeerdek"
             hour in 22..23 -> "nachtwinkel"
             hour < 6 -> "nachtwerk"
