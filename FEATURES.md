@@ -1,6 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 112 (software, deze commit)
+## Batch 113 (software, deze commit)
+- Scenes: Fietskoerier, Regenoverkapping, Thuiswassen, Nachtportier, College-opname, Polderbus, Oorpauze
+- Groep Nieuw (106–113)
+- Beste-nu: ochtend fietskoerier/polderbus, avond thuiswassen/nachtportier, dosis → oorpauze
+- Zoek-aliassen: koerier, overkapping, wassen, portier, collegeopname, polderbus, oorpauze
+- Sessiepauze: oorpauze-scene als dose-reset (naast 60 min continu)
+
+## Batch 112 (software)
 - Scenes: Zolderwerk, Bakfiets, Parkeerdek, Printkamer, Wasdroger, Brievenbus, Sluiswacht
 - Groep Nieuw (106–112)
 - Beste-nu: ochtend bakfiets, avond zolderwerk, weekend sluis/parkeerdek
