@@ -1,3 +1,7 @@
 package com.example.dsp
 
-/** Extra zoek-aliassen uit recente batches. */}
+/** Extra zoek-aliassen uit recente batches. */
+object SceneAliasIndex {
+    val MAP: Map<String, Set<String>> =
+        Batch120Aliases.MAP + Batch121Aliases.MAP + Batch122Aliases.MAP
+}
