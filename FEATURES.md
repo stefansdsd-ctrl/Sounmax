@@ -1,6 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 113 (software, deze commit)
+## Batch 114 (software, deze commit)
+- Scenes: Glasbak, Treinbistro, Koelcel, Schoolfiets, Koffiecorner, Nachtparkeer, Zwembadgang
+- Groep Nieuw (106–114)
+- Beste-nu: ochtend schoolfiets, dag koffiecorner/koelcel, avond nachtparkeer, weekend glasbak/zwembadgang/treinbistro
+- Zoek-aliassen: glasbak, bistro, koelcel, schoolfiets, koffiecorner, nachtparkeer, zwembadgang
+- Sessiepauze: oorpauze ongewijzigd
+
+## Batch 113 (software)
 - Scenes: Fietskoerier, Regenoverkapping, Thuiswassen, Nachtportier, College-opname, Polderbus, Oorpauze
 - Groep Nieuw (106–113)
 - Beste-nu: ochtend fietskoerier/polderbus, avond thuiswassen/nachtportier, dosis → oorpauze
@@ -12,13 +19,6 @@
 - Groep Nieuw (106–112)
 - Beste-nu: ochtend bakfiets, avond zolderwerk, weekend sluis/parkeerdek
 - Zoek-aliassen: zolder, bakfiets, parkeerdek, print, droger, brievenbus, sluis
-- Sessiepauze: 60 min continu (ongewijzigd)
-
-## Batch 111 (software)
-- Scenes: Thuisbioscoop, Festivalcamping, Tramhalte, Cowork-lounge, Kringloophal, Nachtservice, Boswandel
-- Groep Nieuw (106–111)
-- Beste-nu: avond thuisbioscoop, weekend festivalcamping/bos, ochtend tramhalte
-- Zoek-aliassen: thuisbioscoop, festivalcamping, tramhalte, cowork, kringloop, nachtservice, boswandel
 - Sessiepauze: 60 min continu (ongewijzigd)
 
 ## Nog te bouwen
