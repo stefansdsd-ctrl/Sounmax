@@ -3,11 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-20 — batch 110)
-- Scenes: Theaterzaal, Kerkzaal, Bioscoopzaal, Skatepark, Picknickpark, Belcel, Nachttreinwerk.
-- Groep Nieuw (batch 106–110).
-- Beste-nu gebruikt eerst jouw uur-statistiek (vanaf 2 taps).
-- Zoek-aliassen: theater, kerk, bioscoop, skate, picknick, belcel, nachttrein.
+## Nieuw (2026-09-21 — batch 111)
+- Scenes: Thuisbioscoop, Festivalcamping, Tramhalte, Cowork-lounge, Kringloophal, Nachtservice, Boswandel.
+- Groep Nieuw (batch 106–111).
+- Zoek-aliassen: thuisbioscoop, festivalcamping, tramhalte, cowork, kringloop, nachtservice, bos.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
