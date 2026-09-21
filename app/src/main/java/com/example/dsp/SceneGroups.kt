@@ -15,7 +15,9 @@ object SceneGroups {
             "zolderwerk", "bakfietsrit", "parkeerdek", "printkamer", "wasdrogerthuis", "brievenbusrij", "sluiswacht",
             "fietskoerier", "regenoverkapping", "thuiswassen", "nachtportier", "collegeopname", "polderbus", "oorpauze",
             "glasbak", "treinbistro", "koelcel", "schoolfiets", "koffiecorner", "nachtparkeer", "zwembadgang",
-            "bagageband", "roltrap", "broodjeszaak", "garagepoort", "dierenasiel", "perronkap", "kleedhokje"
+            "bagageband", "roltrap", "broodjeszaak", "garagepoort", "dierenasiel", "perronkap", "kleedhokje",
+            "pakketkluis", "kantinehal", "fietspomp", "liftlobby", "brievenbushal", "spitsfiets", "avondreceptie",
+            "traminstap", "huisartshal", "wasplaats", "koffietent", "parkeerlift", "nachtfiets", "burenfeest"
         ),
         "Onderweg" to setOf(
             "commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk",
