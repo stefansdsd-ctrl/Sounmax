@@ -1,13 +1,14 @@
 # Sounmax — volgende features
 
-## Batch 120 (software, deze commit)
+## Batch 121 (software, deze commit)
+- Scenes: Avondspits fiets, Apotheekwacht, Wasstraat lang, Thuis-klus avond, Parkbank, Nachtwinkel kort, Collegezaal+, Regenterras
+- Scene-filter gebruikt ranked search (favorieten + gebruik eerst)
+- Groep Nieuw + aliassen batch 121
+
+## Batch 120 (software)
 - Scenes: Herfstwandel, OV-chip storing, Praktijkles, Spa-beurt, IC-stilte+, WFH + kind, Winkelcentrum zo, Avondcollege
 - Lege scene-zoek: favorieten eerst
 - Groep Nieuw + aliassen batch 120
-
-## Batch 119 (software)
-- Scenes: NS-werkzaamheden, Bieb-balie, Zelfscan avond, Thuis-call, Groupfit, Avondmarkt, Huisvisite
-- Zoek-aliassen: ns-werk, bieb-balie, zelfscan, thuiscall, groupfit, avondmarkt, huisvisite
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
