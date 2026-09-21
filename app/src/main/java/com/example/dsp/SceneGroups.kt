@@ -14,7 +14,8 @@ object SceneGroups {
             "thuisbioscoop", "festivalcamping", "tramhaltewacht", "coworklounge", "kringloophal", "nachtservicebalie", "boswandel",
             "zolderwerk", "bakfietsrit", "parkeerdek", "printkamer", "wasdrogerthuis", "brievenbusrij", "sluiswacht",
             "fietskoerier", "regenoverkapping", "thuiswassen", "nachtportier", "collegeopname", "polderbus", "oorpauze",
-            "glasbak", "treinbistro", "koelcel", "schoolfiets", "koffiecorner", "nachtparkeer", "zwembadgang"
+            "glasbak", "treinbistro", "koelcel", "schoolfiets", "koffiecorner", "nachtparkeer", "zwembadgang",
+            "bagageband", "roltrap", "broodjeszaak", "garagepoort", "dierenasiel", "perronkap", "kleedhokje"
         ),
         "Onderweg" to setOf(
             "commute", "train", "bus", "tram", "metro", "plane", "car", "bike", "walk",
@@ -29,7 +30,8 @@ object SceneGroups {
             "parkeergarage", "nachttreinwerk", "tramhaltewacht", "boswandel",
             "bakfietsrit", "parkeerdek", "sluiswacht",
             "fietskoerier", "regenoverkapping", "polderbus",
-            "schoolfiets", "treinbistro", "nachtparkeer"
+            "schoolfiets", "treinbistro", "nachtparkeer",
+            "bagageband", "roltrap", "perronkap", "garagepoort"
         ),
         "Werk" to setOf(
             "focus", "deepwork", "office", "latework", "wfh", "meeting", "school",
@@ -62,9 +64,9 @@ object SceneGroups {
             "sundayreset", "batterysave", "microbreak", "stillnight", "sundayafter", "neighbors", "kidsbed", "latefocus", "sleepwind", "thuiskidsplus", "sauna",
             "dakterras", "nachtwinkel", "nachttreinwerk", "thuisbioscoop", "nachtservicebalie",
             "wasdrogerthuis", "zolderwerk", "nachtportier", "oorpauze", "thuiswassen",
-            "nachtparkeer"
+            "nachtparkeer", "kleedhokje"
         ),
-        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat", "rain", "koffietent", "huisarts", "ziekenhuis", "thuiskids", "weekendmarkt", "terrasavond", "wachtrij", "avondwandeling", "hitte", "sneeuw", "schoolochtend", "kapper", "museum", "cookeve", "pharmacywait", "nightshop", "waitingroom", "diy", "garage", "lateah", "sundaymarket", "garageklus", "deliverydoor", "schoolyard", "hospwait", "themepark", "poolreverb", "fairground", "gardencenter", "diyhall", "thriftshop", "libraryplus", "kitchensteam", "platformrush", "cafechat", "jumbospits", "ikeazondag", "tandartswacht", "terraswind", "liftecho", "thuiskidsplus", "huisartswacht", "klusweekend", "regenbalcon", "bakkerij", "dierenarts", "fysio", "speeltuin", "ikearestaurant", "marktkoopman", "campingdouche", "pakketpunt", "apkkeuring", "milieustraat", "schoolkantine", "buurthuis", "kappersstoel", "peuterspeelzaal", "slagerijplus", "bibliobus", "keukentafelavond", "foodcourt", "buurtsuper", "garagebox", "strandpaviljoen", "gemeentebalie", "kantoorkantine", "dakterras", "kapsalon", "marktkraam", "eetcafe", "ziekenhuiswacht", "theaterzaal", "kerkzaal", "bioscoopzaal", "skatepark", "picknickpark", "kringloophal", "coworklounge", "tramhaltewacht", "boswandel", "zolderwerk", "bakfietsrit", "parkeerdek", "printkamer", "wasdrogerthuis", "brievenbusrij", "sluiswacht", "fietskoerier", "regenoverkapping", "thuiswassen", "collegeopname", "polderbus", "glasbak", "treinbistro", "koelcel", "schoolfiets", "koffiecorner", "zwembadgang"),
+        "Dag" to setOf("morning", "cafe", "office", "wfh", "cook", "garden", "market", "waiting", "shop", "barber", "cowork", "dentist", "alert", "camping", "baby", "exam", "playground", "photoshoot", "pool", "park", "supermarket", "wedding", "pharmacy", "ikea", "construction", "horeca", "openoffice", "marktplein", "praat", "rain", "koffietent", "huisarts", "ziekenhuis", "thuiskids", "weekendmarkt", "terrasavond", "wachtrij", "avondwandeling", "hitte", "sneeuw", "schoolochtend", "kapper", "museum", "cookeve", "pharmacywait", "nightshop", "waitingroom", "diy", "garage", "lateah", "sundaymarket", "garageklus", "deliverydoor", "schoolyard", "hospwait", "themepark", "poolreverb", "fairground", "gardencenter", "diyhall", "thriftshop", "libraryplus", "kitchensteam", "platformrush", "cafechat", "jumbospits", "ikeazondag", "tandartswacht", "terraswind", "liftecho", "thuiskidsplus", "huisartswacht", "klusweekend", "regenbalcon", "bakkerij", "dierenarts", "fysio", "speeltuin", "ikearestaurant", "marktkoopman", "campingdouche", "pakketpunt", "apkkeuring", "milieustraat", "schoolkantine", "buurthuis", "kappersstoel", "peuterspeelzaal", "slagerijplus", "bibliobus", "keukentafelavond", "foodcourt", "buurtsuper", "garagebox", "strandpaviljoen", "gemeentebalie", "kantoorkantine", "dakterras", "kapsalon", "marktkraam", "eetcafe", "ziekenhuiswacht", "theaterzaal", "kerkzaal", "bioscoopzaal", "skatepark", "picknickpark", "kringloophal", "coworklounge", "tramhaltewacht", "boswandel", "zolderwerk", "bakfietsrit", "parkeerdek", "printkamer", "wasdrogerthuis", "brievenbusrij", "sluiswacht", "fietskoerier", "regenoverkapping", "thuiswassen", "collegeopname", "polderbus", "glasbak", "treinbistro", "koelcel", "schoolfiets", "koffiecorner", "zwembadgang", "broodjeszaak", "dierenasiel", "kleedhokje", "garagepoort"),
         "Tools" to setOf("basscheck", "stereotest", "reference", "speaker", "studio", "oneear", "mixcheck", "recap", "abcompare", "oorpauze")
     )
 
