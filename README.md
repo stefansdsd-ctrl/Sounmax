@@ -3,10 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-21 — batch 116)
-- Scenes: Pakketkluis, Kantinehal, Fietspomp, Liftlobby, Brievenbushal, Spitsfiets, Avondreceptie.
-- Widget past nu alle scene-batches toe (SceneLookup).
-- Auto-scene bij headset-koppeling (ConnectAutoScene).
+## Nieuw (2026-09-21 — batch 117)
+- Scenes: Traminstap, Huisartshal, Wasplaats, Koffietent, Parkeerlift, Nachtfiets, Burenfeest.
+- Widget past alle scene-batches toe (SceneLookup).
+- Bij herkoppelen: laatste scene terug als die <20 min geleden was.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519

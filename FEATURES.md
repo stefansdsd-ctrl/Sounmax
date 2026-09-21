@@ -1,19 +1,17 @@
 # Sounmax — volgende features
 
-## Batch 116 (software, deze commit)
-- Scenes: Pakketkluis, Kantinehal, Fietspomp, Liftlobby, Brievenbushal, Spitsfiets, Avondreceptie
-- Groep Nieuw (106–116)
-- Beste-nu: ochtend spitsfiets/fietspomp, dag kantinehal/pakketkluis/liftlobby, avond avondreceptie
-- Zoek-aliassen: kluis, kantine, pomp, lobby, receptie, spitsfiets
-- Widget-fix: applyScene zoekt via SceneLookup (alle batches)
-- Nieuw: ConnectAutoScene — bij BT-koppeling “beste nu” zetten (aan/uit via prefs)
+## Batch 117 (software, deze commit)
+- Scenes: Traminstap, Huisartshal, Wasplaats, Koffietent, Parkeerlift, Nachtfiets, Burenfeest
+- Groep Nieuw: ook batch 116 + 117
+- Beste-nu: ochtend tram/spitsfiets, dag huisarts/koffie/was, avond burenfeest/nachtfiets
+- Zoek-aliassen: instap, huisartshal, wasplaats, koffietent, parkeerlift, nachtfiets, buren
+- Widget: applyScene/favorieten via SceneLookup (alle batches)
+- ConnectAutoScene: laatste scene herstellen als <20 min geleden, anders beste-nu
 
-## Batch 115 (software)
-- Scenes: Bagageband, Roltrap, Broodjeszaak, Garagepoort, Dierenasiel, Perronkap, Kleedhokje
-- Groep Nieuw (106–115)
-- Beste-nu: ochtend roltrap/perronkap/bagageband, dag broodjeszaak/kleedhokje, avond dierenasiel/garagepoort
-- Zoek-aliassen: bagage, roltrap, broodje, poort, asiel, perronkap, pashokje
-- Sessiepauze: oorpauze ongewijzigd
+## Batch 116 (software)
+- Scenes: Pakketkluis, Kantinehal, Fietspomp, Liftlobby, Brievenbushal, Spitsfiets, Avondreceptie
+- Widget-fix: applyScene zoekt via SceneLookup
+- ConnectAutoScene — bij BT-koppeling scene zetten
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
