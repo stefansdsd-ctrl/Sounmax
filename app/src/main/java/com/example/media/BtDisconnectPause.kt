@@ -7,9 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 
-/**
- * Pauzeert media bij ACL-disconnect van de gekoppelde headset.
- */
+/** Pauzeert media bij ACL-disconnect van de gekoppelde headset. */
 object BtDisconnectPause {
     fun register(context: Context, targetAddress: String?) {
         if (targetAddress.isNullOrBlank()) return
@@ -31,6 +29,7 @@ object BtDisconnectPause {
                             android.view.KeyEvent.KEYCODE_MEDIA_PAUSE
                         )
                     )
+                    SpeakerSafeOnDisconnect.apply(ctx, am)
                 }
             }
         }, filter)

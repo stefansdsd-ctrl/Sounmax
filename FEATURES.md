@@ -1,17 +1,16 @@
 # Sounmax — volgende features
 
-## Batch 117 (software, deze commit)
-- Scenes: Traminstap, Huisartshal, Wasplaats, Koffietent, Parkeerlift, Nachtfiets, Burenfeest
-- Groep Nieuw: ook batch 116 + 117
-- Beste-nu: ochtend tram/spitsfiets, dag huisarts/koffie/was, avond burenfeest/nachtfiets
-- Zoek-aliassen: instap, huisartshal, wasplaats, koffietent, parkeerlift, nachtfiets, buren
-- Widget: applyScene/favorieten via SceneLookup (alle batches)
-- ConnectAutoScene: laatste scene herstellen als <20 min geleden, anders beste-nu
+## Batch 118 (software, deze commit)
+- Scenes: OV-poort spits, Apotheekwacht, Fietsenkelder, Regenperron, Avondcollege, Stiltecoupé+, Late film
+- Groep Nieuw: batch 118 erbij
+- Beste-nu / uur: ochtend OV-poort, middag apotheek, avond college/film
+- Zoek-aliassen: ov-poort, apotheekwacht, fietsenkelder, regenperron, avondcollege, stiltecoupé, late film
+- SpeakerSafeOnDisconnect: na headset-los volume-speaker cap 50% (geen blast op speakers)
 
-## Batch 116 (software)
-- Scenes: Pakketkluis, Kantinehal, Fietspomp, Liftlobby, Brievenbushal, Spitsfiets, Avondreceptie
-- Widget-fix: applyScene zoekt via SceneLookup
-- ConnectAutoScene — bij BT-koppeling scene zetten
+## Batch 117 (software)
+- Scenes: Traminstap, Huisartshal, Wasplaats, Koffietent, Parkeerlift, Nachtfiets, Burenfeest
+- Widget: applyScene via SceneLookup
+- ConnectAutoScene: laatste scene <20 min, anders beste-nu
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
