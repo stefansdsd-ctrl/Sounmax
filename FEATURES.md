@@ -1,6 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 114 (software, deze commit)
+## Batch 115 (software, deze commit)
+- Scenes: Bagageband, Roltrap, Broodjeszaak, Garagepoort, Dierenasiel, Perronkap, Kleedhokje
+- Groep Nieuw (106–115)
+- Beste-nu: ochtend roltrap/perronkap/bagageband, dag broodjeszaak/kleedhokje, avond dierenasiel/garagepoort
+- Zoek-aliassen: bagage, roltrap, broodje, poort, asiel, perronkap, pashokje
+- Sessiepauze: oorpauze ongewijzigd
+
+## Batch 114 (software)
 - Scenes: Glasbak, Treinbistro, Koelcel, Schoolfiets, Koffiecorner, Nachtparkeer, Zwembadgang
 - Groep Nieuw (106–114)
 - Beste-nu: ochtend schoolfiets, dag koffiecorner/koelcel, avond nachtparkeer, weekend glasbak/zwembadgang/treinbistro
@@ -13,13 +20,6 @@
 - Beste-nu: ochtend fietskoerier/polderbus, avond thuiswassen/nachtportier, dosis → oorpauze
 - Zoek-aliassen: koerier, overkapping, wassen, portier, collegeopname, polderbus, oorpauze
 - Sessiepauze: oorpauze-scene als dose-reset (naast 60 min continu)
-
-## Batch 112 (software)
-- Scenes: Zolderwerk, Bakfiets, Parkeerdek, Printkamer, Wasdroger, Brievenbus, Sluiswacht
-- Groep Nieuw (106–112)
-- Beste-nu: ochtend bakfiets, avond zolderwerk, weekend sluis/parkeerdek
-- Zoek-aliassen: zolder, bakfiets, parkeerdek, print, droger, brievenbus, sluis
-- Sessiepauze: 60 min continu (ongewijzigd)
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
