@@ -17,6 +17,7 @@ import com.example.dsp.ListeningScenes
 import com.example.dsp.SceneGroups
 import com.example.dsp.EqSnapshot
 import com.example.dsp.SceneLookup
+import com.example.dsp.SceneSearch
 import com.example.dsp.SoftwareAnc
 import com.example.media.AncHaptics
 import com.example.media.CallTransparencyGuard
@@ -243,12 +244,14 @@ class SceneController(private val viewModel: MainViewModel) {
         }
     }
     fun filteredScenes(query: String, group: String): List<ListeningScene> {
-        val all = SceneGroups.allScenes()
-        val q = query.trim().lowercase()
-        return all.filter {
-            val inGroup = group == "Alles" || it.id in SceneGroups.idsFor(group)
-            val match = q.isBlank() || it.name.lowercase().contains(q) || it.id.contains(q)
-            inGroup && match
+        val favs = favoriteIds()
+        val ranked = SceneSearch.queryRanked(app, query, favs)
+        return ranked.filter {
+            when (group) {
+                "Alles" -> true
+                "Favorieten" -> it.id in favs
+                else -> it.id in SceneGroups.idsFor(group)
+            }
         }
     }
     fun recentScenes(): List<ListeningScene> = RecentScenes.load(prefs).mapNotNull { SceneLookup.byId(it) }
