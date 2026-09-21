@@ -3,11 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-21 — batch 115)
-- Scenes: Bagageband, Roltrap, Broodjeszaak, Garagepoort, Dierenasiel, Perronkap, Kleedhokje.
-- Groep Nieuw (batch 106–115).
-- Beste-nu: ochtend roltrap/perronkap/bagageband, lunch broodjeszaak, avond garagepoort.
-- Zoek-aliassen: bagage, roltrap, broodje, poort, asiel, perronkap, pashokje.
+## Nieuw (2026-09-21 — batch 116)
+- Scenes: Pakketkluis, Kantinehal, Fietspomp, Liftlobby, Brievenbushal, Spitsfiets, Avondreceptie.
+- Widget past nu alle scene-batches toe (SceneLookup).
+- Auto-scene bij headset-koppeling (ConnectAutoScene).
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
