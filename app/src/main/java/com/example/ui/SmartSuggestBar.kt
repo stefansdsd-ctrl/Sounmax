@@ -22,6 +22,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.SceneUsage
+import com.example.dsp.HearingDoseGuard
+import com.example.dsp.SceneLookup
 import com.example.media.HourSceneSuggest
 import com.example.media.NightVolumeGuard
 import com.example.media.WeatherSceneHint
@@ -40,6 +42,8 @@ fun SmartSuggestBar(sceneController: SceneController) {
     var holdLabel by remember { mutableStateOf(sceneController.manualHoldLabel()) }
     var weatherLabel by remember { mutableStateOf(sceneController.weatherSuggestLabel()) }
     val batteryLabel = remember { sceneController.batterySaverLabel() }
+    val dose = remember { HearingDoseGuard.adviceNow(context) }
+    val undoLabel = remember { sceneController.undoLabel() }
     LaunchedEffect(Unit) {
         val hint = withContext(Dispatchers.IO) { WeatherSceneHint.refresh(context) }
         weatherLabel = hint?.label
@@ -56,6 +60,30 @@ fun SmartSuggestBar(sceneController: SceneController) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (dose.suggestPause) {
+            AssistChip(
+                onClick = {
+                    SceneLookup.byId("oorpauze")?.let { sceneController.applyListeningScene(it) }
+                },
+                label = { Text(dose.message, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("hearing_dose_chip")
+            )
+        }
+        if (undoLabel != null) {
+            AssistChip(
+                onClick = { sceneController.undoLastScene() },
+                label = { Text(undoLabel, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("undo_scene_chip")
+            )
+        }
         if (holdLabel != null) {
             AssistChip(
                 onClick = {
