@@ -44,6 +44,8 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val batteryLabel = remember { sceneController.batterySaverLabel() }
     val dose = remember { HearingDoseGuard.adviceNow(context) }
     val undoLabel = remember { sceneController.undoLabel() }
+    val favLabel = remember { sceneController.favoriteNextLabel() }
+    var ancLabel by remember { mutableStateOf(sceneController.ancCycleLabel()) }
     LaunchedEffect(Unit) {
         val hint = withContext(Dispatchers.IO) { WeatherSceneHint.refresh(context) }
         weatherLabel = hint?.label
@@ -63,6 +65,7 @@ fun SmartSuggestBar(sceneController: SceneController) {
         if (dose.suggestPause) {
             AssistChip(
                 onClick = {
+                    HearingDoseGuard.applyCap(context)
                     SceneLookup.byId("oorpauze")?.let { sceneController.applyListeningScene(it) }
                 },
                 label = { Text(dose.message, fontSize = 11.sp, maxLines = 1) },
@@ -73,6 +76,29 @@ fun SmartSuggestBar(sceneController: SceneController) {
                 modifier = Modifier.testTag("hearing_dose_chip")
             )
         }
+        if (favLabel != null) {
+            AssistChip(
+                onClick = { sceneController.applyFavoriteNext() },
+                label = { Text(favLabel, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("favorite_next_chip")
+            )
+        }
+        AssistChip(
+            onClick = {
+                sceneController.cycleAncMode()
+                ancLabel = sceneController.ancCycleLabel()
+            },
+            label = { Text(ancLabel, fontSize = 11.sp, maxLines = 1) },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("anc_cycle_chip")
+        )
         if (undoLabel != null) {
             AssistChip(
                 onClick = { sceneController.undoLastScene() },
