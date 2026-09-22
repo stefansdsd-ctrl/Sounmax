@@ -1,6 +1,7 @@
 package com.example.dsp
 
 import android.content.Context
+import android.media.AudioManager
 import com.example.data.WeeklyListenReport
 
 /** Soft guard: na lange luistertijd oorpauze voorstellen + volume-cap hint. */
@@ -34,4 +35,12 @@ object HearingDoseGuard {
 
     fun suggestedSceneId(context: Context, volumePercent: Int): String? =
         if (advice(context, volumePercent).suggestPause) "oorpauze" else null
+
+    fun musicVolumePercent(context: Context): Int {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+        return (am.getStreamVolume(AudioManager.STREAM_MUSIC) * 100) / max
+    }
+
+    fun adviceNow(context: Context): Advice = advice(context, musicVolumePercent(context))
 }
