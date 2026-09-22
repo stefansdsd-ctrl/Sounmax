@@ -4,5 +4,6 @@ package com.example.dsp
 object SceneAliasIndex {
     val MAP: Map<String, Set<String>> =
         Batch120Aliases.MAP + Batch121Aliases.MAP + Batch122Aliases.MAP +
-            Batch123Aliases.MAP + Batch124Aliases.MAP + Batch125Aliases.MAP
+            Batch123Aliases.MAP + Batch124Aliases.MAP + Batch125Aliases.MAP +
+            Batch126Aliases.MAP
 }
