@@ -17,6 +17,8 @@ import com.example.dsp.ListeningScenes
 import com.example.dsp.SceneGroups
 import com.example.dsp.EqSnapshot
 import com.example.dsp.SceneLookup
+import com.example.dsp.BestNow
+import com.example.dsp.HearingDoseGuard
 import com.example.dsp.SceneSearch
 import com.example.dsp.SoftwareAnc
 import com.example.media.AncHaptics
@@ -180,6 +182,13 @@ class SceneController(private val viewModel: MainViewModel) {
     fun weatherSuggestLabel(): String? = WeatherSceneHint.cachedHint()?.label
     fun batterySaverLabel(): String? = BatterySaverHint.label(app)
     fun applyBatterySaver() { BatterySaverHint.scene()?.let { applyListeningScene(it) } }
+    fun bestNowLabel(): String? = BestNow.label(app)
+    fun applyBestNow() { BestNow.top(app)?.let { applyListeningScene(it) } }
+    fun applySafeListen() {
+        HearingDoseGuard.applyCap(app)
+        SceneLookup.byId("veiligluister")?.let { applyListeningScene(it) }
+            ?: SceneLookup.byId("oorpauze")?.let { applyListeningScene(it) }
+    }
     fun applyWeatherSuggestion() {
         WeatherSceneHint.cachedHint()?.scene?.let { applyListeningScene(it) }
             ?: WeatherSceneHint.refresh(app)?.scene?.let { applyListeningScene(it) }
