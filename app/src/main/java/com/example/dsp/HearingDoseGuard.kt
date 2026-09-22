@@ -1,0 +1,37 @@
+package com.example.dsp
+
+import android.content.Context
+import com.example.data.WeeklyListenReport
+
+/** Soft guard: na lange luistertijd oorpauze voorstellen + volume-cap hint. */
+object HearingDoseGuard {
+    data class Advice(
+        val suggestPause: Boolean,
+        val capPercent: Int,
+        val message: String
+    )
+
+    fun advice(context: Context, volumePercent: Int): Advice {
+        val today = WeeklyListenReport.last7Days(context).lastOrNull()?.minutes ?: 0
+        return when {
+            today >= 180 || volumePercent >= 85 -> Advice(
+                suggestPause = true,
+                capPercent = 60,
+                message = "Oorpauze: ${today} min vandaag — volume max 60%"
+            )
+            today >= 120 || volumePercent >= 75 -> Advice(
+                suggestPause = false,
+                capPercent = 70,
+                message = "Check volume: ${today} min — max 70%"
+            )
+            else -> Advice(
+                suggestPause = false,
+                capPercent = 100,
+                message = WeeklyListenReport.hint(today)
+            )
+        }
+    }
+
+    fun suggestedSceneId(context: Context, volumePercent: Int): String? =
+        if (advice(context, volumePercent).suggestPause) "oorpauze" else null
+}
