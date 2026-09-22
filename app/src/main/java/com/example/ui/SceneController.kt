@@ -134,6 +134,14 @@ class SceneController(private val viewModel: MainViewModel) {
         SceneLookup.byId(prev)?.let { applyListeningScene(it) }
     }
 
+    fun canUndoScene(): Boolean = !prefs.getString("prev_scene_id", null).isNullOrBlank()
+
+    fun undoLabel(): String? {
+        val prev = prefs.getString("prev_scene_id", null) ?: return null
+        val name = SceneLookup.byId(prev)?.name ?: return "Vorige scene"
+        return "Vorige: $name"
+    }
+
     fun setAutoSceneEnabled(on: Boolean) {
         prefs.edit().putBoolean("auto_scene", on).apply()
         _autoScene.value = on
