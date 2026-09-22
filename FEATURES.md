@@ -1,9 +1,13 @@
 # Sounmax — volgende features
 
-## Batch 124 (software, deze commit)
+## Batch 125 (software)
+- Scenes: AH zelfscan-rij, NS-perronbalkon, Apotheek-balie, Bieb-uitleen, Werkfiets-regen, Printgang, Avond-supermarkt, Pakketautomaat
+- SceneSearch + SceneAliasIndex 120–125, deel-matches ≥3 tekens
+- Nieuw-groep: 123 + 124 + 125
+
+## Batch 124 (software)
 - SceneAliasIndex 120–124 actief in SceneSearch.query
 - Undo-chip in SmartSuggestBar
-- Nieuw-groep bijgewerkt (123 + 124)
 - Scenes: Bouwmarkt-gang, Huisartstafel, OV-chip opladen, Nachtwinkel-hal, Kinderopvang-hal, Fietspunt, Sporthal-tribune, Pakket-rondje
 
 ## Batch 123 (software)
