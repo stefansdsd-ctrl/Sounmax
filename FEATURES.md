@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 128 (software)
+- Quick-scenes: Max ANC nu, Gesprek nu, Wind+fiets, Stil concert
+- HearingDoseGuard.applyCap() op oorpauze-chip
+- Favoriet-suggest + ANC-cyclus in SmartSuggestBar
+- SceneAliasIndex 128
+
 ## Batch 127 (software)
 - Scenes: OV-chip poortje, Huisarts-telefoon, Winkel-fietsenkelder, Avond-apotheek, Zwembad-douche, Kantoor-plotter, Nacht-cafetaria, Parkeerwachter
 - SceneAliasIndex 120–127

@@ -43,4 +43,15 @@ object HearingDoseGuard {
     }
 
     fun adviceNow(context: Context): Advice = advice(context, musicVolumePercent(context))
+
+    /** Zet music-volume terug naar capPercent (alleen omlaag). */
+    fun applyCap(context: Context, capPercent: Int = adviceNow(context).capPercent): Boolean {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+        val target = (max * capPercent.coerceIn(10, 100)) / 100
+        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        if (cur <= target) return false
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, target, 0)
+        return true
+    }
 }
