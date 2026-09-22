@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 132 (software)
+- Scenes: Apotheek, Fietsenstalling, Snackbar, PostNL-punt, Waskelder, Kantoor-wc, Overstap-hal, Markthal avond
+- SmartSuggestBar: Echo-chip (STRONG + parkeergarage/zwembadhal)
+- SceneAliasIndex 132
+
 ## Batch 131 (software)
 - Scenes: Wachtkamer huisarts, Zwembadhal, Terrasavond, IKEA-hal, Schoolplein, Lift, Parkeergarage, Kapper
 - SmartSuggestBar: Wind-chip (WIND_GUARD + terrasavond/bike)
