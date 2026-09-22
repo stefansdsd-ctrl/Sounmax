@@ -46,6 +46,7 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val batteryLabel = remember { sceneController.batterySaverLabel() }
     val dose = remember { HearingDoseGuard.adviceNow(context) }
     val undoLabel = remember { sceneController.undoLabel() }
+    val bestNowLabel = remember { sceneController.bestNowLabel() }
     val favs = remember { sceneController.favoriteScenes() }
     val ancModes = remember {
         listOf(AncMode.STRONG, AncMode.ADAPTIVE, AncMode.WIND_GUARD, AncMode.AMBIENT)
@@ -94,6 +95,26 @@ fun SmartSuggestBar(sceneController: SceneController) {
                     labelColor = ImmersiveLavenderAccent
                 ),
                 modifier = Modifier.testTag("favorite_next_chip")
+            )
+        }
+        AssistChip(
+            onClick = { sceneController.applySafeListen() },
+            label = { Text("Veilig", fontSize = 11.sp, maxLines = 1) },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("safe_listen_chip")
+        )
+        if (bestNowLabel != null) {
+            AssistChip(
+                onClick = { sceneController.applyBestNow() },
+                label = { Text(bestNowLabel, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("best_now_chip")
             )
         }
         AssistChip(
