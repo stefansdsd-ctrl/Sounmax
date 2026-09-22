@@ -1,16 +1,15 @@
 # Sounmax — volgende features
 
+## Batch 131 (software)
+- Scenes: Wachtkamer huisarts, Zwembadhal, Terrasavond, IKEA-hal, Schoolplein, Lift, Parkeergarage, Kapper
+- SmartSuggestBar: Wind-chip (WIND_GUARD + terrasavond/bike)
+- SceneAliasIndex 131
+
 ## Batch 130 (software)
 - Scenes: Veilig luisteren, Werkcall ruis, OV-spits trap, Regen-oversteek, Nacht thuiswerk, Wasstraat, Kinderfeest, Bouwsteiger
 - SmartSuggestBar: Veilig-chip (HearingDoseGuard.applyCap + scene veiligluister)
 - SmartSuggestBar: Beste-nu-chip (BestNow.top)
 - SceneAliasIndex 130
-
-## Batch 129 (software)
-- Scenes: Regen-spits fiets, NS-storing perron, Videobellen buiten, Baby in slaap, Kookwekker keuken, Buren-boor, Picknick-wind, Autoweg-file
-- SmartSuggestBar: favoriet-chip + ANC-cyclus
-- Oorpauze-chip past HearingDoseGuard.applyCap toe
-- SceneAliasIndex 129
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check

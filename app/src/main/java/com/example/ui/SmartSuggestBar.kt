@@ -106,6 +106,19 @@ fun SmartSuggestBar(sceneController: SceneController) {
             ),
             modifier = Modifier.testTag("safe_listen_chip")
         )
+        AssistChip(
+            onClick = {
+                sceneController.setHardwareAnc(AncMode.WIND_GUARD)
+                SceneLookup.byId("terrasavond")?.let { sceneController.applyListeningScene(it) }
+                    ?: SceneLookup.byId("bike")?.let { sceneController.applyListeningScene(it) }
+            },
+            label = { Text("Wind", fontSize = 11.sp, maxLines = 1) },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("wind_guard_chip")
+        )
         if (bestNowLabel != null) {
             AssistChip(
                 onClick = { sceneController.applyBestNow() },
