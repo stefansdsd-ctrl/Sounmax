@@ -3,10 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-22 — batch 126)
-- 8 scenes: Tram-conducteur, Tankstation, Wasstraat, Postkantoor, Sportschool-gang, Avond-bushalte, Kelderberging, Thuisbezorging.
-- HearingDoseGuard: oorpauze-advies na 3 uur of hard volume.
-- SceneAliasIndex 120–126.
+## Nieuw (2026-09-22 — batch 127)
+- 8 scenes: OV-chip poortje, Huisarts-telefoon, Winkel-fietsenkelder, Avond-apotheek, Zwembad-douche, Kantoor-plotter, Nacht-cafetaria, Parkeerwachter.
+- HearingDoseGuard-chip + undo-chip in SmartSuggestBar.
+- SceneAliasIndex 120–127.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
