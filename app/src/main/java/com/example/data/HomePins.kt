@@ -18,6 +18,8 @@ object HomePins {
     fun scenes(context: Context): List<ListeningScene> =
         ids(context).mapNotNull { SceneLookup.byId(it) }
 
+    fun isPinned(context: Context, sceneId: String): Boolean = sceneId in ids(context)
+
     fun toggle(context: Context, sceneId: String): List<String> {
         val cur = ids(context).toMutableList()
         if (sceneId in cur) cur.remove(sceneId) else {
