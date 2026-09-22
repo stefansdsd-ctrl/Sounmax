@@ -1,14 +1,14 @@
 # Sounmax — volgende features
 
-## Batch 122 (software, deze commit)
+## Batch 123 (software, deze commit)
+- Scenes: Laadpaal wacht, Schoolpoort, Stationsstalling, Nacht-taxi, Thuis-intercom, IKEA-kinderhoek, Ziekenhuislift, Parkeerautomaat
+- SceneAliasIndex 120–123 nu écht in SceneSearch (was eerder alleen een losse map)
+- Groep Nieuw + aliassen batch 123
+
+## Batch 122 (software)
 - Scenes: Tuincentrumkas, NS-servicebalie, Kantoorpantry, Fietsenkelder nacht, Ziekenhuis nachthal, Studentenvereniging, Pretparkwacht, Markt sluiting
 - Batch-aliassen 120–122 actief in SceneSearch
 - Groep Nieuw + aliassen batch 122
-
-## Batch 121 (software)
-- Scenes: Avondspits fiets, Apotheekwacht, Wasstraat lang, Thuis-klus avond, Parkbank, Nachtwinkel kort, Collegezaal+, Regenterras
-- Scene-filter gebruikt ranked search (favorieten + gebruik eerst)
-- Groep Nieuw + aliassen batch 121
 
 ## Nog te bouwen
 - RemoteViews-widgets verwijderen na pin-check
