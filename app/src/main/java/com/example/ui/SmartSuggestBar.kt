@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -22,6 +23,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.SceneUsage
+import com.example.dsp.AncMode
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.SceneLookup
 import com.example.media.HourSceneSuggest
@@ -44,8 +46,11 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val batteryLabel = remember { sceneController.batterySaverLabel() }
     val dose = remember { HearingDoseGuard.adviceNow(context) }
     val undoLabel = remember { sceneController.undoLabel() }
-    val favLabel = remember { sceneController.favoriteNextLabel() }
-    var ancLabel by remember { mutableStateOf(sceneController.ancCycleLabel()) }
+    val favs = remember { sceneController.favoriteScenes() }
+    val ancModes = remember {
+        listOf(AncMode.STRONG, AncMode.ADAPTIVE, AncMode.WIND_GUARD, AncMode.AMBIENT)
+    }
+    var ancIdx by remember { mutableIntStateOf(1) }
     LaunchedEffect(Unit) {
         val hint = withContext(Dispatchers.IO) { WeatherSceneHint.refresh(context) }
         weatherLabel = hint?.label
@@ -76,10 +81,14 @@ fun SmartSuggestBar(sceneController: SceneController) {
                 modifier = Modifier.testTag("hearing_dose_chip")
             )
         }
-        if (favLabel != null) {
+        if (favs.isNotEmpty()) {
             AssistChip(
-                onClick = { sceneController.applyFavoriteNext() },
-                label = { Text(favLabel, fontSize = 11.sp, maxLines = 1) },
+                onClick = {
+                    val cur = sceneController.activeSceneId.value
+                    val idx = favs.indexOfFirst { it.id == cur }
+                    sceneController.applyListeningScene(favs[(idx + 1).coerceAtLeast(0) % favs.size])
+                },
+                label = { Text("Fav: ${favs.first().name}", fontSize = 11.sp, maxLines = 1) },
                 colors = AssistChipDefaults.assistChipColors(
                     containerColor = ImmersiveSurfaceActive,
                     labelColor = ImmersiveLavenderAccent
@@ -89,10 +98,10 @@ fun SmartSuggestBar(sceneController: SceneController) {
         }
         AssistChip(
             onClick = {
-                sceneController.cycleAncMode()
-                ancLabel = sceneController.ancCycleLabel()
+                ancIdx = (ancIdx + 1) % ancModes.size
+                sceneController.setHardwareAnc(ancModes[ancIdx])
             },
-            label = { Text(ancLabel, fontSize = 11.sp, maxLines = 1) },
+            label = { Text("ANC: ${ancModes[ancIdx].name.lowercase()}", fontSize = 11.sp, maxLines = 1) },
             colors = AssistChipDefaults.assistChipColors(
                 containerColor = ImmersiveSurfaceActive,
                 labelColor = ImmersiveLavenderAccent
