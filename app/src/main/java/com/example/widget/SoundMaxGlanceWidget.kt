@@ -40,6 +40,7 @@ import com.example.media.OneTapProfiles
 import com.example.media.PhoneBatteryAdvisor
 import com.example.media.PodcastOneTap
 import com.example.data.AutoPinSchedule
+import com.example.data.PinProfiles
 import com.example.media.QuietHours
 
 class SoundMaxGlanceWidget : GlanceAppWidget() {
@@ -74,6 +75,7 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
         }
         val autoOn = AutoPinSchedule.enabled(context)
         val autoLabel = AutoPinSchedule.label(context)
+        val pinSet = PinProfiles.active(context).name
         provideContent {
             GlanceTheme {
                 Content(
@@ -84,7 +86,8 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
                     extra = extra,
                     dspOn = enabled,
                     autoPin = autoOn,
-                    autoPinLabel = autoLabel
+                    autoPinLabel = autoLabel,
+                    pinSet = pinSet
                 )
             }
         }
@@ -99,7 +102,8 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
         extra: String,
         dspOn: Boolean,
         autoPin: Boolean,
-        autoPinLabel: String
+        autoPinLabel: String,
+        pinSet: String
     ) {
         Column(
             modifier = GlanceModifier
@@ -174,6 +178,10 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
                 Spacer(GlanceModifier.width(6.dp))
                 ActionChip("Vliegtuig", GlanceWidgetAction.FLIGHT)
             }
+            Spacer(GlanceModifier.height(6.dp))
+            Row(modifier = GlanceModifier.fillMaxWidth()) {
+                ActionChip("Set $pinSet", GlanceWidgetAction.PINSET)
+            }
         }
     }
 
@@ -217,6 +225,7 @@ object GlanceWidgetAction {
     const val PODCAST = "podcast"
     const val FLIGHT = "flight"
     const val AUTOPIN = "autopin"
+    const val PINSET = "pinset"
 }
 
 class SoundMaxGlanceReceiver : GlanceAppWidgetReceiver() {
@@ -251,6 +260,7 @@ class GlanceControlAction : ActionCallback {
             GlanceWidgetAction.PODCAST -> PodcastOneTap.toggle(context)
             GlanceWidgetAction.FLIGHT -> FlightOneTap.toggle(context)
             GlanceWidgetAction.AUTOPIN -> AutoPinSchedule.toggle(context)
+            GlanceWidgetAction.PINSET -> PinProfiles.cycle(context)
             else -> SoundMaxWidget.applySuggested(context)
         }
         SoundMaxGlanceWidget().update(context, glanceId)
