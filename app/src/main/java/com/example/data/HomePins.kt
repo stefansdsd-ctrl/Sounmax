@@ -38,6 +38,19 @@ object HomePins {
         return list[(idx + 1).coerceAtLeast(0) % list.size]
     }
 
+    fun move(context: Context, sceneId: String, delta: Int): List<String> {
+        val cur = ids(context).toMutableList()
+        val i = cur.indexOf(sceneId)
+        if (i < 0) return cur
+        val j = (i + delta).coerceIn(0, cur.lastIndex)
+        if (i == j) return cur
+        val item = cur.removeAt(i)
+        cur.add(j, item)
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putString(KEY, cur.joinToString(",")).apply()
+        return cur
+    }
+
     fun label(context: Context): String? {
         val first = scenes(context).firstOrNull() ?: return null
         return "Pin: ${first.emoji} ${first.name}"

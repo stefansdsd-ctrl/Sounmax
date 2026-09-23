@@ -3,10 +3,9 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-22 — batch 134)
-- Long-press scene = home-pin (max 4), rij op de balk.
-- Suggest-balk: Waarom + Pin.
-- Widgets volgen HomePins.
+## Nieuw (2026-09-23 — batch 135)
+- Volume per scene onthouden.
+- Pin-wissel chip + pin-volgorde.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519

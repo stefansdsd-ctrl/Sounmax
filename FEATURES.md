@@ -1,14 +1,16 @@
 # Sounmax — volgende features
 
+## Batch 135 (software)
+- SceneVolumeMemory: mediavolume per scene bewaren/herstellen
+- HomePins.move: pin-volgorde verschuiven
+- SmartSuggestBar: chip Pin-wissel (cycle HomePins)
+- NightVolumeGuard blijft daarna cap-en
+
 ## Batch 134 (software)
 - Long-press op scene-kaart = HomePins toggle (max 4)
 - Home-pins-rij op de scenes-balk
 - SmartSuggestBar: chips **Waarom** + **Pin**
 - Widgets tonen HomePins i.p.v. fallback-favorieten
-
-## Batch 133 (software)
-- HomePins: max 4 vastgezette home-scenes, chip wisselt
-- WhyBestNow: uitleg waarom “Beste nu” deze scene kiest
 
 ## Nog te bouwen
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
