@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import com.example.data.SceneSleepMemory
 
 /**
  * Slaaptimer: fade volume en stop na N minuten.
@@ -41,6 +42,12 @@ object SleepTimer {
         handler.postDelayed(tick, 60_000L)
         val end = System.currentTimeMillis() + minutesLeft * 60_000L
         SleepFade.schedule(context.applicationContext, end)
+        SceneSleepMemory.save(
+            context,
+            context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+                .getString("last_scene_id", null),
+            minutesLeft
+        )
         Toast.makeText(context, "Slaaptimer ${minutesLeft} min", Toast.LENGTH_SHORT).show()
     }
 

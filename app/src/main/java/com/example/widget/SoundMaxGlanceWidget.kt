@@ -39,6 +39,7 @@ import com.example.media.MorningBoostOneTap
 import com.example.media.OneTapProfiles
 import com.example.media.PhoneBatteryAdvisor
 import com.example.media.PodcastOneTap
+import com.example.data.AutoPinSchedule
 import com.example.media.QuietHours
 
 class SoundMaxGlanceWidget : GlanceAppWidget() {
@@ -71,6 +72,8 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
             sleepLeft > 0 -> "Slaap ${sleepLeft}m"
             else -> if (enabled) "DSP aan" else "DSP uit"
         }
+        val autoOn = AutoPinSchedule.enabled(context)
+        val autoLabel = AutoPinSchedule.label(context)
         provideContent {
             GlanceTheme {
                 Content(
@@ -79,7 +82,9 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
                     scene = "${scene.emoji} ${scene.name}",
                     anc = anc.take(6),
                     extra = extra,
-                    dspOn = enabled
+                    dspOn = enabled,
+                    autoPin = autoOn,
+                    autoPinLabel = autoLabel
                 )
             }
         }
@@ -92,7 +97,9 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
         scene: String,
         anc: String,
         extra: String,
-        dspOn: Boolean
+        dspOn: Boolean,
+        autoPin: Boolean,
+        autoPinLabel: String
     ) {
         Column(
             modifier = GlanceModifier
@@ -156,6 +163,8 @@ class SoundMaxGlanceWidget : GlanceAppWidget() {
                 ActionChip("Focus", GlanceWidgetAction.FOCUS)
                 Spacer(GlanceModifier.width(6.dp))
                 ActionChip("Sport", GlanceWidgetAction.GYM)
+                Spacer(GlanceModifier.width(6.dp))
+                ActionChip(if (autoPin) autoPinLabel.take(12) else "Auto-pin", GlanceWidgetAction.AUTOPIN)
             }
             Spacer(GlanceModifier.height(6.dp))
             Row(modifier = GlanceModifier.fillMaxWidth()) {
@@ -207,6 +216,7 @@ object GlanceWidgetAction {
     const val CALL = "call"
     const val PODCAST = "podcast"
     const val FLIGHT = "flight"
+    const val AUTOPIN = "autopin"
 }
 
 class SoundMaxGlanceReceiver : GlanceAppWidgetReceiver() {
@@ -240,6 +250,7 @@ class GlanceControlAction : ActionCallback {
             GlanceWidgetAction.CALL -> CallOneTap.toggle(context)
             GlanceWidgetAction.PODCAST -> PodcastOneTap.toggle(context)
             GlanceWidgetAction.FLIGHT -> FlightOneTap.toggle(context)
+            GlanceWidgetAction.AUTOPIN -> AutoPinSchedule.toggle(context)
             else -> SoundMaxWidget.applySuggested(context)
         }
         SoundMaxGlanceWidget().update(context, glanceId)
