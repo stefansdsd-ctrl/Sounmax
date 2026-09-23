@@ -3,7 +3,8 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-23 — batch 141)
+## Nieuw (2026-09-23 — batch 142)
+- Glance-widget: pin-set wisselen (Werk / Thuis / Onderweg) zonder de app te openen.
 - Glance-widget: Auto-pin aan/uit + huidige set-label.
 - Slaaptimer onthoudt duur per scene.
 

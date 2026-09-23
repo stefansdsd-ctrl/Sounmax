@@ -1,5 +1,8 @@
 # Sounmax — volgende features
 
+## Batch 142 (software)
+- Home-widget: pin-set wisselen (Werk / Thuis / Onderweg) vanaf Glance-chip
+
 ## Batch 141 (software)
 - Widget Auto-pin: Glance-chip zet schema aan/uit en toont huidige set (Werk/Weg/Thuis)
 - SceneSleepMemory: laatste slaaptimer-duur per scene
@@ -16,4 +19,5 @@
 ## Nog te bouwen
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
 - ANC-GATT dump TAH6519 + notify-leren
-- Home-widget: huidige pin-set wisselen (Werk/Weg/Thuis) zonder app
+- Wear OS / quick-settings tile voor pin-set + ANC
+- Scene-suggestie op basis van locatie + weer
