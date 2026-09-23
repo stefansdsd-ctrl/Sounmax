@@ -8,8 +8,10 @@ import com.example.ble.NrfConnectTooling
 import com.example.ble.NrfStyleGattDump
 import com.example.data.CommuteMemory
 import com.example.data.FavoriteScenes
+import com.example.data.HomePins
 import com.example.data.SceneShare
 import com.example.data.SceneUsage
+import com.example.data.SceneVolumeMemory
 import com.example.dsp.EqAbCompare
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScene
@@ -102,6 +104,7 @@ class SceneController(private val viewModel: MainViewModel) {
     fun applyListeningScene(scene: ListeningScene) {
         val current = _activeSceneId.value
         if (!current.isNullOrBlank() && current != scene.id) {
+            SceneVolumeMemory.save(app, current)
             prefs.edit().putString("prev_scene_id", current).apply()
         }
         _activeSceneId.value = scene.id
@@ -112,6 +115,7 @@ class SceneController(private val viewModel: MainViewModel) {
         RecentScenes.push(prefs, scene.id)
         commute.onScene(scene.id)
         AncHaptics.sceneConfirm(app, scene.id)
+        SceneVolumeMemory.restore(app, scene.id)
         NightVolumeGuard.applyIfNeeded(app)
         monitor.refresh()
         evaluateOneEar()
@@ -177,6 +181,17 @@ class SceneController(private val viewModel: MainViewModel) {
     }
 
     fun favoriteScenes(): List<ListeningScene> = favorites.scenes()
+
+    fun cycleHomePin() {
+        HomePins.next(app, _activeSceneId.value)?.let { applyListeningScene(it) }
+    }
+
+    fun homePinLabel(): String? = HomePins.label(app)
+
+    fun moveHomePin(sceneId: String, delta: Int) {
+        HomePins.move(app, sceneId, delta)
+        SoundMaxWidget.refresh(app)
+    }
     fun commuteSuggestLabel(): String? = commute.suggestLabel()
     fun applyCommuteSuggestion() { commute.suggestedScene()?.let { applyListeningScene(it) } }
     fun weatherSuggestLabel(): String? = WeatherSceneHint.cachedHint()?.label
