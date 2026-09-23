@@ -45,6 +45,26 @@
         </service>
 
         <service
+            android:name=".SounmaxAncTileService"
+            android:exported="true"
+            android:label="Sounmax ANC"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".SounmaxPinSetTileService"
+            android:exported="true"
+            android:label="Sounmax pin-set"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+        </service>
+
+        <service
             android:name=".SounmaxComplicationService"
             android:exported="true"
             android:label="Sounmax scene"
