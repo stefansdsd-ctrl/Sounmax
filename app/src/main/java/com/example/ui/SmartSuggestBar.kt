@@ -28,6 +28,7 @@ import com.example.data.AutoPinSchedule
 import com.example.data.HomePins
 import com.example.data.LastSceneRestore
 import com.example.data.PinProfiles
+import com.example.data.RecentScenes
 import com.example.data.SceneUsage
 import com.example.dsp.AncMode
 import com.example.dsp.HearingDoseGuard
@@ -60,6 +61,8 @@ fun SmartSuggestBar(sceneController: SceneController) {
     var autoPinOn by remember { mutableStateOf(AutoPinSchedule.enabled(context)) }
     var autoPinLabel by remember { mutableStateOf(AutoPinSchedule.label(context)) }
     val topScene = remember { SceneUsage.top(context, 1).firstOrNull() }
+    val recentLabel = remember { RecentScenes.label(context) }
+    val recentFirst = remember { RecentScenes.list(context, 1).firstOrNull() }
     val ancModes = remember {
         listOf(AncMode.STRONG, AncMode.ADAPTIVE, AncMode.WIND_GUARD, AncMode.AMBIENT)
     }
@@ -100,6 +103,20 @@ fun SmartSuggestBar(sceneController: SceneController) {
             ),
             modifier = Modifier.testTag("auto_pin_chip")
         )
+        if (recentFirst != null && recentLabel != null) {
+            AssistChip(
+                onClick = {
+                    RecentScenes.next(context, sceneController.activeSceneId.value)
+                        ?.let { sceneController.applyListeningScene(it) }
+                },
+                label = { Text(recentLabel, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("recent_scene_chip")
+            )
+        }
         if (topScene != null) {
             AssistChip(
                 onClick = { sceneController.applyListeningScene(topScene) },
