@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 136 (software)
+- PinProfiles: Werk / Thuis / Onderweg wisselen (zet HomePins)
+- LastSceneRestore: chip “Laatst” herstelt vorige scene
+- SmartSuggestBar: chips Set + Pin-wissel + Laatst
+
 ## Batch 135 (software)
 - SceneVolumeMemory: mediavolume per scene bewaren/herstellen
 - HomePins.move: pin-volgorde verschuiven

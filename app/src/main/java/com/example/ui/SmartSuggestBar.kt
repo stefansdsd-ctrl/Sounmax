@@ -22,6 +22,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.HomePins
+import com.example.data.LastSceneRestore
+import com.example.data.PinProfiles
 import com.example.data.SceneUsage
 import com.example.dsp.AncMode
 import com.example.dsp.HearingDoseGuard
@@ -48,6 +51,9 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val undoLabel = remember { sceneController.undoLabel() }
     val bestNowLabel = remember { sceneController.bestNowLabel() }
     val favs = remember { sceneController.favoriteScenes() }
+    val lastLabel = remember { LastSceneRestore.label(context) }
+    val lastScene = remember { LastSceneRestore.scene(context) }
+    var pinSetLabel by remember { mutableStateOf(PinProfiles.label(context)) }
     val ancModes = remember {
         listOf(AncMode.STRONG, AncMode.ADAPTIVE, AncMode.WIND_GUARD, AncMode.AMBIENT)
     }
@@ -68,6 +74,42 @@ fun SmartSuggestBar(sceneController: SceneController) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        AssistChip(
+            onClick = {
+                val p = PinProfiles.cycle(context)
+                pinSetLabel = "Set: ${p.name}"
+                HomePins.scenes(context).firstOrNull()?.let { sceneController.applyListeningScene(it) }
+            },
+            label = { Text(pinSetLabel, fontSize = 11.sp, maxLines = 1) },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("pin_profile_chip")
+        )
+        AssistChip(
+            onClick = {
+                HomePins.next(context, sceneController.activeSceneId.value)
+                    ?.let { sceneController.applyListeningScene(it) }
+            },
+            label = { Text("Pin-wissel", fontSize = 11.sp, maxLines = 1) },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("pin_cycle_chip")
+        )
+        if (lastScene != null && lastLabel != null) {
+            AssistChip(
+                onClick = { sceneController.applyListeningScene(lastScene) },
+                label = { Text(lastLabel, fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("last_scene_chip")
+            )
+        }
         if (dose.suggestPause) {
             AssistChip(
                 onClick = {
