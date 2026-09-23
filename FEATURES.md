@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 145 (software)
+- Wear-tegel pin-set: compacte tegel, tik wisselt Werk / Thuis / Onderweg
+- Hoofd-tegel: pin-set + luisterdosis in status, pin-chip bovenaan
+- ANC-tegel ook in Wear-manifest gezet
+
 ## Batch 144 (software)
 - Wear-app: pin-set knop (Werk / Thuis / Onderweg) + set in statusregel
 - Wear toont luisterdosis (minuten vandaag)
@@ -16,4 +21,3 @@
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
 - ANC-GATT dump TAH6519 + notify-leren
 - Scene-suggestie fine-tunen na veldtest
-- Wear-tegel: pin-set cyclus (app-knop is klaar)
