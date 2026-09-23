@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 137 (software)
+- AutoPinSchedule: pin-set volgt tijd (Werk 7–16, Onderweg 17–19, Thuis rest)
+- SmartSuggestBar: chip Auto-set + Top-scene
+- Suggest-balk horizontaal scrollbaar (chips liepen uit beeld)
+
 ## Batch 136 (software)
 - PinProfiles: Werk / Thuis / Onderweg wisselen (zet HomePins)
 - LastSceneRestore: chip “Laatst” herstelt vorige scene
