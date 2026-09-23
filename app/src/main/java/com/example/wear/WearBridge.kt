@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.data.FavoriteScenes
+import com.example.data.PinProfiles
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.dsp.SceneLookup
@@ -69,6 +70,7 @@ object WearBridge {
                 dataMap.putInt(WearPaths.KEY_RSSI, wellness.getInt(RssiCodecAdvisor.KEY_RSSI, 0))
                 dataMap.putString(WearPaths.KEY_FAV_IDS, favs.joinToString(",") { it.id })
                 dataMap.putString(WearPaths.KEY_FAV_NAMES, favs.joinToString("|") { "${it.emoji} ${it.name}" })
+                dataMap.putString(WearPaths.KEY_PIN_SET, PinProfiles.active(context).name)
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -98,6 +100,10 @@ object WearBridge {
             cmd == WearPaths.CMD_FOCUS -> FocusSession.toggle(context)
             cmd == WearPaths.CMD_UNDO -> undoScene(context)
             cmd == WearPaths.CMD_LOCK -> toggleLock(context)
+            cmd == WearPaths.CMD_CYCLE_PIN_SET -> {
+                PinProfiles.cycle(context)
+                SoundMaxWidget.refreshAll(context)
+            }
         }
         DspControlService.start(context)
         publishStatus(context)
