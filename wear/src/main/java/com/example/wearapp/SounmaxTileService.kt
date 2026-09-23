@@ -43,7 +43,7 @@ class SounmaxTileService : TileService() {
             val status = readStatus()
             val params = requestParams.deviceParameters
             TileBuilders.Tile.Builder()
-                .setResourcesVersion("2")
+                .setResourcesVersion("3")
                 .setFreshnessIntervalMillis(15_000)
                 .setState(
                     StateBuilders.State.Builder()
@@ -67,7 +67,7 @@ class SounmaxTileService : TileService() {
         requestParams: RequestBuilders.ResourcesRequest
     ): ListenableFuture<ResourceBuilders.Resources> {
         return Futures.immediateFuture(
-            ResourceBuilders.Resources.Builder().setVersion("2").build()
+            ResourceBuilders.Resources.Builder().setVersion("3").build()
         )
     }
 
@@ -79,6 +79,8 @@ class SounmaxTileService : TileService() {
         val bat = if (status.battery in 0..100) "${status.battery}%" else "--"
         val sleep = if (status.sleepMin > 0) "${status.sleepMin}m" else "slaap"
         val anc = WearMainActivity.ancLabel(status.anc)
+        val pin = status.pinSet.ifBlank { "Set" }
+        val dose = if (status.doseMin > 0) " · ${status.doseMin}m" else ""
         return Column.Builder()
             .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
             .addContent(
@@ -89,11 +91,13 @@ class SounmaxTileService : TileService() {
             )
             .addContent(
                 Text.Builder()
-                    .setText("${if (status.dsp) "DSP aan" else "DSP uit"} · $bat")
+                    .setText("${if (status.dsp) "DSP aan" else "DSP uit"} · $bat$dose")
                     .setFontStyle(font(params) { FontStyles.caption1(it).build() })
                     .build()
             )
             .addContent(Spacer.Builder().setHeight(dp(6f)).build())
+            .addContent(actionChip(pin, WearPaths.CMD_CYCLE_PIN_SET, params))
+            .addContent(Spacer.Builder().setHeight(dp(4f)).build())
             .addContent(actionChip(dspLabel, WearPaths.CMD_TOGGLE_DSP, params))
             .addContent(Spacer.Builder().setHeight(dp(4f)).build())
             .addContent(actionChip("ANC $anc", WearPaths.CMD_CYCLE_ANC, params))
@@ -173,7 +177,9 @@ class SounmaxTileService : TileService() {
                     sceneEmoji = map.getString(WearPaths.KEY_SCENE_EMOJI) ?: "\uD83C\uDFA7",
                     battery = map.getInt(WearPaths.KEY_BATTERY, -1),
                     sleepMin = map.getInt(WearPaths.KEY_SLEEP, 0),
-                    anc = map.getString(WearPaths.KEY_ANC) ?: "STRONG"
+                    anc = map.getString(WearPaths.KEY_ANC) ?: "STRONG",
+                    doseMin = map.getInt(WearPaths.KEY_DOSE, 0),
+                    pinSet = map.getString(WearPaths.KEY_PIN_SET) ?: ""
                 )
             }
         }.getOrElse { WearStatus() }
