@@ -1,9 +1,11 @@
 package com.example.ui
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FilterChip
@@ -22,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.AutoPinSchedule
 import com.example.data.HomePins
 import com.example.data.LastSceneRestore
 import com.example.data.PinProfiles
@@ -54,6 +57,9 @@ fun SmartSuggestBar(sceneController: SceneController) {
     val lastLabel = remember { LastSceneRestore.label(context) }
     val lastScene = remember { LastSceneRestore.scene(context) }
     var pinSetLabel by remember { mutableStateOf(PinProfiles.label(context)) }
+    var autoPinOn by remember { mutableStateOf(AutoPinSchedule.enabled(context)) }
+    var autoPinLabel by remember { mutableStateOf(AutoPinSchedule.label(context)) }
+    val topScene = remember { SceneUsage.top(context, 1).firstOrNull() }
     val ancModes = remember {
         listOf(AncMode.STRONG, AncMode.ADAPTIVE, AncMode.WIND_GUARD, AncMode.AMBIENT)
     }
@@ -69,15 +75,49 @@ fun SmartSuggestBar(sceneController: SceneController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
             .padding(horizontal = 12.dp, vertical = 2.dp)
             .testTag("smart_suggest_bar"),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        FilterChip(
+            selected = autoPinOn,
+            onClick = {
+                autoPinOn = AutoPinSchedule.toggle(context)
+                autoPinLabel = AutoPinSchedule.label(context)
+                pinSetLabel = PinProfiles.label(context)
+                if (autoPinOn) {
+                    HomePins.scenes(context).firstOrNull()?.let { sceneController.applyListeningScene(it) }
+                }
+            },
+            label = { Text(autoPinLabel, fontSize = 11.sp, maxLines = 1) },
+            colors = FilterChipDefaults.filterChipColors(
+                selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                containerColor = ImmersiveSurfaceActive,
+                labelColor = ImmersiveTextSecondary,
+                selectedLabelColor = ImmersiveLavenderAccent
+            ),
+            modifier = Modifier.testTag("auto_pin_chip")
+        )
+        if (topScene != null) {
+            AssistChip(
+                onClick = { sceneController.applyListeningScene(topScene) },
+                label = { Text("Top: ${topScene.name}", fontSize = 11.sp, maxLines = 1) },
+                colors = AssistChipDefaults.assistChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("top_scene_chip")
+            )
+        }
         AssistChip(
             onClick = {
                 val p = PinProfiles.cycle(context)
                 pinSetLabel = "Set: ${p.name}"
+                autoPinOn = false
+                AutoPinSchedule.setEnabled(context, false)
+                autoPinLabel = AutoPinSchedule.label(context)
                 HomePins.scenes(context).firstOrNull()?.let { sceneController.applyListeningScene(it) }
             },
             label = { Text(pinSetLabel, fontSize = 11.sp, maxLines = 1) },
