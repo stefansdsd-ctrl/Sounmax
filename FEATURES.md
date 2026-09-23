@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 138 (software)
+- AutoPin weekend: za/zo blijft op Thuis (niet Werk)
+- RecentScenes: chip wisselt laatste scenes
+- Label toont “Weekend: Thuis” als weekend-home aan staat
+
 ## Batch 137 (software)
 - AutoPinSchedule: pin-set volgt tijd (Werk 7–16, Onderweg 17–19, Thuis rest)
 - SmartSuggestBar: chip Auto-set + Top-scene
@@ -25,3 +30,4 @@
 ## Nog te bouwen
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
 - ANC-GATT dump TAH6519 + notify-leren
+- Auto-pin uren instelbaar in settings
