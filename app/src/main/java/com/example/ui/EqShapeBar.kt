@@ -177,6 +177,36 @@ fun EqShapeBar(viewModel: MainViewModel) {
             EqShape.matchRms(dsp)
             Toast.makeText(context, "RMS genormeerd op 2 dB", Toast.LENGTH_SHORT).show()
         }
+        chip("Tight", "eq_tight_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.tight(dsp)
+            Toast.makeText(context, "Piek ±3 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Spread", "eq_spread_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.spread(dsp)
+            Toast.makeText(context, "Contrast ×1,4", Toast.LENGTH_SHORT).show()
+        }
+        chip("Soft", "eq_soft_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.soft(dsp)
+            Toast.makeText(context, "2× glad", Toast.LENGTH_SHORT).show()
+        }
+        chip("Body", "eq_body_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.body(dsp)
+            Toast.makeText(context, "Low-mid +1,3 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Vocal", "eq_vocal_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.vocal(dsp)
+            Toast.makeText(context, "Vocal +1,4 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Night", "eq_night_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.night(dsp)
+            Toast.makeText(context, "Hoogtes −1,2 dB", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 
