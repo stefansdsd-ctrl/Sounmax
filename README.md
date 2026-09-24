@@ -9,6 +9,17 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Batch 154
 - Clip6, Peak-norm, Dood-zones, Bass/Treble-isolatie en Jitter op de EQ-curve (met undo).
 
+## Batch 153
+- Invert, Halveer/Sterker en band-shift ←/→ op de EQ-curve (met undo).
+
+## Batch 152
+- Glad / Spiegel / Norm + Warm/Helder-tilt op de EQ-curve (met undo).
+
+## Batch 151
+- Vlak: alle bands + extra's naar 0 (met undo).
+- Kopieer/plak EQ als SMX-string via klembord.
+- Hint toont het dichtstbijzijnde slot (~ Werk/Thuis/Sport).
+
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
 - Find-beep payload

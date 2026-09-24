@@ -117,6 +117,36 @@ fun EqShapeBar(viewModel: MainViewModel) {
             EqShape.jitter(dsp)
             Toast.makeText(context, "Lichte random ±0,4 dB", Toast.LENGTH_SHORT).show()
         }
+        chip("Mid", "eq_mid_iso_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.isolateMids(dsp)
+            Toast.makeText(context, "Alleen midden-bands", Toast.LENGTH_SHORT).show()
+        }
+        chip("Snap", "eq_snap_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.snap(dsp)
+            Toast.makeText(context, "Rond naar 0,5 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("V", "eq_vcurve_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.vCurve(dsp)
+            Toast.makeText(context, "V-curve (laag+hoog)", Toast.LENGTH_SHORT).show()
+        }
+        chip("Scoop", "eq_scoop_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.scoop(dsp)
+            Toast.makeText(context, "Scoop (middenboost)", Toast.LENGTH_SHORT).show()
+        }
+        chip("Abs", "eq_abs_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.absGains(dsp)
+            Toast.makeText(context, "Alle gains positief", Toast.LENGTH_SHORT).show()
+        }
+        chip("Presence", "eq_presence_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.presence(dsp)
+            Toast.makeText(context, "Presence +1,4 dB", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 
