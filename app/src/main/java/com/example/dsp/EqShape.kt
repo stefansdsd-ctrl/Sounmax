@@ -284,4 +284,39 @@ object EqShape {
         val avg = (src[0] + src[1]) / 2f
         applyBands(dsp, src.mapIndexed { i, v -> if (i < 2) avg else v })
     }
+
+    fun rumble(dsp: AudioDspManager, cut: Float = 2.2f) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v -> if (i == 0) v - cut else v })
+    }
+
+    fun fat(dsp: AudioDspManager, boost: Float = 1.5f) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v -> if (i in 1..2) v + boost else v })
+    }
+
+    fun clarity(dsp: AudioDspManager, boost: Float = 1.3f) {
+        val src = dsp.bandGains.value
+        if (src.size < 5) return
+        val a = src.size - 5
+        val b = src.size - 4
+        applyBands(dsp, src.mapIndexed { i, v -> if (i == a || i == b) v + boost else v })
+    }
+
+    fun compressMean(dsp: AudioDspManager, amount: Float = 0.3f) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        val mean = src.average().toFloat()
+        applyBands(dsp, src.map { it + (mean - it) * amount })
+    }
+
+    fun edge(dsp: AudioDspManager, boost: Float = 0.8f) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        applyBands(dsp, src.mapIndexed { i, v ->
+            if (i == 0 || i == src.lastIndex) v + boost else v
+        })
+    }
+
+    fun flat(dsp: AudioDspManager) {
+        applyBands(dsp, dsp.bandGains.value.map { 0f })
+    }
 }
