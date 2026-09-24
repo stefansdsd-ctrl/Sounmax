@@ -89,4 +89,50 @@ object EqShape {
     fun jitter(dsp: AudioDspManager, amp: Float = 0.4f) {
         applyBands(dsp, dsp.bandGains.value.map { it + Random.nextFloat() * 2f * amp - amp })
     }
+
+    fun isolateMids(dsp: AudioDspManager, keep: Int = 4) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        val start = max(0, (src.size - keep) / 2)
+        val end = start + keep
+        applyBands(dsp, src.mapIndexed { i, v -> if (i in start until end) v else 0f })
+    }
+
+    fun snap(dsp: AudioDspManager, step: Float = 0.5f) {
+        applyBands(dsp, dsp.bandGains.value.map { kotlin.math.round(it / step) * step })
+    }
+
+    fun vCurve(dsp: AudioDspManager, edge: Float = 1.2f, midCut: Float = 0.8f) {
+        val src = dsp.bandGains.value
+        if (src.size < 3) return
+        val n = (src.size - 1).toFloat()
+        applyBands(dsp, src.mapIndexed { i, v ->
+            val t = i / n
+            val shape = abs(t * 2f - 1f)
+            v + edge * shape - midCut * (1f - shape)
+        })
+    }
+
+    fun scoop(dsp: AudioDspManager, midBoost: Float = 1.2f, edgeCut: Float = 0.6f) {
+        val src = dsp.bandGains.value
+        if (src.size < 3) return
+        val n = (src.size - 1).toFloat()
+        applyBands(dsp, src.mapIndexed { i, v ->
+            val t = i / n
+            val mid = 1f - abs(t * 2f - 1f)
+            v + midBoost * mid - edgeCut * (1f - mid)
+        })
+    }
+
+    fun absGains(dsp: AudioDspManager) {
+        applyBands(dsp, dsp.bandGains.value.map { abs(it) })
+    }
+
+    fun presence(dsp: AudioDspManager, boost: Float = 1.4f) {
+        val src = dsp.bandGains.value
+        applyBands(dsp, src.mapIndexed { i, v ->
+            val inPresence = i == src.size - 4 || i == src.size - 3
+            if (inPresence) v + boost else v
+        })
+    }
 }
