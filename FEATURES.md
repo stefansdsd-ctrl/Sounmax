@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 152 (software)
+- Glad: 1-2-1 smoothing over de 10 bands (met undo)
+- Spiegel: lage en hoge bands omdraaien
+- Norm: gemiddelde naar 0 dB (volume-neutrale curve)
+- Warm / Helder: tilt ±0,6 dB over de curve
+
 ## Batch 151 (software)
 - Vlak-knop zet 10-bands + bass/virt/loud/clarity op 0 (eerst undo-punt)
 - Kopieer EQ / Plak EQ via klembord (`SMX:gains|bass|virt|loud|clarity`)
