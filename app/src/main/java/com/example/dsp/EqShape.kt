@@ -2,6 +2,7 @@ package com.example.dsp
 
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 /** Curve-tools: gladstrijken, spiegelen, centreren, tilt, invert, schaal, shift, clip, isolatie. */
@@ -134,5 +135,49 @@ object EqShape {
             val inPresence = i == src.size - 4 || i == src.size - 3
             if (inPresence) v + boost else v
         })
+    }
+
+    fun punch(dsp: AudioDspManager, boost: Float = 1.6f) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v -> if (i < 2) v + boost else v })
+    }
+
+    fun air(dsp: AudioDspManager, boost: Float = 1.5f) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        applyBands(dsp, src.mapIndexed { i, v -> if (i == src.lastIndex) v + boost else v })
+    }
+
+    fun loudness(dsp: AudioDspManager, edge: Float = 1.1f) {
+        val src = dsp.bandGains.value
+        if (src.size < 3) return
+        val n = (src.size - 1).toFloat()
+        applyBands(dsp, src.mapIndexed { i, v ->
+            val t = i / n
+            val shape = abs(t * 2f - 1f)
+            v + edge * shape
+        })
+    }
+
+    fun floorZero(dsp: AudioDspManager) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        val minV = src.minOrNull() ?: return
+        applyBands(dsp, src.map { it - minV })
+    }
+
+    fun ceilingZero(dsp: AudioDspManager) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        val maxV = src.maxOrNull() ?: return
+        applyBands(dsp, src.map { it - maxV })
+    }
+
+    fun matchRms(dsp: AudioDspManager, target: Float = 2f) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        val rms = sqrt(src.map { it * it }.average()).toFloat()
+        if (rms < 0.05f) return
+        val factor = target / rms
+        applyBands(dsp, src.map { it * factor })
     }
 }

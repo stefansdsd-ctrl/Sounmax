@@ -147,6 +147,36 @@ fun EqShapeBar(viewModel: MainViewModel) {
             EqShape.presence(dsp)
             Toast.makeText(context, "Presence +1,4 dB", Toast.LENGTH_SHORT).show()
         }
+        chip("Punch", "eq_punch_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.punch(dsp)
+            Toast.makeText(context, "Sub-bass +1,6 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Air", "eq_air_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.air(dsp)
+            Toast.makeText(context, "Hoogste band +1,5 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Loud", "eq_loudness_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.loudness(dsp)
+            Toast.makeText(context, "Loudness (laag+hoog)", Toast.LENGTH_SHORT).show()
+        }
+        chip("Floor", "eq_floor_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.floorZero(dsp)
+            Toast.makeText(context, "Laagste band op 0 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Ceil", "eq_ceiling_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.ceilingZero(dsp)
+            Toast.makeText(context, "Hoogste band op 0 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("RMS", "eq_rms_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.matchRms(dsp)
+            Toast.makeText(context, "RMS genormeerd op 2 dB", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

@@ -1,5 +1,13 @@
 # Sounmax — volgende features
 
+## Batch 156 (software)
+- Punch: +1,6 dB op de laagste 2 bands
+- Air: +1,5 dB op de hoogste band
+- Loud: Fletcher-achtige laag+hoog boost
+- Floor: schuif zodat min = 0 dB
+- Ceil: schuif zodat max = 0 dB
+- RMS: schaal naar RMS 2 dB
+
 ## Batch 155 (software)
 - Mid: isoleer middelste 4 bands
 - Snap: rond bands naar 0,5 dB
