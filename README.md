@@ -3,20 +3,16 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-24 — batch 160)
+## Nieuw (2026-09-24 — batch 161)
+- EQ-chips gegroepeerd: Vorm, Toon, Schoon, Veilig, Tools.
+- Rumble, Fat, Clarity, Comp, Edge, Flat.
+- Mud / Harsh / DeEss / Smile / WarmAir / MonoL in de balk.
+
+## Batch 160
 - Rumble, Fat, Clarity, Comp, Edge, Flat (met undo).
-- Mud / Harsh / DeEss / Smile / WarmAir / MonoL nu als chips.
 
 ## Batch 159
 - Mud, Harsh, DeEss, Smile, WarmAir, MonoL (met undo).
-
-## Batch 158
-- Fade (50% naar vlak), Safe (±4 + zachte highs), Pocket (bass −2).
-- Speech-curve en low/high shelf +1,5 dB (met undo).
-
-## Batch 157
-- Tight, Spread, Soft, Body, Vocal, Night op de EQ-curve (met undo).
-- A/B-vergelijking: Zet A, tik A/B om te wisselen.
 
 ## Nog open (hardware)
 - Philips ANC-GATT bevestigen met dump op TAH6519
