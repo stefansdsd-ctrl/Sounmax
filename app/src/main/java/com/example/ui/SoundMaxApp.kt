@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.data.HiddenScenes
 import com.example.data.NowPlayingApp
 import com.example.ui.theme.ImmersiveBackground
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -66,6 +68,8 @@ fun SoundMaxApp(
         )
     }
     val sceneController = remember(viewModel) { SceneController(viewModel) }
+
+    LaunchedEffect(Unit) { HiddenScenes.maybeAutoSlim(context) }
 
     DisposableEffect(viewModel) {
         NowPlayingApp.onBoundPreset = { viewModel.applyPreset(it) }
@@ -157,6 +161,7 @@ fun SoundMaxApp(
             BatteryEtaBar(headsetStatus.batteryPercent)
             FavoritesBar(viewModel = viewModel)
             HomeExtrasBar {
+                SlimCatalogBar()
                 KidSafeBar()
                 AppMixBar(viewModel = viewModel)
                 AppVolumeCapBar()
