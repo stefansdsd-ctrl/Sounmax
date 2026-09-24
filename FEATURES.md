@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 148 (software)
+- EQ-undo: max 5 punten, tik “EQ undo” om terug te gaan
+- “Bewaar punt” slaat de huidige curve handmatig op
+- Automatisch snapshot bij preset-wissel en band-sleep
+
 ## Batch 147 (software)
 - Compacte catalogus: verberg ongebruikte scene-mappen (dagelijks optioneel)
 - Meer → Compact aan / Verberg leeg / Toon alles
@@ -10,11 +15,6 @@
 - Wear-tegel dosis: minuten + waarschuwing, tik = volume-cap
 - Wear-app: Cap-knop + Pauze (oorpauze forceren)
 - Status naar Wear: dose_warn + cap_pct
-
-## Batch 145 (software)
-- Wear-tegel pin-set: compacte tegel, tik wisselt Werk / Thuis / Onderweg
-- Hoofd-tegel: pin-set + luisterdosis in status, pin-chip bovenaan
-- ANC-tegel ook in Wear-manifest gezet
 
 ## Nog te bouwen
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
