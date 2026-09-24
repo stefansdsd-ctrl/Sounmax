@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dsp.EqAb
 import com.example.dsp.EqShare
 import com.example.dsp.EqUndo
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -75,6 +76,31 @@ fun EqToolsBar(viewModel: MainViewModel) {
             label = { Text("Plak EQ", fontSize = 11.sp, maxLines = 1) },
             colors = colors(),
             modifier = Modifier.testTag("eq_paste_chip")
+        )
+        FilterChip(
+            selected = false,
+            onClick = {
+                EqAb.storeA(context, viewModel.dspManager)
+                Toast.makeText(context, "A bewaard", Toast.LENGTH_SHORT).show()
+            },
+            label = { Text("Zet A", fontSize = 11.sp, maxLines = 1) },
+            colors = colors(),
+            modifier = Modifier.testTag("eq_ab_store_chip")
+        )
+        FilterChip(
+            selected = false,
+            onClick = {
+                val side = EqAb.toggle(context, viewModel.dspManager)
+                hint = EqShare.closestSlot(context, viewModel.dspManager)
+                Toast.makeText(
+                    context,
+                    if (side == "geen A") "Eerst Zet A" else "Luister $side",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            label = { Text("A/B", fontSize = 11.sp, maxLines = 1) },
+            colors = colors(),
+            modifier = Modifier.testTag("eq_ab_toggle_chip")
         )
         if (hint != null) {
             FilterChip(
