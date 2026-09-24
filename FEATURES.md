@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 151 (software)
+- Vlak-knop zet 10-bands + bass/virt/loud/clarity op 0 (eerst undo-punt)
+- Kopieer EQ / Plak EQ via klembord (`SMX:gains|bass|virt|loud|clarity`)
+- Closest-slot hint als de curve binnen 8 dB van Werk/Thuis/Sport ligt
+
 ## Batch 150 (software)
 - Long-press op Werk/Thuis/Sport overschrijft een vol slot
 - Laden van een slot maakt eerst een EQ-undo-punt
