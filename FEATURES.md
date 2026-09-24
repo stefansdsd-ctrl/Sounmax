@@ -1,5 +1,13 @@
 # Sounmax — volgende features
 
+## Batch 159 (software)
+- Mud: 200–500 Hz −1,8 dB
+- Harsh: 2–4 kHz −1,6 dB
+- DeEss: hoogste 2 bands −1,6 dB
+- Smile: lichte V
+- WarmAir: low-shelf + air
+- MonoL: eerste 2 bands middelen
+
 ## Batch 158 (software)
 - Fade: 50% naar vlak
 - Safe: clip ±4 dB + zachte highs
