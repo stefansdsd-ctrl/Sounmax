@@ -29,7 +29,7 @@ object HourSceneSuggest {
             if (SceneUsage.count(context, used.id) >= 2 && visible(context, used.id)) return used
         }
 
-        FavoriteScenes.list(context).firstOrNull { visible(context, it.id) }?.let {
+        FavoriteScenes(context).scenes().firstOrNull { visible(context, it.id) }?.let {
             if (SceneUsage.count(context, it.id) >= 1) return it
         }
 
