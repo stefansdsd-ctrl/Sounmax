@@ -3,7 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-24 — batch 153)
+## Nieuw (2026-09-24 — batch 154)
+- Clip6, Peak-norm, Dood-zones, Bass/Treble-isolatie en Jitter op de EQ-curve (met undo).
+
+## Batch 153
 - Invert, Halveer/Sterker en band-shift ←/→ op de EQ-curve (met undo).
 
 ## Batch 152

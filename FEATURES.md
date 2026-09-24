@@ -1,5 +1,12 @@
 # Sounmax — volgende features
 
+## Batch 154 (software)
+- Clip6: bands knippen op ±6 dB
+- Peak: schaal zodat max |gain| = 6 dB
+- Dood: bands <0,35 dB naar 0
+- Bass / Treble: isoleer lage of hoge 3 bands
+- Jitter: ±0,4 dB random (met undo)
+
 ## Batch 153 (software)
 - Invert: alle bands omdraaien van teken
 - Halveer / Sterker: curve ×0,5 of ×1,25 (met undo)

@@ -87,6 +87,36 @@ fun EqShapeBar(viewModel: MainViewModel) {
             EqShape.shift(dsp, 1)
             Toast.makeText(context, "Bands naar hoger", Toast.LENGTH_SHORT).show()
         }
+        chip("Clip6", "eq_clip_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.clip(dsp, 6f)
+            Toast.makeText(context, "Piek ±6 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Peak", "eq_peak_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.peakNorm(dsp, 6f)
+            Toast.makeText(context, "Piek genormeerd op 6 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("Dood", "eq_dead_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.deadZones(dsp)
+            Toast.makeText(context, "Kleine bands op 0", Toast.LENGTH_SHORT).show()
+        }
+        chip("Bass", "eq_bass_iso_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.isolateBass(dsp)
+            Toast.makeText(context, "Alleen bass-bands", Toast.LENGTH_SHORT).show()
+        }
+        chip("Treble", "eq_treble_iso_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.isolateTreble(dsp)
+            Toast.makeText(context, "Alleen treble-bands", Toast.LENGTH_SHORT).show()
+        }
+        chip("Jitter", "eq_jitter_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.jitter(dsp)
+            Toast.makeText(context, "Lichte random ±0,4 dB", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

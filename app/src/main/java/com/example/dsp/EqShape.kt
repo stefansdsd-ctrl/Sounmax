@@ -1,6 +1,10 @@
 package com.example.dsp
 
-/** Curve-tools: gladstrijken, spiegelen, centreren, tilt, invert, schaal, shift. */
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.random.Random
+
+/** Curve-tools: gladstrijken, spiegelen, centreren, tilt, invert, schaal, shift, clip, isolatie. */
 object EqShape {
     private const val MIN = -12f
     private const val MAX = 12f
@@ -53,5 +57,36 @@ object EqShape {
         val n = src.size
         val k = ((steps % n) + n) % n
         applyBands(dsp, src.mapIndexed { i, _ -> src[(i - k + n) % n] })
+    }
+
+    fun clip(dsp: AudioDspManager, limit: Float = 6f) {
+        applyBands(dsp, dsp.bandGains.value.map { it.coerceIn(-limit, limit) })
+    }
+
+    fun peakNorm(dsp: AudioDspManager, target: Float = 6f) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        val peak = src.maxOf { abs(it) }
+        if (peak < 0.05f) return
+        val factor = target / peak
+        applyBands(dsp, src.map { it * factor })
+    }
+
+    fun deadZones(dsp: AudioDspManager, threshold: Float = 0.35f) {
+        applyBands(dsp, dsp.bandGains.value.map { if (abs(it) < threshold) 0f else it })
+    }
+
+    fun isolateBass(dsp: AudioDspManager, keep: Int = 3) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v -> if (i < keep) v else 0f })
+    }
+
+    fun isolateTreble(dsp: AudioDspManager, keep: Int = 3) {
+        val src = dsp.bandGains.value
+        val start = max(0, src.size - keep)
+        applyBands(dsp, src.mapIndexed { i, v -> if (i >= start) v else 0f })
+    }
+
+    fun jitter(dsp: AudioDspManager, amp: Float = 0.4f) {
+        applyBands(dsp, dsp.bandGains.value.map { it + Random.nextFloat() * 2f * amp - amp })
     }
 }
