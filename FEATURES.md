@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 149 (software)
+- EQ-redo: na undo één tik terug
+- EQ vast: vergrendel bands tegen per ongeluk slepen
+- Vaste slots Werk / Thuis / Sport (tik leeg = bewaren, tik vol = laden)
+
 ## Batch 148 (software)
 - EQ-undo: max 5 punten, tik “EQ undo” om terug te gaan
 - “Bewaar punt” slaat de huidige curve handmatig op
@@ -20,3 +25,4 @@
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
 - ANC-GATT dump TAH6519 + notify-leren
 - Scene-suggestie fine-tunen na veldtest
+- Long-press om een EQ-slot te overschrijven
