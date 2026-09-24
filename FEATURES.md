@@ -1,5 +1,14 @@
 # Sounmax — volgende features
 
+## Batch 157 (software)
+- Tight: knip bands op ±3 dB
+- Spread: contrast ×1,4 rond het gemiddelde
+- Soft: twee keer gladstrijken
+- Body: +1,3 dB op low-mids (band 3–5)
+- Vocal: +1,4 dB op spraakbands
+- Night: −1,2 dB op de hoogste 3 bands
+- A/B: Zet A + wissel tussen A en live curve
+
 ## Batch 156 (software)
 - Punch: +1,6 dB op de laagste 2 bands
 - Air: +1,5 dB op de hoogste band
