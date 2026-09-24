@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 150 (software)
+- Long-press op Werk/Thuis/Sport overschrijft een vol slot
+- Laden van een slot maakt eerst een EQ-undo-punt
+- Slots slaan tijdstempel op; wis via bestaande knop
+
 ## Batch 149 (software)
 - EQ-redo: na undo één tik terug
 - EQ vast: vergrendel bands tegen per ongeluk slepen
@@ -25,4 +30,3 @@
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
 - ANC-GATT dump TAH6519 + notify-leren
 - Scene-suggestie fine-tunen na veldtest
-- Long-press om een EQ-slot te overschrijven

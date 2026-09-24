@@ -17,6 +17,7 @@ object NamedEqSlots {
             put("v", dsp.virtualizerStrength.value)
             put("l", dsp.loudnessGain.value)
             put("c", dsp.clarityGain.value.toDouble())
+            put("t", System.currentTimeMillis())
         }
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit().putString("s$slot", o.toString()).apply()
@@ -24,6 +25,16 @@ object NamedEqSlots {
 
     fun has(context: Context, slot: Int): Boolean =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).contains("s$slot")
+
+    fun clear(context: Context, slot: Int) {
+        if (slot !in NAMES.indices) return
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().remove("s$slot").apply()
+    }
+
+    fun clearAll(context: Context) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().clear().apply()
+    }
 
     fun apply(context: Context, slot: Int, dsp: AudioDspManager): Boolean {
         val raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString("s$slot", null)

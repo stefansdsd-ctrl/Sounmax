@@ -1,7 +1,10 @@
 package com.example.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,6 +28,7 @@ import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EqSlotsBar(viewModel: MainViewModel) {
     val context = LocalContext.current
@@ -40,33 +44,48 @@ fun EqSlotsBar(viewModel: MainViewModel) {
     ) {
         NamedEqSlots.NAMES.forEachIndexed { i, name ->
             val filled = tick.let { NamedEqSlots.has(context, i) }
-            FilterChip(
-                selected = filled,
-                onClick = {
-                    val applied = NamedEqSlots.apply(context, i, viewModel.dspManager)
-                    if (applied) {
-                        Toast.makeText(context, "$name geladen", Toast.LENGTH_SHORT).show()
-                    } else {
+            Box(
+                modifier = Modifier.combinedClickable(
+                    onClick = {
+                        if (filled) {
+                            EqUndo.push(context, viewModel.dspManager)
+                            if (NamedEqSlots.apply(context, i, viewModel.dspManager)) {
+                                Toast.makeText(context, "$name geladen", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            EqUndo.push(context, viewModel.dspManager)
+                            NamedEqSlots.save(context, i, viewModel.dspManager)
+                            tick++
+                            Toast.makeText(context, "$name opgeslagen", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    onLongClick = {
                         EqUndo.push(context, viewModel.dspManager)
                         NamedEqSlots.save(context, i, viewModel.dspManager)
                         tick++
-                        Toast.makeText(context, "$name opgeslagen", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "$name overschreven", Toast.LENGTH_SHORT).show()
                     }
-                },
-                label = { Text(name, fontSize = 11.sp, maxLines = 1) },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
-                    containerColor = ImmersiveSurfaceActive,
-                    labelColor = ImmersiveTextSecondary,
-                    selectedLabelColor = ImmersiveLavenderAccent
-                ),
-                modifier = Modifier.testTag("eq_slot_$i")
-            )
+                )
+            ) {
+                FilterChip(
+                    selected = filled,
+                    onClick = {},
+                    enabled = false,
+                    label = { Text(name, fontSize = 11.sp, maxLines = 1) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        disabledSelectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                        disabledContainerColor = ImmersiveSurfaceActive,
+                        disabledLabelColor = ImmersiveTextSecondary,
+                        disabledSelectedLabelColor = ImmersiveLavenderAccent
+                    ),
+                    modifier = Modifier.testTag("eq_slot_$i")
+                )
+            }
         }
         FilterChip(
             selected = false,
             onClick = {
-                context.getSharedPreferences("soundmax_eq_slots", 0).edit().clear().apply()
+                NamedEqSlots.clearAll(context)
                 tick++
                 Toast.makeText(context, "Slots leeg", Toast.LENGTH_SHORT).show()
             },
