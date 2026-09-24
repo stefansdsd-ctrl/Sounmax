@@ -62,6 +62,31 @@ fun EqShapeBar(viewModel: MainViewModel) {
             EqShape.tilt(dsp, brighter = true)
             Toast.makeText(context, "Tilt helderder", Toast.LENGTH_SHORT).show()
         }
+        chip("Invert", "eq_invert_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.invert(dsp)
+            Toast.makeText(context, "EQ geïnverteerd", Toast.LENGTH_SHORT).show()
+        }
+        chip("Halveer", "eq_scale_half_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.scale(dsp, 0.5f)
+            Toast.makeText(context, "EQ ×0,5", Toast.LENGTH_SHORT).show()
+        }
+        chip("Sterker", "eq_scale_up_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.scale(dsp, 1.25f)
+            Toast.makeText(context, "EQ ×1,25", Toast.LENGTH_SHORT).show()
+        }
+        chip("←", "eq_shift_left_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.shift(dsp, -1)
+            Toast.makeText(context, "Bands naar lager", Toast.LENGTH_SHORT).show()
+        }
+        chip("→", "eq_shift_right_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.shift(dsp, 1)
+            Toast.makeText(context, "Bands naar hoger", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

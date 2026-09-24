@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 153 (software)
+- Invert: alle bands omdraaien van teken
+- Halveer / Sterker: curve ×0,5 of ×1,25 (met undo)
+- Schuif ←/→: bands één stap naar lager of hoger
+
 ## Batch 152 (software)
 - Glad: 1-2-1 smoothing over de 10 bands (met undo)
 - Spiegel: lage en hoge bands omdraaien
