@@ -52,4 +52,14 @@ object NamedEqSlots {
             true
         }.getOrDefault(false)
     }
+
+    fun bands(context: Context, slot: Int): List<Float>? {
+        val raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString("s$slot", null)
+            ?: return null
+        return runCatching {
+            val o = JSONObject(raw)
+            val bands = o.getJSONArray("b")
+            (0 until bands.length()).map { bands.getDouble(it).toFloat() }
+        }.getOrNull()
+    }
 }
