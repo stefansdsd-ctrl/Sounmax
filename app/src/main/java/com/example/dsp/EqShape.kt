@@ -180,4 +180,38 @@ object EqShape {
         val factor = target / rms
         applyBands(dsp, src.map { it * factor })
     }
+
+    fun tight(dsp: AudioDspManager) = clip(dsp, 3f)
+
+    fun spread(dsp: AudioDspManager, factor: Float = 1.4f) {
+        val src = dsp.bandGains.value
+        if (src.isEmpty()) return
+        val mean = src.average().toFloat()
+        applyBands(dsp, src.map { mean + (it - mean) * factor })
+    }
+
+    fun soft(dsp: AudioDspManager) {
+        smooth(dsp)
+        smooth(dsp)
+    }
+
+    fun body(dsp: AudioDspManager, boost: Float = 1.3f) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v ->
+            if (i in 2..4) v + boost else v
+        })
+    }
+
+    fun vocal(dsp: AudioDspManager, boost: Float = 1.4f) {
+        val src = dsp.bandGains.value
+        applyBands(dsp, src.mapIndexed { i, v ->
+            val midHi = src.size >= 6 && i in (src.size - 6) until (src.size - 3)
+            if (midHi) v + boost else v
+        })
+    }
+
+    fun night(dsp: AudioDspManager, cut: Float = 1.2f) {
+        val src = dsp.bandGains.value
+        val start = max(0, src.size - 3)
+        applyBands(dsp, src.mapIndexed { i, v -> if (i >= start) v - cut else v })
+    }
 }
