@@ -250,4 +250,38 @@ object EqShape {
         val start = max(0, src.size - 3)
         applyBands(dsp, src.mapIndexed { i, v -> if (i >= start) v + boost else v })
     }
+
+    fun mud(dsp: AudioDspManager, cut: Float = 1.8f) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v ->
+            if (i in 2..3) v - cut else v
+        })
+    }
+
+    fun harsh(dsp: AudioDspManager, cut: Float = 1.6f) {
+        val src = dsp.bandGains.value
+        if (src.size < 6) return
+        val a = src.size - 5
+        val b = src.size - 4
+        applyBands(dsp, src.mapIndexed { i, v -> if (i == a || i == b) v - cut else v })
+    }
+
+    fun deess(dsp: AudioDspManager, cut: Float = 1.6f) {
+        val src = dsp.bandGains.value
+        val start = max(0, src.size - 2)
+        applyBands(dsp, src.mapIndexed { i, v -> if (i >= start) v - cut else v })
+    }
+
+    fun smile(dsp: AudioDspManager) = vCurve(dsp, edge = 0.7f, midCut = 0.4f)
+
+    fun warmAir(dsp: AudioDspManager) {
+        shelfLow(dsp, 1.0f)
+        air(dsp, 1.2f)
+    }
+
+    fun monoLow(dsp: AudioDspManager) {
+        val src = dsp.bandGains.value
+        if (src.size < 2) return
+        val avg = (src[0] + src[1]) / 2f
+        applyBands(dsp, src.mapIndexed { i, v -> if (i < 2) avg else v })
+    }
 }
