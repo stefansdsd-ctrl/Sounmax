@@ -187,6 +187,7 @@ fun SoundMaxApp(
                 SpatialHorizonBar()
                 BackupBar(viewModel = viewModel)
                 AppEqBar(viewModel = viewModel)
+                EqUndoBar(viewModel = viewModel)
             }
             Box(modifier = Modifier.fillMaxSize()) {
                 when (selectedTab) {
