@@ -207,6 +207,36 @@ fun EqShapeBar(viewModel: MainViewModel) {
             EqShape.night(dsp)
             Toast.makeText(context, "Hoogtes −1,2 dB", Toast.LENGTH_SHORT).show()
         }
+        chip("Fade", "eq_fade_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.fade(dsp)
+            Toast.makeText(context, "50% naar vlak", Toast.LENGTH_SHORT).show()
+        }
+        chip("Safe", "eq_safe_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.safe(dsp)
+            Toast.makeText(context, "±4 dB + zachte highs", Toast.LENGTH_SHORT).show()
+        }
+        chip("Pocket", "eq_pocket_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.pocket(dsp)
+            Toast.makeText(context, "Bass −2 dB (lek/zak)", Toast.LENGTH_SHORT).show()
+        }
+        chip("Speech", "eq_speech_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.speech(dsp)
+            Toast.makeText(context, "Spraakband omhoog", Toast.LENGTH_SHORT).show()
+        }
+        chip("ShelfL", "eq_shelf_low_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.shelfLow(dsp)
+            Toast.makeText(context, "Low-shelf +1,5 dB", Toast.LENGTH_SHORT).show()
+        }
+        chip("ShelfH", "eq_shelf_high_chip") {
+            EqUndo.push(context, dsp)
+            EqShape.shelfHigh(dsp)
+            Toast.makeText(context, "High-shelf +1,5 dB", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

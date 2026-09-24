@@ -214,4 +214,40 @@ object EqShape {
         val start = max(0, src.size - 3)
         applyBands(dsp, src.mapIndexed { i, v -> if (i >= start) v - cut else v })
     }
+
+    fun fade(dsp: AudioDspManager, amount: Float = 0.5f) {
+        applyBands(dsp, dsp.bandGains.value.map { it * (1f - amount) })
+    }
+
+    fun safe(dsp: AudioDspManager) {
+        clip(dsp, 4f)
+        night(dsp, 1.0f)
+    }
+
+    fun pocket(dsp: AudioDspManager, cut: Float = 2f) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v -> if (i < 3) v - cut else v })
+    }
+
+    fun speech(dsp: AudioDspManager) {
+        val src = dsp.bandGains.value
+        if (src.size < 6) return
+        applyBands(dsp, src.mapIndexed { i, v ->
+            when {
+                i < 2 -> v - 1.5f
+                i in 4..6 -> v + 1.6f
+                i >= src.size - 2 -> v - 0.8f
+                else -> v
+            }
+        })
+    }
+
+    fun shelfLow(dsp: AudioDspManager, boost: Float = 1.5f) {
+        applyBands(dsp, dsp.bandGains.value.mapIndexed { i, v -> if (i < 3) v + boost else v })
+    }
+
+    fun shelfHigh(dsp: AudioDspManager, boost: Float = 1.5f) {
+        val src = dsp.bandGains.value
+        val start = max(0, src.size - 3)
+        applyBands(dsp, src.mapIndexed { i, v -> if (i >= start) v + boost else v })
+    }
 }
