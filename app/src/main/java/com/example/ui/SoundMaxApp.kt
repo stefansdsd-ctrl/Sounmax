@@ -188,6 +188,7 @@ fun SoundMaxApp(
                 BackupBar(viewModel = viewModel)
                 AppEqBar(viewModel = viewModel)
                 EqUndoBar(viewModel = viewModel)
+                EqSlotsBar(viewModel = viewModel)
             }
             Box(modifier = Modifier.fillMaxSize()) {
                 when (selectedTab) {
