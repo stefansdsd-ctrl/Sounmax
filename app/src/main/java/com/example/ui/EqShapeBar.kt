@@ -28,6 +28,12 @@ fun EqShapeBar(viewModel: MainViewModel) {
     val context = LocalContext.current
     val dsp = viewModel.dspManager
 
+    fun run(msg: String, block: () -> Unit) {
+        EqUndo.push(context, dsp)
+        block()
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,207 +43,78 @@ fun EqShapeBar(viewModel: MainViewModel) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        chip("Glad", "eq_smooth_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.smooth(dsp)
-            Toast.makeText(context, "EQ gladgestreken", Toast.LENGTH_SHORT).show()
-        }
-        chip("Spiegel", "eq_mirror_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.mirror(dsp)
-            Toast.makeText(context, "EQ gespiegeld (laag\u2194hoog)", Toast.LENGTH_SHORT).show()
-        }
-        chip("Norm", "eq_norm_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.normalize(dsp)
-            Toast.makeText(context, "EQ gecentreerd (gemiddelde 0 dB)", Toast.LENGTH_SHORT).show()
-        }
-        chip("Warm", "eq_tilt_warm_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.tilt(dsp, brighter = false)
-            Toast.makeText(context, "Tilt warmer", Toast.LENGTH_SHORT).show()
-        }
-        chip("Helder", "eq_tilt_bright_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.tilt(dsp, brighter = true)
-            Toast.makeText(context, "Tilt helderder", Toast.LENGTH_SHORT).show()
-        }
-        chip("Invert", "eq_invert_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.invert(dsp)
-            Toast.makeText(context, "EQ geïnverteerd", Toast.LENGTH_SHORT).show()
-        }
-        chip("Halveer", "eq_scale_half_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.scale(dsp, 0.5f)
-            Toast.makeText(context, "EQ ×0,5", Toast.LENGTH_SHORT).show()
-        }
-        chip("Sterker", "eq_scale_up_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.scale(dsp, 1.25f)
-            Toast.makeText(context, "EQ ×1,25", Toast.LENGTH_SHORT).show()
-        }
-        chip("←", "eq_shift_left_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.shift(dsp, -1)
-            Toast.makeText(context, "Bands naar lager", Toast.LENGTH_SHORT).show()
-        }
-        chip("→", "eq_shift_right_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.shift(dsp, 1)
-            Toast.makeText(context, "Bands naar hoger", Toast.LENGTH_SHORT).show()
-        }
-        chip("Clip6", "eq_clip_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.clip(dsp, 6f)
-            Toast.makeText(context, "Piek ±6 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Peak", "eq_peak_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.peakNorm(dsp, 6f)
-            Toast.makeText(context, "Piek genormeerd op 6 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Dood", "eq_dead_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.deadZones(dsp)
-            Toast.makeText(context, "Kleine bands op 0", Toast.LENGTH_SHORT).show()
-        }
-        chip("Bass", "eq_bass_iso_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.isolateBass(dsp)
-            Toast.makeText(context, "Alleen bass-bands", Toast.LENGTH_SHORT).show()
-        }
-        chip("Treble", "eq_treble_iso_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.isolateTreble(dsp)
-            Toast.makeText(context, "Alleen treble-bands", Toast.LENGTH_SHORT).show()
-        }
-        chip("Jitter", "eq_jitter_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.jitter(dsp)
-            Toast.makeText(context, "Lichte random ±0,4 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Mid", "eq_mid_iso_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.isolateMids(dsp)
-            Toast.makeText(context, "Alleen midden-bands", Toast.LENGTH_SHORT).show()
-        }
-        chip("Snap", "eq_snap_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.snap(dsp)
-            Toast.makeText(context, "Rond naar 0,5 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("V", "eq_vcurve_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.vCurve(dsp)
-            Toast.makeText(context, "V-curve (laag+hoog)", Toast.LENGTH_SHORT).show()
-        }
-        chip("Scoop", "eq_scoop_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.scoop(dsp)
-            Toast.makeText(context, "Scoop (middenboost)", Toast.LENGTH_SHORT).show()
-        }
-        chip("Abs", "eq_abs_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.absGains(dsp)
-            Toast.makeText(context, "Alle gains positief", Toast.LENGTH_SHORT).show()
-        }
-        chip("Presence", "eq_presence_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.presence(dsp)
-            Toast.makeText(context, "Presence +1,4 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Punch", "eq_punch_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.punch(dsp)
-            Toast.makeText(context, "Sub-bass +1,6 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Air", "eq_air_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.air(dsp)
-            Toast.makeText(context, "Hoogste band +1,5 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Loud", "eq_loudness_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.loudness(dsp)
-            Toast.makeText(context, "Loudness (laag+hoog)", Toast.LENGTH_SHORT).show()
-        }
-        chip("Floor", "eq_floor_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.floorZero(dsp)
-            Toast.makeText(context, "Laagste band op 0 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Ceil", "eq_ceiling_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.ceilingZero(dsp)
-            Toast.makeText(context, "Hoogste band op 0 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("RMS", "eq_rms_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.matchRms(dsp)
-            Toast.makeText(context, "RMS genormeerd op 2 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Tight", "eq_tight_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.tight(dsp)
-            Toast.makeText(context, "Piek ±3 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Spread", "eq_spread_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.spread(dsp)
-            Toast.makeText(context, "Contrast ×1,4", Toast.LENGTH_SHORT).show()
-        }
-        chip("Soft", "eq_soft_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.soft(dsp)
-            Toast.makeText(context, "2× glad", Toast.LENGTH_SHORT).show()
-        }
-        chip("Body", "eq_body_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.body(dsp)
-            Toast.makeText(context, "Low-mid +1,3 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Vocal", "eq_vocal_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.vocal(dsp)
-            Toast.makeText(context, "Vocal +1,4 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Night", "eq_night_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.night(dsp)
-            Toast.makeText(context, "Hoogtes −1,2 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("Fade", "eq_fade_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.fade(dsp)
-            Toast.makeText(context, "50% naar vlak", Toast.LENGTH_SHORT).show()
-        }
-        chip("Safe", "eq_safe_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.safe(dsp)
-            Toast.makeText(context, "±4 dB + zachte highs", Toast.LENGTH_SHORT).show()
-        }
-        chip("Pocket", "eq_pocket_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.pocket(dsp)
-            Toast.makeText(context, "Bass −2 dB (lek/zak)", Toast.LENGTH_SHORT).show()
-        }
-        chip("Speech", "eq_speech_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.speech(dsp)
-            Toast.makeText(context, "Spraakband omhoog", Toast.LENGTH_SHORT).show()
-        }
-        chip("ShelfL", "eq_shelf_low_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.shelfLow(dsp)
-            Toast.makeText(context, "Low-shelf +1,5 dB", Toast.LENGTH_SHORT).show()
-        }
-        chip("ShelfH", "eq_shelf_high_chip") {
-            EqUndo.push(context, dsp)
-            EqShape.shelfHigh(dsp)
-            Toast.makeText(context, "High-shelf +1,5 dB", Toast.LENGTH_SHORT).show()
-        }
+        group("Vorm")
+        chip("Glad", "eq_smooth_chip") { run("EQ gladgestreken") { EqShape.smooth(dsp) } }
+        chip("Soft", "eq_soft_chip") { run("2× glad") { EqShape.soft(dsp) } }
+        chip("Spiegel", "eq_mirror_chip") { run("EQ gespiegeld (laag↔hoog)") { EqShape.mirror(dsp) } }
+        chip("V", "eq_vcurve_chip") { run("V-curve (laag+hoog)") { EqShape.vCurve(dsp) } }
+        chip("Smile", "eq_smile_chip") { run("Lichte V") { EqShape.smile(dsp) } }
+        chip("Scoop", "eq_scoop_chip") { run("Scoop (middenboost)") { EqShape.scoop(dsp) } }
+        chip("Loud", "eq_loudness_chip") { run("Loudness (laag+hoog)") { EqShape.loudness(dsp) } }
+        chip("Edge", "eq_edge_chip") { run("Eerste+laatste +0,8 dB") { EqShape.edge(dsp) } }
+        chip("Flat", "eq_flat_chip") { run("Alle bands 0 dB") { EqShape.flat(dsp) } }
+
+        group("Toon")
+        chip("Warm", "eq_tilt_warm_chip") { run("Tilt warmer") { EqShape.tilt(dsp, brighter = false) } }
+        chip("Helder", "eq_tilt_bright_chip") { run("Tilt helderder") { EqShape.tilt(dsp, brighter = true) } }
+        chip("Punch", "eq_punch_chip") { run("Sub-bass +1,6 dB") { EqShape.punch(dsp) } }
+        chip("Rumble", "eq_rumble_chip") { run("Laagste band −2,2 dB") { EqShape.rumble(dsp) } }
+        chip("Fat", "eq_fat_chip") { run("Band 2–3 +1,5 dB") { EqShape.fat(dsp) } }
+        chip("Body", "eq_body_chip") { run("Low-mid +1,3 dB") { EqShape.body(dsp) } }
+        chip("Vocal", "eq_vocal_chip") { run("Vocal +1,4 dB") { EqShape.vocal(dsp) } }
+        chip("Speech", "eq_speech_chip") { run("Spraakband omhoog") { EqShape.speech(dsp) } }
+        chip("Presence", "eq_presence_chip") { run("Presence +1,4 dB") { EqShape.presence(dsp) } }
+        chip("Clarity", "eq_clarity_chip") { run("Upper-mids +1,3 dB") { EqShape.clarity(dsp) } }
+        chip("Air", "eq_air_chip") { run("Hoogste band +1,5 dB") { EqShape.air(dsp) } }
+        chip("WarmAir", "eq_warmair_chip") { run("Low-shelf + air") { EqShape.warmAir(dsp) } }
+        chip("ShelfL", "eq_shelf_low_chip") { run("Low-shelf +1,5 dB") { EqShape.shelfLow(dsp) } }
+        chip("ShelfH", "eq_shelf_high_chip") { run("High-shelf +1,5 dB") { EqShape.shelfHigh(dsp) } }
+
+        group("Schoon")
+        chip("Mud", "eq_mud_chip") { run("200–500 Hz −1,8 dB") { EqShape.mud(dsp) } }
+        chip("Harsh", "eq_harsh_chip") { run("2–4 kHz −1,6 dB") { EqShape.harsh(dsp) } }
+        chip("DeEss", "eq_deess_chip") { run("Hoogste 2 bands −1,6 dB") { EqShape.deess(dsp) } }
+        chip("Pocket", "eq_pocket_chip") { run("Bass −2 dB (lek/zak)") { EqShape.pocket(dsp) } }
+        chip("Night", "eq_night_chip") { run("Hoogtes −1,2 dB") { EqShape.night(dsp) } }
+        chip("MonoL", "eq_monol_chip") { run("Eerste 2 bands middelen") { EqShape.monoLow(dsp) } }
+
+        group("Veilig")
+        chip("Safe", "eq_safe_chip") { run("±4 dB + zachte highs") { EqShape.safe(dsp) } }
+        chip("Tight", "eq_tight_chip") { run("Piek ±3 dB") { EqShape.tight(dsp) } }
+        chip("Clip6", "eq_clip_chip") { run("Piek ±6 dB") { EqShape.clip(dsp, 6f) } }
+        chip("Fade", "eq_fade_chip") { run("50% naar vlak") { EqShape.fade(dsp) } }
+        chip("Comp", "eq_comp_chip") { run("30% naar gemiddelde") { EqShape.compressMean(dsp) } }
+        chip("Halveer", "eq_scale_half_chip") { run("EQ ×0,5") { EqShape.scale(dsp, 0.5f) } }
+        chip("Sterker", "eq_scale_up_chip") { run("EQ ×1,25") { EqShape.scale(dsp, 1.25f) } }
+        chip("Spread", "eq_spread_chip") { run("Contrast ×1,4") { EqShape.spread(dsp) } }
+
+        group("Tools")
+        chip("Norm", "eq_norm_chip") { run("EQ gecentreerd (gemiddelde 0 dB)") { EqShape.normalize(dsp) } }
+        chip("Invert", "eq_invert_chip") { run("EQ geïnverteerd") { EqShape.invert(dsp) } }
+        chip("←", "eq_shift_left_chip") { run("Bands naar lager") { EqShape.shift(dsp, -1) } }
+        chip("→", "eq_shift_right_chip") { run("Bands naar hoger") { EqShape.shift(dsp, 1) } }
+        chip("Peak", "eq_peak_chip") { run("Piek genormeerd op 6 dB") { EqShape.peakNorm(dsp, 6f) } }
+        chip("RMS", "eq_rms_chip") { run("RMS genormeerd op 2 dB") { EqShape.matchRms(dsp) } }
+        chip("Dood", "eq_dead_chip") { run("Kleine bands op 0") { EqShape.deadZones(dsp) } }
+        chip("Snap", "eq_snap_chip") { run("Rond naar 0,5 dB") { EqShape.snap(dsp) } }
+        chip("Bass", "eq_bass_iso_chip") { run("Alleen bass-bands") { EqShape.isolateBass(dsp) } }
+        chip("Mid", "eq_mid_iso_chip") { run("Alleen midden-bands") { EqShape.isolateMids(dsp) } }
+        chip("Treble", "eq_treble_iso_chip") { run("Alleen treble-bands") { EqShape.isolateTreble(dsp) } }
+        chip("Jitter", "eq_jitter_chip") { run("Lichte random ±0,4 dB") { EqShape.jitter(dsp) } }
+        chip("Abs", "eq_abs_chip") { run("Alle gains positief") { EqShape.absGains(dsp) } }
+        chip("Floor", "eq_floor_chip") { run("Laagste band op 0 dB") { EqShape.floorZero(dsp) } }
+        chip("Ceil", "eq_ceiling_chip") { run("Hoogste band op 0 dB") { EqShape.ceilingZero(dsp) } }
     }
+}
+
+@Composable
+private fun group(label: String) {
+    Text(
+        text = label.uppercase(),
+        fontSize = 9.sp,
+        color = ImmersiveLavenderAccent,
+        modifier = Modifier.padding(start = 4.dp)
+    )
 }
 
 @Composable
