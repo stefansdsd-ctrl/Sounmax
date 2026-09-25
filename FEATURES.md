@@ -1,5 +1,9 @@
 # Sounmax — volgende features
 
+## Batch 163 (software)
+- Phone, Sparkle, SubCut, Honk, Sleep, Soft4
+- Wear: Tel / Spark / Slaap
+
 ## Batch 162 (software)
 - Boxy, Nasal, Bloom, Hiss, Widen, Narrow, 0Bass, 0Treble
 - Wear EQ-shortcuts: Flat / Safe / Speech / Night / Vocal / Undo-EQ
