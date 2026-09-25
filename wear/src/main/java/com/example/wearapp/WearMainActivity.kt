@@ -135,6 +135,11 @@ class WearMainActivity : ComponentActivity() {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_GAME) } }) { Text("Game") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CALL) } }) { Text("BelEQ") }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_BIKE) } }) { Text("Fiets") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_FOCUS) } }) { Text("Focus") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_DOSE) } }) { Text("Oor") }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
                             when {
