@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dose_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6000000"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/dose_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gehoordosis"
+        android:textColor="#E8E0FF"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dose_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="0 / 180 min"
+        android:textColor="#D0BCFF"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dose_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#A89CC0"
+        android:textSize="11sp" />
+</LinearLayout>
