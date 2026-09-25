@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dsp.EqShape
 import com.example.dsp.EqShape162
+import com.example.dsp.EqShape163
 import com.example.dsp.EqUndo
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
@@ -67,6 +68,8 @@ fun EqShapeBar(viewModel: MainViewModel) {
         chip("Body", "eq_body_chip") { run("Low-mid +1,3 dB") { EqShape.body(dsp) } }
         chip("Vocal", "eq_vocal_chip") { run("Vocal +1,4 dB") { EqShape.vocal(dsp) } }
         chip("Speech", "eq_speech_chip") { run("Spraakband omhoog") { EqShape.speech(dsp) } }
+        chip("Phone", "eq_phone_chip") { run("Telefoonband") { EqShape163.phone(dsp) } }
+        chip("Sparkle", "eq_sparkle_chip") { run("Hoogste 2 bands +1,2 dB") { EqShape163.sparkle(dsp) } }
         chip("Presence", "eq_presence_chip") { run("Presence +1,4 dB") { EqShape.presence(dsp) } }
         chip("Clarity", "eq_clarity_chip") { run("Upper-mids +1,3 dB") { EqShape.clarity(dsp) } }
         chip("Air", "eq_air_chip") { run("Hoogste band +1,5 dB") { EqShape.air(dsp) } }
@@ -81,6 +84,9 @@ fun EqShapeBar(viewModel: MainViewModel) {
         chip("Harsh", "eq_harsh_chip") { run("2–4 kHz −1,6 dB") { EqShape.harsh(dsp) } }
         chip("DeEss", "eq_deess_chip") { run("Hoogste 2 bands −1,6 dB") { EqShape.deess(dsp) } }
         chip("Hiss", "eq_hiss_chip") { run("Hoogste band −2 dB") { EqShape162.hiss(dsp) } }
+        chip("Honk", "eq_honk_chip") { run("Mid 3–4 −1,8 dB") { EqShape163.honk(dsp) } }
+        chip("SubCut", "eq_subcut_chip") { run("Sub −4 dB") { EqShape163.subCut(dsp) } }
+        chip("Sleep", "eq_sleep_chip") { run("Nacht + hiss + zachter") { EqShape163.sleep(dsp) } }
         chip("Pocket", "eq_pocket_chip") { run("Bass −2 dB (lek/zak)") { EqShape.pocket(dsp) } }
         chip("Night", "eq_night_chip") { run("Hoogtes −1,2 dB") { EqShape.night(dsp) } }
         chip("MonoL", "eq_monol_chip") { run("Eerste 2 bands middelen") { EqShape.monoLow(dsp) } }
@@ -88,6 +94,7 @@ fun EqShapeBar(viewModel: MainViewModel) {
         group("Veilig")
         chip("Safe", "eq_safe_chip") { run("±4 dB + zachte highs") { EqShape.safe(dsp) } }
         chip("Tight", "eq_tight_chip") { run("Piek ±3 dB") { EqShape.tight(dsp) } }
+        chip("Soft4", "eq_soft4_chip") { run("Piek ±4 dB") { EqShape163.soft4(dsp) } }
         chip("Clip6", "eq_clip_chip") { run("Piek ±6 dB") { EqShape.clip(dsp, 6f) } }
         chip("Fade", "eq_fade_chip") { run("50% naar vlak") { EqShape.fade(dsp) } }
         chip("Comp", "eq_comp_chip") { run("30% naar gemiddelde") { EqShape.compressMean(dsp) } }
