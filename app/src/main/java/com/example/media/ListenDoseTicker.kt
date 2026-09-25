@@ -5,6 +5,7 @@ import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
 import com.example.data.WeeklyListenReport
+import com.example.widget.HearingDoseWidget
 
 /** Elke minuut volume×1 min bijschrijven als muziekstream > 0. */
 object ListenDoseTicker {
@@ -34,6 +35,7 @@ object ListenDoseTicker {
                             .apply()
                         DailyHearingBudget.applySoftCap(app)
                         DoseLock.enforce(app)
+                        HearingDoseWidget.refreshAll(app)
                     } else {
                         SessionBreak.tick(app, playing = false, volumePct = 0)
                     }
