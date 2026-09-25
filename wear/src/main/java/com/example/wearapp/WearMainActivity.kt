@@ -125,6 +125,16 @@ class WearMainActivity : ComponentActivity() {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CAR) } }) { Text("AutoEQ") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_FILM) } }) { Text("Film") }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CAFE) } }) { Text("Café") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_WORK) } }) { Text("Werk") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_RAIN) } }) { Text("Regen") }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_KITCHEN) } }) { Text("Keuken") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_GAME) } }) { Text("Game") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CALL) } }) { Text("BelEQ") }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
                             when {
