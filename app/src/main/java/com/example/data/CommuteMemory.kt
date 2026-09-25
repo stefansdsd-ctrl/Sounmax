@@ -43,6 +43,13 @@ class CommuteMemory(context: Context) {
         return SceneLookup.byId(prefs.getString(KEY_SCENE, null))
     }
 
+    fun lastScene(): ListeningScene? = SceneLookup.byId(prefs.getString(KEY_SCENE, null))
+
+    fun lastLabel(): String? {
+        val scene = lastScene() ?: return null
+        return "Pendelen: ${scene.name}"
+    }
+
     companion object {
         private val WINDOW_START = LocalTime.of(6, 30)
         private val WINDOW_END = LocalTime.of(9, 30)
