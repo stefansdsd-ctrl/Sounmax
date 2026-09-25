@@ -1,5 +1,9 @@
 # Sounmax — volgende features
 
+## Batch 162 (software)
+- Boxy, Nasal, Bloom, Hiss, Widen, Narrow, 0Bass, 0Treble
+- Wear EQ-shortcuts: Flat / Safe / Speech / Night / Vocal / Undo-EQ
+
 ## Batch 161 (software)
 - EQ-balk gegroepeerd: Vorm / Toon / Schoon / Veilig / Tools
 - Rumble, Fat, Clarity, Comp, Edge, Flat (met undo)
@@ -25,4 +29,3 @@
 - Find-beep hardware-payload finetunen na echte TAH6519 GATT-dump
 - ANC-GATT dump TAH6519 + notify-leren
 - Scene-suggestie fine-tunen na veldtest
-- Wear-app: EQ-groep-shortcuts
