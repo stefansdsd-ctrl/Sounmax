@@ -21,6 +21,7 @@ import com.example.dsp.EqShape
 import com.example.dsp.EqShape162
 import com.example.dsp.EqShape163
 import com.example.dsp.EqShape164
+import com.example.dsp.EqShape172
 import com.example.dsp.EqUndo
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
@@ -46,6 +47,12 @@ fun EqShapeBar(viewModel: MainViewModel) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        group("Micro")
+        chip("+Bass", "eq_plus_bass_chip") { run("+1 dB bass") { EqShape172.bumpBass(dsp, 1f) } }
+        chip("−Bass", "eq_minus_bass_chip") { run("−1 dB bass") { EqShape172.bumpBass(dsp, -1f) } }
+        chip("+Mid", "eq_plus_mid_chip") { run("+1 dB mid") { EqShape172.bumpMid(dsp, 1f) } }
+        chip("+Air", "eq_plus_air_chip") { run("+1 dB air") { EqShape172.bumpAir(dsp, 1f) } }
+
         group("Vorm")
         chip("Glad", "eq_smooth_chip") { run("EQ gladgestreken") { EqShape.smooth(dsp) } }
         chip("Soft", "eq_soft_chip") { run("2× glad") { EqShape.soft(dsp) } }
