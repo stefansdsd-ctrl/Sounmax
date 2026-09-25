@@ -6,6 +6,19 @@ import com.example.data.WeeklyListenReport
 
 /** Soft guard: na lange luistertijd oorpauze voorstellen + volume-cap hint. */
 object HearingDoseGuard {
+    private const val PREF = "sounmax_dose_guard"
+    private const val KEY_AUTO = "auto_cap"
+
+    fun autoCapEnabled(context: Context): Boolean =
+        context.getSharedPreferences(PREF, Context.MODE_PRIVATE).getBoolean(KEY_AUTO, false)
+
+    fun toggleAutoCap(context: Context): Boolean {
+        val next = !autoCapEnabled(context)
+        context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+            .edit().putBoolean(KEY_AUTO, next).apply()
+        return next
+    }
+
     data class Advice(
         val suggestPause: Boolean,
         val capPercent: Int,
