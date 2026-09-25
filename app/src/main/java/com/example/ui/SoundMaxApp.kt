@@ -159,6 +159,10 @@ fun SoundMaxApp(
             MultipointBar()
             SceneFolderBar(sceneController = sceneController)
             BatteryEtaBar(headsetStatus.batteryPercent)
+            CodecChipBar(
+                batteryPercent = headsetStatus.batteryPercent,
+                rssi = headsetStatus.rssiDbm
+            )
             FavoritesBar(viewModel = viewModel)
             HomeExtrasBar {
                 SlimCatalogBar()
