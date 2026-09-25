@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.dsp.EqShape
 import com.example.dsp.EqShape162
 import com.example.dsp.EqShape163
+import com.example.dsp.EqShape164
 import com.example.dsp.EqUndo
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
@@ -69,6 +70,7 @@ fun EqShapeBar(viewModel: MainViewModel) {
         chip("Vocal", "eq_vocal_chip") { run("Vocal +1,4 dB") { EqShape.vocal(dsp) } }
         chip("Speech", "eq_speech_chip") { run("Spraakband omhoog") { EqShape.speech(dsp) } }
         chip("Phone", "eq_phone_chip") { run("Telefoonband") { EqShape163.phone(dsp) } }
+        chip("Podcast", "eq_podcast_chip") { run("Podcast-EQ") { EqShape164.podcast(dsp) } }
         chip("Sparkle", "eq_sparkle_chip") { run("Hoogste 2 bands +1,2 dB") { EqShape163.sparkle(dsp) } }
         chip("Presence", "eq_presence_chip") { run("Presence +1,4 dB") { EqShape.presence(dsp) } }
         chip("Clarity", "eq_clarity_chip") { run("Upper-mids +1,3 dB") { EqShape.clarity(dsp) } }
@@ -76,6 +78,13 @@ fun EqShapeBar(viewModel: MainViewModel) {
         chip("WarmAir", "eq_warmair_chip") { run("Low-shelf + air") { EqShape.warmAir(dsp) } }
         chip("ShelfL", "eq_shelf_low_chip") { run("Low-shelf +1,5 dB") { EqShape.shelfLow(dsp) } }
         chip("ShelfH", "eq_shelf_high_chip") { run("High-shelf +1,5 dB") { EqShape.shelfHigh(dsp) } }
+
+        group("Context")
+        chip("Auto", "eq_car_chip") { run("Auto: rumble weg + presence") { EqShape164.car(dsp) } }
+        chip("Gym", "eq_gym_chip") { run("Sport: punch + tight") { EqShape164.gym(dsp) } }
+        chip("Film", "eq_film_chip") { run("Film: vocal + zacht hoog") { EqShape164.film(dsp) } }
+        chip("Wandel", "eq_walk_chip") { run("Wandel: minder bass") { EqShape164.walk(dsp) } }
+        chip("Radio", "eq_radio_chip") { run("Radio: mid-scoop") { EqShape164.radio(dsp) } }
 
         group("Schoon")
         chip("Mud", "eq_mud_chip") { run("200–500 Hz −1,8 dB") { EqShape.mud(dsp) } }
