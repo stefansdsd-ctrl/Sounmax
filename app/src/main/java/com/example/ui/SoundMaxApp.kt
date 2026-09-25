@@ -206,7 +206,13 @@ fun SoundMaxApp(
                         )
                     }
                     SoundMaxTab.EQUALIZER -> {
-                        EqualizerScreen(viewModel = viewModel)
+                        Column {
+                            CodecChipBar(
+                                batteryPercent = headsetStatus.batteryPercent,
+                                rssi = headsetStatus.rssiDbm
+                            )
+                            EqualizerScreen(viewModel = viewModel)
+                        }
                     }
                     SoundMaxTab.HEADPHONE -> {
                         HeadphoneScreen(viewModel = viewModel)
