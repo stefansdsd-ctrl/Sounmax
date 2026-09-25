@@ -120,6 +120,11 @@ class WearMainActivity : ComponentActivity() {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SPARKLE) } }) { Text("Spark") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SLEEP) } }) { Text("Slaap") }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_PODCAST) } }) { Text("Pod") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CAR) } }) { Text("AutoEQ") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_FILM) } }) { Text("Film") }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
                             when {
