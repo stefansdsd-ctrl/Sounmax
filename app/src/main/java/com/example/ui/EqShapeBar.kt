@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dsp.EqShape
+import com.example.dsp.EqShape162
 import com.example.dsp.EqUndo
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
@@ -52,12 +53,15 @@ fun EqShapeBar(viewModel: MainViewModel) {
         chip("Scoop", "eq_scoop_chip") { run("Scoop (middenboost)") { EqShape.scoop(dsp) } }
         chip("Loud", "eq_loudness_chip") { run("Loudness (laag+hoog)") { EqShape.loudness(dsp) } }
         chip("Edge", "eq_edge_chip") { run("Eerste+laatste +0,8 dB") { EqShape.edge(dsp) } }
+        chip("Widen", "eq_widen_chip") { run("Uiteinden +1 dB") { EqShape162.widen(dsp) } }
+        chip("Narrow", "eq_narrow_chip") { run("Uiteinden −1 dB") { EqShape162.narrow(dsp) } }
         chip("Flat", "eq_flat_chip") { run("Alle bands 0 dB") { EqShape.flat(dsp) } }
 
         group("Toon")
         chip("Warm", "eq_tilt_warm_chip") { run("Tilt warmer") { EqShape.tilt(dsp, brighter = false) } }
         chip("Helder", "eq_tilt_bright_chip") { run("Tilt helderder") { EqShape.tilt(dsp, brighter = true) } }
         chip("Punch", "eq_punch_chip") { run("Sub-bass +1,6 dB") { EqShape.punch(dsp) } }
+        chip("Bloom", "eq_bloom_chip") { run("Laagste 2 bands +1,4 dB") { EqShape162.bloom(dsp) } }
         chip("Rumble", "eq_rumble_chip") { run("Laagste band −2,2 dB") { EqShape.rumble(dsp) } }
         chip("Fat", "eq_fat_chip") { run("Band 2–3 +1,5 dB") { EqShape.fat(dsp) } }
         chip("Body", "eq_body_chip") { run("Low-mid +1,3 dB") { EqShape.body(dsp) } }
@@ -72,8 +76,11 @@ fun EqShapeBar(viewModel: MainViewModel) {
 
         group("Schoon")
         chip("Mud", "eq_mud_chip") { run("200–500 Hz −1,8 dB") { EqShape.mud(dsp) } }
+        chip("Boxy", "eq_boxy_chip") { run("Boxy-band −1,7 dB") { EqShape162.boxy(dsp) } }
+        chip("Nasal", "eq_nasal_chip") { run("800–1,2 kHz −1,5 dB") { EqShape162.nasal(dsp) } }
         chip("Harsh", "eq_harsh_chip") { run("2–4 kHz −1,6 dB") { EqShape.harsh(dsp) } }
         chip("DeEss", "eq_deess_chip") { run("Hoogste 2 bands −1,6 dB") { EqShape.deess(dsp) } }
+        chip("Hiss", "eq_hiss_chip") { run("Hoogste band −2 dB") { EqShape162.hiss(dsp) } }
         chip("Pocket", "eq_pocket_chip") { run("Bass −2 dB (lek/zak)") { EqShape.pocket(dsp) } }
         chip("Night", "eq_night_chip") { run("Hoogtes −1,2 dB") { EqShape.night(dsp) } }
         chip("MonoL", "eq_monol_chip") { run("Eerste 2 bands middelen") { EqShape.monoLow(dsp) } }
@@ -100,6 +107,8 @@ fun EqShapeBar(viewModel: MainViewModel) {
         chip("Bass", "eq_bass_iso_chip") { run("Alleen bass-bands") { EqShape.isolateBass(dsp) } }
         chip("Mid", "eq_mid_iso_chip") { run("Alleen midden-bands") { EqShape.isolateMids(dsp) } }
         chip("Treble", "eq_treble_iso_chip") { run("Alleen treble-bands") { EqShape.isolateTreble(dsp) } }
+        chip("0Bass", "eq_zero_bass_chip") { run("Eerste 3 bands 0 dB") { EqShape162.zeroBass(dsp) } }
+        chip("0Treble", "eq_zero_treble_chip") { run("Laatste 3 bands 0 dB") { EqShape162.zeroTreble(dsp) } }
         chip("Jitter", "eq_jitter_chip") { run("Lichte random ±0,4 dB") { EqShape.jitter(dsp) } }
         chip("Abs", "eq_abs_chip") { run("Alle gains positief") { EqShape.absGains(dsp) } }
         chip("Floor", "eq_floor_chip") { run("Laagste band op 0 dB") { EqShape.floorZero(dsp) } }
