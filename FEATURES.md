@@ -1,5 +1,9 @@
 # Sounmax — volgende features
 
+## Batch 165 (software)
+- Café, Werk, Regen, Keuken, Game, Bel
+- Wear: Café / Werk / Regen
+
 ## Batch 164 (software)
 - Podcast, Auto, Gym, Film, Wandel, Radio
 - Wear: Pod / Auto / Film
