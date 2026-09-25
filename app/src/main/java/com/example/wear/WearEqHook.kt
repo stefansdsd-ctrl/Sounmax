@@ -1,11 +1,11 @@
 package com.example.wear
 
 import android.content.Context
-import com.example.dsp.EqShape166
+import com.example.dsp.EqShape167
 
 object WearEqHook {
     fun tryHandle(context: Context, cmd: String): Boolean {
         if (!cmd.startsWith(WearPaths.CMD_EQ_PREFIX)) return false
-        return EqShape166.applyNamed(context, cmd.removePrefix(WearPaths.CMD_EQ_PREFIX))
+        return EqShape167.applyNamed(context, cmd.removePrefix(WearPaths.CMD_EQ_PREFIX))
     }
 }

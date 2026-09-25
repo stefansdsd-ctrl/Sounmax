@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 167 (software)
+- Slaap, Fiets, Vlucht, Focus, Restaurant, Concert
+- Gehoorbescherming-EQ (dose/oor)
+- Wear: Fiets / Focus / Oor
+
 ## Batch 166 (software)
 - Trein, Winkel, TV, Buiten, Tram, Overleg
 - Wear: Keuken / Game / Bel
