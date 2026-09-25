@@ -1,14 +1,12 @@
 # Sounmax — volgende features
 
-## Batch 168 (kwaliteit, geen extra scenes)
-Prioriteit boven nóg een scene-batch. Catalogus is al te groot.
-
-1. Scene-zoek + favorieten-first — catalogus filteren, aliases, verborgen scenes uit de balk.
-2. Auto-ANC op ambient — AmbientNoiseFloor koppelt ANC/Transparency zonder extra tap.
-3. Commute-one-tap — CommuteMemory + pin-set + volume-cap in één actie (Wear + home).
-4. Batterij + codec-chip — LDAC/AAC/SBC + headset-batterij zichtbaar op home/widget.
-5. Gehoordosis-widget — weekrapport + cap als Wear-tegel, niet alleen in-app.
-6. Scene-suggestie veldtest — uur + locatie + last-used, max 5 chips, rest in zoek.
+## Batch 168 (deels klaar)
+1. Scene-zoek + favorieten-first — aanwezig; suggest-balk max 5.
+2. Commute-one-tap — laatste pendel-scene + volume-cap.
+3. Auto-ANC op ambient — UI + tick aanwezig; veldtest open.
+4. Batterij + codec-chip — open.
+5. Gehoordosis-widget — open.
+6. Scene-suggestie — max 5 chips gedaan.
 
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump

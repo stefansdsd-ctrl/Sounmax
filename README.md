@@ -3,16 +3,17 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Volgende (batch 168 — kwaliteit)
-Geen extra scenes. Focus:
-- zoek + favorieten-first
-- auto-ANC via ambient
-- commute one-tap
-- batterij/codec-chip
-- dosis-widget
-- slimmere suggest-balk (max 5)
+## Nieuw (2026-09-25 — batch 168)
+- Suggest-balk max 5 chips; rest via zoek.
+- Favorieten + commute + dosis eerst.
+- Commute one-tap: laatste pendel-scene + volume-cap.
 
-## Nieuw (2026-09-25 — batch 167)
+## Volgende
+- Auto-ANC veldtest
+- Batterij/codec-chip
+- Dosis-widget
+
+## Batch 167
 - Slaap, Fiets, Vlucht, Focus, Restaurant, Concert.
 - Gehoorbescherming-EQ (dose).
 - Wear: Fiets / Focus / Oor.
