@@ -152,6 +152,8 @@ fun SoundMaxApp(
             ReconnectBar(sceneController = sceneController)
             NightModeBar()
             TalkThroughBar()
+            DuckBar()
+            TalkBoostBar(viewModel = viewModel)
             FocusBar()
             ContextChipsBar()
             MeetingBar()
