@@ -3,7 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-25 — batch 164)
+## Nieuw (2026-09-25 — batch 165)
+- Café, Werk, Regen, Keuken, Game, Bel.
+- Wear: Café / Werk / Regen.
+
+## Batch 164
 - Podcast, Auto, Gym, Film, Wandel, Radio.
 - Wear: Pod / Auto / Film.
 
