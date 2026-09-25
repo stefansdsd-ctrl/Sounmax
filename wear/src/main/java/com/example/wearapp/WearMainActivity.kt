@@ -105,6 +105,16 @@ class WearMainActivity : ComponentActivity() {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_UNDO) } }) { Text("Undo") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_SUGGEST) } }) { Text("Hint") }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_FLAT) } }) { Text("Flat") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SAFE) } }) { Text("Safe") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SPEECH) } }) { Text("Spraak") }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_NIGHT) } }) { Text("Nacht") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_VOCAL) } }) { Text("Vocal") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_UNDO) } }) { Text("EQ↩") }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
                             when {
