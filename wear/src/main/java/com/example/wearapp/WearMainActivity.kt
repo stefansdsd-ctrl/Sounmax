@@ -115,6 +115,11 @@ class WearMainActivity : ComponentActivity() {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_VOCAL) } }) { Text("Vocal") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_UNDO) } }) { Text("EQ↩") }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_PHONE) } }) { Text("Tel") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SPARKLE) } }) { Text("Spark") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SLEEP) } }) { Text("Slaap") }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
                             when {
