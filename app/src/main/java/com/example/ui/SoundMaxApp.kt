@@ -177,6 +177,7 @@ fun SoundMaxApp(
                 if (HomeToolProfiles.shows(pid, "streak")) ListenStreakBar()
                 if (HomeToolProfiles.shows(pid, "sleeptimer")) SleepTimerBar()
                 if (HomeToolProfiles.shows(pid, "quiet")) QuietHoursBar()
+                if (HomeToolProfiles.shows(pid, "saver")) BatterySaverBar()
                 if (HomeToolProfiles.shows(pid, "backup")) BackupBar(viewModel = viewModel)
                 AutoPinHoursBar()
                 TravelLockBar()
