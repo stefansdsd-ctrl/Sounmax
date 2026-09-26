@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.RemoteViews
 import com.example.MainActivity
 import com.example.R
+import com.example.data.LastSceneRestore
+import com.example.data.WeeklyListenReport
 
 class FavoriteScenesWidget : AppWidgetProvider() {
 
@@ -40,7 +42,13 @@ class FavoriteScenesWidget : AppWidgetProvider() {
         private fun update(context: Context, mgr: AppWidgetManager, id: Int) {
             val views = RemoteViews(context.packageName, R.layout.favorite_scenes_widget)
             val favs = SoundMaxWidget.favoriteScenes(context).take(4)
-            views.setTextViewText(R.id.fav_title, "Favorieten")
+            val mins = WeeklyListenReport.last7Days(context).lastOrNull()?.minutes ?: 0
+            val last = LastSceneRestore.label(context)
+            val title = buildString {
+                append("Vandaag ${mins} min")
+                if (!last.isNullOrBlank()) append(" · $last")
+            }
+            views.setTextViewText(R.id.fav_title, title)
             SLOT_IDS.forEachIndexed { i, viewId ->
                 if (i < favs.size) {
                     val scene = favs[i]
