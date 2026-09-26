@@ -33,4 +33,13 @@ object WidgetDefaultScene {
 
     fun label(context: Context): String =
         scene(context)?.let { "1-tap: ${it.emoji} ${it.name}" } ?: "1-tap: laatste scene"
+
+    /** Pin de huidige last_scene als 1-tap default. */
+    fun pinCurrent(context: Context): String? {
+        val id = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            .getString("last_scene_id", null)
+        if (id.isNullOrBlank()) return null
+        set(context, id)
+        return id
+    }
 }
