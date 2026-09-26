@@ -9,6 +9,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.example.MainActivity
 import com.example.R
+import com.example.data.HearingGuard
 import com.example.media.DailyHearingBudget
 
 class HearingDoseWidget : AppWidgetProvider() {
@@ -28,10 +29,10 @@ class HearingDoseWidget : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.hearing_dose_widget)
             val min = DailyHearingBudget.todayMinutes(context)
             val pct = DailyHearingBudget.percent(context).coerceAtMost(100)
-            val over = DailyHearingBudget.overCap(context)
+            val over = DailyHearingBudget.overCap(context) || HearingGuard.overDailyLimit(context)
             views.setTextViewText(
                 R.id.dose_title,
-                if (over) "Dosis vol" else "Gehoordosis"
+                if (over) "LIMIET" else "Gehoordosis"
             )
             views.setTextViewText(
                 R.id.dose_value,
@@ -39,7 +40,7 @@ class HearingDoseWidget : AppWidgetProvider() {
             )
             views.setTextViewText(
                 R.id.dose_hint,
-                if (over) "Rust tot middernacht · tap voor app" else DailyHearingBudget.chipLabel(context)
+                if (over) "LIMIET bereikt · tap voor app" else DailyHearingBudget.chipLabel(context)
             )
             val open = PendingIntent.getActivity(
                 context, 91,
