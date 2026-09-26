@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.data.FavoriteScenes
+import com.example.data.HearingGuard
 import com.example.data.HomeToolProfiles
 import com.example.data.PinProfiles
 import com.example.dsp.AncMode
@@ -73,6 +74,10 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_FAV_NAMES, favs.joinToString("|") { "${it.emoji} ${it.name}" })
                 dataMap.putString(WearPaths.KEY_PIN_SET, PinProfiles.active(context).name)
                 dataMap.putString(WearPaths.KEY_PROFILE, HomeToolProfiles.activeId(context))
+                dataMap.putBoolean(WearPaths.KEY_GUARD, HearingGuard.enabled(context))
+                dataMap.putInt(WearPaths.KEY_CAP, HearingGuard.maxPercent(context))
+                dataMap.putInt(WearPaths.KEY_LIMIT, HearingGuard.dailyLimitMin(context))
+                dataMap.putBoolean(WearPaths.KEY_LIMIT_HIT, HearingGuard.overDailyLimit(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -109,6 +114,10 @@ object WearBridge {
             cmd == WearPaths.CMD_CYCLE_PROFILE -> {
                 WearProfileTile.cycle(context)
                 SoundMaxWidget.refreshAll(context)
+            }
+            cmd == WearPaths.CMD_TOGGLE_GUARD -> {
+                HearingGuard.toggle(context)
+                HearingGuard.applyCap(context)
             }
         }
         DspControlService.start(context)
