@@ -16,9 +16,9 @@
 1. HearingGuard: opt-in volumecap (zacht/hard) + daglimiet.
 2. GenreSceneHint: now-playing → Sport / Werk / Slaap.
 
-## Batch 183 (volgende software)
-1. Complication-tik schakelt HearingGuard.
-2. Wear dosis-tegel toont cap + toggle-label.
+## Batch 183 (klaar — code)
+1. Complication-tik schakelt HearingGuard (dubbel = zoek, 3× = ANC).
+2. Wear dosis-tegel toont cap + LIMIET + toggle-label.
 3. Widget toont LIMIET als daglimiet vol is.
 
 ## Hardware (blijft open)
