@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.data.FavoriteScenes
+import com.example.data.HomeToolProfiles
 import com.example.data.PinProfiles
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
@@ -71,6 +72,7 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_FAV_IDS, favs.joinToString(",") { it.id })
                 dataMap.putString(WearPaths.KEY_FAV_NAMES, favs.joinToString("|") { "${it.emoji} ${it.name}" })
                 dataMap.putString(WearPaths.KEY_PIN_SET, PinProfiles.active(context).name)
+                dataMap.putString(WearPaths.KEY_PROFILE, HomeToolProfiles.activeId(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -102,6 +104,10 @@ object WearBridge {
             cmd == WearPaths.CMD_LOCK -> toggleLock(context)
             cmd == WearPaths.CMD_CYCLE_PIN_SET -> {
                 PinProfiles.cycle(context)
+                SoundMaxWidget.refreshAll(context)
+            }
+            cmd == WearPaths.CMD_CYCLE_PROFILE -> {
+                WearProfileTile.cycle(context)
                 SoundMaxWidget.refreshAll(context)
             }
         }
