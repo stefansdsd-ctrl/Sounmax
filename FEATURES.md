@@ -1,5 +1,14 @@
 # Sounmax — volgende features
 
+## Batch 184 (klaar — code)
+1. QuietHours: nachtelijke volumecap (default 22–07, 40%).
+2. BatterySaverDsp: bij ≤20% accu zware DSP overslaan.
+
+## Batch 183 (klaar — code)
+1. Complication-tik schakelt HearingGuard (dubbel = zoek, 3× = ANC).
+2. Wear dosis-tegel toont cap + LIMIET + toggle-label.
+3. Widget toont LIMIET als daglimiet vol is.
+
 ## Batch 182 (klaar — code)
 1. Wear complication ranged HearingGuard (volume vs cap).
 2. Widget-knop HearingGuard aan/uit.
@@ -11,15 +20,6 @@
 2. Widget toont codec + volume vs cap.
 3. GenreSceneHint in MediaSession-callback.
 4. Hard-cap bij volume-wijziging.
-
-## Batch 180 (klaar)
-1. HearingGuard: opt-in volumecap (zacht/hard) + daglimiet.
-2. GenreSceneHint: now-playing → Sport / Werk / Slaap.
-
-## Batch 183 (klaar — code)
-1. Complication-tik schakelt HearingGuard (dubbel = zoek, 3× = ANC).
-2. Wear dosis-tegel toont cap + LIMIET + toggle-label.
-3. Widget toont LIMIET als daglimiet vol is.
 
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump

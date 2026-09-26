@@ -3,17 +3,17 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-26 — batch 183)
+## Nieuw (2026-09-26 — batch 184)
+- Rusturen: 's nachts automatisch zachter volume.
+- Accu-spaar DSP: onder 20% geen zware AI-lagen.
+
+## Batch 183
 - Complication-tik = Gehoorwacht aan/uit.
 - Wear dosis-tegel: cap + LIMIET + toggle.
 - Widget toont LIMIET bij volle daglimiet.
 
-## Batch 181
-- GenreSceneHint gekoppeld aan MediaSession (now-playing → Sport/Werk/Slaap).
-- Glance-widget toont codec + volume vs HearingGuard-cap.
-- Wear dosis-tegel: HearingGuard toggle + volume/cap + dosis.
-
 ## Volgende
+- Home-chips voor Rusturen + Accu-DSP
 - Auto-ANC + codec-probe veldtest
 - Find-beep GATT-payload
 
