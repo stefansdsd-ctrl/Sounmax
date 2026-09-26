@@ -28,24 +28,29 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.example.data.LastSceneRestore
 import com.example.data.SceneUsage
+import com.example.data.WidgetDefaultScene
 import com.example.dsp.ListeningScene
 import com.example.media.WeatherAdvisor
 import com.example.dsp.ListeningScenes
 
 class FavoriteScenesGlanceWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val favs = SoundMaxWidget.favoriteScenes(context).take(4)
-        val suggested = pickSuggested(context)
+        val defaultScene = WidgetDefaultScene.scene(context)
+        val favs = SoundMaxWidget.favoriteScenes(context)
+            .filter { it.id != defaultScene?.id }
+            .take(3)
+        val suggested = defaultScene ?: pickSuggested(context) ?: LastSceneRestore.scene(context)
         provideContent {
             GlanceTheme {
-                Content(favs, suggested)
+                Content(favs, suggested, defaultScene != null)
             }
         }
     }
 
     @Composable
-    private fun Content(favs: List<ListeningScene>, suggested: ListeningScene?) {
+    private fun Content(favs: List<ListeningScene>, suggested: ListeningScene?, isDefault: Boolean) {
         Column(
             modifier = GlanceModifier
                 .fillMaxSize()
@@ -69,8 +74,9 @@ class FavoriteScenesGlanceWidget : GlanceAppWidget() {
             }
             if (suggested != null) {
                 Spacer(GlanceModifier.height(8.dp))
+                val prefix = if (isDefault) "1-tap" else "Nu"
                 Text(
-                    text = "Nu: ${suggested.emoji} ${suggested.name}",
+                    text = "$prefix: ${suggested.emoji} ${suggested.name}",
                     style = TextStyle(color = GlanceTheme.colors.onSurfaceVariant, fontSize = 12.sp),
                     modifier = GlanceModifier.clickable(
                         actionRunCallback<ApplySceneAction>(
@@ -100,6 +106,7 @@ class FavoriteScenesGlanceWidget : GlanceAppWidget() {
 
     companion object {
         fun pickSuggested(context: Context): ListeningScene? {
+            WidgetDefaultScene.scene(context)?.let { return it }
             val used = SceneUsage.suggestNow(context)
             if (used != null && SceneUsage.count(context, used.id) >= 2) return used
             return WeatherAdvisor.suggest(context, ListeningScenes.suggestedNow())
