@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 174 (klaar)
+1. Auto-ANC gevoeligheid: Rustig / Normaal / Scherp (drempels ±0.10–0.12).
+2. Zoek-piep volume: Zacht / Normaal / Hard.
+3. Slaaptimer +5 minuten.
+
 ## Batch 173 (klaar)
 1. Omroep-bar + QS-tegel écht in home/manifest (batch 172 zat los).
 2. EQ micro-chips +Bass / −Bass / +Mid / +Air in EqShapeBar.
