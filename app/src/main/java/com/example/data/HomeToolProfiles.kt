@@ -12,15 +12,15 @@ object HomeToolProfiles {
     val ALL = listOf(
         Profile(
             "sport", "Sport",
-            setOf("outdoor", "budget", "focus", "seal", "haptic", "talkthrough", "streak", "reconnect")
+            setOf("outdoor", "budget", "focus", "seal", "haptic", "talkthrough", "streak", "reconnect", "saver")
         ),
         Profile(
             "werk", "Werk",
-            setOf("meeting", "talkboost", "duck", "focus", "multipoint", "appmix", "quiet", "context", "folder")
+            setOf("meeting", "talkboost", "duck", "focus", "multipoint", "appmix", "quiet", "context", "folder", "saver")
         ),
         Profile(
             "slaap", "Slaap",
-            setOf("night", "sleeptimer", "quiet", "kidsafe", "budget", "volcap", "backup", "weekly")
+            setOf("night", "sleeptimer", "quiet", "kidsafe", "budget", "volcap", "backup", "weekly", "saver")
         ),
     )
 
