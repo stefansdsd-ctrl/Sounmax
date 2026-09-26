@@ -35,6 +35,14 @@ object HomeToolProfiles {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, id).apply()
     }
 
+    fun cycle(context: Context): Profile {
+        val ids = ALL.map { it.id }
+        val cur = activeId(context)
+        val next = ids[(ids.indexOf(cur).coerceAtLeast(0) + 1) % ids.size]
+        set(context, next)
+        return active(context)
+    }
+
     fun shows(context: Context, tool: String): Boolean = active(context).tools.contains(tool)
 
     fun shows(profileId: String, tool: String): Boolean =
