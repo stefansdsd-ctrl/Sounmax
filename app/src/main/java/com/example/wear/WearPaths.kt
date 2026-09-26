@@ -30,6 +30,8 @@ object WearPaths {
     const val KEY_PROFILE = "home_profile"
     const val KEY_GUARD = "guard"
     const val KEY_CAP = "cap"
+    const val KEY_LIMIT = "limit_min"
+    const val KEY_LIMIT_HIT = "limit_hit"
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
     const val CMD_PREV_SCENE = "prev_scene"
