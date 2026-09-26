@@ -2,6 +2,7 @@ package com.example.data
 
 import android.content.Context
 import android.media.AudioManager
+import android.widget.Toast
 
 /**
  * Gehoorbescherming: optionele volumecap + daglimiet (WHO-achtig).
@@ -13,6 +14,7 @@ object HearingGuard {
     private const val KEY_HARD = "hard_cap"
     private const val KEY_MAX = "max_percent"
     private const val KEY_LIMIT_MIN = "daily_limit_min"
+    private const val KEY_LAST_TOAST = "last_soft_toast_ms"
 
     fun enabled(context: Context): Boolean =
         prefs(context).getBoolean(KEY_ON, false)
@@ -56,16 +58,41 @@ object HearingGuard {
     }
 
     fun applyCap(context: Context): Boolean {
-        if (!enabled(context) || !hardCap(context)) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
-        val capIdx = (max * maxPercent(context)) / 100
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        if (cur > capIdx) {
-            am.setStreamVolume(AudioManager.STREAM_MUSIC, capIdx, 0)
-            return true
+        if (!enabled(context)) return false
+        val vol = currentVolumePercent(context)
+        val cap = maxPercent(context)
+        if (vol <= cap && !overDailyLimit(context)) return false
+        if (hardCap(context)) {
+            val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+            val capIdx = (max * cap) / 100
+            if (am.getStreamVolume(AudioManager.STREAM_MUSIC) > capIdx) {
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, capIdx, 0)
+                return true
+            }
+        } else {
+            notifySoftCap(context)
         }
         return false
+    }
+
+    fun notifySoftCap(context: Context) {
+        if (!enabled(context) || hardCap(context)) return
+        val vol = currentVolumePercent(context)
+        val cap = maxPercent(context)
+        val overVol = vol > cap
+        val overDay = overDailyLimit(context)
+        if (!overVol && !overDay) return
+        val now = System.currentTimeMillis()
+        val last = prefs(context).getLong(KEY_LAST_TOAST, 0L)
+        if (now - last < 20_000L) return
+        prefs(context).edit().putLong(KEY_LAST_TOAST, now).apply()
+        val msg = when {
+            overDay && overVol -> "Gehoorwacht: volume $vol% > $cap% en daglimiet bereikt"
+            overDay -> "Gehoorwacht: daglimiet ${minutesToday(context)}m / ${dailyLimitMin(context)}m"
+            else -> "Gehoorwacht: volume $vol% boven cap $cap%"
+        }
+        Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show()
     }
 
     fun minutesToday(context: Context): Int =
