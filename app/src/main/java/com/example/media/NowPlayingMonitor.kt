@@ -10,6 +10,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.example.data.AppEqMemory
+import com.example.data.GenreSceneHint
+import com.example.data.HearingGuard
 import com.example.data.NowPlayingApp
 
 data class NowPlayingTrack(
@@ -118,6 +120,8 @@ class NowPlayingMonitor(
         NowPlayingApp.genre = genreRich.ifBlank { genre }
         NowPlayingApp.album = album
         AppVolumeCap.apply(context)
+        HearingGuard.applyCap(context)
+        GenreSceneHint.applyIfEnabled(context)
         appEqMemory.load(controller.packageName)?.let { NowPlayingApp.onBoundPreset?.invoke(it) }
         onTrack(NowPlayingTrack(title, artist, NowPlayingApp.genre.orEmpty(), controller.packageName, album))
     }

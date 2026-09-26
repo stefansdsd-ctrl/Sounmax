@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import com.example.data.HearingGuard
 
 class VolumeChangeReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         if (intent?.action != "android.media.VOLUME_CHANGED_ACTION") return
         val stream = intent.getIntExtra("android.media.EXTRA_VOLUME_STREAM_TYPE", -1)
         if (stream != AudioManager.STREAM_MUSIC && stream != -1) return
+        HearingGuard.applyCap(context)
         val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
         val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
