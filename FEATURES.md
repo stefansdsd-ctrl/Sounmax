@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 175 (klaar)
+1. Vandaag-balk: minuten + accu + laatste scene.
+2. Home opgeruimd: extra bars achter Meer.
+3. Minder scrollen tot de muziek/EQ-tab.
+
 ## Batch 174 (klaar)
 1. Auto-ANC gevoeligheid: Rustig / Normaal / Scherp (drempels ±0.10–0.12).
 2. Zoek-piep volume: Zacht / Normaal / Hard.
