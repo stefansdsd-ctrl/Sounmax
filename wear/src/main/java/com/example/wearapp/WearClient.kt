@@ -29,7 +29,11 @@ data class WearStatus(
     val schedule: String = "",
     val codec: String = "",
     val rssi: Int = 0,
-    val pinSet: String = ""
+    val pinSet: String = "",
+    val guard: Boolean = false,
+    val cap: Int = 70,
+    val limitMin: Int = 180,
+    val limitHit: Boolean = false
 )
 
 object WearClient {
@@ -59,7 +63,11 @@ object WearClient {
             schedule = map.getString(WearPaths.KEY_SCHEDULE) ?: "",
             codec = map.getString(WearPaths.KEY_CODEC) ?: "",
             rssi = map.getInt(WearPaths.KEY_RSSI, 0),
-            pinSet = map.getString(WearPaths.KEY_PIN_SET) ?: ""
+            pinSet = map.getString(WearPaths.KEY_PIN_SET) ?: "",
+            guard = map.getBoolean(WearPaths.KEY_GUARD, false),
+            cap = map.getInt(WearPaths.KEY_CAP, 70),
+            limitMin = map.getInt(WearPaths.KEY_LIMIT, 180),
+            limitHit = map.getBoolean(WearPaths.KEY_LIMIT_HIT, false)
         )
     }
 

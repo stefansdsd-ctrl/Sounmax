@@ -17,7 +17,7 @@ class ComplicationTapActivity : ComponentActivity() {
             val cmd = when {
                 count >= 3 -> WearPaths.CMD_CYCLE_ANC
                 count == 2 -> WearPaths.CMD_FIND_HEADSET
-                else -> WearPaths.CMD_NEXT_SCENE
+                else -> WearPaths.CMD_TOGGLE_GUARD
             }
             runCatching { WearClient.send(this@ComplicationTapActivity, cmd) }
             finish()
