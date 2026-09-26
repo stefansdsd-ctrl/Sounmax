@@ -1,5 +1,9 @@
 # Sounmax — volgende features
 
+## Batch 176 (klaar)
+1. Home-profielen Sport / Werk / Slaap filteren Meer-tools.
+2. Favorieten-widget toont dosis vandaag + laatste scene.
+
 ## Batch 175 (klaar)
 1. Vandaag-balk: minuten + accu + laatste scene.
 2. Home opgeruimd: extra bars achter Meer.

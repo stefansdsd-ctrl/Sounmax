@@ -3,7 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-26 — batch 175)
+## Nieuw (2026-09-26 — batch 176)
+- Home-profielen Sport / Werk / Slaap (zichtbare tools).
+- Widget: Vandaag + laatste scene.
+
+## Batch 175
 - Vandaag-balk (dosis, accu, laatste scene).
 - Home compacter: tools achter Meer.
 
@@ -21,8 +25,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Auto-ANC veldtest
 - Codec-probe veldtest op TAH6519
 - Find-beep GATT-payload
-- Home-profielen (Sport / Werk / Slaap zichtbare tools)
-- Widget: Vandaag + favoriete scene
+- Widget-favoriet-scene als 1-tap default
+- Wear-tegel per home-profiel
 
 ## Bouwen
 Android Studio + JDK 17. API-sleutel Gemini: `.env.example`.
