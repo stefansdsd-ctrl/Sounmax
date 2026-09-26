@@ -11,9 +11,10 @@ class FindHeadsetHelper {
     @Volatile var isPlaying: Boolean = false
         private set
 
-    fun start(durationMs: Int = 12_000) {
+    fun start(durationMs: Int = 12_000, gain: Float = 0.62f) {
         stop()
         val sampleRate = 44100
+        val amp = gain.coerceIn(0.15f, 0.95f)
         val samples = (sampleRate * durationMs / 1000).coerceAtMost(sampleRate * 20)
         val stereo = ShortArray(samples * 2)
         val beepHzA = 880.0
@@ -31,7 +32,7 @@ class FindHeadsetHelper {
                     else -> 1f
                 }
                 val hz = if (left) beepHzA else beepHzB
-                val v = (sin(2.0 * Math.PI * hz * s / sampleRate) * 0.62 * env * Short.MAX_VALUE).toInt()
+                val v = (sin(2.0 * Math.PI * hz * s / sampleRate) * amp * env * Short.MAX_VALUE).toInt()
                     .coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
                 val idx = (i + s) * 2
                 if (left) {
@@ -84,9 +85,21 @@ class FindHeadsetHelper {
     }
 
     companion object {
+        private const val PREFS = "soundmax_wellness"
+        const val KEY_GAIN = "find_beep_gain"
         private val shared = FindHeadsetHelper()
-        fun ping() {
-            shared.start()
+
+        fun gain(context: android.content.Context): Float =
+            context.getSharedPreferences(PREFS, android.content.Context.MODE_PRIVATE)
+                .getFloat(KEY_GAIN, 0.62f)
+
+        fun setGain(context: android.content.Context, value: Float) {
+            context.getSharedPreferences(PREFS, android.content.Context.MODE_PRIVATE)
+                .edit().putFloat(KEY_GAIN, value.coerceIn(0.15f, 0.95f)).apply()
+        }
+
+        fun ping(context: android.content.Context? = null) {
+            shared.start(gain = context?.let { gain(it) } ?: 0.62f)
         }
         fun sharedStop() {
             shared.stop()
