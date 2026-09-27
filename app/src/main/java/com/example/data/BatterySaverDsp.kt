@@ -40,6 +40,23 @@ object BatterySaverDsp {
         return next
     }
 
+    /** Wear-tegel: uit → 15 → 20 → 25 → 30 → uit. */
+    fun cycleMode(context: Context): String {
+        if (!enabled(context)) {
+            setEnabled(context, true)
+            setThreshold(context, 15)
+            return label(context)
+        }
+        val steps = intArrayOf(15, 20, 25, 30)
+        val i = steps.indexOf(threshold(context))
+        if (i < 0 || i == steps.lastIndex) {
+            setEnabled(context, false)
+        } else {
+            setThreshold(context, steps[i + 1])
+        }
+        return label(context)
+    }
+
     fun batteryPercent(context: Context): Int {
         val bm = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager ?: return 100
         val pct = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
