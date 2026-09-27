@@ -32,7 +32,8 @@ data class WearStatus(
     val pinSet: String = "",
     val quietLabel: String = "",
     val track: String = "",
-    val playing: Boolean = false
+    val playing: Boolean = false,
+    val guard: Boolean = false
 )
 
 object WearClient {
@@ -65,7 +66,8 @@ object WearClient {
             pinSet = map.getString(WearPaths.KEY_PIN_SET) ?: "",
             quietLabel = map.getString(WearPaths.KEY_QUIET_LABEL) ?: "",
             track = map.getString(WearPaths.KEY_TRACK) ?: "",
-            playing = map.getBoolean(WearPaths.KEY_PLAYING, false)
+            playing = map.getBoolean(WearPaths.KEY_PLAYING, false),
+            guard = map.getBoolean(WearPaths.KEY_GUARD, false)
         )
     }
 
