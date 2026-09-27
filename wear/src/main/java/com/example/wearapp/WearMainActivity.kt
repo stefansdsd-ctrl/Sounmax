@@ -61,6 +61,9 @@ class WearMainActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("${status.sceneEmoji} ${status.sceneName}")
+                if (status.track.isNotBlank()) {
+                    Text((if (status.playing) "▶ " else "⏸ ") + status.track)
+                }
                 Text(
                     buildString {
                         append(if (status.dsp) "DSP aan" else "DSP uit")
@@ -70,10 +73,30 @@ class WearMainActivity : ComponentActivity() {
                         if (status.phoneBattery in 0..100) append(" · PH ${status.phoneBattery}%")
                         if (status.sleepMin > 0) append(" · slaap ${status.sleepMin}m")
                         if (status.doseMin > 0) append(" · dosis ${status.doseMin}m")
-                        if (status.quiet) append(" · stil")
+                        if (status.quietLabel.isNotBlank()) append(" · ${status.quietLabel}")
+                        else if (status.quiet) append(" · stil")
+                        if (status.codec.isNotBlank()) append(" · ${status.codec}")
+                        if (status.volume in 0..100) append(" · ${status.volume}%")
                     }
                 )
                 if (!ambient) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PREV_TRACK) } }) { Text("⏮") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PLAY_PAUSE) } }) {
+                            Text(if (status.playing) "⏸" else "▶")
+                        }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_NEXT_TRACK) } }) { Text("⏭") }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_VOL_DOWN) } }) { Text("−") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_MUTE) } }) { Text("Mute") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_VOL_UP) } }) { Text("+") }
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_PHONE) } }) { Text("Tel") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_QUIET) } }) { Text("Rust") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_HEADSET) } }) { Text("Zoek") }
+                    }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_PREV_SCENE) } }) { Text("<") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SLEEP) } }) {
@@ -86,7 +109,7 @@ class WearMainActivity : ComponentActivity() {
                             Text(if (status.pinSet.isNotBlank()) status.pinSet else "Set")
                         }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_ANC) } }) { Text("ANC ${ancLabel(status.anc)}") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FIND_HEADSET) } }) { Text("Zoek") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_SUGGEST) } }) { Text("Hint") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CALL) } }) { Text("Bel") }
@@ -94,51 +117,13 @@ class WearMainActivity : ComponentActivity() {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_PLANE) } }) { Text("Vlieg") }
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CAR) } }) { Text("Auto") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_METRO) } }) { Text("Metro") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_ONE_TAP_CONCERT) } }) { Text("Live") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_TOGGLE_DSP) } }) {
                             Text(if (status.dsp) "DSP" else "DSP uit")
                         }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_UNDO) } }) { Text("Undo") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_SUGGEST) } }) { Text("Hint") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_FLAT) } }) { Text("Flat") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SAFE) } }) { Text("Safe") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SPEECH) } }) { Text("Spraak") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_NIGHT) } }) { Text("Nacht") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_VOCAL) } }) { Text("Vocal") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_UNDO) } }) { Text("EQ↩") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_PHONE) } }) { Text("Tel") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SPARKLE) } }) { Text("Spark") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_SLEEP) } }) { Text("Slaap") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_PODCAST) } }) { Text("Pod") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CAR) } }) { Text("AutoEQ") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_FILM) } }) { Text("Film") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CAFE) } }) { Text("Café") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_WORK) } }) { Text("Werk") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_RAIN) } }) { Text("Regen") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_KITCHEN) } }) { Text("Keuken") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_GAME) } }) { Text("Game") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_CALL) } }) { Text("BelEQ") }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_BIKE) } }) { Text("Fiets") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_FOCUS) } }) { Text("Focus") }
-                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_EQ_DOSE) } }) { Text("Oor") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FOCUS) } }) {
+                            Text(if (status.focus) "Focus ${status.focusLeft}m" else "Focus")
+                        }
                     }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
@@ -148,9 +133,6 @@ class WearMainActivity : ComponentActivity() {
                                 else -> "Spatial uit"
                             }
                         )
-                    }
-                    Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_FOCUS) } }) {
-                        Text(if (status.focus) "Focus ${status.focusLeft}m" else "Focus")
                     }
                 }
             }
