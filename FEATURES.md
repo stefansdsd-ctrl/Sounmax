@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 188 (klaar — code)
+1. Wear-app: rusturen-venster cyclus (uit → 22–7 → 23–8 → 21–6).
+2. Wear-app: rusturen-cap cyclus 30/40/50/60%.
+3. Statussync quiet_label naar horloge.
+
 ## Batch 187 (klaar — code)
 1. Wear-tegel Accu: tik cyclus uit → 15 → 20 → 25 → 30%.
 2. Wear-app knoppen AccuDSP + drempel.
