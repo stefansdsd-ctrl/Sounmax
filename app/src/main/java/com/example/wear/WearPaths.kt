@@ -30,6 +30,8 @@ object WearPaths {
     const val KEY_QUIET_LABEL = "quiet_label"
     const val KEY_PROFILE = "home_profile"
     const val KEY_GUARD = "guard"
+    const val KEY_TRACK = "track"
+    const val KEY_PLAYING = "playing"
     const val KEY_CAP = "cap"
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
