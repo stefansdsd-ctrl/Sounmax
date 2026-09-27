@@ -5,12 +5,14 @@ import android.content.Intent
 import android.util.Log
 import com.example.data.FavoriteScenes
 import com.example.data.HomeToolProfiles
+import com.example.data.NowPlayingApp
 import com.example.data.PinProfiles
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.dsp.SceneLookup
 import com.example.media.DspControlService
 import com.example.media.FindHeadsetHelper
+import com.example.media.FindPhoneHelper
 import com.example.media.FocusSession
 import com.example.media.MediaRemote
 import com.example.media.PhoneBatteryAdvisor
@@ -33,6 +35,7 @@ object WearBridge {
             val scene = ListeningScenes.byId(wellness.getString("last_scene_id", null))
                 ?: ListeningScenes.ALL.first()
             val favs = FavoriteScenes(context).scenes()
+            val track = listOfNotNull(NowPlayingApp.artist, NowPlayingApp.title).joinToString(" — ")
             val req = PutDataMapRequest.create(WearPaths.STATUS).apply {
                 dataMap.putBoolean(WearPaths.KEY_DSP, ui.getBoolean(DspControlService.KEY_DSP, true))
                 dataMap.putString(WearPaths.KEY_SCENE_ID, scene.id)
@@ -73,6 +76,9 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_FAV_NAMES, favs.joinToString("|") { "${it.emoji} ${it.name}" })
                 dataMap.putString(WearPaths.KEY_PIN_SET, PinProfiles.active(context).name)
                 dataMap.putString(WearPaths.KEY_PROFILE, HomeToolProfiles.activeId(context))
+                dataMap.putString(WearPaths.KEY_QUIET_LABEL, com.example.data.QuietHours.label(context))
+                dataMap.putString(WearPaths.KEY_TRACK, track)
+                dataMap.putBoolean(WearPaths.KEY_PLAYING, MediaRemote.isMusicActive(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
             }
             Wearable.getDataClient(context).putDataItem(req.asPutDataRequest().setUrgent())
@@ -96,9 +102,14 @@ object WearBridge {
             cmd == WearPaths.CMD_CYCLE_ANC -> cycleAnc(context)
             cmd == WearPaths.CMD_CYCLE_SPATIAL -> cycleSpatial(context)
             cmd == WearPaths.CMD_FIND_HEADSET -> FindHeadsetHelper.ping()
+            cmd == WearPaths.CMD_FIND_PHONE -> FindPhoneHelper.ping(context)
+            cmd == WearPaths.CMD_CYCLE_QUIET -> com.example.data.QuietHours.cycleWindow(context)
+            cmd == WearPaths.CMD_NEXT_TRACK -> MediaRemote.skip(context, next = true)
+            cmd == WearPaths.CMD_PREV_TRACK -> MediaRemote.skip(context, next = false)
             cmd == WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
             cmd == WearPaths.CMD_VOL_UP -> MediaRemote.volume(context, raise = true)
             cmd == WearPaths.CMD_VOL_DOWN -> MediaRemote.volume(context, raise = false)
+            cmd == WearPaths.CMD_MUTE -> MediaRemote.muteToggle(context)
             cmd == WearPaths.CMD_FOCUS -> FocusSession.toggle(context)
             cmd == WearPaths.CMD_UNDO -> undoScene(context)
             cmd == WearPaths.CMD_LOCK -> toggleLock(context)
