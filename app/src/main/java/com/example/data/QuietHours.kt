@@ -80,6 +80,47 @@ object QuietHours {
         }
     }
 
+    /** uit → 22–7 → 23–8 → 21–6 → uit */
+    fun cycleWindow(context: Context): String {
+        val on = enabled(context)
+        val start = startHour(context)
+        return when {
+            !on -> {
+                setEnabled(context, true)
+                setWindow(context, 22, 7)
+                apply(context)
+                label(context)
+            }
+            start == 22 -> {
+                setWindow(context, 23, 8)
+                apply(context)
+                label(context)
+            }
+            start == 23 -> {
+                setWindow(context, 21, 6)
+                apply(context)
+                label(context)
+            }
+            else -> {
+                setEnabled(context, false)
+                label(context)
+            }
+        }
+    }
+
+    /** 30 → 40 → 50 → 60 → 30 */
+    fun cycleCap(context: Context): String {
+        val next = when (capPercent(context)) {
+            30 -> 40
+            40 -> 50
+            50 -> 60
+            else -> 30
+        }
+        setCapPercent(context, next)
+        apply(context)
+        return label(context)
+    }
+
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 }
