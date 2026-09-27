@@ -85,4 +85,39 @@ object MediaRemote {
         val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
         return (am.getStreamVolume(AudioManager.STREAM_MUSIC) * 100) / max
     }
+
+    fun shuffle(context: Context) {
+        dispatch(context, KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
+        sessionAction(context) { it.setShuffleMode(android.media.session.PlaybackState.SHUFFLE_MODE_ALL) }
+    }
+
+    fun repeat(context: Context) {
+        sessionAction(context) { it.setRepeatMode(android.media.session.PlaybackState.REPEAT_MODE_ALL) }
+    }
+
+    fun rewind(context: Context) {
+        dispatch(context, KeyEvent.KEYCODE_MEDIA_REWIND)
+    }
+
+    fun fastForward(context: Context) {
+        dispatch(context, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
+    }
+
+    private fun dispatch(context: Context, code: Int) {
+        val am = context.getSystemService(AudioManager::class.java) ?: return
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, code))
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, code))
+    }
+
+    private fun sessionAction(context: Context, block: (android.media.session.MediaController.TransportControls) -> Unit) {
+        try {
+            val msm = context.getSystemService(android.media.session.MediaSessionManager::class.java) ?: return
+            val cn = android.content.ComponentName(context, SoundMaxNotificationListener::class.java)
+            val active = msm.getActiveSessions(cn)
+            val ctrl = active.firstOrNull { it.playbackState?.state == android.media.session.PlaybackState.STATE_PLAYING }
+                ?: active.firstOrNull()
+            if (ctrl != null) block(ctrl.transportControls)
+        } catch (_: Exception) {
+        }
+    }
 }
