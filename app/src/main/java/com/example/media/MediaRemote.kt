@@ -46,6 +46,15 @@ object MediaRemote {
         am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, code))
     }
 
+    fun muteToggle(context: Context) {
+        val am = context.getSystemService(AudioManager::class.java) ?: return
+        am.adjustStreamVolume(
+            AudioManager.STREAM_MUSIC,
+            AudioManager.ADJUST_TOGGLE_MUTE,
+            AudioManager.FLAG_SHOW_UI
+        )
+    }
+
     fun musicVolumePercent(context: Context): Int {
         val am = context.getSystemService(AudioManager::class.java) ?: return -1
         val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
