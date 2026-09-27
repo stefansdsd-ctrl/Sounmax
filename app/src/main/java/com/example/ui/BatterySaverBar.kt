@@ -37,6 +37,7 @@ fun BatterySaverBar() {
     var nightLabel by remember { mutableStateOf(QuietHours.label(context)) }
     var nightOn by remember { mutableStateOf(QuietHours.enabled(context)) }
     var nightNow by remember { mutableStateOf(QuietHours.activeNow(context)) }
+    var thresh by remember { mutableStateOf(BatterySaverDsp.threshold(context)) }
 
     val colors = FilterChipDefaults.filterChipColors(
         selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
@@ -79,6 +80,20 @@ fun BatterySaverBar() {
             label = { Text(nightLabel, fontSize = 11.sp, maxLines = 1) },
             colors = colors,
             modifier = Modifier.testTag("night_cap_chip")
+        )
+        FilterChip(
+            selected = saverOn,
+            onClick = {
+                val next = BatterySaverDsp.cycleThreshold(context)
+                thresh = next
+                saverLabel = BatterySaverDsp.label(context)
+                saving = BatterySaverDsp.shouldSave(context)
+                SoundMaxWidget.refreshAll(context)
+                Toast.makeText(context, "Drempel $next%", Toast.LENGTH_SHORT).show()
+            },
+            label = { Text("≤$thresh%", fontSize = 11.sp, maxLines = 1) },
+            colors = colors,
+            modifier = Modifier.testTag("battery_saver_threshold_chip")
         )
         if (saving) Text("spaar", fontSize = 11.sp, color = ImmersiveLavenderAccent)
         if (nightNow) Text("nacht", fontSize = 11.sp, color = ImmersiveLavenderAccent)
