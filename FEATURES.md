@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 191 (klaar — code)
+1. Wear now-playing (artiest — titel) + playing-flag.
+2. Wear media-rij ▶/⏸ ⏮ ⏭ −/+ en Tel (zoek-telefoon).
+3. WearBridge: CMD_FIND_PHONE / CYCLE_QUIET / NEXT_TRACK / PREV_TRACK.
+
 ## Batch 190 (klaar — code)
 1. Wear: media-rij ▶ / ⏮ / ⏭ + volume −/+.
 2. Wear: zoek-telefoon + rusturen-cyclus + HS-zoek.
