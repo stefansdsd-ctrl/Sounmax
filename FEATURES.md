@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 187 (klaar — code)
+1. Wear-tegel Accu: tik cyclus uit → 15 → 20 → 25 → 30%.
+2. Wear-app knoppen AccuDSP + drempel.
+3. Statussync saver + saver_thresh naar horloge.
+4. WearBridge-commando's toggle/cycle/mode.
+
 ## Batch 186 (klaar — code)
 1. Wear-tegel Accu-DSP (tik = aan/uit).
 2. QS-tegel Accu-DSP.
