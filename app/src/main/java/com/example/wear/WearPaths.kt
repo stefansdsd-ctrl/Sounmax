@@ -157,4 +157,10 @@ object WearPaths {
     const val CMD_ONE_TAP_TAVOND = "one_tap:tvavond"
     const val CMD_ONE_TAP_EBIKE = "one_tap:ebikewind"
     const val CMD_ONE_TAP_FRI = "one_tap:vrijdagavond"
+    const val CMD_SHUFFLE = "shuffle"
+    const val CMD_REPEAT = "repeat"
+    const val CMD_REWIND = "rewind"
+    const val CMD_FF = "ff"
+    const val CMD_CYCLE_COMMUTE = "cycle_commute"
+    const val KEY_COMMUTE_LABEL = "commute_label"
 }
