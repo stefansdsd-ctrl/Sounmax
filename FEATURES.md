@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 195 (klaar — code)
+1. Wear: −15 / +15 seek, ↺ replay, ⏹ stop.
+2. Wear: volume-sprong −− / ++ (3 stappen).
+3. Wear: gehoorwacht-toggle aangesloten.
+
 ## Batch 194 (klaar — code)
 1. Wear: replay (↺), stop (⏹), gehoorwacht-toggle.
 2. Status: guard-vlag naar horloge.
