@@ -55,6 +55,12 @@ object MediaRemote {
         )
     }
 
+    fun stop(context: Context) {
+        val am = context.getSystemService(AudioManager::class.java) ?: return
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_STOP))
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_STOP))
+    }
+
     fun replay(context: Context) {
         val am = context.getSystemService(AudioManager::class.java) ?: return
         am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS))
