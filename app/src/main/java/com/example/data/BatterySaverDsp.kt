@@ -31,6 +31,15 @@ object BatterySaverDsp {
         prefs(context).edit().putInt(KEY_THRESHOLD, pct.coerceIn(5, 50)).apply()
     }
 
+    fun cycleThreshold(context: Context): Int {
+        val steps = intArrayOf(15, 20, 25, 30)
+        val cur = threshold(context)
+        val i = steps.indexOf(cur)
+        val next = steps[(if (i < 0) 0 else i + 1) % steps.size]
+        setThreshold(context, next)
+        return next
+    }
+
     fun batteryPercent(context: Context): Int {
         val bm = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager ?: return 100
         val pct = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
