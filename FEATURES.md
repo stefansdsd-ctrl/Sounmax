@@ -1,5 +1,12 @@
 # Sounmax — volgende features
 
+## Batch 190 (klaar — code)
+1. Wear: media-rij ▶ / ⏮ / ⏭ + volume −/+.
+2. Wear: zoek-telefoon + rusturen-cyclus + HS-zoek.
+3. Wear-status: quiet_label + codec + RSSI + volume.
+4. WearBridge: find_phone, cycle_quiet, next/prev_track.
+5. MediaRemote.skip (volgende/vorige nummer).
+
 ## Batch 189 (klaar — code)
 1. Wear: ▶ / − / + media-rij.
 2. Wear: zoek-telefoon (FindPhoneHelper).

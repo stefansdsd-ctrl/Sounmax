@@ -3,7 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-27 — batch 189)
+## Nieuw (2026-09-27 — batch 190)
+- Wear: ▶ / ⏮ / ⏭ + volume + zoek-telefoon + rusturen.
+- Status: codec, RSSI, volume, quiet_label.
+- Skip-nummer vanaf het horloge.
+
+## Batch 189
 - Wear: afspelen/pauze + volume + zoek-telefoon.
 - Wear: rusturen-cyclus + codec/RSSI/volume in status.
 - FindPhoneHelper: alarm + tril vanaf horloge.
