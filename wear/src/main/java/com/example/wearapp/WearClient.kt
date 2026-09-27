@@ -29,7 +29,8 @@ data class WearStatus(
     val schedule: String = "",
     val codec: String = "",
     val rssi: Int = 0,
-    val pinSet: String = ""
+    val pinSet: String = "",
+    val quietLabel: String = ""
 )
 
 object WearClient {
@@ -59,7 +60,8 @@ object WearClient {
             schedule = map.getString(WearPaths.KEY_SCHEDULE) ?: "",
             codec = map.getString(WearPaths.KEY_CODEC) ?: "",
             rssi = map.getInt(WearPaths.KEY_RSSI, 0),
-            pinSet = map.getString(WearPaths.KEY_PIN_SET) ?: ""
+            pinSet = map.getString(WearPaths.KEY_PIN_SET) ?: "",
+            quietLabel = map.getString(WearPaths.KEY_QUIET_LABEL) ?: ""
         )
     }
 
