@@ -69,6 +69,17 @@ object MediaRemote {
         am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS))
     }
 
+    fun seek(context: Context, forward: Boolean) {
+        val am = context.getSystemService(AudioManager::class.java) ?: return
+        val code = if (forward) KeyEvent.KEYCODE_MEDIA_SKIP_FORWARD else KeyEvent.KEYCODE_MEDIA_SKIP_BACKWARD
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, code))
+        am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, code))
+    }
+
+    fun volumeJump(context: Context, raise: Boolean, steps: Int = 3) {
+        repeat(steps.coerceIn(1, 8)) { volume(context, raise) }
+    }
+
     fun musicVolumePercent(context: Context): Int {
         val am = context.getSystemService(AudioManager::class.java) ?: return -1
         val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
