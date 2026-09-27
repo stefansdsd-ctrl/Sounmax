@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 186 (klaar — code)
+1. Wear-tegel Accu-DSP (tik = aan/uit).
+2. QS-tegel Accu-DSP.
+3. Home-chip drempel cyclus 15/20/25/30%.
+4. Wear-knop AccuDSP + status KEY_SAVER.
+
 ## Batch 185 (klaar — code)
 1. Home-chip Accu-DSP (aan/uit + spaarstatus).
 2. Home-chip nacht-cap (data.QuietHours, 22–07 40%).
