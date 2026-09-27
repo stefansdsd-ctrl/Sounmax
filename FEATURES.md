@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 189 (klaar — code)
+1. Wear: ▶ / − / + media-rij.
+2. Wear: zoek-telefoon (FindPhoneHelper).
+3. Wear: rusturen-cyclusknop + quiet_label/codec/RSSI/vol in status.
+4. WearBridge: find_phone + cycle_quiet.
+
 ## Batch 188 (klaar — code)
 1. Wear-app: rusturen-venster cyclus (uit → 22–7 → 23–8 → 21–6).
 2. Wear-app: rusturen-cap cyclus 30/40/50/60%.
