@@ -138,4 +138,6 @@ object WearPaths {
     const val CMD_CYCLE_WORK = "cycle_work"
     const val CMD_CYCLE_MEETING = "cycle_meeting"
     const val CMD_CYCLE_COMMUTE = "cycle_commute"
+    const val CMD_CYCLE_FOCUS = "cycle_focus"
+    const val CMD_CYCLE_FLIGHT = "cycle_flight"
 }
