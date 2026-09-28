@@ -192,6 +192,8 @@ object WearPaths {
     const val CMD_CYCLE_PAUSE = "cycle_pause"
     const val CMD_CYCLE_RAIN = "cycle_rain"
     const val CMD_CYCLE_DOSE_PAUSE = "cycle_dose_pause"
+    const val CMD_CYCLE_WIND = "cycle_wind"
+    const val CMD_CYCLE_CALL = "cycle_call"
     const val KEY_COOK_LABEL = "cook_label"
     const val KEY_BIKE_LABEL = "bike_label"
     const val KEY_CAFE_LABEL = "cafe_label"
@@ -205,4 +207,6 @@ object WearPaths {
     const val KEY_PAUSE_LABEL = "pause_label"
     const val KEY_RAIN_LABEL = "rain_label"
     const val KEY_DIGEST = "auto_digest"
+    const val KEY_WIND_LABEL = "wind_label"
+    const val KEY_CALL_LABEL = "call_label"
 }
