@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 202 (klaar — code)
+1. Kook-uren: weekdagen 17–19 auto-keuken (wijkt voor pendel/werk/gym/vlucht).
+2. Fiets-hold: 15/30/45 min bike + volume-cap.
+3. Wear: cycle_cook + cycle_bike + ontbrekende cycle_study/walk/sleep_hours/nap gekoppeld.
+
 ## Batch 201 (klaar — code)
 1. Studie-uren: weekdagen 13–17 auto-college (wijkt voor pendel/werk/gym/vlucht).
 2. Wandeling-hold: 20/40/60 min outdoor + volume-cap.

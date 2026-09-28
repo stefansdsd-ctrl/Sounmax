@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-28 — batch 202)
+- Kook-uren (weekdagen 17–19, wijkt voor pendel/werk/gym/vlucht).
+- Fiets-hold 15/30/45 min + volume-cap.
+- Wear: koken / fiets cyclen; study/walk/slaap/dutje commando’s nu echt aangesloten.
+
 ## Nieuw (2026-09-28 — batch 201)
 - Studie-uren (weekdagen 13–17, wijkt voor pendel/werk/gym/vlucht).
 - Wandeling-hold 20/40/60 min + volume-cap.
