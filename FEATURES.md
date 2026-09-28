@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 205 (klaar — code)
+1. Museum-uren: weekdagen 11–15 auto-museum (wijkt voor pendel/werk/gym/vlucht).
+2. Concert-hold: 90/120/180 min concert + volume-cap.
+3. Wear: cycle_museum + cycle_concert.
+
 ## Batch 204 (klaar — code)
 1. Bieb-uren: weekdagen 14–16 auto-bibliotheek (wijkt voor pendel/werk/gym/vlucht).
 2. Trein-hold: 20/40/60 min trein + volume-cap.
