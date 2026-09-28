@@ -187,6 +187,8 @@ object WearPaths {
     const val CMD_CYCLE_TRAIN = "cycle_train"
     const val CMD_CYCLE_MUSEUM = "cycle_museum"
     const val CMD_CYCLE_CONCERT = "cycle_concert"
+    const val CMD_CYCLE_SHOP = "cycle_shop"
+    const val CMD_CYCLE_GAME = "cycle_game"
     const val KEY_COOK_LABEL = "cook_label"
     const val KEY_BIKE_LABEL = "bike_label"
     const val KEY_CAFE_LABEL = "cafe_label"
@@ -195,4 +197,6 @@ object WearPaths {
     const val KEY_TRAIN_LABEL = "train_label"
     const val KEY_MUSEUM_LABEL = "museum_label"
     const val KEY_CONCERT_LABEL = "concert_label"
+    const val KEY_SHOP_LABEL = "shop_label"
+    const val KEY_GAME_LABEL = "game_label"
 }
