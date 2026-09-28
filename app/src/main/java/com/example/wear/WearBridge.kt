@@ -3,14 +3,24 @@ package com.example.wear
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.data.BikeHold
+import com.example.data.CafeHours
+import com.example.data.CookHours
+import com.example.data.DriveHold
 import com.example.data.FavoriteScenes
 import com.example.data.FlightHold
 import com.example.data.FocusHours
 import com.example.data.GymHours
 import com.example.data.HomeToolProfiles
+import com.example.data.LibraryHours
 import com.example.data.MeetingHold
+import com.example.data.NapHold
 import com.example.data.NowPlayingApp
 import com.example.data.PinProfiles
+import com.example.data.SleepHours
+import com.example.data.StudyHours
+import com.example.data.TrainHold
+import com.example.data.WalkHold
 import com.example.data.WeekendHours
 import com.example.data.WorkHours
 import com.example.dsp.AncMode
@@ -90,6 +100,12 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_GYM_LABEL, GymHours.label(context))
                 dataMap.putString(WearPaths.KEY_FOCUS_LABEL, FocusHours.label(context))
                 dataMap.putString(WearPaths.KEY_FLIGHT_LABEL, FlightHold.label(context))
+                dataMap.putString(WearPaths.KEY_COOK_LABEL, CookHours.label(context))
+                dataMap.putString(WearPaths.KEY_BIKE_LABEL, BikeHold.label(context))
+                dataMap.putString(WearPaths.KEY_CAFE_LABEL, CafeHours.label(context))
+                dataMap.putString(WearPaths.KEY_DRIVE_LABEL, DriveHold.label(context))
+                dataMap.putString(WearPaths.KEY_LIBRARY_LABEL, LibraryHours.label(context))
+                dataMap.putString(WearPaths.KEY_TRAIN_LABEL, TrainHold.label(context))
                 dataMap.putString(WearPaths.KEY_TRACK, track)
                 dataMap.putBoolean(WearPaths.KEY_PLAYING, MediaRemote.isMusicActive(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
@@ -124,6 +140,16 @@ object WearBridge {
             cmd == WearPaths.CMD_CYCLE_GYM -> GymHours.cycleWindow(context)
             cmd == WearPaths.CMD_CYCLE_FOCUS -> FocusHours.cycleWindow(context)
             cmd == WearPaths.CMD_CYCLE_FLIGHT -> FlightHold.cycle(context)
+            cmd == WearPaths.CMD_CYCLE_SLEEP_HOURS -> SleepHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_NAP -> NapHold.cycle(context)
+            cmd == WearPaths.CMD_CYCLE_STUDY -> StudyHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_WALK -> WalkHold.cycle(context)
+            cmd == WearPaths.CMD_CYCLE_COOK -> CookHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_BIKE -> BikeHold.cycle(context)
+            cmd == WearPaths.CMD_CYCLE_CAFE -> CafeHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_DRIVE -> DriveHold.cycle(context)
+            cmd == WearPaths.CMD_CYCLE_LIBRARY -> LibraryHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_TRAIN -> TrainHold.cycle(context)
             cmd == WearPaths.CMD_NEXT_TRACK -> MediaRemote.skip(context, next = true)
             cmd == WearPaths.CMD_PREV_TRACK -> MediaRemote.skip(context, next = false)
             cmd == WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
