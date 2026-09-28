@@ -6,6 +6,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
+import com.example.data.BikeHold
+import com.example.data.CafeHours
+import com.example.data.CookHours
+import com.example.data.DriveHold
 import com.example.data.FlightHold
 import com.example.data.NapHold
 import com.example.data.SleepHours
@@ -109,6 +113,10 @@ object SceneAutomation {
         NapHold.apply(context)
         StudyHours.apply(context)
         WalkHold.apply(context)
+        CookHours.apply(context)
+        BikeHold.apply(context)
+        CafeHours.apply(context)
+        DriveHold.apply(context)
         tickListeningDose(prefs)
         maybeAutoSafeVolume(prefs)
         maybeSuggestEarBreak(context, prefs)
@@ -186,6 +194,10 @@ class SceneHourlyReceiver : BroadcastReceiver() {
         NapHold.apply(context)
         StudyHours.apply(context)
         WalkHold.apply(context)
+        CookHours.apply(context)
+        BikeHold.apply(context)
+        CafeHours.apply(context)
+        DriveHold.apply(context)
         SceneAutomation.writeSuggested(context)
     }
 }
