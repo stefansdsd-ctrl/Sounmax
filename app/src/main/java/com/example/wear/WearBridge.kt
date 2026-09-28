@@ -5,8 +5,10 @@ import android.content.Intent
 import android.util.Log
 import com.example.data.FavoriteScenes
 import com.example.data.HomeToolProfiles
+import com.example.data.MeetingHold
 import com.example.data.NowPlayingApp
 import com.example.data.PinProfiles
+import com.example.data.WorkHours
 import com.example.dsp.AncMode
 import com.example.dsp.ListeningScenes
 import com.example.dsp.SceneLookup
@@ -77,6 +79,9 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_PIN_SET, PinProfiles.active(context).name)
                 dataMap.putString(WearPaths.KEY_PROFILE, HomeToolProfiles.activeId(context))
                 dataMap.putString(WearPaths.KEY_QUIET_LABEL, com.example.data.QuietHours.label(context))
+                dataMap.putString(WearPaths.KEY_COMMUTE_LABEL, com.example.data.CommuteHours.label(context))
+                dataMap.putString(WearPaths.KEY_WORK_LABEL, WorkHours.label(context))
+                dataMap.putString(WearPaths.KEY_MEETING_LABEL, MeetingHold.label(context))
                 dataMap.putString(WearPaths.KEY_TRACK, track)
                 dataMap.putBoolean(WearPaths.KEY_PLAYING, MediaRemote.isMusicActive(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
@@ -104,6 +109,9 @@ object WearBridge {
             cmd == WearPaths.CMD_FIND_HEADSET -> FindHeadsetHelper.ping()
             cmd == WearPaths.CMD_FIND_PHONE -> FindPhoneHelper.ping(context)
             cmd == WearPaths.CMD_CYCLE_QUIET -> com.example.data.QuietHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_COMMUTE -> com.example.data.CommuteHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_WORK -> WorkHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_MEETING -> MeetingHold.cycle(context)
             cmd == WearPaths.CMD_NEXT_TRACK -> MediaRemote.skip(context, next = true)
             cmd == WearPaths.CMD_PREV_TRACK -> MediaRemote.skip(context, next = false)
             cmd == WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
