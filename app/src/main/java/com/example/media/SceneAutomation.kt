@@ -6,7 +6,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
+import com.example.data.GymHours
 import com.example.data.MeetingHold
+import com.example.data.WeekendHours
 import com.example.data.WorkHours
 import com.example.dsp.HearingCorrection
 import com.example.dsp.ListeningScene
@@ -92,6 +94,8 @@ object SceneAutomation {
         QuietHours.enforce(context)
         com.example.data.CommuteHours.apply(context)
         WorkHours.apply(context)
+        WeekendHours.apply(context)
+        GymHours.apply(context)
         MeetingHold.apply(context)
         tickListeningDose(prefs)
         maybeAutoSafeVolume(prefs)
@@ -161,6 +165,8 @@ class SceneHourlyReceiver : BroadcastReceiver() {
         QuietHours.enforce(context)
         com.example.data.CommuteHours.apply(context)
         WorkHours.apply(context)
+        WeekendHours.apply(context)
+        GymHours.apply(context)
         MeetingHold.apply(context)
         SceneAutomation.writeSuggested(context)
     }
