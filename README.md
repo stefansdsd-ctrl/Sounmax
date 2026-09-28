@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-28 — batch 204)
+- Bieb-uren (weekdagen 14–16, wijkt voor pendel/werk/gym/vlucht).
+- Trein-hold 20/40/60 min + volume-cap.
+- Wear: bieb / trein cyclen. Eerdere holds/uren nu écht in WearBridge.
+
 ## Nieuw (2026-09-28 — batch 203)
 - Café-uren (weekdagen 10–12, wijkt voor pendel/werk/gym/vlucht).
 - Auto-hold 20/40/60 min + volume-cap.

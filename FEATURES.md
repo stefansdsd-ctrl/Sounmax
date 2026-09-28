@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 204 (klaar — code)
+1. Bieb-uren: weekdagen 14–16 auto-bibliotheek (wijkt voor pendel/werk/gym/vlucht).
+2. Trein-hold: 20/40/60 min trein + volume-cap.
+3. Wear: cycle_library + cycle_train. Ontbrekende cycle_sleep_hours/nap/study/walk/cook/bike/cafe/drive nu in WearBridge.
+
 ## Batch 203 (klaar — code)
 1. Café-uren: weekdagen 10–12 auto-café (wijkt voor pendel/werk/gym/vlucht).
 2. Auto-hold: 20/40/60 min car + volume-cap.
