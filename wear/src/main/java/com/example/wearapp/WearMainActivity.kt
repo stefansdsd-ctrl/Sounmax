@@ -130,6 +130,10 @@ class WearMainActivity : ComponentActivity() {
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_MEETING) } }) { Text("Meet") }
                         Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_COMMUTE) } }) { Text("Pendel") }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_FOCUS) } }) { Text("Focus-u") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_FLIGHT) } }) { Text("Vlucht") }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
                             when {
