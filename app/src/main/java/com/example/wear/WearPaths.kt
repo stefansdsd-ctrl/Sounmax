@@ -189,6 +189,9 @@ object WearPaths {
     const val CMD_CYCLE_CONCERT = "cycle_concert"
     const val CMD_CYCLE_SHOP = "cycle_shop"
     const val CMD_CYCLE_GAME = "cycle_game"
+    const val CMD_CYCLE_PAUSE = "cycle_pause"
+    const val CMD_CYCLE_RAIN = "cycle_rain"
+    const val CMD_CYCLE_DOSE_PAUSE = "cycle_dose_pause"
     const val KEY_COOK_LABEL = "cook_label"
     const val KEY_BIKE_LABEL = "bike_label"
     const val KEY_CAFE_LABEL = "cafe_label"
@@ -199,4 +202,7 @@ object WearPaths {
     const val KEY_CONCERT_LABEL = "concert_label"
     const val KEY_SHOP_LABEL = "shop_label"
     const val KEY_GAME_LABEL = "game_label"
+    const val KEY_PAUSE_LABEL = "pause_label"
+    const val KEY_RAIN_LABEL = "rain_label"
+    const val KEY_DIGEST = "auto_digest"
 }
