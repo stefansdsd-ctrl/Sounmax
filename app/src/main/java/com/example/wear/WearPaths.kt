@@ -38,6 +38,8 @@ object WearPaths {
     const val KEY_MEETING_LABEL = "meeting_label"
     const val KEY_WEEKEND_LABEL = "weekend_label"
     const val KEY_GYM_LABEL = "gym_label"
+    const val KEY_FOCUS_LABEL = "focus_hours_label"
+    const val KEY_FLIGHT_LABEL = "flight_label"
     const val CMD_TOGGLE_DSP = "toggle_dsp"
     const val CMD_NEXT_SCENE = "next_scene"
     const val CMD_PREV_SCENE = "prev_scene"
@@ -171,4 +173,6 @@ object WearPaths {
     const val CMD_CYCLE_MEETING = "cycle_meeting"
     const val CMD_CYCLE_WEEKEND = "cycle_weekend"
     const val CMD_CYCLE_GYM = "cycle_gym"
+    const val CMD_CYCLE_FOCUS = "cycle_focus"
+    const val CMD_CYCLE_FLIGHT = "cycle_flight"
 }
