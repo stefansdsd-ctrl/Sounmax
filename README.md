@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-28 — batch 206)
+- Winkel-uren (weekdagen 12–18, wijkt voor pendel/werk/gym/vlucht).
+- Game-hold 30/60/120 min + volume-cap + ANC uit.
+- Wear: winkel / game cyclen.
+
 ## Nieuw (2026-09-28 — batch 205)
 - Museum-uren (weekdagen 11–15, wijkt voor pendel/werk/gym/vlucht).
 - Concert-hold 90/120/180 min + volume-cap.
@@ -41,3 +46,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC + codec-probe veldtest
 - Find-beep GATT-payload
+- Call-transparantie veldtest

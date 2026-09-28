@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 206 (klaar — code)
+1. Winkel-uren: weekdagen 12–18 auto-winkel (wijkt voor pendel/werk/gym/vlucht).
+2. Game-hold: 30/60/120 min game + volume-cap + ANC uit.
+3. Wear: cycle_shop + cycle_game.
+
 ## Batch 205 (klaar — code)
 1. Museum-uren: weekdagen 11–15 auto-museum (wijkt voor pendel/werk/gym/vlucht).
 2. Concert-hold: 90/120/180 min concert + volume-cap.
