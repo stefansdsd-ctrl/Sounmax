@@ -9,6 +9,8 @@ import android.os.SystemClock
 import com.example.data.FlightHold
 import com.example.data.NapHold
 import com.example.data.SleepHours
+import com.example.data.StudyHours
+import com.example.data.WalkHold
 import com.example.data.FocusHours
 import com.example.data.GymHours
 import com.example.data.MeetingHold
@@ -105,6 +107,8 @@ object SceneAutomation {
         FlightHold.apply(context)
         SleepHours.apply(context)
         NapHold.apply(context)
+        StudyHours.apply(context)
+        WalkHold.apply(context)
         tickListeningDose(prefs)
         maybeAutoSafeVolume(prefs)
         maybeSuggestEarBreak(context, prefs)
@@ -180,6 +184,8 @@ class SceneHourlyReceiver : BroadcastReceiver() {
         FlightHold.apply(context)
         SleepHours.apply(context)
         NapHold.apply(context)
+        StudyHours.apply(context)
+        WalkHold.apply(context)
         SceneAutomation.writeSuggested(context)
     }
 }
