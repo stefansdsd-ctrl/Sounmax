@@ -175,4 +175,8 @@ object WearPaths {
     const val CMD_CYCLE_GYM = "cycle_gym"
     const val CMD_CYCLE_FOCUS = "cycle_focus"
     const val CMD_CYCLE_FLIGHT = "cycle_flight"
+    const val CMD_CYCLE_SLEEP_HOURS = "cycle_sleep_hours"
+    const val CMD_CYCLE_NAP = "cycle_nap"
+    const val CMD_CYCLE_STUDY = "cycle_study"
+    const val CMD_CYCLE_WALK = "cycle_walk"
 }
