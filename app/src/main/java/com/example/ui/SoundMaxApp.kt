@@ -179,6 +179,7 @@ fun SoundMaxApp(
                 if (HomeToolProfiles.shows(pid, "quiet")) QuietHoursBar()
                 if (HomeToolProfiles.shows(pid, "saver")) BatterySaverBar()
                 if (HomeToolProfiles.shows(pid, "backup")) BackupBar(viewModel = viewModel)
+                AutomationDigestBar()
                 AutoPinHoursBar()
                 TravelLockBar()
                 BatteryEtaBar(headsetStatus.batteryPercent)
