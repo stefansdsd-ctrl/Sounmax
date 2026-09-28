@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.data.FavoriteScenes
+import com.example.data.FlightHold
+import com.example.data.FocusHours
 import com.example.data.GymHours
 import com.example.data.HomeToolProfiles
 import com.example.data.MeetingHold
@@ -86,6 +88,8 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_MEETING_LABEL, MeetingHold.label(context))
                 dataMap.putString(WearPaths.KEY_WEEKEND_LABEL, WeekendHours.label(context))
                 dataMap.putString(WearPaths.KEY_GYM_LABEL, GymHours.label(context))
+                dataMap.putString(WearPaths.KEY_FOCUS_LABEL, FocusHours.label(context))
+                dataMap.putString(WearPaths.KEY_FLIGHT_LABEL, FlightHold.label(context))
                 dataMap.putString(WearPaths.KEY_TRACK, track)
                 dataMap.putBoolean(WearPaths.KEY_PLAYING, MediaRemote.isMusicActive(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
@@ -118,6 +122,8 @@ object WearBridge {
             cmd == WearPaths.CMD_CYCLE_MEETING -> MeetingHold.cycle(context)
             cmd == WearPaths.CMD_CYCLE_WEEKEND -> WeekendHours.cycleWindow(context)
             cmd == WearPaths.CMD_CYCLE_GYM -> GymHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_FOCUS -> FocusHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_FLIGHT -> FlightHold.cycle(context)
             cmd == WearPaths.CMD_NEXT_TRACK -> MediaRemote.skip(context, next = true)
             cmd == WearPaths.CMD_PREV_TRACK -> MediaRemote.skip(context, next = false)
             cmd == WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
