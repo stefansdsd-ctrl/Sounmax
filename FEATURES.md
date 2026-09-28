@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 200 (klaar — code)
+1. Slaap-uren: 22–7 auto-slaap (wijkt voor vlucht).
+2. Dutje-hold: 20/45/90 min volume-cap + slaap-scene.
+3. Wear: cycle_sleep_hours + cycle_nap.
+
 ## Batch 199 (klaar — code)
 1. Focus-uren: weekdagen 20–22 auto-focus (wijkt voor pendel/werk/gym).
 2. Vlucht-hold: 2/4/6/8 u plane + volume-cap.
