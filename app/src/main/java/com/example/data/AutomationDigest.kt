@@ -4,13 +4,15 @@ import android.content.Context
 import com.example.media.DailyHearingBudget
 import com.example.media.DoseLock
 
-/** Eén regel met alle actieve auto-regels — stopt het giswerk in Meer. */
+/** Eén regel met alle actieve auto-regels. */
 object AutomationDigest {
     fun lines(context: Context): List<String> {
         val out = mutableListOf<String>()
         if (SchedulePause.active(context)) out += SchedulePause.label(context)
         if (DoseAutoPause.trippedToday(context)) out += DoseAutoPause.label(context)
         if (RainHold.active(context)) out += RainHold.label(context)
+        if (WindHold.active(context)) out += WindHold.label(context)
+        if (CallHold.active(context)) out += CallHold.label(context)
         if (GameHold.active(context)) out += GameHold.label(context)
         if (ConcertHold.active(context)) out += ConcertHold.label(context)
         if (TrainHold.active(context)) out += TrainHold.label(context)
