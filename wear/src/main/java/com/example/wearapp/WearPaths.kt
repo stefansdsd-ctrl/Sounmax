@@ -135,4 +135,7 @@ object WearPaths {
     const val CMD_ONE_TAP_TAVOND = "one_tap:tvavond"
     const val CMD_ONE_TAP_EBIKE = "one_tap:ebikewind"
     const val CMD_ONE_TAP_FRI = "one_tap:vrijdagavond"
+    const val CMD_CYCLE_WORK = "cycle_work"
+    const val CMD_CYCLE_MEETING = "cycle_meeting"
+    const val CMD_CYCLE_COMMUTE = "cycle_commute"
 }
