@@ -12,8 +12,10 @@ import com.example.data.FlightHold
 import com.example.data.FocusHours
 import com.example.data.GymHours
 import com.example.data.HomeToolProfiles
+import com.example.data.ConcertHold
 import com.example.data.LibraryHours
 import com.example.data.MeetingHold
+import com.example.data.MuseumHours
 import com.example.data.NapHold
 import com.example.data.NowPlayingApp
 import com.example.data.PinProfiles
@@ -106,6 +108,8 @@ object WearBridge {
                 dataMap.putString(WearPaths.KEY_DRIVE_LABEL, DriveHold.label(context))
                 dataMap.putString(WearPaths.KEY_LIBRARY_LABEL, LibraryHours.label(context))
                 dataMap.putString(WearPaths.KEY_TRAIN_LABEL, TrainHold.label(context))
+                dataMap.putString(WearPaths.KEY_MUSEUM_LABEL, MuseumHours.label(context))
+                dataMap.putString(WearPaths.KEY_CONCERT_LABEL, ConcertHold.label(context))
                 dataMap.putString(WearPaths.KEY_TRACK, track)
                 dataMap.putBoolean(WearPaths.KEY_PLAYING, MediaRemote.isMusicActive(context))
                 dataMap.putLong("ts", System.currentTimeMillis())
@@ -150,6 +154,8 @@ object WearBridge {
             cmd == WearPaths.CMD_CYCLE_DRIVE -> DriveHold.cycle(context)
             cmd == WearPaths.CMD_CYCLE_LIBRARY -> LibraryHours.cycleWindow(context)
             cmd == WearPaths.CMD_CYCLE_TRAIN -> TrainHold.cycle(context)
+            cmd == WearPaths.CMD_CYCLE_MUSEUM -> MuseumHours.cycleWindow(context)
+            cmd == WearPaths.CMD_CYCLE_CONCERT -> ConcertHold.cycle(context)
             cmd == WearPaths.CMD_NEXT_TRACK -> MediaRemote.skip(context, next = true)
             cmd == WearPaths.CMD_PREV_TRACK -> MediaRemote.skip(context, next = false)
             cmd == WearPaths.CMD_PLAY_PAUSE -> MediaRemote.playPause(context)
