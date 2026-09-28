@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 203 (klaar — code)
+1. Café-uren: weekdagen 10–12 auto-café (wijkt voor pendel/werk/gym/vlucht).
+2. Auto-hold: 20/40/60 min car + volume-cap.
+3. Wear: cycle_cafe + cycle_drive. Koken/fiets + study/walk/slaap/dutje in automation + wear.
+
 ## Batch 202 (klaar — code)
 1. Kook-uren: weekdagen 17–19 auto-keuken (wijkt voor pendel/werk/gym/vlucht).
 2. Fiets-hold: 15/30/45 min bike + volume-cap.
