@@ -1,14 +1,15 @@
 # Sounmax — volgende features
 
-## Batch 207 (klaar — code)
-1. Schema-pauze: 1/2/4 u alle auto-uren uit (stopt overlap winkel/studie/museum).
-2. Regen-hold: 20/40/60 min rain + volume-cap + wind-guard.
-3. Wear: cycle_pause + cycle_rain. Ontbrekende cycle_shop/cycle_game nu in WearBridge.
+## Batch 208 (klaar — code)
+1. Automation-digest: één regel met alle actieve holds/uren/dosis.
+2. Dosis-auto-pauze: bij volle dagdosis 2 u schema-pauze (1×/dag).
+3. Regen-hold + schema-pauze nu écht in Wear + Meer-balk.
+4. Wear: cycle_pause / cycle_rain / cycle_dose_pause + ontbrekende shop/game.
 
-## Batch 206 (klaar — code)
-1. Winkel-uren: weekdagen 12–18 auto-winkel (wijkt voor pendel/werk/gym/vlucht).
-2. Game-hold: 30/60/120 min game + volume-cap + ANC uit.
-3. Wear: cycle_shop + cycle_game.
+## Batch 207 (klaar — code)
+1. Schema-pauze: 1/2/4 u alle auto-uren uit.
+2. Regen-hold: 20/40/60 min rain + volume-cap.
+3. Wear: cycle_pause + cycle_rain.
 
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump

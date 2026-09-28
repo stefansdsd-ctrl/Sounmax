@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-09-28 — batch 208)
+- Automation-digest in Meer: alle actieve auto-regels op één regel.
+- Dosis-auto-pauze: volle dagdosis → 2 u schema-pauze.
+- Wear: pauze / regen / dosis-pauze. Shop/game-cyclus aangesloten.
+
 ## Nieuw (2026-09-28 — batch 206)
 - Winkel-uren (weekdagen 12–18, wijkt voor pendel/werk/gym/vlucht).
 - Game-hold 30/60/120 min + volume-cap + ANC uit.
