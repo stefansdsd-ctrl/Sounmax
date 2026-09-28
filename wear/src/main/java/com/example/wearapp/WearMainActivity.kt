@@ -125,6 +125,11 @@ class WearMainActivity : ComponentActivity() {
                             Text(if (status.focus) "Focus ${status.focusLeft}m" else "Focus")
                         }
                     }
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_WORK) } }) { Text("Werk") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_MEETING) } }) { Text("Meet") }
+                        Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_COMMUTE) } }) { Text("Pendel") }
+                    }
                     Button(onClick = { scope.launch { WearClient.send(context, WearPaths.CMD_CYCLE_SPATIAL) } }) {
                         Text(
                             when {
