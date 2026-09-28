@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
+import com.example.data.MeetingHold
+import com.example.data.WorkHours
 import com.example.dsp.HearingCorrection
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
@@ -88,6 +90,9 @@ object SceneAutomation {
             .putString("dose_label", WeeklyDose.label(weekDose))
             .apply()
         QuietHours.enforce(context)
+        com.example.data.CommuteHours.apply(context)
+        WorkHours.apply(context)
+        MeetingHold.apply(context)
         tickListeningDose(prefs)
         maybeAutoSafeVolume(prefs)
         maybeSuggestEarBreak(context, prefs)
@@ -154,6 +159,9 @@ object SceneAutomation {
 class SceneHourlyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         QuietHours.enforce(context)
+        com.example.data.CommuteHours.apply(context)
+        WorkHours.apply(context)
+        MeetingHold.apply(context)
         SceneAutomation.writeSuggested(context)
     }
 }
