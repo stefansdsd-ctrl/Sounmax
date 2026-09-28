@@ -183,8 +183,12 @@ object WearPaths {
     const val CMD_CYCLE_BIKE = "cycle_bike"
     const val CMD_CYCLE_CAFE = "cycle_cafe"
     const val CMD_CYCLE_DRIVE = "cycle_drive"
+    const val CMD_CYCLE_LIBRARY = "cycle_library"
+    const val CMD_CYCLE_TRAIN = "cycle_train"
     const val KEY_COOK_LABEL = "cook_label"
     const val KEY_BIKE_LABEL = "bike_label"
     const val KEY_CAFE_LABEL = "cafe_label"
     const val KEY_DRIVE_LABEL = "drive_label"
+    const val KEY_LIBRARY_LABEL = "library_label"
+    const val KEY_TRAIN_LABEL = "train_label"
 }
