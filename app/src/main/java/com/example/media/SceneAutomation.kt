@@ -10,7 +10,9 @@ import com.example.data.BikeHold
 import com.example.data.CafeHours
 import com.example.data.CookHours
 import com.example.data.DriveHold
+import com.example.data.ConcertHold
 import com.example.data.LibraryHours
+import com.example.data.MuseumHours
 import com.example.data.TrainHold
 import com.example.data.FlightHold
 import com.example.data.NapHold
@@ -121,6 +123,8 @@ object SceneAutomation {
         DriveHold.apply(context)
         LibraryHours.apply(context)
         TrainHold.apply(context)
+        MuseumHours.apply(context)
+        ConcertHold.apply(context)
         tickListeningDose(prefs)
         maybeAutoSafeVolume(prefs)
         maybeSuggestEarBreak(context, prefs)
@@ -204,6 +208,8 @@ class SceneHourlyReceiver : BroadcastReceiver() {
         DriveHold.apply(context)
         LibraryHours.apply(context)
         TrainHold.apply(context)
+        MuseumHours.apply(context)
+        ConcertHold.apply(context)
         SceneAutomation.writeSuggested(context)
     }
 }
