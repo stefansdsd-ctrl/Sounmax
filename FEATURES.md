@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 215 (klaar — code)
+1. ActiveLimitBanner: één zin waarom volume begrensd is (hold > gehoorcap).
+2. FeatureFinder: zoek holds/scenes op trefwoord.
+3. Statusbalk toont actieve limiet i.p.v. alleen laatste scene.
+4. Wear CMD_LIMIT_STATUS.
+
 ## Batch 214 (klaar — code)
 1. ThermalHold: cap volume + BatterySaverDsp bij ≥40°C (of geforceerd).
 2. SceneHoldPriority: ziekenhuis > warmte > lage accu > bedtime.
