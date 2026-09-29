@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 216 (klaar — code)
+1. FeatureFinderBar: zoekveld op home, tap cycle hold.
+2. Laatste zoekquery onthouden.
+3. Catalogus + apply-dispatcher (call/game/cinema/nap/…).
+
 ## Batch 215 (klaar — code)
 1. ActiveLimitBanner: één zin waarom volume begrensd is (hold > gehoorcap).
 2. FeatureFinder: zoek holds/scenes op trefwoord.
