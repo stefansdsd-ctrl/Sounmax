@@ -6,13 +6,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
+import com.example.data.BedtimeFade
 import com.example.data.BikeHold
 import com.example.data.CafeHours
 import com.example.data.CookHours
 import com.example.data.DriveHold
 import com.example.data.ConcertHold
+import com.example.data.HospitalHold
 import com.example.data.LibraryHours
 import com.example.data.MuseumHours
+import com.example.data.SceneHoldPriority
 import com.example.data.ShopHours
 import com.example.data.GameHold
 import com.example.data.TrainHold
@@ -44,6 +47,34 @@ object SceneAutomation {
             scene = RecentScenes.lastReal(prefs) ?: scene
         }
         apply(scene)
+    }
+
+    fun applyHolds(context: Context) {
+        if (SceneHoldPriority.applyExclusive(context)) return
+        QuietHours.enforce(context)
+        com.example.data.CommuteHours.apply(context)
+        WorkHours.apply(context)
+        WeekendHours.apply(context)
+        GymHours.apply(context)
+        FocusHours.apply(context)
+        MeetingHold.apply(context)
+        FlightHold.apply(context)
+        SleepHours.apply(context)
+        NapHold.apply(context)
+        StudyHours.apply(context)
+        WalkHold.apply(context)
+        CookHours.apply(context)
+        BikeHold.apply(context)
+        CafeHours.apply(context)
+        DriveHold.apply(context)
+        LibraryHours.apply(context)
+        TrainHold.apply(context)
+        MuseumHours.apply(context)
+        ConcertHold.apply(context)
+        ShopHours.apply(context)
+        GameHold.apply(context)
+        HospitalHold.apply(context)
+        BedtimeFade.apply(context)
     }
 
     fun writeSuggested(context: Context) {
@@ -107,28 +138,7 @@ object SceneAutomation {
             .putBoolean("pending_widget_scene", true)
             .putString("dose_label", WeeklyDose.label(weekDose))
             .apply()
-        QuietHours.enforce(context)
-        com.example.data.CommuteHours.apply(context)
-        WorkHours.apply(context)
-        WeekendHours.apply(context)
-        GymHours.apply(context)
-        FocusHours.apply(context)
-        MeetingHold.apply(context)
-        FlightHold.apply(context)
-        SleepHours.apply(context)
-        NapHold.apply(context)
-        StudyHours.apply(context)
-        WalkHold.apply(context)
-        CookHours.apply(context)
-        BikeHold.apply(context)
-        CafeHours.apply(context)
-        DriveHold.apply(context)
-        LibraryHours.apply(context)
-        TrainHold.apply(context)
-        MuseumHours.apply(context)
-        ConcertHold.apply(context)
-        ShopHours.apply(context)
-        GameHold.apply(context)
+        applyHolds(context)
         tickListeningDose(prefs)
         maybeAutoSafeVolume(prefs)
         maybeSuggestEarBreak(context, prefs)
@@ -194,28 +204,7 @@ object SceneAutomation {
 
 class SceneHourlyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
-        QuietHours.enforce(context)
-        com.example.data.CommuteHours.apply(context)
-        WorkHours.apply(context)
-        WeekendHours.apply(context)
-        GymHours.apply(context)
-        FocusHours.apply(context)
-        MeetingHold.apply(context)
-        FlightHold.apply(context)
-        SleepHours.apply(context)
-        NapHold.apply(context)
-        StudyHours.apply(context)
-        WalkHold.apply(context)
-        CookHours.apply(context)
-        BikeHold.apply(context)
-        CafeHours.apply(context)
-        DriveHold.apply(context)
-        LibraryHours.apply(context)
-        TrainHold.apply(context)
-        MuseumHours.apply(context)
-        ConcertHold.apply(context)
-        ShopHours.apply(context)
-        GameHold.apply(context)
+        SceneAutomation.applyHolds(context)
         SceneAutomation.writeSuggested(context)
     }
 }
