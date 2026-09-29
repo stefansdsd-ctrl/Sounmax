@@ -1,6 +1,7 @@
 package com.example.wear
 
 import android.content.Context
+import com.example.data.ActiveLimitBanner
 import com.example.data.BedtimeFade
 import com.example.data.BtReconnectRestore
 import com.example.data.HospitalHold
@@ -15,6 +16,7 @@ object WearHoldCommands {
             WearPaths.CMD_CYCLE_LOWBATT -> LowBatteryHold.cycle(context)
             WearPaths.CMD_CYCLE_THERMAL -> ThermalHold.cycle(context)
             WearPaths.CMD_TOGGLE_BT_RESTORE -> BtReconnectRestore.toggle(context)
+            WearPaths.CMD_LIMIT_STATUS -> { /* status only */ }
             else -> return false
         }
         WearBridge.publishStatus(context)

@@ -13,12 +13,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.ActiveLimitBanner
 import com.example.data.LastSceneRestore
 import com.example.data.WeeklyListenReport
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveTextSecondary
 
-/** Compacte status: dosis vandaag, accu, laatste scene. */
+/** Compacte status: dosis vandaag, accu, actieve limiet. */
 @Composable
 fun TodayStatusBar(batteryPercent: Int?) {
     val context = LocalContext.current
@@ -35,6 +36,6 @@ fun TodayStatusBar(batteryPercent: Int?) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text("Vandaag $dose · $bat", color = ImmersiveLavenderAccent, fontSize = 12.sp)
-        Text(last ?: WeeklyListenReport.hint(today), color = ImmersiveTextSecondary, fontSize = 11.sp)
+        Text(ActiveLimitBanner.text(context).take(28), color = ImmersiveTextSecondary, fontSize = 11.sp)
     }
 }
