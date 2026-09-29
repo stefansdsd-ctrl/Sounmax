@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.FeatureFinder
+import com.example.data.HoldSolo
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveSurfaceActive
 import com.example.ui.theme.ImmersiveTextSecondary
@@ -70,6 +71,18 @@ fun FeatureFinderBar() {
                 .padding(top = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
+            FilterChip(
+                selected = HoldSolo.enabled(context),
+                onClick = { status = FeatureFinder.cycle(context, "solo") },
+                label = { Text("Solo", fontSize = 11.sp, maxLines = 1) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                    containerColor = ImmersiveSurfaceActive,
+                    selectedLabelColor = ImmersiveLavenderAccent,
+                    labelColor = ImmersiveTextSecondary
+                ),
+                modifier = Modifier.testTag("feature_hit_solo")
+            )
             FilterChip(
                 selected = false,
                 onClick = { status = FeatureFinder.cycle(context, "panic") },

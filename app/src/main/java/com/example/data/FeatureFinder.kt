@@ -32,6 +32,8 @@ object FeatureFinder {
         Hit("meeting", "Meeting-hold", "spraak"),
         Hit("train", "Trein-hold", "openbaar vervoer"),
         Hit("panic", "Alles uit", "stop alle holds"),
+        Hit("solo", "Solo-hold", "één leefstijl-hold tegelijk"),
+        Hit("why", "Waarom nu", "uitleg suggestie"),
     )
 
     private val aliases = mapOf(
@@ -42,7 +44,13 @@ object FeatureFinder {
         "gesprek" to "call", "bellen" to "call", "film" to "cinema",
         "vliegtuig" to "flight", "ov" to "train", "metro" to "train",
         "stop" to "panic", "uit" to "panic", "reset" to "panic",
-        "accu" to "lowbatt", "batterij" to "lowbatt", "warm" to "thermal"
+        "accu" to "lowbatt", "batterij" to "lowbatt", "warm" to "thermal",
+        "bus" to "train", "tram" to "train", "ns" to "train",
+        "gamen" to "game", "meeting" to "meeting", "vergadering" to "meeting",
+        "dutje" to "nap", "slaapje" to "nap", "concert" to "concert",
+        "solo" to "solo", "één" to "solo", "een" to "solo",
+        "waarom" to "why", "uitleg" to "why", "dosis" to "dose",
+        "eq" to "focus", "equalizer" to "focus"
     )
 
     fun search(query: String): List<Hit> {
@@ -75,31 +83,40 @@ object FeatureFinder {
         "focus" -> FocusHours.label(context)
         "sleep" -> SleepHours.label(context)
         "panic" -> "Alles uit (${HoldPanic.activeCount(context)})"
+        "solo" -> HoldSolo.label(context)
+        "why" -> WhyNow.text(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
-    fun cycle(context: Context, id: String): String = when (id) {
-        "thermal" -> ThermalHold.cycle(context)
-        "hospital" -> HospitalHold.cycle(context)
-        "lowbatt" -> LowBatteryHold.cycle(context)
-        "bedtime" -> BedtimeFade.cycle(context)
-        "bike" -> BikeHold.cycle(context)
-        "drive" -> DriveHold.cycle(context)
-        "rain" -> RainHold.cycle(context)
-        "game" -> GameHold.cycle(context)
-        "cinema" -> CinemaHold.cycle(context)
-        "nap" -> NapHold.cycle(context)
-        "concert" -> ConcertHold.cycle(context)
-        "flight" -> FlightHold.cycle(context)
-        "meeting" -> MeetingHold.cycle(context)
-        "call" -> CallHold.cycle(context)
-        "walk" -> WalkHold.cycle(context)
-        "wind" -> WindHold.cycle(context)
-        "train" -> TrainHold.cycle(context)
-        "focus" -> FocusHours.cycleWindow(context)
-        "sleep" -> SleepHours.cycleWindow(context)
-        "bt" -> BtReconnectRestore.toggle(context).let { BtReconnectRestore.label(context) }
-        "panic" -> HoldPanic.stopAll(context)
-        else -> label(context, id)
+    fun cycle(context: Context, id: String): String {
+        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt") {
+            HoldSolo.prepareStart(context, id)
+        }
+        return when (id) {
+            "thermal" -> ThermalHold.cycle(context)
+            "hospital" -> HospitalHold.cycle(context)
+            "lowbatt" -> LowBatteryHold.cycle(context)
+            "bedtime" -> BedtimeFade.cycle(context)
+            "bike" -> BikeHold.cycle(context)
+            "drive" -> DriveHold.cycle(context)
+            "rain" -> RainHold.cycle(context)
+            "game" -> GameHold.cycle(context)
+            "cinema" -> CinemaHold.cycle(context)
+            "nap" -> NapHold.cycle(context)
+            "concert" -> ConcertHold.cycle(context)
+            "flight" -> FlightHold.cycle(context)
+            "meeting" -> MeetingHold.cycle(context)
+            "call" -> CallHold.cycle(context)
+            "walk" -> WalkHold.cycle(context)
+            "wind" -> WindHold.cycle(context)
+            "train" -> TrainHold.cycle(context)
+            "focus" -> FocusHours.cycleWindow(context)
+            "sleep" -> SleepHours.cycleWindow(context)
+            "bt" -> BtReconnectRestore.toggle(context).let { BtReconnectRestore.label(context) }
+            "panic" -> HoldPanic.stopAll(context)
+            "solo" -> HoldSolo.toggle(context)
+            "why" -> WhyNow.text(context)
+            else -> label(context, id)
+        }
     }
 }
