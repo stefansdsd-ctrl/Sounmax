@@ -34,11 +34,25 @@ object FeatureFinder {
         Hit("panic", "Alles uit", "stop alle holds"),
     )
 
+    private val aliases = mapOf(
+        "wandelen" to "walk", "buiten" to "walk", "lopen" to "walk",
+        "fietsen" to "bike", "auto" to "drive", "rijden" to "drive",
+        "waaien" to "wind", "regenachtig" to "rain", "weer" to "rain",
+        "werk" to "focus", "dnd" to "focus", "nacht" to "sleep", "slaapstand" to "sleep",
+        "gesprek" to "call", "bellen" to "call", "film" to "cinema",
+        "vliegtuig" to "flight", "ov" to "train", "metro" to "train",
+        "stop" to "panic", "uit" to "panic", "reset" to "panic",
+        "accu" to "lowbatt", "batterij" to "lowbatt", "warm" to "thermal"
+    )
+
     fun search(query: String): List<Hit> {
         val q = query.trim().lowercase()
         if (q.isEmpty()) return catalog
+        val aliasId = aliases[q]
+        if (aliasId != null) return catalog.filter { it.id == aliasId }
         return catalog.filter {
-            it.id.contains(q) || it.title.lowercase().contains(q) || it.hint.contains(q)
+            it.id.contains(q) || it.title.lowercase().contains(q) || it.hint.contains(q) ||
+                aliases.any { (k, v) -> v == it.id && k.contains(q) }
         }
     }
 
@@ -55,6 +69,11 @@ object FeatureFinder {
         "lowbatt" -> LowBatteryHold.label(context)
         "bedtime" -> BedtimeFade.label(context)
         "bt" -> BtReconnectRestore.label(context)
+        "walk" -> WalkHold.label(context)
+        "wind" -> WindHold.label(context)
+        "train" -> TrainHold.label(context)
+        "focus" -> FocusHours.label(context)
+        "sleep" -> SleepHours.label(context)
         "panic" -> "Alles uit (${HoldPanic.activeCount(context)})"
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
