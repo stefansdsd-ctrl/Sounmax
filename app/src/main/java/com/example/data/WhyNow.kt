@@ -1,0 +1,27 @@
+package com.example.data
+
+import android.content.Context
+import java.util.Calendar
+
+/** Uitleg waarom de app nu deze scene/hold voorstelt. */
+object WhyNow {
+    fun text(context: Context): String {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val winner = SceneHoldPriority.label(context)
+        val holds = HoldPanic.activeList(context).joinToString("+") { it.name }
+        val scene = LastSceneRestore.scene(context)?.name
+        val today = WeeklyListenReport.last7Days(context).lastOrNull()?.minutes ?: 0
+        val dose = WeeklyListenReport.hint(today)
+        val slot = when (hour) {
+            in 6..8 -> "ochtend-pendel"
+            in 9..11 -> "focus-blok"
+            in 12..13 -> "pauze"
+            in 14..17 -> "middag"
+            in 18..21 -> "avond"
+            else -> "nacht / rust"
+        }
+        val sceneBit = scene?.let { "laatst $it" } ?: "geen scene"
+        val holdBit = if (holds.isBlank()) winner else holds
+        return "$slot · $holdBit · $sceneBit · $dose"
+    }
+}

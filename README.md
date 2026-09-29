@@ -3,10 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-29 — batch 218)
-- Actieve-holds-balk: tik een chip om één hold te stoppen.
-- Morning briefing op home (dosis + holds + scene + accu).
-- Zoek-aliassen: wandelen, auto, ov, gesprek, stop, accu, …
+## Nieuw (2026-09-29 — batch 219)
+- Solo-hold: start je wandel/rit/trein, dan stoppen andere leefstijl-holds.
+- Waarom-nu balk: tijdslot, actieve hold, laatste scene, dosis.
+- Zoek-aliassen: bus, tram, gamen, vergadering, waarom, solo.
 
 ## Volgende
 - Auto-ANC + codec-probe veldtest
