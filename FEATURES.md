@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 221 (klaar — code)
+1. QuickSafe: reset + HearingGuard hard-cap 70%.
+2. FeatureFinderBar-chip “Veilig”.
+3. Zoek-aliassen: veilig, oorpauze, gehoor, cap, bescherm.
+
 ## Batch 220 (klaar — code)
 1. AudioReset: één tik stopt holds (via WhyNow-balk of zoek “reset”).
 2. NextHint: toont het volgende tijdslot + wachttijd.

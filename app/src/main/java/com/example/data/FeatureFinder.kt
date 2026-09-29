@@ -36,6 +36,7 @@ object FeatureFinder {
         Hit("why", "Waarom nu", "uitleg suggestie"),
         Hit("reset", "Audio-reset", "holds uit, keten schoon"),
         Hit("next", "Volgende slot", "wat komt erna"),
+        Hit("safe", "Veilig", "reset + hard gehoorcap 70%"),
     )
 
     private val aliases = mapOf(
@@ -53,7 +54,9 @@ object FeatureFinder {
         "solo" to "solo", "één" to "solo", "een" to "solo",
         "waarom" to "why", "uitleg" to "why", "dosis" to "dose",
         "schoon" to "reset", "resetten" to "reset", "volgende" to "next", "straks" to "next",
-        "eq" to "focus", "equalizer" to "focus"
+        "eq" to "focus", "equalizer" to "focus",
+        "veilig" to "safe", "safety" to "safe", "oorpauze" to "safe",
+        "gehoor" to "safe", "cap" to "safe", "bescherm" to "safe"
     )
 
     fun search(query: String): List<Hit> {
@@ -90,11 +93,12 @@ object FeatureFinder {
         "why" -> WhyNow.text(context)
         "reset" -> AudioReset.label(context)
         "next" -> NextHint.short()
+        "safe" -> QuickSafe.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
     fun cycle(context: Context, id: String): String {
-        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next") {
+        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe") {
             HoldSolo.prepareStart(context, id)
         }
         return when (id) {
@@ -123,6 +127,7 @@ object FeatureFinder {
             "why" -> WhyNow.text(context)
             "reset" -> AudioReset.run(context)
             "next" -> NextHint.short()
+            "safe" -> QuickSafe.run(context)
             else -> label(context, id)
         }
     }
