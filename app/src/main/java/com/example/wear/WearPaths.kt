@@ -128,6 +128,7 @@ object WearPaths {
     const val CMD_CYCLE_CALL = "cycle_call"
     const val CMD_CYCLE_HOSPITAL = "cycle_hospital"
     const val CMD_CYCLE_BEDTIME = "cycle_bedtime"
+    const val CMD_CYCLE_LOWBATT = "cycle_lowbatt"
     const val KEY_COOK_LABEL = "cook_label"
     const val KEY_BIKE_LABEL = "bike_label"
     const val KEY_CAFE_LABEL = "cafe_label"
@@ -145,4 +146,5 @@ object WearPaths {
     const val KEY_CALL_LABEL = "call_label"
     const val KEY_HOSPITAL_LABEL = "hospital_label"
     const val KEY_BEDTIME_LABEL = "bedtime_label"
+    const val KEY_LOWBATT_LABEL = "lowbatt_label"
 }
