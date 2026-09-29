@@ -30,6 +30,8 @@ object FeatureFinder {
         Hit("concert", "Concert-hold", "piekbeveiliging"),
         Hit("flight", "Vlucht-hold", "druk + ANC"),
         Hit("meeting", "Meeting-hold", "spraak"),
+        Hit("train", "Trein-hold", "openbaar vervoer"),
+        Hit("panic", "Alles uit", "stop alle holds"),
     )
 
     fun search(query: String): List<Hit> {
@@ -53,6 +55,7 @@ object FeatureFinder {
         "lowbatt" -> LowBatteryHold.label(context)
         "bedtime" -> BedtimeFade.label(context)
         "bt" -> BtReconnectRestore.label(context)
+        "panic" -> "Alles uit (${HoldPanic.activeCount(context)})"
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -61,7 +64,6 @@ object FeatureFinder {
         "hospital" -> HospitalHold.cycle(context)
         "lowbatt" -> LowBatteryHold.cycle(context)
         "bedtime" -> BedtimeFade.cycle(context)
-        "bt" -> BtReconnectRestore.cycle(context)
         "bike" -> BikeHold.cycle(context)
         "drive" -> DriveHold.cycle(context)
         "rain" -> RainHold.cycle(context)
@@ -72,6 +74,13 @@ object FeatureFinder {
         "flight" -> FlightHold.cycle(context)
         "meeting" -> MeetingHold.cycle(context)
         "call" -> CallHold.cycle(context)
+        "walk" -> WalkHold.cycle(context)
+        "wind" -> WindHold.cycle(context)
+        "train" -> TrainHold.cycle(context)
+        "focus" -> FocusHours.cycleWindow(context)
+        "sleep" -> SleepHours.cycleWindow(context)
+        "bt" -> BtReconnectRestore.toggle(context).let { BtReconnectRestore.label(context) }
+        "panic" -> HoldPanic.stopAll(context)
         else -> label(context, id)
     }
 }

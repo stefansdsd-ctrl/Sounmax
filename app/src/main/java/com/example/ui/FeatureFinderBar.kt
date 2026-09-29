@@ -70,7 +70,17 @@ fun FeatureFinderBar() {
                 .padding(top = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            hits.take(8).forEach { hit ->
+            FilterChip(
+                selected = false,
+                onClick = { status = FeatureFinder.cycle(context, "panic") },
+                label = { Text("Alles uit", fontSize = 11.sp, maxLines = 1) },
+                colors = FilterChipDefaults.filterChipColors(
+                    containerColor = ImmersiveSurfaceActive,
+                    labelColor = ImmersiveLavenderAccent
+                ),
+                modifier = Modifier.testTag("feature_hit_panic")
+            )
+            hits.filter { it.id != "panic" }.take(8).forEach { hit ->
                 FilterChip(
                     selected = false,
                     onClick = { status = FeatureFinder.cycle(context, hit.id) },
