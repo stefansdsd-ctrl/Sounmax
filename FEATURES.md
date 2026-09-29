@@ -1,9 +1,9 @@
 # Sounmax — volgende features
 
-## Batch 212 (klaar — code)
-1. SceneHoldPriority: ziekenhuis > bedtime > overige holds.
-2. SceneAutomation past HospitalHold + BedtimeFade elk uur toe (exclusief als een van beide actief is).
-3. Wear CMD_CYCLE_HOSPITAL / CMD_CYCLE_BEDTIME.
+## Batch 213 (klaar — code)
+1. LowBatteryHold: cap volume + BatterySaverDsp bij ≤15% (of geforceerd).
+2. SceneHoldPriority: ziekenhuis > lage accu > bedtime.
+3. Wear CMD_CYCLE_LOWBATT.
 
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump
