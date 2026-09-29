@@ -22,6 +22,7 @@ object WhyNow {
         }
         val sceneBit = scene?.let { "laatst $it" } ?: "geen scene"
         val holdBit = if (holds.isBlank()) winner else holds
-        return "$slot · $holdBit · $sceneBit · $dose"
+        val next = NextHint.short()
+        return "$slot · $holdBit · $sceneBit · $dose · $next"
     }
 }

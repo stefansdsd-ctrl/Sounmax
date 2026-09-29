@@ -34,6 +34,8 @@ object FeatureFinder {
         Hit("panic", "Alles uit", "stop alle holds"),
         Hit("solo", "Solo-hold", "één leefstijl-hold tegelijk"),
         Hit("why", "Waarom nu", "uitleg suggestie"),
+        Hit("reset", "Audio-reset", "holds uit, keten schoon"),
+        Hit("next", "Volgende slot", "wat komt erna"),
     )
 
     private val aliases = mapOf(
@@ -43,13 +45,14 @@ object FeatureFinder {
         "werk" to "focus", "dnd" to "focus", "nacht" to "sleep", "slaapstand" to "sleep",
         "gesprek" to "call", "bellen" to "call", "film" to "cinema",
         "vliegtuig" to "flight", "ov" to "train", "metro" to "train",
-        "stop" to "panic", "uit" to "panic", "reset" to "panic",
+        "stop" to "panic", "uit" to "panic", "reset" to "reset",
         "accu" to "lowbatt", "batterij" to "lowbatt", "warm" to "thermal",
         "bus" to "train", "tram" to "train", "ns" to "train",
         "gamen" to "game", "meeting" to "meeting", "vergadering" to "meeting",
         "dutje" to "nap", "slaapje" to "nap", "concert" to "concert",
         "solo" to "solo", "één" to "solo", "een" to "solo",
         "waarom" to "why", "uitleg" to "why", "dosis" to "dose",
+        "schoon" to "reset", "resetten" to "reset", "volgende" to "next", "straks" to "next",
         "eq" to "focus", "equalizer" to "focus"
     )
 
@@ -85,11 +88,13 @@ object FeatureFinder {
         "panic" -> "Alles uit (${HoldPanic.activeCount(context)})"
         "solo" -> HoldSolo.label(context)
         "why" -> WhyNow.text(context)
+        "reset" -> AudioReset.label(context)
+        "next" -> NextHint.short()
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
     fun cycle(context: Context, id: String): String {
-        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt") {
+        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next") {
             HoldSolo.prepareStart(context, id)
         }
         return when (id) {
@@ -116,6 +121,8 @@ object FeatureFinder {
             "panic" -> HoldPanic.stopAll(context)
             "solo" -> HoldSolo.toggle(context)
             "why" -> WhyNow.text(context)
+            "reset" -> AudioReset.run(context)
+            "next" -> NextHint.short()
             else -> label(context, id)
         }
     }
