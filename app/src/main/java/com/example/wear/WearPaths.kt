@@ -131,6 +131,7 @@ object WearPaths {
     const val CMD_CYCLE_LOWBATT = "cycle_lowbatt"
     const val CMD_CYCLE_THERMAL = "cycle_thermal"
     const val CMD_TOGGLE_BT_RESTORE = "toggle_bt_restore"
+    const val CMD_LIMIT_STATUS = "limit_status"
     const val KEY_COOK_LABEL = "cook_label"
     const val KEY_BIKE_LABEL = "bike_label"
     const val KEY_CAFE_LABEL = "cafe_label"
@@ -151,4 +152,5 @@ object WearPaths {
     const val KEY_LOWBATT_LABEL = "lowbatt_label"
     const val KEY_THERMAL_LABEL = "thermal_label"
     const val KEY_BT_RESTORE_LABEL = "bt_restore_label"
+    const val KEY_LIMIT_LABEL = "limit_label"
 }
