@@ -7,6 +7,7 @@ class WearCommandListener : WearableListenerService() {
     override fun onMessageReceived(event: MessageEvent) {
         if (event.path != WearPaths.CMD) return
         val cmd = event.data.toString(Charsets.UTF_8)
+        if (WearHoldCommands.tryHandle(applicationContext, cmd)) return
         if (!WearEqHook.tryHandle(applicationContext, cmd)) {
             WearBridge.handleCommand(applicationContext, cmd)
         } else {
