@@ -148,6 +148,7 @@ fun SoundMaxApp(
             ListeningScenesBar(sceneController = sceneController)
             TodayStatusBar(batteryPercent = headsetStatus.batteryPercent)
             FeatureFinderBar()
+            ActiveHoldsBar()
             LdacStatusBar(sceneController = sceneController)
             SmartSuggestBar(sceneController = sceneController)
             RecentScenesBar(sceneController = sceneController)
