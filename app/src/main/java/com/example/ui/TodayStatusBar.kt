@@ -14,8 +14,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.ActiveLimitBanner
-import com.example.data.LastSceneRestore
-import com.example.data.WeeklyListenReport
+import com.example.data.MorningBriefing
 import com.example.ui.theme.ImmersiveLavenderAccent
 import com.example.ui.theme.ImmersiveTextSecondary
 
@@ -23,10 +22,7 @@ import com.example.ui.theme.ImmersiveTextSecondary
 @Composable
 fun TodayStatusBar(batteryPercent: Int?) {
     val context = LocalContext.current
-    val today = remember { WeeklyListenReport.last7Days(context).lastOrNull()?.minutes ?: 0 }
-    val last = remember { LastSceneRestore.label(context) }
-    val bat = batteryPercent?.let { "accu $it%" } ?: "accu —"
-    val dose = if (today > 0) "${today} min" else "0 min"
+    val brief = remember(batteryPercent) { MorningBriefing.text(context, batteryPercent) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,7 +31,7 @@ fun TodayStatusBar(batteryPercent: Int?) {
             .clickable { },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("Vandaag $dose · $bat", color = ImmersiveLavenderAccent, fontSize = 12.sp)
-        Text(ActiveLimitBanner.text(context).take(28), color = ImmersiveTextSecondary, fontSize = 11.sp)
+        Text(brief, color = ImmersiveLavenderAccent, fontSize = 12.sp, maxLines = 1)
+        Text(ActiveLimitBanner.text(context).take(18), color = ImmersiveTextSecondary, fontSize = 11.sp, maxLines = 1)
     }
 }

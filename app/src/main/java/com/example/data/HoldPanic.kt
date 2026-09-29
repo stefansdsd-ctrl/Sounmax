@@ -33,23 +33,56 @@ object HoldPanic {
         else "Gestopt: ${stopped.joinToString(", ")}"
     }
 
-    fun activeCount(context: Context): Int = listOf(
-        HospitalHold.active(context),
-        ThermalHold.active(context),
-        LowBatteryHold.active(context),
-        BedtimeFade.active(context),
-        CallHold.active(context),
-        GameHold.active(context),
-        CinemaHold.active(context),
-        NapHold.active(context),
-        ConcertHold.active(context),
-        FlightHold.active(context),
-        MeetingHold.active(context),
-        BikeHold.active(context),
-        DriveHold.active(context),
-        RainHold.active(context),
-        WalkHold.active(context),
-        WindHold.active(context),
-        TrainHold.active(context),
-    ).count { it }
+    data class Item(val id: String, val name: String)
+
+    private fun registry(context: Context): List<Triple<String, String, () -> Boolean>> = listOf(
+        Triple("hospital", "ziekenhuis", { HospitalHold.active(context) }),
+        Triple("thermal", "warmte", { ThermalHold.active(context) }),
+        Triple("lowbatt", "lage accu", { LowBatteryHold.active(context) }),
+        Triple("bedtime", "bedtime", { BedtimeFade.active(context) }),
+        Triple("call", "bel", { CallHold.active(context) }),
+        Triple("game", "game", { GameHold.active(context) }),
+        Triple("cinema", "cinema", { CinemaHold.active(context) }),
+        Triple("nap", "dutje", { NapHold.active(context) }),
+        Triple("concert", "concert", { ConcertHold.active(context) }),
+        Triple("flight", "vlucht", { FlightHold.active(context) }),
+        Triple("meeting", "meeting", { MeetingHold.active(context) }),
+        Triple("bike", "fiets", { BikeHold.active(context) }),
+        Triple("drive", "rit", { DriveHold.active(context) }),
+        Triple("rain", "regen", { RainHold.active(context) }),
+        Triple("walk", "wandel", { WalkHold.active(context) }),
+        Triple("wind", "wind", { WindHold.active(context) }),
+        Triple("train", "trein", { TrainHold.active(context) }),
+    )
+
+    fun activeList(context: Context): List<Item> =
+        registry(context).mapNotNull { (id, name, check) ->
+            if (check()) Item(id, name) else null
+        }
+
+    fun activeCount(context: Context): Int = activeList(context).size
+
+    fun stopOne(context: Context, id: String): String {
+        when (id) {
+            "hospital" -> HospitalHold.stop(context)
+            "thermal" -> ThermalHold.stop(context)
+            "lowbatt" -> LowBatteryHold.stop(context)
+            "bedtime" -> BedtimeFade.stop(context)
+            "call" -> CallHold.stop(context)
+            "game" -> GameHold.stop(context)
+            "cinema" -> CinemaHold.stop(context)
+            "nap" -> NapHold.stop(context)
+            "concert" -> ConcertHold.stop(context)
+            "flight" -> FlightHold.stop(context)
+            "meeting" -> MeetingHold.stop(context)
+            "bike" -> BikeHold.stop(context)
+            "drive" -> DriveHold.stop(context)
+            "rain" -> RainHold.stop(context)
+            "walk" -> WalkHold.stop(context)
+            "wind" -> WindHold.stop(context)
+            "train" -> TrainHold.stop(context)
+            else -> return "Onbekend"
+        }
+        return "Gestopt: $id"
+    }
 }
