@@ -24,6 +24,7 @@ object FeatureFinder {
         Hit("focus", "Focus", "DND + EQ"),
         Hit("sleep", "Slaap", "timer + fade"),
         Hit("call", "Bel-hold", "transparantie tijdens gesprek"),
+        Hit("talk", "Gesprek", "2 min volume 35%"),
         Hit("game", "Game-hold", "lage latency"),
         Hit("cinema", "Cinema-hold", "film + dynamiek"),
         Hit("nap", "Dutje-hold", "kort slaap"),
@@ -45,7 +46,8 @@ object FeatureFinder {
         "fietsen" to "bike", "auto" to "drive", "rijden" to "drive",
         "waaien" to "wind", "regenachtig" to "rain", "weer" to "rain",
         "werk" to "focus", "dnd" to "focus", "nacht" to "sleep", "slaapstand" to "sleep",
-        "gesprek" to "call", "bellen" to "call", "film" to "cinema",
+        "gesprek" to "talk", "praten" to "talk", "praat" to "talk", "talk" to "talk",
+        "bellen" to "call", "film" to "cinema",
         "vliegtuig" to "flight", "ov" to "train", "metro" to "train",
         "stop" to "panic", "uit" to "panic", "reset" to "reset",
         "accu" to "lowbatt", "batterij" to "lowbatt", "warm" to "thermal",
@@ -97,11 +99,12 @@ object FeatureFinder {
         "next" -> NextHint.short()
         "safe" -> QuickSafe.label(context)
         "ear" -> EarRest.label(context)
+        "talk" -> TalkSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
     fun cycle(context: Context, id: String): String {
-        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe" && id != "ear") {
+        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe" && id != "ear" && id != "talk") {
             HoldSolo.prepareStart(context, id)
         }
         return when (id) {
@@ -132,6 +135,7 @@ object FeatureFinder {
             "next" -> NextHint.short()
             "safe" -> QuickSafe.run(context)
             "ear" -> EarRest.cycle(context)
+            "talk" -> TalkSoft.cycle(context)
             else -> label(context, id)
         }
     }

@@ -7,6 +7,7 @@ import java.util.Calendar
 object WhyNow {
     fun text(context: Context): String {
         EarRest.apply(context)
+        TalkSoft.apply(context)
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val winner = SceneHoldPriority.label(context)
         val holds = HoldPanic.activeList(context).joinToString("+") { it.name }
@@ -25,7 +26,8 @@ object WhyNow {
         val holdBit = if (holds.isBlank()) winner else holds
         val next = NextHint.short()
         val ear = if (EarRest.enabled(context)) EarRest.label(context) else null
-        val bits = listOfNotNull("$slot · $holdBit · $sceneBit · $dose · $next", ear)
+        val talk = if (TalkSoft.active(context)) TalkSoft.label(context) else null
+        val bits = listOfNotNull("$slot · $holdBit · $sceneBit · $dose · $next", ear, talk)
         return bits.joinToString(" · ")
     }
 }
