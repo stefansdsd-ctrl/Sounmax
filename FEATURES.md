@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 222 (klaar — code)
+1. EarRest: 45 min luisteren → 5 min schema-pauze.
+2. FeatureFinder-chip “Oorpauze” + aliassen pauze/rust/oor/break.
+3. WhyNow tikt EarRest mee.
+
 ## Batch 221 (klaar — code)
 1. QuickSafe: reset + HearingGuard hard-cap 70%.
 2. FeatureFinderBar-chip “Veilig”.

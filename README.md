@@ -3,10 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-29 — batch 221)
-- Veilig-modus: één tik reset holds + hard gehoorcap 70%.
-- Chip “Veilig” naast Solo/Alles uit.
-- Zoek: veilig, oorpauze, gehoor, cap, bescherm.
+## Nieuw (2026-09-30 — batch 222)
+- Oorpauze: 45 min luisteren → 5 min stil.
+- Zoek: oorpauze, pauze, rust, oor, break.
+- WhyNow toont resterende minuten.
 
 ## Volgende
 - Auto-ANC + codec-probe veldtest
