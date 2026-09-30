@@ -1,34 +1,15 @@
 # Sounmax — volgende features
 
+## Batch 227 (klaar — code)
+1. OfflineGuard: echte ConnectivityManager (wifi/mobiel/validated).
+2. Chip “Net” + aliassen net/offline/wifi/internet/mobiel.
+3. AI-tuner toont lokale fallback als er geen net is of offline-modus aan staat.
+4. WhyNow toont actuele net-status.
+
 ## Batch 226 (klaar — code)
 1. FindBeep: 8 s STREAM_MUSIC-piep + telefoontrilling.
 2. FeatureFinder-chip “Zoek” + aliassen zoek/piep/find/beep/headset.
 3. WhyNow tikt FindBeep mee.
-
-## Batch 225 (klaar — code)
-1. StreetListen: 25 s muziek → 15%, daarna herstel.
-2. FeatureFinder-chip “Straat” + aliassen straat/oversteken/zebrapad/kruisen.
-3. WhyNow tikt StreetListen mee.
-
-## Batch 224 (klaar — code)
-1. DoorListen: 90 s muziek → 20%, daarna herstel.
-2. FeatureFinder-chip “Deur” + aliassen deur/bel/klingel/doorbell.
-3. WhyNow tikt DoorListen mee.
-
-## Batch 223 (klaar — code)
-1. TalkSoft: 2 min gesprek → muziek 35%, daarna herstel.
-2. FeatureFinder-chip “Gesprek” + aliassen gesprek/praten/praat/talk.
-3. WhyNow tikt TalkSoft mee.
-
-## Batch 222 (klaar — code)
-1. EarRest: 45 min luisteren → 5 min schema-pauze.
-2. FeatureFinder-chip “Oorpauze” + aliassen pauze/rust/oor/break.
-3. WhyNow tikt EarRest mee.
-
-## Batch 221 (klaar — code)
-1. QuickSafe: reset + HearingGuard hard-cap 70%.
-2. FeatureFinderBar-chip “Veilig”.
-3. Zoek-aliassen: veilig, oorpauze, gehoor, cap, bescherm.
 
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump

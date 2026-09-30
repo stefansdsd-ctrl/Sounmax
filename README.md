@@ -3,10 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
-## Nieuw (2026-09-30 — batch 226)
-- Zoekpiep: 8 s piep via Bluetooth-muziek + trilling.
-- Chip “Zoek” + aliassen zoek/piep/find/beep/headset.
-- WhyNow toont resterende seconden.
+## Nieuw (2026-09-30 — batch 227)
+- Net-chip: echte wifi/mobiel-check via ConnectivityManager.
+- Offline-modus: tik Net om cloud-AI over te slaan.
+- WhyNow toont net-status.
 
 ## Volgende
 - Auto-ANC + codec-probe veldtest
