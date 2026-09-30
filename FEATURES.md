@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 225 (klaar — code)
+1. StreetListen: 25 s muziek → 15%, daarna herstel.
+2. FeatureFinder-chip “Straat” + aliassen straat/oversteken/zebrapad/kruisen.
+3. WhyNow tikt StreetListen mee.
+
 ## Batch 224 (klaar — code)
 1. DoorListen: 90 s muziek → 20%, daarna herstel.
 2. FeatureFinder-chip “Deur” + aliassen deur/bel/klingel/doorbell.

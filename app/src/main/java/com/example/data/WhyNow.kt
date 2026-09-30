@@ -9,6 +9,7 @@ object WhyNow {
         EarRest.apply(context)
         TalkSoft.apply(context)
         DoorListen.apply(context)
+        StreetListen.apply(context)
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val winner = SceneHoldPriority.label(context)
         val holds = HoldPanic.activeList(context).joinToString("+") { it.name }
@@ -29,7 +30,8 @@ object WhyNow {
         val ear = if (EarRest.enabled(context)) EarRest.label(context) else null
         val talk = if (TalkSoft.active(context)) TalkSoft.label(context) else null
         val door = if (DoorListen.active(context)) DoorListen.label(context) else null
-        val bits = listOfNotNull("$slot · $holdBit · $sceneBit · $dose · $next", ear, talk, door)
+        val street = if (StreetListen.active(context)) StreetListen.label(context) else null
+        val bits = listOfNotNull("$slot · $holdBit · $sceneBit · $dose · $next", ear, talk, door, street)
         return bits.joinToString(" · ")
     }
 }
