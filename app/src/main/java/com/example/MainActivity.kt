@@ -32,6 +32,7 @@ import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
 import com.example.data.CrashLog
 import com.example.data.NightlyBackup
+import com.example.data.PocketGuard
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -41,6 +42,8 @@ class MainActivity : ComponentActivity() {
         CrashLog.install(this)
         handleSceneIntent(intent)
         NightlyBackup.schedule(this)
+        PocketGuard.ensure(this)
+        PocketGuard.rememberVolume(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
