@@ -27,6 +27,7 @@ object FeatureFinder {
         Hit("talk", "Gesprek", "2 min volume 35%"),
         Hit("door", "Deur", "90 s volume 20%"),
         Hit("street", "Straat", "25 s volume 15%"),
+        Hit("find", "Zoekpiep", "8 s piep + trilling"),
         Hit("game", "Game-hold", "lage latency"),
         Hit("cinema", "Cinema-hold", "film + dynamiek"),
         Hit("nap", "Dutje-hold", "kort slaap"),
@@ -51,6 +52,8 @@ object FeatureFinder {
         "gesprek" to "talk", "praten" to "talk", "praat" to "talk", "talk" to "talk",
         "deur" to "door", "bel" to "door", "klingel" to "door", "doorbell" to "door",
         "straat" to "street", "oversteken" to "street", "zebrapad" to "street", "kruisen" to "street",
+        "zoek" to "find", "piep" to "find", "find" to "find", "beep" to "find", "zoeken" to "find",
+        "koptelefoon" to "find", "headset" to "find",
         "bellen" to "call", "film" to "cinema",
         "vliegtuig" to "flight", "ov" to "train", "metro" to "train",
         "stop" to "panic", "uit" to "panic", "reset" to "reset",
@@ -106,11 +109,12 @@ object FeatureFinder {
         "talk" -> TalkSoft.label(context)
         "door" -> DoorListen.label(context)
         "street" -> StreetListen.label(context)
+        "find" -> FindBeep.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
     fun cycle(context: Context, id: String): String {
-        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe" && id != "ear" && id != "talk" && id != "door" && id != "street") {
+        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe" && id != "ear" && id != "talk" && id != "door" && id != "street" && id != "find") {
             HoldSolo.prepareStart(context, id)
         }
         return when (id) {
@@ -144,6 +148,7 @@ object FeatureFinder {
             "talk" -> TalkSoft.cycle(context)
             "door" -> DoorListen.cycle(context)
             "street" -> StreetListen.cycle(context)
+            "find" -> FindBeep.cycle(context)
             else -> label(context, id)
         }
     }
