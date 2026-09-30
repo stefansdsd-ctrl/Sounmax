@@ -47,6 +47,7 @@ object FeatureFinder {
         Hit("ear", "Oorpauze", "45 min luisteren → 5 min stil"),
         Hit("duck", "Meld-duck", "8 s volume 40% bij melding"),
         Hit("pocket", "Zak-guard", "proximity sluit volume-omhoog"),
+        Hit("shake", "Schud-aware", "schud → 12 s volume 25%"),
     )
 
     private val aliases = mapOf(
@@ -77,12 +78,13 @@ object FeatureFinder {
         "transparantie" to "hear", "transparency" to "hear", "spraakmodus" to "hear",
         "compact" to "slim", "slim" to "slim", "catalogus" to "slim", "scenes" to "slim",
         "duck" to "duck", "melding" to "duck", "notificatie" to "duck",
-        "zak" to "pocket", "pocket" to "pocket", "broekzak" to "pocket"
+        "zak" to "pocket", "pocket" to "pocket", "broekzak" to "pocket",
+        "schud" to "shake", "shake" to "shake", "schudden" to "shake", "omgeving" to "shake"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
-        "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket"
+        "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake"
     )
 
     fun search(query: String): List<Hit> {
@@ -130,6 +132,7 @@ object FeatureFinder {
         "slim" -> HiddenScenes.chipLabel(context)
         "duck" -> NotifyDuck.label(context)
         "pocket" -> PocketGuard.label(context)
+        "shake" -> ShakeAware.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -177,6 +180,7 @@ object FeatureFinder {
             }
             "duck" -> NotifyDuck.cycle(context)
             "pocket" -> PocketGuard.cycle(context)
+            "shake" -> ShakeAware.cycle(context)
             else -> label(context, id)
         }
     }

@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 230 (klaar — code)
+1. ShakeAware: schud telefoon → 12 s muziek naar 25% (chip Schud).
+2. Negeert schudden in de zak + tijdens deur/straat/talk.
+3. WhyNow toont actieve schud-status.
+
 ## Batch 229 (klaar — code)
 1. NotifyDuck: 8 s muziek naar 40% bij nieuwe melding (chip Duck).
 2. PocketGuard: proximity-sensor sluit volume-omhoog in de zak (chip Zak).

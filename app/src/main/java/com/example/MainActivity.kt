@@ -33,6 +33,7 @@ import com.example.widget.SoundMaxWidget
 import com.example.data.CrashLog
 import com.example.data.NightlyBackup
 import com.example.data.PocketGuard
+import com.example.data.ShakeAware
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -44,6 +45,7 @@ class MainActivity : ComponentActivity() {
         NightlyBackup.schedule(this)
         PocketGuard.ensure(this)
         PocketGuard.rememberVolume(this)
+        ShakeAware.ensure(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
@@ -142,6 +144,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         volumeCycler?.stop()
+        ShakeAware.release(this)
         super.onDestroy()
     }
 }

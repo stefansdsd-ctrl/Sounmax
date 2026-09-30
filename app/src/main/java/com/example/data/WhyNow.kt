@@ -13,6 +13,8 @@ object WhyNow {
         FindBeep.apply(context)
         CallTransparency.apply(context)
         NotifyDuck.apply(context)
+        ShakeAware.apply(context)
+        ShakeAware.ensure(context)
         PocketGuard.ensure(context)
         PocketGuard.clampUp(context)
         HiddenScenes.maybeAutoSlim(context)
@@ -43,9 +45,10 @@ object WhyNow {
         val hear = if (CallTransparency.isOn(context)) CallTransparency.label(context) else null
         val duck = if (NotifyDuck.active(context)) NotifyDuck.label(context) else null
         val pocket = if (PocketGuard.enabled(context) && PocketGuard.isPocketed()) PocketGuard.label(context) else null
+        val shake = if (ShakeAware.active(context)) ShakeAware.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket
+            ear, talk, door, street, find, hear, duck, pocket, shake
         )
         return bits.joinToString(" · ")
     }
