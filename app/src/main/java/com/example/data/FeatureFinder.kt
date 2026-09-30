@@ -45,6 +45,8 @@ object FeatureFinder {
         Hit("next", "Volgende slot", "wat komt erna"),
         Hit("safe", "Veilig", "reset + hard gehoorcap 70%"),
         Hit("ear", "Oorpauze", "45 min luisteren → 5 min stil"),
+        Hit("duck", "Meld-duck", "8 s volume 40% bij melding"),
+        Hit("pocket", "Zak-guard", "proximity sluit volume-omhoog"),
     )
 
     private val aliases = mapOf(
@@ -73,12 +75,14 @@ object FeatureFinder {
         "pauze" to "ear", "rust" to "ear", "oor" to "ear", "break" to "ear",
         "ldac" to "codec", "aac" to "codec", "sbc" to "codec", "aptx" to "codec", "codec" to "codec",
         "transparantie" to "hear", "transparency" to "hear", "spraakmodus" to "hear",
-        "compact" to "slim", "slim" to "slim", "catalogus" to "slim", "scenes" to "slim"
+        "compact" to "slim", "slim" to "slim", "catalogus" to "slim", "scenes" to "slim",
+        "duck" to "duck", "melding" to "duck", "notificatie" to "duck",
+        "zak" to "pocket", "pocket" to "pocket", "broekzak" to "pocket"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
-        "talk", "door", "street", "find", "codec", "hear", "slim"
+        "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket"
     )
 
     fun search(query: String): List<Hit> {
@@ -124,6 +128,8 @@ object FeatureFinder {
         "codec" -> CodecProbe.label(context)
         "hear" -> CallTransparency.label(context)
         "slim" -> HiddenScenes.chipLabel(context)
+        "duck" -> NotifyDuck.label(context)
+        "pocket" -> PocketGuard.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -169,6 +175,8 @@ object FeatureFinder {
                 HiddenScenes.toggleAutoSlim(context)
                 HiddenScenes.chipLabel(context)
             }
+            "duck" -> NotifyDuck.cycle(context)
+            "pocket" -> PocketGuard.cycle(context)
             else -> label(context, id)
         }
     }
