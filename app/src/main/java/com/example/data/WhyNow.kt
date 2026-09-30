@@ -10,6 +10,7 @@ object WhyNow {
         TalkSoft.apply(context)
         DoorListen.apply(context)
         StreetListen.apply(context)
+        FindBeep.apply(context)
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val winner = SceneHoldPriority.label(context)
         val holds = HoldPanic.activeList(context).joinToString("+") { it.name }
@@ -31,7 +32,8 @@ object WhyNow {
         val talk = if (TalkSoft.active(context)) TalkSoft.label(context) else null
         val door = if (DoorListen.active(context)) DoorListen.label(context) else null
         val street = if (StreetListen.active(context)) StreetListen.label(context) else null
-        val bits = listOfNotNull("$slot · $holdBit · $sceneBit · $dose · $next", ear, talk, door, street)
+        val find = if (FindBeep.active(context)) FindBeep.label(context) else null
+        val bits = listOfNotNull("$slot · $holdBit · $sceneBit · $dose · $next", ear, talk, door, street, find)
         return bits.joinToString(" · ")
     }
 }
