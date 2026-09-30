@@ -2,6 +2,7 @@ package com.example.media
 
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import com.example.data.NotifyDuck
 
 /**
  * Now-playing toegang + tijdens Focus: sociale meldingen wegdrukken.
@@ -10,6 +11,9 @@ import android.service.notification.StatusBarNotification
 class SoundMaxNotificationListener : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         val n = sbn ?: return
+        if (!n.isOngoing && n.packageName != packageName) {
+            NotifyDuck.onNotification(applicationContext)
+        }
         if (!FocusSession.isActive(this)) return
         if (!DndFocusFilter.enabled(this)) return
         if (n.isOngoing) return

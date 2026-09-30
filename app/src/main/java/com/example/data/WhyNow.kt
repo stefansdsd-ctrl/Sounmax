@@ -12,6 +12,9 @@ object WhyNow {
         StreetListen.apply(context)
         FindBeep.apply(context)
         CallTransparency.apply(context)
+        NotifyDuck.apply(context)
+        PocketGuard.ensure(context)
+        PocketGuard.clampUp(context)
         HiddenScenes.maybeAutoSlim(context)
         val net = OfflineGuard.label(context)
         val codec = CodecProbe.last(context)
@@ -38,9 +41,11 @@ object WhyNow {
         val street = if (StreetListen.active(context)) StreetListen.label(context) else null
         val find = if (FindBeep.active(context)) FindBeep.label(context) else null
         val hear = if (CallTransparency.isOn(context)) CallTransparency.label(context) else null
+        val duck = if (NotifyDuck.active(context)) NotifyDuck.label(context) else null
+        val pocket = if (PocketGuard.enabled(context) && PocketGuard.isPocketed()) PocketGuard.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear
+            ear, talk, door, street, find, hear, duck, pocket
         )
         return bits.joinToString(" · ")
     }
