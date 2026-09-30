@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 229 (klaar — code)
+1. NotifyDuck: 8 s muziek naar 40% bij nieuwe melding (chip Duck).
+2. PocketGuard: proximity-sensor sluit volume-omhoog in de zak (chip Zak).
+3. WhyNow toont duck + zak-status.
+
 ## Batch 228 (klaar — code)
 1. CodecProbe: A2DP codec-naam (LDAC/AAC/SBC/aptX).
 2. CallTransparency: MODE_IN_COMMUNICATION + muziek 35%.
