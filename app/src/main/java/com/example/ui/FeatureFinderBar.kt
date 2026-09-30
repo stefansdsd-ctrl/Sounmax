@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.DoorListen
 import com.example.data.FeatureFinder
 import com.example.data.HearingGuard
 import com.example.data.HoldSolo
@@ -110,6 +111,18 @@ fun FeatureFinderBar() {
                 modifier = Modifier.testTag("feature_hit_talk")
             )
             FilterChip(
+                selected = DoorListen.active(context),
+                onClick = { status = FeatureFinder.cycle(context, "door") },
+                label = { Text("Deur", fontSize = 11.sp, maxLines = 1) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
+                    containerColor = ImmersiveSurfaceActive,
+                    selectedLabelColor = ImmersiveLavenderAccent,
+                    labelColor = ImmersiveTextSecondary
+                ),
+                modifier = Modifier.testTag("feature_hit_door")
+            )
+            FilterChip(
                 selected = false,
                 onClick = { status = FeatureFinder.cycle(context, "panic") },
                 label = { Text("Alles uit", fontSize = 11.sp, maxLines = 1) },
@@ -119,7 +132,7 @@ fun FeatureFinderBar() {
                 ),
                 modifier = Modifier.testTag("feature_hit_panic")
             )
-            hits.filter { it.id != "panic" && it.id != "safe" && it.id != "talk" }.take(8).forEach { hit ->
+            hits.filter { it.id != "panic" && it.id != "safe" && it.id != "talk" && it.id != "door" }.take(8).forEach { hit ->
                 FilterChip(
                     selected = false,
                     onClick = { status = FeatureFinder.cycle(context, hit.id) },

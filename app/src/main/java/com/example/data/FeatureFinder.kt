@@ -25,6 +25,7 @@ object FeatureFinder {
         Hit("sleep", "Slaap", "timer + fade"),
         Hit("call", "Bel-hold", "transparantie tijdens gesprek"),
         Hit("talk", "Gesprek", "2 min volume 35%"),
+        Hit("door", "Deur", "90 s volume 20%"),
         Hit("game", "Game-hold", "lage latency"),
         Hit("cinema", "Cinema-hold", "film + dynamiek"),
         Hit("nap", "Dutje-hold", "kort slaap"),
@@ -47,6 +48,7 @@ object FeatureFinder {
         "waaien" to "wind", "regenachtig" to "rain", "weer" to "rain",
         "werk" to "focus", "dnd" to "focus", "nacht" to "sleep", "slaapstand" to "sleep",
         "gesprek" to "talk", "praten" to "talk", "praat" to "talk", "talk" to "talk",
+        "deur" to "door", "bel" to "door", "klingel" to "door", "doorbell" to "door",
         "bellen" to "call", "film" to "cinema",
         "vliegtuig" to "flight", "ov" to "train", "metro" to "train",
         "stop" to "panic", "uit" to "panic", "reset" to "reset",
@@ -100,11 +102,12 @@ object FeatureFinder {
         "safe" -> QuickSafe.label(context)
         "ear" -> EarRest.label(context)
         "talk" -> TalkSoft.label(context)
+        "door" -> DoorListen.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
     fun cycle(context: Context, id: String): String {
-        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe" && id != "ear" && id != "talk") {
+        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe" && id != "ear" && id != "talk" && id != "door") {
             HoldSolo.prepareStart(context, id)
         }
         return when (id) {
@@ -136,6 +139,7 @@ object FeatureFinder {
             "safe" -> QuickSafe.run(context)
             "ear" -> EarRest.cycle(context)
             "talk" -> TalkSoft.cycle(context)
+            "door" -> DoorListen.cycle(context)
             else -> label(context, id)
         }
     }

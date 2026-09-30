@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 224 (klaar — code)
+1. DoorListen: 90 s muziek → 20%, daarna herstel.
+2. FeatureFinder-chip “Deur” + aliassen deur/bel/klingel/doorbell.
+3. WhyNow tikt DoorListen mee.
+
 ## Batch 223 (klaar — code)
 1. TalkSoft: 2 min gesprek → muziek 35%, daarna herstel.
 2. FeatureFinder-chip “Gesprek” + aliassen gesprek/praten/praat/talk.
