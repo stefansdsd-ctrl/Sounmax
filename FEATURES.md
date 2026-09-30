@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 226 (klaar — code)
+1. FindBeep: 8 s STREAM_MUSIC-piep + telefoontrilling.
+2. FeatureFinder-chip “Zoek” + aliassen zoek/piep/find/beep/headset.
+3. WhyNow tikt FindBeep mee.
+
 ## Batch 225 (klaar — code)
 1. StreetListen: 25 s muziek → 15%, daarna herstel.
 2. FeatureFinder-chip “Straat” + aliassen straat/oversteken/zebrapad/kruisen.
