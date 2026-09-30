@@ -28,6 +28,9 @@ object FeatureFinder {
         Hit("door", "Deur", "90 s volume 20%"),
         Hit("street", "Straat", "25 s volume 15%"),
         Hit("find", "Zoekpiep", "8 s piep + trilling"),
+        Hit("codec", "Codec", "LDAC/AAC/SBC-probe"),
+        Hit("hear", "Bel-transparantie", "spraakmodus software"),
+        Hit("slim", "Compact", "zeldzame scenes verbergen"),
         Hit("game", "Game-hold", "lage latency"),
         Hit("cinema", "Cinema-hold", "film + dynamiek"),
         Hit("nap", "Dutje-hold", "kort slaap"),
@@ -67,7 +70,15 @@ object FeatureFinder {
         "eq" to "focus", "equalizer" to "focus",
         "veilig" to "safe", "safety" to "safe", "oorpauze" to "ear",
         "gehoor" to "safe", "cap" to "safe", "bescherm" to "safe",
-        "pauze" to "ear", "rust" to "ear", "oor" to "ear", "break" to "ear"
+        "pauze" to "ear", "rust" to "ear", "oor" to "ear", "break" to "ear",
+        "ldac" to "codec", "aac" to "codec", "sbc" to "codec", "aptx" to "codec", "codec" to "codec",
+        "transparantie" to "hear", "transparency" to "hear", "spraakmodus" to "hear",
+        "compact" to "slim", "slim" to "slim", "catalogus" to "slim", "scenes" to "slim"
+    )
+
+    private val noSolo = setOf(
+        "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
+        "talk", "door", "street", "find", "codec", "hear", "slim"
     )
 
     fun search(query: String): List<Hit> {
@@ -110,11 +121,14 @@ object FeatureFinder {
         "door" -> DoorListen.label(context)
         "street" -> StreetListen.label(context)
         "find" -> FindBeep.label(context)
+        "codec" -> CodecProbe.label(context)
+        "hear" -> CallTransparency.label(context)
+        "slim" -> HiddenScenes.chipLabel(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
     fun cycle(context: Context, id: String): String {
-        if (id != "panic" && id != "solo" && id != "why" && id != "dose" && id != "bt" && id != "reset" && id != "next" && id != "safe" && id != "ear" && id != "talk" && id != "door" && id != "street" && id != "find") {
+        if (id !in noSolo) {
             HoldSolo.prepareStart(context, id)
         }
         return when (id) {
@@ -149,6 +163,12 @@ object FeatureFinder {
             "door" -> DoorListen.cycle(context)
             "street" -> StreetListen.cycle(context)
             "find" -> FindBeep.cycle(context)
+            "codec" -> CodecProbe.cycle(context)
+            "hear" -> CallTransparency.cycle(context)
+            "slim" -> {
+                HiddenScenes.toggleAutoSlim(context)
+                HiddenScenes.chipLabel(context)
+            }
             else -> label(context, id)
         }
     }

@@ -11,7 +11,10 @@ object WhyNow {
         DoorListen.apply(context)
         StreetListen.apply(context)
         FindBeep.apply(context)
+        CallTransparency.apply(context)
+        HiddenScenes.maybeAutoSlim(context)
         val net = OfflineGuard.label(context)
+        val codec = CodecProbe.last(context)
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         val winner = SceneHoldPriority.label(context)
         val holds = HoldPanic.activeList(context).joinToString("+") { it.name }
@@ -34,7 +37,11 @@ object WhyNow {
         val door = if (DoorListen.active(context)) DoorListen.label(context) else null
         val street = if (StreetListen.active(context)) StreetListen.label(context) else null
         val find = if (FindBeep.active(context)) FindBeep.label(context) else null
-        val bits = listOfNotNull("$slot · $holdBit · $sceneBit · $dose · $next · $net", ear, talk, door, street, find)
+        val hear = if (CallTransparency.isOn(context)) CallTransparency.label(context) else null
+        val bits = listOfNotNull(
+            "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
+            ear, talk, door, street, find, hear
+        )
         return bits.joinToString(" · ")
     }
 }
