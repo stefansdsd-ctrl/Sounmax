@@ -22,6 +22,8 @@ object WhyNow {
         PocketGuard.clampUp(context)
         SpeakerGuard.ensure(context)
         AlarmSoon.apply(context)
+        NoisyRoute.ensure(context)
+        PeakCap.apply(context)
         HiddenScenes.maybeAutoSlim(context)
         val net = OfflineGuard.label(context)
         val codec = CodecProbe.last(context)
@@ -55,9 +57,11 @@ object WhyNow {
         val charge = if (ChargeNightCap.active(context)) ChargeNightCap.label(context) else null
         val speaker = if (SpeakerGuard.active(context)) SpeakerGuard.label(context) else null
         val alarm = if (AlarmSoon.active(context)) AlarmSoon.label(context) else null
+        val route = if (NoisyRoute.active(context)) NoisyRoute.label(context) else null
+        val peak = if (PeakCap.active(context)) PeakCap.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak
         )
         return bits.joinToString(" · ")
     }
