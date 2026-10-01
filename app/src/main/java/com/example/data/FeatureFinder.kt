@@ -50,6 +50,8 @@ object FeatureFinder {
         Hit("shake", "Schud-aware", "schud → 12 s volume 25%"),
         Hit("flip", "Flip-stil", "face-down → volume 18%"),
         Hit("charge", "Nachtladen", "22–07 aan lader, cap 35%"),
+        Hit("ramp", "Zachte start", "geen volume-klap bij connect"),
+        Hit("leak", "Stilte-cap", "trillen/stil → max 50%"),
     )
 
     private val aliases = mapOf(
@@ -83,12 +85,15 @@ object FeatureFinder {
         "zak" to "pocket", "pocket" to "pocket", "broekzak" to "pocket",
         "schud" to "shake", "shake" to "shake", "schudden" to "shake", "omgeving" to "shake",
         "flip" to "flip", "tafel" to "flip", "facedown" to "flip", "omdraaien" to "flip",
-        "laden" to "charge", "lader" to "charge", "nachtladen" to "charge", "opladen" to "charge"
+        "laden" to "charge", "lader" to "charge", "nachtladen" to "charge", "opladen" to "charge",
+        "start" to "ramp", "ramp" to "ramp", "klap" to "ramp", "zacht" to "ramp",
+        "lek" to "leak", "lekkage" to "leak", "stilte" to "leak", "kantoor" to "leak"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
-        "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge"
+        "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
+        "ramp", "leak"
     )
 
     fun search(query: String): List<Hit> {
@@ -139,6 +144,8 @@ object FeatureFinder {
         "shake" -> ShakeAware.label(context)
         "flip" -> FlipQuiet.label(context)
         "charge" -> ChargeNightCap.label(context)
+        "ramp" -> ConnectRamp.label(context)
+        "leak" -> QuietLeakCap.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -189,6 +196,8 @@ object FeatureFinder {
             "shake" -> ShakeAware.cycle(context)
             "flip" -> FlipQuiet.cycle(context)
             "charge" -> ChargeNightCap.cycle(context)
+            "ramp" -> ConnectRamp.cycle(context)
+            "leak" -> QuietLeakCap.cycle(context)
             else -> label(context, id)
         }
     }
