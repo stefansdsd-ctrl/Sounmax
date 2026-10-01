@@ -28,9 +28,11 @@ object WhyNow {
         MorningSoft.apply(context)
         CommDuck.apply(context)
         EveningSoft.apply(context)
+        NightSoft.apply(context)
         LunchSoft.apply(context)
         WeekendSoft.apply(context)
         MeteredSoft.apply(context)
+        DndSoft.apply(context)
         JumpGuard.apply(context)
         DuckRestore.restore(context)
         HiddenScenes.maybeAutoSlim(context)
@@ -72,14 +74,16 @@ object WhyNow {
         val morning = if (MorningSoft.active(context)) MorningSoft.label(context) else null
         val comm = if (CommDuck.active(context)) CommDuck.label(context) else null
         val evening = if (EveningSoft.active(context)) EveningSoft.label(context) else null
+        val night = if (NightSoft.active(context)) NightSoft.label(context) else null
         val restored = if (DuckRestore.active(context)) DuckRestore.label(context) else null
         val jump = if (JumpGuard.active(context)) JumpGuard.label(context) else null
         val lunch = if (LunchSoft.active(context)) LunchSoft.label(context) else null
         val weekend = if (WeekendSoft.active(context)) WeekendSoft.label(context) else null
         val metered = if (MeteredSoft.active(context)) MeteredSoft.label(context) else null
+        val dnd = if (DndSoft.active(context)) DndSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, restored, jump, lunch, weekend, metered
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd
         )
         return bits.joinToString(" · ")
     }
