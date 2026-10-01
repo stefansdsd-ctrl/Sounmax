@@ -26,6 +26,8 @@ object WhyNow {
         PeakCap.apply(context)
         RingDuck.apply(context)
         MorningSoft.apply(context)
+        CommDuck.apply(context)
+        EveningSoft.apply(context)
         HiddenScenes.maybeAutoSlim(context)
         val net = OfflineGuard.label(context)
         val codec = CodecProbe.last(context)
@@ -63,9 +65,11 @@ object WhyNow {
         val peak = if (PeakCap.active(context)) PeakCap.label(context) else null
         val ring = if (RingDuck.active(context)) RingDuck.label(context) else null
         val morning = if (MorningSoft.active(context)) MorningSoft.label(context) else null
+        val comm = if (CommDuck.active(context)) CommDuck.label(context) else null
+        val evening = if (EveningSoft.active(context)) EveningSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening
         )
         return bits.joinToString(" · ")
     }
