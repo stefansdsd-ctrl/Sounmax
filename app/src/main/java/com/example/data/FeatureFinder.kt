@@ -60,6 +60,7 @@ object FeatureFinder {
         Hit("morning", "Ochtend-cap", "06–09 boven 62% → 48%"),
         Hit("voip", "VoIP-duck", "WhatsApp/Teams → 16%"),
         Hit("evening", "Avond-cap", "21–23 boven 68% → 50%"),
+        Hit("restore", "Duck-herstel", "volume terug na bel/VoIP"),
     )
 
     private val aliases = mapOf(
@@ -103,13 +104,14 @@ object FeatureFinder {
         "beltoon" to "ring", "ring" to "ring", "ringtone" to "ring",
         "ochtend" to "morning", "morning" to "morning", "ocht" to "morning",
         "voip" to "voip", "whatsapp" to "voip", "teams" to "voip", "zoom" to "voip",
-        "avond" to "evening", "evening" to "evening"
+        "avond" to "evening", "evening" to "evening",
+        "herstel" to "restore", "terug" to "restore", "restore" to "restore"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
-        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening"
+        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore"
     )
 
     fun search(query: String): List<Hit> {
@@ -170,6 +172,7 @@ object FeatureFinder {
         "morning" -> MorningSoft.label(context)
         "voip" -> CommDuck.label(context)
         "evening" -> EveningSoft.label(context)
+        "restore" -> DuckRestore.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -230,6 +233,7 @@ object FeatureFinder {
             "morning" -> MorningSoft.cycle(context)
             "voip" -> CommDuck.cycle(context)
             "evening" -> EveningSoft.cycle(context)
+            "restore" -> DuckRestore.cycle(context)
             else -> label(context, id)
         }
     }
