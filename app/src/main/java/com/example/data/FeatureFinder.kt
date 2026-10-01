@@ -61,6 +61,8 @@ object FeatureFinder {
         Hit("voip", "VoIP-duck", "WhatsApp/Teams → 16%"),
         Hit("evening", "Avond-cap", "21–23 boven 68% → 50%"),
         Hit("restore", "Duck-herstel", "volume terug na bel/VoIP"),
+        Hit("jump", "Sprong-cap", "plotse +3 stappen terug"),
+        Hit("lunch", "Lunch-cap", "12–13:30 boven 72% → 55%"),
     )
 
     private val aliases = mapOf(
@@ -105,13 +107,15 @@ object FeatureFinder {
         "ochtend" to "morning", "morning" to "morning", "ocht" to "morning",
         "voip" to "voip", "whatsapp" to "voip", "teams" to "voip", "zoom" to "voip",
         "avond" to "evening", "evening" to "evening",
-        "herstel" to "restore", "terug" to "restore", "restore" to "restore"
+        "herstel" to "restore", "terug" to "restore", "restore" to "restore",
+        "sprong" to "jump", "jump" to "jump", "rocker" to "jump",
+        "lunch" to "lunch", "middag" to "lunch"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
-        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore"
+        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch"
     )
 
     fun search(query: String): List<Hit> {
@@ -173,6 +177,8 @@ object FeatureFinder {
         "voip" -> CommDuck.label(context)
         "evening" -> EveningSoft.label(context)
         "restore" -> DuckRestore.label(context)
+        "jump" -> JumpGuard.label(context)
+        "lunch" -> LunchSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -234,6 +240,8 @@ object FeatureFinder {
             "voip" -> CommDuck.cycle(context)
             "evening" -> EveningSoft.cycle(context)
             "restore" -> DuckRestore.cycle(context)
+            "jump" -> JumpGuard.cycle(context)
+            "lunch" -> LunchSoft.cycle(context)
             else -> label(context, id)
         }
     }
