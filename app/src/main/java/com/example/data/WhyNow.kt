@@ -28,6 +28,7 @@ object WhyNow {
         MorningSoft.apply(context)
         CommDuck.apply(context)
         EveningSoft.apply(context)
+        DuckRestore.restore(context)
         HiddenScenes.maybeAutoSlim(context)
         val net = OfflineGuard.label(context)
         val codec = CodecProbe.last(context)
@@ -67,9 +68,10 @@ object WhyNow {
         val morning = if (MorningSoft.active(context)) MorningSoft.label(context) else null
         val comm = if (CommDuck.active(context)) CommDuck.label(context) else null
         val evening = if (EveningSoft.active(context)) EveningSoft.label(context) else null
+        val restored = if (DuckRestore.active(context)) DuckRestore.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, restored
         )
         return bits.joinToString(" · ")
     }
