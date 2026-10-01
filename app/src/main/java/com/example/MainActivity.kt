@@ -34,7 +34,9 @@ import com.example.data.CrashLog
 import com.example.data.NightlyBackup
 import com.example.data.PocketGuard
 import com.example.data.ChargeNightCap
+import com.example.data.ConnectRamp
 import com.example.data.FlipQuiet
+import com.example.data.QuietLeakCap
 import com.example.data.ShakeAware
 
 class MainActivity : ComponentActivity() {
@@ -50,6 +52,8 @@ class MainActivity : ComponentActivity() {
         ShakeAware.ensure(this)
         FlipQuiet.ensure(this)
         ChargeNightCap.apply(this)
+        ConnectRamp.ensure(this)
+        QuietLeakCap.apply(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
@@ -102,6 +106,12 @@ class MainActivity : ComponentActivity() {
         handleSceneIntent(intent)
     }
 
+    override fun onResume() {
+        super.onResume()
+        QuietLeakCap.apply(this)
+        ChargeNightCap.apply(this)
+    }
+
     private fun handleSceneIntent(intent: Intent?) {
         if (intent == null) return
         intent.getStringExtra("open_tab")?.let { tab ->
@@ -150,6 +160,7 @@ class MainActivity : ComponentActivity() {
         volumeCycler?.stop()
         ShakeAware.release(this)
         FlipQuiet.release(this)
+        ConnectRamp.release(this)
         super.onDestroy()
     }
 }
