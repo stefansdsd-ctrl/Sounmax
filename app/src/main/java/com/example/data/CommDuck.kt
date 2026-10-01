@@ -6,6 +6,7 @@ import android.media.AudioManager
 /**
  * WhatsApp/Teams-spraak (MODE_IN_COMMUNICATION) + muziek boven 34% → 16%.
  * Beltoon-duck dekt alleen RINGTONE/IN_CALL; dit dekt VoIP.
+ * Volume wordt onthouden voor DuckRestore.
  */
 object CommDuck {
     private const val PREFS = "sounmax_comm_duck"
@@ -36,6 +37,7 @@ object CommDuck {
         if (cur <= (max * TRIGGER_PCT) / 100) return false
         val cap = (max * CAP_PCT) / 100
         if (cur > cap) {
+            DuckRestore.remember(context)
             am.setStreamVolume(AudioManager.STREAM_MUSIC, cap, 0)
             prefs(context).edit()
                 .putBoolean("ducked", true)

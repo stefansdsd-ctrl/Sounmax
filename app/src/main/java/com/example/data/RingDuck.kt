@@ -6,6 +6,7 @@ import android.media.AudioManager
 /**
  * Inkomende beltoon (MODE_RINGTONE) + muziek boven 38% → 20%.
  * Zodat de beltoon door de headset heen blijft.
+ * Volume wordt onthouden voor DuckRestore.
  */
 object RingDuck {
     private const val PREFS = "sounmax_ring_duck"
@@ -38,6 +39,7 @@ object RingDuck {
         if (cur <= (max * TRIGGER_PCT) / 100) return false
         val cap = (max * CAP_PCT) / 100
         if (cur > cap) {
+            DuckRestore.remember(context)
             am.setStreamVolume(AudioManager.STREAM_MUSIC, cap, 0)
             prefs(context).edit()
                 .putBoolean("ducked", true)
