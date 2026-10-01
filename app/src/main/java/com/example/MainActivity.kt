@@ -30,6 +30,7 @@ import com.example.ui.SoundMaxApp
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
+import com.example.data.AlarmSoon
 import com.example.data.CrashLog
 import com.example.data.NightlyBackup
 import com.example.data.PocketGuard
@@ -38,6 +39,7 @@ import com.example.data.ConnectRamp
 import com.example.data.FlipQuiet
 import com.example.data.QuietLeakCap
 import com.example.data.ShakeAware
+import com.example.data.SpeakerGuard
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -54,6 +56,8 @@ class MainActivity : ComponentActivity() {
         ChargeNightCap.apply(this)
         ConnectRamp.ensure(this)
         QuietLeakCap.apply(this)
+        SpeakerGuard.ensure(this)
+        AlarmSoon.apply(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
@@ -110,6 +114,7 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         QuietLeakCap.apply(this)
         ChargeNightCap.apply(this)
+        AlarmSoon.apply(this)
     }
 
     private fun handleSceneIntent(intent: Intent?) {
@@ -161,6 +166,7 @@ class MainActivity : ComponentActivity() {
         ShakeAware.release(this)
         FlipQuiet.release(this)
         ConnectRamp.release(this)
+        SpeakerGuard.release(this)
         super.onDestroy()
     }
 }
