@@ -52,6 +52,8 @@ object FeatureFinder {
         Hit("charge", "Nachtladen", "22–07 aan lader, cap 35%"),
         Hit("ramp", "Zachte start", "geen volume-klap bij connect"),
         Hit("leak", "Stilte-cap", "trillen/stil → max 50%"),
+        Hit("speaker", "Speaker-drop", "loskoppelen → 28%"),
+        Hit("alarm", "Wekker-cap", "25 min voor wekker, cap 40%"),
     )
 
     private val aliases = mapOf(
@@ -87,13 +89,15 @@ object FeatureFinder {
         "flip" to "flip", "tafel" to "flip", "facedown" to "flip", "omdraaien" to "flip",
         "laden" to "charge", "lader" to "charge", "nachtladen" to "charge", "opladen" to "charge",
         "start" to "ramp", "ramp" to "ramp", "klap" to "ramp", "zacht" to "ramp",
-        "lek" to "leak", "lekkage" to "leak", "stilte" to "leak", "kantoor" to "leak"
+        "lek" to "leak", "lekkage" to "leak", "stilte" to "leak", "kantoor" to "leak",
+        "los" to "speaker", "speaker" to "speaker", "disconnect" to "speaker",
+        "wek" to "alarm", "wekker" to "alarm", "alarm" to "alarm"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
-        "ramp", "leak"
+        "ramp", "leak", "speaker", "alarm"
     )
 
     fun search(query: String): List<Hit> {
@@ -146,6 +150,8 @@ object FeatureFinder {
         "charge" -> ChargeNightCap.label(context)
         "ramp" -> ConnectRamp.label(context)
         "leak" -> QuietLeakCap.label(context)
+        "speaker" -> SpeakerGuard.label(context)
+        "alarm" -> AlarmSoon.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -198,6 +204,8 @@ object FeatureFinder {
             "charge" -> ChargeNightCap.cycle(context)
             "ramp" -> ConnectRamp.cycle(context)
             "leak" -> QuietLeakCap.cycle(context)
+            "speaker" -> SpeakerGuard.cycle(context)
+            "alarm" -> AlarmSoon.cycle(context)
             else -> label(context, id)
         }
     }
