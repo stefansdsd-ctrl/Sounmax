@@ -54,6 +54,8 @@ object FeatureFinder {
         Hit("leak", "Stilte-cap", "trillen/stil → max 50%"),
         Hit("speaker", "Speaker-drop", "loskoppelen → 28%"),
         Hit("alarm", "Wekker-cap", "25 min voor wekker, cap 40%"),
+        Hit("route", "Route-drop", "audio naar speaker → 24%"),
+        Hit("peak", "Piek-cap", "boven 90% → 78%"),
     )
 
     private val aliases = mapOf(
@@ -91,13 +93,15 @@ object FeatureFinder {
         "start" to "ramp", "ramp" to "ramp", "klap" to "ramp", "zacht" to "ramp",
         "lek" to "leak", "lekkage" to "leak", "stilte" to "leak", "kantoor" to "leak",
         "los" to "speaker", "speaker" to "speaker", "disconnect" to "speaker",
-        "wek" to "alarm", "wekker" to "alarm", "alarm" to "alarm"
+        "wek" to "alarm", "wekker" to "alarm", "alarm" to "alarm",
+        "route" to "route", "lawaai" to "route", "plug" to "route",
+        "piek" to "peak", "max" to "peak", "hard" to "peak"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
-        "ramp", "leak", "speaker", "alarm"
+        "ramp", "leak", "speaker", "alarm", "route", "peak"
     )
 
     fun search(query: String): List<Hit> {
@@ -152,6 +156,8 @@ object FeatureFinder {
         "leak" -> QuietLeakCap.label(context)
         "speaker" -> SpeakerGuard.label(context)
         "alarm" -> AlarmSoon.label(context)
+        "route" -> NoisyRoute.label(context)
+        "peak" -> PeakCap.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -206,6 +212,8 @@ object FeatureFinder {
             "leak" -> QuietLeakCap.cycle(context)
             "speaker" -> SpeakerGuard.cycle(context)
             "alarm" -> AlarmSoon.cycle(context)
+            "route" -> NoisyRoute.cycle(context)
+            "peak" -> PeakCap.cycle(context)
             else -> label(context, id)
         }
     }
