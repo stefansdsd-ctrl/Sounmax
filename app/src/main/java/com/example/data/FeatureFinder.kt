@@ -65,13 +65,15 @@ object FeatureFinder {
         Hit("lunch", "Lunch-cap", "12–13:30 boven 72% → 55%"),
         Hit("weekend", "Weekend-cap", "za/zo 10–18 boven 80% → 64%"),
         Hit("metered", "Mobiel-cap", "metered/mobiel boven 70% → 52%"),
+        Hit("night", "Nacht-cap", "23–06 boven 60% → 42%"),
+        Hit("dnd", "Niet-storen-cap", "DND aan boven 65% → 45%"),
     )
 
     private val aliases = mapOf(
         "wandelen" to "walk", "buiten" to "walk", "lopen" to "walk",
         "fietsen" to "bike", "auto" to "drive", "rijden" to "drive",
         "waaien" to "wind", "regenachtig" to "rain", "weer" to "rain",
-        "werk" to "focus", "dnd" to "focus", "nacht" to "sleep", "slaapstand" to "sleep",
+        "werk" to "focus", "dnd" to "dnd", "nacht" to "night", "slaapstand" to "sleep",
         "gesprek" to "talk", "praten" to "talk", "praat" to "talk", "talk" to "talk",
         "deur" to "door", "bel" to "door", "klingel" to "door", "doorbell" to "door",
         "straat" to "street", "oversteken" to "street", "zebrapad" to "street", "kruisen" to "street",
@@ -113,14 +115,15 @@ object FeatureFinder {
         "sprong" to "jump", "jump" to "jump", "rocker" to "jump",
         "lunch" to "lunch", "middag" to "lunch",
         "weekend" to "weekend", "zaterdag" to "weekend", "zondag" to "weekend",
-        "mobiel" to "metered", "metered" to "metered", "data" to "metered", "4g" to "metered", "5g" to "metered"
+        "mobiel" to "metered", "metered" to "metered", "data" to "metered", "4g" to "metered", "5g" to "metered",
+        "night" to "night", "storen" to "dnd", "nietstoren" to "dnd"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered"
+        "weekend", "metered", "night", "dnd"
     )
 
     fun search(query: String): List<Hit> {
@@ -186,6 +189,8 @@ object FeatureFinder {
         "lunch" -> LunchSoft.label(context)
         "weekend" -> WeekendSoft.label(context)
         "metered" -> MeteredSoft.label(context)
+        "night" -> NightSoft.label(context)
+        "dnd" -> DndSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -251,6 +256,8 @@ object FeatureFinder {
             "lunch" -> LunchSoft.cycle(context)
             "weekend" -> WeekendSoft.cycle(context)
             "metered" -> MeteredSoft.cycle(context)
+            "night" -> NightSoft.cycle(context)
+            "dnd" -> DndSoft.cycle(context)
             else -> label(context, id)
         }
     }
