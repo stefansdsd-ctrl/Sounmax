@@ -33,6 +33,8 @@ import com.example.widget.SoundMaxWidget
 import com.example.data.CrashLog
 import com.example.data.NightlyBackup
 import com.example.data.PocketGuard
+import com.example.data.ChargeNightCap
+import com.example.data.FlipQuiet
 import com.example.data.ShakeAware
 
 class MainActivity : ComponentActivity() {
@@ -46,6 +48,8 @@ class MainActivity : ComponentActivity() {
         PocketGuard.ensure(this)
         PocketGuard.rememberVolume(this)
         ShakeAware.ensure(this)
+        FlipQuiet.ensure(this)
+        ChargeNightCap.apply(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
@@ -145,6 +149,7 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         volumeCycler?.stop()
         ShakeAware.release(this)
+        FlipQuiet.release(this)
         super.onDestroy()
     }
 }

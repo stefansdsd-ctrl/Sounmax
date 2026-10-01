@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 231 (klaar — code)
+1. FlipQuiet: face-down (z < -7.5) → volume 18% tot omdraaien (chip Flip).
+2. Negeert zak + deur/straat/talk.
+3. ChargeNightCap: 22–07 + isCharging → cap 35% (chip Laden).
+4. WhyNow toont flip + nachtladen.
+
 ## Batch 230 (klaar — code)
 1. ShakeAware: schud telefoon → 12 s muziek naar 25% (chip Schud).
 2. Negeert schudden in de zak + tijdens deur/straat/talk.

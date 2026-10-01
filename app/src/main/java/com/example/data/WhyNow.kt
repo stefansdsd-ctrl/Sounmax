@@ -15,6 +15,9 @@ object WhyNow {
         NotifyDuck.apply(context)
         ShakeAware.apply(context)
         ShakeAware.ensure(context)
+        FlipQuiet.ensure(context)
+        FlipQuiet.apply(context)
+        ChargeNightCap.apply(context)
         PocketGuard.ensure(context)
         PocketGuard.clampUp(context)
         HiddenScenes.maybeAutoSlim(context)
@@ -46,9 +49,11 @@ object WhyNow {
         val duck = if (NotifyDuck.active(context)) NotifyDuck.label(context) else null
         val pocket = if (PocketGuard.enabled(context) && PocketGuard.isPocketed()) PocketGuard.label(context) else null
         val shake = if (ShakeAware.active(context)) ShakeAware.label(context) else null
+        val flip = if (FlipQuiet.active(context)) FlipQuiet.label(context) else null
+        val charge = if (ChargeNightCap.active(context)) ChargeNightCap.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge
         )
         return bits.joinToString(" · ")
     }

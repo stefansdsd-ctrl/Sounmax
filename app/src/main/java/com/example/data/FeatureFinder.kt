@@ -48,6 +48,8 @@ object FeatureFinder {
         Hit("duck", "Meld-duck", "8 s volume 40% bij melding"),
         Hit("pocket", "Zak-guard", "proximity sluit volume-omhoog"),
         Hit("shake", "Schud-aware", "schud → 12 s volume 25%"),
+        Hit("flip", "Flip-stil", "face-down → volume 18%"),
+        Hit("charge", "Nachtladen", "22–07 aan lader, cap 35%"),
     )
 
     private val aliases = mapOf(
@@ -79,12 +81,14 @@ object FeatureFinder {
         "compact" to "slim", "slim" to "slim", "catalogus" to "slim", "scenes" to "slim",
         "duck" to "duck", "melding" to "duck", "notificatie" to "duck",
         "zak" to "pocket", "pocket" to "pocket", "broekzak" to "pocket",
-        "schud" to "shake", "shake" to "shake", "schudden" to "shake", "omgeving" to "shake"
+        "schud" to "shake", "shake" to "shake", "schudden" to "shake", "omgeving" to "shake",
+        "flip" to "flip", "tafel" to "flip", "facedown" to "flip", "omdraaien" to "flip",
+        "laden" to "charge", "lader" to "charge", "nachtladen" to "charge", "opladen" to "charge"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
-        "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake"
+        "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge"
     )
 
     fun search(query: String): List<Hit> {
@@ -133,6 +137,8 @@ object FeatureFinder {
         "duck" -> NotifyDuck.label(context)
         "pocket" -> PocketGuard.label(context)
         "shake" -> ShakeAware.label(context)
+        "flip" -> FlipQuiet.label(context)
+        "charge" -> ChargeNightCap.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -181,6 +187,8 @@ object FeatureFinder {
             "duck" -> NotifyDuck.cycle(context)
             "pocket" -> PocketGuard.cycle(context)
             "shake" -> ShakeAware.cycle(context)
+            "flip" -> FlipQuiet.cycle(context)
+            "charge" -> ChargeNightCap.cycle(context)
             else -> label(context, id)
         }
     }
