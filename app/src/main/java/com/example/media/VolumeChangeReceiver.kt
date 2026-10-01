@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import com.example.data.ChargeNightCap
+import com.example.data.DndSoft
 import com.example.data.EveningSoft
 import com.example.data.HearingGuard
 import com.example.data.JumpGuard
 import com.example.data.LunchSoft
 import com.example.data.MeteredSoft
 import com.example.data.MorningSoft
+import com.example.data.NightSoft
 import com.example.data.PeakCap
 import com.example.data.WeekendSoft
 
@@ -26,8 +28,10 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         MorningSoft.apply(app)
         LunchSoft.apply(app)
         EveningSoft.apply(app)
+        NightSoft.apply(app)
         WeekendSoft.apply(app)
         MeteredSoft.apply(app)
+        DndSoft.apply(app)
         ChargeNightCap.apply(app)
         val prefs = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
