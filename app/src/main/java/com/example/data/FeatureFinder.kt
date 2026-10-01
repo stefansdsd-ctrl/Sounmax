@@ -58,6 +58,8 @@ object FeatureFinder {
         Hit("peak", "Piek-cap", "boven 90% → 78%"),
         Hit("ring", "Beltoon-duck", "beltoon → 20%"),
         Hit("morning", "Ochtend-cap", "06–09 boven 62% → 48%"),
+        Hit("voip", "VoIP-duck", "WhatsApp/Teams → 16%"),
+        Hit("evening", "Avond-cap", "21–23 boven 68% → 50%"),
     )
 
     private val aliases = mapOf(
@@ -99,13 +101,15 @@ object FeatureFinder {
         "route" to "route", "lawaai" to "route", "plug" to "route",
         "piek" to "peak", "max" to "peak", "hard" to "peak",
         "beltoon" to "ring", "ring" to "ring", "ringtone" to "ring",
-        "ochtend" to "morning", "morning" to "morning", "ocht" to "morning"
+        "ochtend" to "morning", "morning" to "morning", "ocht" to "morning",
+        "voip" to "voip", "whatsapp" to "voip", "teams" to "voip", "zoom" to "voip",
+        "avond" to "evening", "evening" to "evening"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
-        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning"
+        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening"
     )
 
     fun search(query: String): List<Hit> {
@@ -164,6 +168,8 @@ object FeatureFinder {
         "peak" -> PeakCap.label(context)
         "ring" -> RingDuck.label(context)
         "morning" -> MorningSoft.label(context)
+        "voip" -> CommDuck.label(context)
+        "evening" -> EveningSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -222,6 +228,8 @@ object FeatureFinder {
             "peak" -> PeakCap.cycle(context)
             "ring" -> RingDuck.cycle(context)
             "morning" -> MorningSoft.cycle(context)
+            "voip" -> CommDuck.cycle(context)
+            "evening" -> EveningSoft.cycle(context)
             else -> label(context, id)
         }
     }
