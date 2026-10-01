@@ -63,6 +63,8 @@ object FeatureFinder {
         Hit("restore", "Duck-herstel", "volume terug na bel/VoIP"),
         Hit("jump", "Sprong-cap", "plotse +3 stappen terug"),
         Hit("lunch", "Lunch-cap", "12–13:30 boven 72% → 55%"),
+        Hit("weekend", "Weekend-cap", "za/zo 10–18 boven 80% → 64%"),
+        Hit("metered", "Mobiel-cap", "metered/mobiel boven 70% → 52%"),
     )
 
     private val aliases = mapOf(
@@ -109,13 +111,16 @@ object FeatureFinder {
         "avond" to "evening", "evening" to "evening",
         "herstel" to "restore", "terug" to "restore", "restore" to "restore",
         "sprong" to "jump", "jump" to "jump", "rocker" to "jump",
-        "lunch" to "lunch", "middag" to "lunch"
+        "lunch" to "lunch", "middag" to "lunch",
+        "weekend" to "weekend", "zaterdag" to "weekend", "zondag" to "weekend",
+        "mobiel" to "metered", "metered" to "metered", "data" to "metered", "4g" to "metered", "5g" to "metered"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
-        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch"
+        "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
+        "weekend", "metered"
     )
 
     fun search(query: String): List<Hit> {
@@ -179,6 +184,8 @@ object FeatureFinder {
         "restore" -> DuckRestore.label(context)
         "jump" -> JumpGuard.label(context)
         "lunch" -> LunchSoft.label(context)
+        "weekend" -> WeekendSoft.label(context)
+        "metered" -> MeteredSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -242,6 +249,8 @@ object FeatureFinder {
             "restore" -> DuckRestore.cycle(context)
             "jump" -> JumpGuard.cycle(context)
             "lunch" -> LunchSoft.cycle(context)
+            "weekend" -> WeekendSoft.cycle(context)
+            "metered" -> MeteredSoft.cycle(context)
             else -> label(context, id)
         }
     }
