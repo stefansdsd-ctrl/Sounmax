@@ -35,6 +35,8 @@ object WhyNow {
         DndSoft.apply(context)
         AirplaneSoft.apply(context)
         SaverSoft.apply(context)
+        ScreenOffSoft.apply(context)
+        HotspotSoft.apply(context)
         JumpGuard.apply(context)
         DuckRestore.restore(context)
         HiddenScenes.maybeAutoSlim(context)
@@ -85,9 +87,11 @@ object WhyNow {
         val dnd = if (DndSoft.active(context)) DndSoft.label(context) else null
         val airplane = if (AirplaneSoft.active(context)) AirplaneSoft.label(context) else null
         val saver = if (SaverSoft.active(context)) SaverSoft.label(context) else null
+        val screen = if (ScreenOffSoft.active(context)) ScreenOffSoft.label(context) else null
+        val hotspot = if (HotspotSoft.active(context)) HotspotSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot
         )
         return bits.joinToString(" · ")
     }
