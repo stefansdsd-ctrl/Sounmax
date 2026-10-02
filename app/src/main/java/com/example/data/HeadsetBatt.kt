@@ -42,6 +42,7 @@ object HeadsetBatt {
                     .putInt("pct", level)
                     .putString("name", name ?: "")
                     .putLong("last", System.currentTimeMillis())
+                    .putBoolean("gone", false)
                     .apply()
             }
         }
@@ -68,8 +69,13 @@ object HeadsetBatt {
         receiver = null
     }
 
+    fun markGone(context: Context) {
+        prefs(context).edit().putBoolean("gone", true).putInt("pct", -1).apply()
+    }
+
     fun percent(context: Context): Int {
         val p = prefs(context)
+        if (p.getBoolean("gone", false)) return -1
         val age = System.currentTimeMillis() - p.getLong("last", 0L)
         if (age > 6 * 60 * 60 * 1000L) return -1
         return p.getInt("pct", -1)
