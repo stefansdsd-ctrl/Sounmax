@@ -81,6 +81,8 @@ object FeatureFinder {
         Hit("replug", "Terug-play", "na los-pauze hervat media"),
         Hit("acl", "BT-pauze", "ACL-drop pauzeert media"),
         Hit("phonecap", "Tel-cap", "telefoon ≤15% boven 55% → 40%"),
+        Hit("mic", "Mic-cap", "opname boven 50% → 28%"),
+        Hit("idle", "Doze-cap", "idle boven 70% → 48%"),
     )
 
     private val aliases = mapOf(
@@ -143,14 +145,16 @@ object FeatureFinder {
         "accucap" to "hscap", "lageaccu" to "hscap", "hscap" to "hscap",
         "replug" to "replug", "hervat" to "replug", "terugplay" to "replug",
         "btpauze" to "acl", "acl" to "acl", "btdrop" to "acl",
-        "telcap" to "phonecap", "telefoon" to "phonecap", "phonecap" to "phonecap"
+        "telcap" to "phonecap", "telefoon" to "phonecap", "phonecap" to "phonecap",
+        "mic" to "mic", "microfoon" to "mic", "opname" to "mic", "miccap" to "mic",
+        "doze" to "idle", "idle" to "idle", "dozecap" to "idle"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle"
     )
 
     fun search(query: String): List<Hit> {
@@ -232,6 +236,8 @@ object FeatureFinder {
         "replug" -> ReplugPlay.label(context)
         "acl" -> AclPause.label(context)
         "phonecap" -> PhoneLowCap.label(context)
+        "mic" -> MicBusy.label(context)
+        "idle" -> IdleCap.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -313,6 +319,8 @@ object FeatureFinder {
             "replug" -> ReplugPlay.cycle(context)
             "acl" -> AclPause.cycle(context)
             "phonecap" -> PhoneLowCap.cycle(context)
+            "mic" -> MicBusy.cycle(context)
+            "idle" -> IdleCap.cycle(context)
             else -> label(context, id)
         }
     }
