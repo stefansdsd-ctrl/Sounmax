@@ -21,6 +21,8 @@ object WhyNow {
         PocketGuard.ensure(context)
         PocketGuard.clampUp(context)
         SpeakerGuard.ensure(context)
+        UnplugPause.ensure(context)
+        HeadsetBatt.ensure(context)
         AlarmSoon.apply(context)
         NoisyRoute.ensure(context)
         PeakCap.apply(context)
@@ -37,6 +39,8 @@ object WhyNow {
         SaverSoft.apply(context)
         ScreenOffSoft.apply(context)
         HotspotSoft.apply(context)
+        LockSoft.apply(context)
+        SilentSoft.apply(context)
         JumpGuard.apply(context)
         DuckRestore.restore(context)
         HiddenScenes.maybeAutoSlim(context)
@@ -73,6 +77,8 @@ object WhyNow {
         val flip = if (FlipQuiet.active(context)) FlipQuiet.label(context) else null
         val charge = if (ChargeNightCap.active(context)) ChargeNightCap.label(context) else null
         val speaker = if (SpeakerGuard.active(context)) SpeakerGuard.label(context) else null
+        val unplug = if (UnplugPause.active(context)) UnplugPause.label(context) else null
+        val batt = if (HeadsetBatt.active(context)) HeadsetBatt.label(context) else null
         val alarm = if (AlarmSoon.active(context)) AlarmSoon.label(context) else null
         val route = if (NoisyRoute.active(context)) NoisyRoute.label(context) else null
         val peak = if (PeakCap.active(context)) PeakCap.label(context) else null
@@ -97,7 +103,7 @@ object WhyNow {
         val wired = if (WiredSoft.active(context)) WiredSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
         )
         return bits.joinToString(" · ")
     }
