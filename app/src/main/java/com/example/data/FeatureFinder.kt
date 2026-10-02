@@ -139,7 +139,7 @@ object FeatureFinder {
         "loskoppel" to "unplug", "unplug" to "unplug", "pauzeer" to "unplug",
         "headsetaccu" to "hbatt", "accupercent" to "hbatt", "batt" to "hbatt",
         "accucap" to "hscap", "lageaccu" to "hscap", "hscap" to "hscap",
-        "terug" to "replug", "replug" to "replug", "hervat" to "replug"
+        "replug" to "replug", "hervat" to "replug", "terugplay" to "replug"
     )
 
     private val noSolo = setOf(
