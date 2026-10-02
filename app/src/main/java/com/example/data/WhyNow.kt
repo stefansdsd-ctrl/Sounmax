@@ -40,6 +40,8 @@ object WhyNow {
         JumpGuard.apply(context)
         DuckRestore.restore(context)
         HiddenScenes.maybeAutoSlim(context)
+        VpnSoft.apply(context)
+        WiredSoft.apply(context)
         val net = OfflineGuard.label(context)
         val codec = CodecProbe.last(context)
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
@@ -91,9 +93,11 @@ object WhyNow {
         val hotspot = if (HotspotSoft.active(context)) HotspotSoft.label(context) else null
         val lock = if (LockSoft.active(context)) LockSoft.label(context) else null
         val silent = if (SilentSoft.active(context)) SilentSoft.label(context) else null
+        val vpn = if (VpnSoft.active(context)) VpnSoft.label(context) else null
+        val wired = if (WiredSoft.active(context)) WiredSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
         )
         return bits.joinToString(" · ")
     }
