@@ -67,6 +67,8 @@ object FeatureFinder {
         Hit("metered", "Mobiel-cap", "metered/mobiel boven 70% → 52%"),
         Hit("night", "Nacht-cap", "23–06 boven 60% → 42%"),
         Hit("dnd", "Niet-storen-cap", "DND aan boven 65% → 45%"),
+        Hit("airplane", "Vliegtuig-cap", "vliegtuigmodus boven 68% → 48%"),
+        Hit("saver", "Spaar-cap", "batterijspaarstand boven 74% → 56%"),
     )
 
     private val aliases = mapOf(
@@ -116,14 +118,16 @@ object FeatureFinder {
         "lunch" to "lunch", "middag" to "lunch",
         "weekend" to "weekend", "zaterdag" to "weekend", "zondag" to "weekend",
         "mobiel" to "metered", "metered" to "metered", "data" to "metered", "4g" to "metered", "5g" to "metered",
-        "night" to "night", "storen" to "dnd", "nietstoren" to "dnd"
+        "night" to "night", "storen" to "dnd", "nietstoren" to "dnd",
+        "vliegtuigmodus" to "airplane", "airplane" to "airplane", "flightmode" to "airplane",
+        "spaar" to "saver", "saver" to "saver", "spaarstand" to "saver", "powersave" to "saver"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd"
+        "weekend", "metered", "night", "dnd", "airplane", "saver"
     )
 
     fun search(query: String): List<Hit> {
@@ -191,6 +195,8 @@ object FeatureFinder {
         "metered" -> MeteredSoft.label(context)
         "night" -> NightSoft.label(context)
         "dnd" -> DndSoft.label(context)
+        "airplane" -> AirplaneSoft.label(context)
+        "saver" -> SaverSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -258,6 +264,8 @@ object FeatureFinder {
             "metered" -> MeteredSoft.cycle(context)
             "night" -> NightSoft.cycle(context)
             "dnd" -> DndSoft.cycle(context)
+            "airplane" -> AirplaneSoft.cycle(context)
+            "saver" -> SaverSoft.cycle(context)
             else -> label(context, id)
         }
     }
