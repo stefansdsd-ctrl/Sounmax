@@ -89,9 +89,11 @@ object WhyNow {
         val saver = if (SaverSoft.active(context)) SaverSoft.label(context) else null
         val screen = if (ScreenOffSoft.active(context)) ScreenOffSoft.label(context) else null
         val hotspot = if (HotspotSoft.active(context)) HotspotSoft.label(context) else null
+        val lock = if (LockSoft.active(context)) LockSoft.label(context) else null
+        val silent = if (SilentSoft.active(context)) SilentSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent
         )
         return bits.joinToString(" · ")
     }

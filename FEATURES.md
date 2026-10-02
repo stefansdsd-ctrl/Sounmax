@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 244 (klaar — code)
+1. LockSoft: keyguard locked + STREAM_MUSIC >72% → cap 54%.
+2. SilentSoft: RINGER_MODE_SILENT + STREAM_MUSIC >64% → cap 46%.
+3. WhyNow + FeatureFinder tonen de chips. Standaard aan.
+
 ## Batch 242 (klaar — code)
 1. AirplaneSoft: vliegtuigmodus + STREAM_MUSIC >68% → cap 48%.
 2. SaverSoft: PowerManager spaarstand + STREAM_MUSIC >74% → cap 56%.
