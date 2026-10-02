@@ -23,6 +23,8 @@ object WhyNow {
         SpeakerGuard.ensure(context)
         UnplugPause.ensure(context)
         HeadsetBatt.ensure(context)
+        LowHsCap.apply(context)
+        ReplugPlay.ensure(context)
         AlarmSoon.apply(context)
         NoisyRoute.ensure(context)
         PeakCap.apply(context)
@@ -79,6 +81,8 @@ object WhyNow {
         val speaker = if (SpeakerGuard.active(context)) SpeakerGuard.label(context) else null
         val unplug = if (UnplugPause.active(context)) UnplugPause.label(context) else null
         val batt = if (HeadsetBatt.active(context)) HeadsetBatt.label(context) else null
+        val hscap = if (LowHsCap.active(context)) LowHsCap.label(context) else null
+        val replug = if (ReplugPlay.active(context)) ReplugPlay.label(context) else null
         val alarm = if (AlarmSoon.active(context)) AlarmSoon.label(context) else null
         val route = if (NoisyRoute.active(context)) NoisyRoute.label(context) else null
         val peak = if (PeakCap.active(context)) PeakCap.label(context) else null
@@ -103,7 +107,7 @@ object WhyNow {
         val wired = if (WiredSoft.active(context)) WiredSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, hscap, replug, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
         )
         return bits.joinToString(" · ")
     }
