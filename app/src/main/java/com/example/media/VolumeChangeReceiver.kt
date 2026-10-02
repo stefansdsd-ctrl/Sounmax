@@ -9,6 +9,8 @@ import com.example.data.CarCap
 import com.example.data.IdleCap
 import com.example.data.LowHsCap
 import com.example.data.MicBusy
+import com.example.data.NavSoft
+import com.example.data.NetSoft
 import com.example.data.OfficeSoft
 import com.example.data.PhoneLowCap
 import com.example.data.PodcastSoft
@@ -64,6 +66,8 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         LowHsCap.apply(app)
         OfficeSoft.apply(app)
         PodcastSoft.apply(app)
+        NavSoft.apply(app)
+        NetSoft.apply(app)
         ChargeNightCap.apply(app)
         val prefs = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
