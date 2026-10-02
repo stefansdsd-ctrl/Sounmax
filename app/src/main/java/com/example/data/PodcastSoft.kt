@@ -1,0 +1,73 @@
+package com.example.data
+
+import android.content.ComponentName
+import android.content.Context
+import android.media.AudioManager
+import android.media.session.MediaSessionManager
+import com.example.media.SoundMaxNotificationListener
+
+/**
+ * Podcast-app actief + volume boven 72% → cap 60%.
+ * Spraak hoeft niet op muziekhardheid. Zonder notification-access: geen actie.
+ */
+object PodcastSoft {
+    private const val PREFS = "sounmax_podcast_soft"
+    private const val CAP_PCT = 60
+    private const val TRIGGER_PCT = 72
+
+    private val packages = setOf(
+        "com.google.android.apps.podcasts",
+        "au.com.shiftyjelly.pocketcasts",
+        "com.bambuna.podcastaddict",
+        "fm.castbox.audiobook.radio.podcast",
+        "de.danoeh.antennapod",
+        "com.spotify.podcasts"
+    )
+
+    fun enabled(context: Context) = prefs(context).getBoolean("on", true)
+
+    fun cycle(context: Context): String {
+        val next = !enabled(context)
+        prefs(context).edit().putBoolean("on", next).apply()
+        if (next) apply(context)
+        return label(context)
+    }
+
+    fun podcastPlaying(context: Context): Boolean {
+        return try {
+            val msm = context.getSystemService(Context.MEDIA_SESSION_SERVICE) as MediaSessionManager
+            val cn = ComponentName(context, SoundMaxNotificationListener::class.java)
+            msm.getActiveSessions(cn).any { it.packageName in packages }
+        } catch (_: SecurityException) {
+            false
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    fun apply(context: Context): Boolean {
+        if (!enabled(context) || !podcastPlaying(context)) return false
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
+        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+        if (cur <= (max * TRIGGER_PCT) / 100) return false
+        val cap = (max * CAP_PCT) / 100
+        if (cur > cap) {
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, cap, 0)
+            prefs(context).edit().putLong("last", System.currentTimeMillis()).apply()
+            return true
+        }
+        return false
+    }
+
+    fun active(context: Context) = enabled(context) && podcastPlaying(context)
+
+    fun label(context: Context) = when {
+        !enabled(context) -> "Podcast-cap uit"
+        podcastPlaying(context) -> "Podcast-cap (60%)"
+        else -> "Podcast-cap aan"
+    }
+
+    private fun prefs(context: Context) =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+}

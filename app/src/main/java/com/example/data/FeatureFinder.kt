@@ -85,6 +85,8 @@ object FeatureFinder {
         Hit("idle", "Doze-cap", "idle boven 70% → 48%"),
         Hit("session", "Sessie-cap", "50 min boven 62% → 52%"),
         Hit("car", "Auto-cap", "Android Auto boven 80% → 62%"),
+        Hit("office", "Kantoor-cap", "ma–vr 09–17 boven 74% → 58%"),
+        Hit("podcast", "Podcast-cap", "podcast-app boven 72% → 60%"),
     )
 
     private val aliases = mapOf(
@@ -151,14 +153,16 @@ object FeatureFinder {
         "mic" to "mic", "microfoon" to "mic", "opname" to "mic", "miccap" to "mic",
         "doze" to "idle", "idle" to "idle", "dozecap" to "idle",
         "sessie" to "session", "session" to "session", "sessiecap" to "session",
-        "androidauto" to "car", "autocap" to "car", "carui" to "car"
+        "androidauto" to "car", "autocap" to "car", "carui" to "car",
+        "kantoor" to "office", "office" to "office", "werkvloer" to "office",
+        "podcast" to "podcast", "podcasts" to "podcast", "spraak" to "podcast"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast"
     )
 
     fun search(query: String): List<Hit> {
@@ -244,6 +248,8 @@ object FeatureFinder {
         "idle" -> IdleCap.label(context)
         "session" -> SessionCap.label(context)
         "car" -> CarCap.label(context)
+        "office" -> OfficeSoft.label(context)
+        "podcast" -> PodcastSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -329,6 +335,8 @@ object FeatureFinder {
             "idle" -> IdleCap.cycle(context)
             "session" -> SessionCap.cycle(context)
             "car" -> CarCap.cycle(context)
+            "office" -> OfficeSoft.cycle(context)
+            "podcast" -> PodcastSoft.cycle(context)
             else -> label(context, id)
         }
     }
