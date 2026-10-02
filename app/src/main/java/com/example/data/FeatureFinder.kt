@@ -73,6 +73,8 @@ object FeatureFinder {
         Hit("hotspot", "Hotspot-cap", "hotspot aan boven 70% → 50%"),
         Hit("lock", "Slot-cap", "vergrendeld boven 72% → 54%"),
         Hit("silent", "Stil-cap", "stille beltoon boven 64% → 46%"),
+        Hit("vpn", "VPN-cap", "VPN aan boven 70% → 52%"),
+        Hit("wired", "Kabel-cap", "kabel/USB boven 78% → 62%"),
     )
 
     private val aliases = mapOf(
@@ -128,14 +130,15 @@ object FeatureFinder {
         "scherm" to "screen", "screen" to "screen", "schermuit" to "screen", "zakmodus" to "screen",
         "hotspot" to "hotspot", "tether" to "hotspot", "delen" to "hotspot",
         "slot" to "lock", "lock" to "lock", "vergrendeld" to "lock", "keyguard" to "lock",
-        "stil" to "silent", "silent" to "silent", "tril" to "silent", "mute" to "silent"
+        "stil" to "silent", "silent" to "silent", "tril" to "silent", "mute" to "silent",
+        "vpn" to "vpn", "kabel" to "wired", "wired" to "wired", "usb" to "wired", "oortjes" to "wired"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired"
     )
 
     fun search(query: String): List<Hit> {
@@ -209,6 +212,8 @@ object FeatureFinder {
         "hotspot" -> HotspotSoft.label(context)
         "lock" -> LockSoft.label(context)
         "silent" -> SilentSoft.label(context)
+        "vpn" -> VpnSoft.label(context)
+        "wired" -> WiredSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -282,6 +287,8 @@ object FeatureFinder {
             "hotspot" -> HotspotSoft.cycle(context)
             "lock" -> LockSoft.cycle(context)
             "silent" -> SilentSoft.cycle(context)
+            "vpn" -> VpnSoft.cycle(context)
+            "wired" -> WiredSoft.cycle(context)
             else -> label(context, id)
         }
     }
