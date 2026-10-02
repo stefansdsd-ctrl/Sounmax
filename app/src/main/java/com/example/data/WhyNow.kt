@@ -33,6 +33,8 @@ object WhyNow {
         WeekendSoft.apply(context)
         MeteredSoft.apply(context)
         DndSoft.apply(context)
+        AirplaneSoft.apply(context)
+        SaverSoft.apply(context)
         JumpGuard.apply(context)
         DuckRestore.restore(context)
         HiddenScenes.maybeAutoSlim(context)
@@ -81,9 +83,11 @@ object WhyNow {
         val weekend = if (WeekendSoft.active(context)) WeekendSoft.label(context) else null
         val metered = if (MeteredSoft.active(context)) MeteredSoft.label(context) else null
         val dnd = if (DndSoft.active(context)) DndSoft.label(context) else null
+        val airplane = if (AirplaneSoft.active(context)) AirplaneSoft.label(context) else null
+        val saver = if (SaverSoft.active(context)) SaverSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver
         )
         return bits.joinToString(" · ")
     }
