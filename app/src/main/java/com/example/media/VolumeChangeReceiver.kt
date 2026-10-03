@@ -15,6 +15,8 @@ import com.example.data.OfficeSoft
 import com.example.data.PhoneLowCap
 import com.example.data.PodcastSoft
 import com.example.data.SessionCap
+import com.example.data.StudySoft
+import com.example.data.VideoSoft
 import com.example.data.ChargeNightCap
 import com.example.data.DndSoft
 import com.example.data.EveningSoft
@@ -66,6 +68,8 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         LowHsCap.apply(app)
         OfficeSoft.apply(app)
         PodcastSoft.apply(app)
+        VideoSoft.apply(app)
+        StudySoft.apply(app)
         NavSoft.apply(app)
         NetSoft.apply(app)
         ChargeNightCap.apply(app)
