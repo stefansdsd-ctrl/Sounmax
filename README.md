@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-03 — batch 255)
+- Meet-cap: Zoom/Meet/Teams/Webex/Slack boven 68% → 46%, in stapjes van 2. Voorgrond via UsageStats als toegestaan, anders playback/sessie. Chip Meet.
+- Mail-cap: Gmail/Outlook/Spark/Proton/FairEmail boven 72% → 54%. Geen WhatsApp (Spraak) of Zoom (Meet). Chip Mail.
+- Beide in WhyNow. Standaard aan.
+
 ## Nieuw (2026-10-03 — batch 254)
 - Betaal-cap: ING/Rabobank/ABN/Bunq/Tikkie/PayPal/Revolut/Wallet boven 60% → 42%, in stapjes van 2. Voorgrond via UsageStats als toegestaan, anders playback/sessie. Chip Betaal.
 - Kind-cap: YouTube Kids/Disney+/Nick/Zappelin/Duolingo boven 70% → 48%. Geen Netflix/YouTube (Video-cap). Chip Kind.
