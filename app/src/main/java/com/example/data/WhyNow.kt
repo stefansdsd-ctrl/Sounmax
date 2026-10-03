@@ -46,6 +46,8 @@ object WhyNow {
         TransitSoft.apply(context)
         PaySoft.apply(context)
         KidSoft.apply(context)
+        MeetSoft.apply(context)
+        MailSoft.apply(context)
         AlarmSoon.apply(context)
         NoisyRoute.ensure(context)
         PeakCap.apply(context)
@@ -123,6 +125,8 @@ object WhyNow {
         val ov = if (TransitSoft.active(context)) TransitSoft.label(context) else null
         val pay = if (PaySoft.active(context)) PaySoft.label(context) else null
         val kid = if (KidSoft.active(context)) KidSoft.label(context) else null
+        val meet = if (MeetSoft.active(context)) MeetSoft.label(context) else null
+        val mail = if (MailSoft.active(context)) MailSoft.label(context) else null
         val alarm = if (AlarmSoon.active(context)) AlarmSoon.label(context) else null
         val route = if (NoisyRoute.active(context)) NoisyRoute.label(context) else null
         val peak = if (PeakCap.active(context)) PeakCap.label(context) else null
@@ -147,7 +151,7 @@ object WhyNow {
         val wired = if (WiredSoft.active(context)) WiredSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, hscap, replug, acl, phonecap, mic, idle, session, car, office, podcast, video, study, social, voice, nav, offl, sport, gamecap, ov, pay, kid, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, hscap, replug, acl, phonecap, mic, idle, session, car, office, podcast, video, study, social, voice, nav, offl, sport, gamecap, ov, pay, kid, meet, mail, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
         )
         return bits.joinToString(" · ")
     }
