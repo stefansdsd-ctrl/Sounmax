@@ -1,14 +1,14 @@
 # Sounmax — volgende features
 
+## Batch 251 (klaar — code)
+1. SocialSoft: TikTok/Instagram/Snap/Reddit/Facebook/X boven 74% → 56%. Playback-fallback.
+2. VoiceNoteSoft: WhatsApp/Telegram/Signal/Messenger/Discord boven 70% → 48%.
+3. FeatureFinder: chips Video, Studie, Social, Spraak. WhyNow + volume-receiver passen ze toe. Standaard aan.
+
 ## Batch 250 (klaar — code)
 1. VideoSoft: YouTube/Netflix/Disney/Prime/Twitch boven 76% → 62%. Playback-fallback zonder notification-access.
 2. StudySoft: Anki/Duolingo/Kindle/Libby/Audible boven 58% → 40%.
 3. PodcastSoft: zelfde playback-fallback als NavSoft. WhyNow + FeatureFinder tonen de chips. Standaard aan.
-
-## Batch 248 (klaar — code)
-1. SessionCap: STREAM_MUSIC >62% gedurende 50 min → cap 52%. Timer reset als volume zakt.
-2. CarCap: UiMode TYPE_CAR (Android Auto) + muziek >80% → cap 62%.
-3. WhyNow + FeatureFinder tonen de chips. Standaard aan.
 
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump

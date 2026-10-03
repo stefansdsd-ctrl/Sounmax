@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-03 — batch 251)
+- Social-cap: TikTok/Instagram/Snap/Reddit/Facebook boven 74% → 56% (chip Social). Playback-fallback.
+- Spraak-cap: WhatsApp/Telegram/Signal/Messenger boven 70% → 48% (chip Spraak).
+- Video- en Studie-cap staan nu ook in FeatureFinder.
+
 ## Nieuw (2026-10-03 — batch 250)
 - Video-cap: YouTube/Netflix/Disney/Prime/Twitch boven 76% → 62% (chip Video). Werkt ook zonder notification-access via playback.
 - Studie-cap: Anki/Duolingo/Kindle/Libby/Audible boven 58% → 40% (chip Studie).

@@ -87,6 +87,10 @@ object FeatureFinder {
         Hit("car", "Auto-cap", "Android Auto boven 80% → 62%"),
         Hit("office", "Kantoor-cap", "ma–vr 09–17 boven 74% → 58%"),
         Hit("podcast", "Podcast-cap", "podcast-app boven 72% → 60%"),
+        Hit("video", "Video-cap", "YouTube/Netflix boven 76% → 62%"),
+        Hit("study", "Studie-cap", "Anki/Kindle boven 58% → 40%"),
+        Hit("social", "Social-cap", "TikTok/Instagram boven 74% → 56%"),
+        Hit("voice", "Spraak-cap", "WhatsApp/Telegram boven 70% → 48%"),
     )
 
     private val aliases = mapOf(
@@ -155,14 +159,18 @@ object FeatureFinder {
         "sessie" to "session", "session" to "session", "sessiecap" to "session",
         "androidauto" to "car", "autocap" to "car", "carui" to "car",
         "kantoor" to "office", "office" to "office", "werkvloer" to "office",
-        "podcast" to "podcast", "podcasts" to "podcast", "spraak" to "podcast"
+        "podcast" to "podcast", "podcasts" to "podcast", "spraak" to "podcast",
+        "video" to "video", "youtube" to "video", "netflix" to "video",
+        "studie" to "study", "study" to "study", "anki" to "study",
+        "social" to "social", "tiktok" to "social", "instagram" to "social",
+        "voicenote" to "voice", "spraakbericht" to "voice", "whatsapp" to "voice"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice"
     )
 
     fun search(query: String): List<Hit> {
@@ -250,6 +258,10 @@ object FeatureFinder {
         "car" -> CarCap.label(context)
         "office" -> OfficeSoft.label(context)
         "podcast" -> PodcastSoft.label(context)
+        "video" -> VideoSoft.label(context)
+        "study" -> StudySoft.label(context)
+        "social" -> SocialSoft.label(context)
+        "voice" -> VoiceNoteSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -337,6 +349,10 @@ object FeatureFinder {
             "car" -> CarCap.cycle(context)
             "office" -> OfficeSoft.cycle(context)
             "podcast" -> PodcastSoft.cycle(context)
+            "video" -> VideoSoft.cycle(context)
+            "study" -> StudySoft.cycle(context)
+            "social" -> SocialSoft.cycle(context)
+            "voice" -> VoiceNoteSoft.cycle(context)
             else -> label(context, id)
         }
     }
