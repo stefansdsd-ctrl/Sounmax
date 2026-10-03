@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-03 — batch 258)
+- Slaap-cap: Calm/Headspace/Insight Timer/Sleep Cycle boven 58% → 36%, in stapjes van 2. Geen overlap met Boek. Chip Slaap.
+- Eten-cap: Thuisbezorgd/Uber Eats/Deliveroo boven 62% → 42%. Geen overlap met Shop. Chip Eten.
+- Boek- en Camera-cap hangen nu ook aan volumewijziging en FeatureFinder (waren alleen in WhyNow).
+- Studie-cap deelt Audible/Kindle/Libby/Books niet meer met Boek-cap (geen dubbele stap).
+
 ## Nieuw (2026-10-03 — batch 257)
 - Boek-cap: Audible/Storytel/Nextory/Kobo/Libby boven 66% → 50%, in stapjes van 2. Geen overlap met Podcast. Chip Boek.
 - Camera-cap: Google/Samsung/Open Camera/Photos boven 55% → 32%. Sluiter en straat blijven hoorbaar. Geen overlap met Video. Chip Camera.

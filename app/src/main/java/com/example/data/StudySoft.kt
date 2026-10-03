@@ -19,12 +19,8 @@ object StudySoft {
     private val packages = setOf(
         "com.ichi2.anki",
         "com.duolingo",
-        "com.amazon.kindle",
-        "com.overdrive.mobile.android.libby",
-        "com.audible.application",
         "org.readera",
-        "com.google.android.apps.books"
-    )
+            )
 
     fun enabled(context: Context) = prefs(context).getBoolean("on", true)
 

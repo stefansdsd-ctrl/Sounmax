@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 258 (klaar — code)
+1. SleepSoft: slaap/meditatie boven 58% → 36%, stapsgewijs. Geen overlap met Boek.
+2. FoodSoft: bezorg-apps boven 62% → 42%. Geen overlap met Shop.
+3. Boek/Camera in VolumeChangeReceiver + FeatureFinder. Studie-cap zonder boek-packages.
+
 ## Batch 257 (klaar — code)
 1. BookSoft: luisterboeken boven 66% → 50%, stapsgewijs. Geen overlap met Podcast.
 2. CamSoft: camera/foto boven 55% → 32%. Geen overlap met Video.
