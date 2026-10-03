@@ -41,6 +41,9 @@ object WhyNow {
         VoiceNoteSoft.apply(context)
         NavSoft.apply(context)
         NetSoft.apply(context)
+        SportSoft.apply(context)
+        GameSoft.apply(context)
+        TransitSoft.apply(context)
         AlarmSoon.apply(context)
         NoisyRoute.ensure(context)
         PeakCap.apply(context)
@@ -113,6 +116,9 @@ object WhyNow {
         val voice = if (VoiceNoteSoft.active(context)) VoiceNoteSoft.label(context) else null
         val nav = if (NavSoft.active(context)) NavSoft.label(context) else null
         val offl = if (NetSoft.active(context)) NetSoft.label(context) else null
+        val sport = if (SportSoft.active(context)) SportSoft.label(context) else null
+        val gamecap = if (GameSoft.active(context)) GameSoft.label(context) else null
+        val ov = if (TransitSoft.active(context)) TransitSoft.label(context) else null
         val alarm = if (AlarmSoon.active(context)) AlarmSoon.label(context) else null
         val route = if (NoisyRoute.active(context)) NoisyRoute.label(context) else null
         val peak = if (PeakCap.active(context)) PeakCap.label(context) else null
@@ -137,7 +143,7 @@ object WhyNow {
         val wired = if (WiredSoft.active(context)) WiredSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, hscap, replug, acl, phonecap, mic, idle, session, car, office, podcast, video, study, social, voice, nav, offl, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, hscap, replug, acl, phonecap, mic, idle, session, car, office, podcast, video, study, social, voice, nav, offl, sport, gamecap, ov, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
         )
         return bits.joinToString(" · ")
     }

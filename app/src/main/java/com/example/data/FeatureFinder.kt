@@ -94,6 +94,8 @@ object FeatureFinder {
         Hit("nav", "Nav-cap", "Maps/Waze boven 66% → 50%"),
         Hit("net", "Offline-cap", "geen internet boven 68% → 52%"),
         Hit("sport", "Sport-cap", "Strava/Fit boven 78% → 64%"),
+        Hit("gamecap", "Game-cap", "games boven 80% → 66%"),
+        Hit("ov", "OV-cap", "NS/9292 boven 70% → 52%"),
     )
 
     private val aliases = mapOf(
@@ -169,14 +171,16 @@ object FeatureFinder {
         "voicenote" to "voice", "spraakbericht" to "voice", "whatsapp" to "voice",
         "nav" to "nav", "maps" to "nav", "waze" to "nav", "navigatie" to "nav",
         "offline" to "net", "geennet" to "net", "internet" to "net",
-        "sport" to "sport", "strava" to "sport", "hardlopen" to "sport", "fitness" to "sport"
+        "sport" to "sport", "strava" to "sport", "hardlopen" to "sport", "fitness" to "sport",
+        "gamecap" to "gamecap", "fortnite" to "gamecap", "roblox" to "gamecap",
+        "ov" to "ov", "ns" to "ov", "treinapp" to "ov", "9292" to "ov"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice", "nav", "net", "sport"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice", "nav", "net", "sport", "gamecap", "ov"
     )
 
     fun search(query: String): List<Hit> {
@@ -271,6 +275,8 @@ object FeatureFinder {
         "nav" -> NavSoft.label(context)
         "net" -> NetSoft.label(context)
         "sport" -> SportSoft.label(context)
+        "gamecap" -> GameSoft.label(context)
+        "ov" -> TransitSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -365,6 +371,8 @@ object FeatureFinder {
             "nav" -> NavSoft.cycle(context)
             "net" -> NetSoft.cycle(context)
             "sport" -> SportSoft.cycle(context)
+            "gamecap" -> GameSoft.cycle(context)
+            "ov" -> TransitSoft.cycle(context)
             else -> label(context, id)
         }
     }

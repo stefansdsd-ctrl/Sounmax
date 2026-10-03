@@ -20,6 +20,8 @@ import com.example.data.SocialSoft
 import com.example.data.VoiceNoteSoft
 import com.example.data.VideoSoft
 import com.example.data.SportSoft
+import com.example.data.GameSoft
+import com.example.data.TransitSoft
 import com.example.data.ChargeNightCap
 import com.example.data.DndSoft
 import com.example.data.EveningSoft
@@ -78,6 +80,8 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         NavSoft.apply(app)
         NetSoft.apply(app)
         SportSoft.apply(app)
+        GameSoft.apply(app)
+        TransitSoft.apply(app)
         ChargeNightCap.apply(app)
         val prefs = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
