@@ -106,6 +106,7 @@ object FeatureFinder {
         Hit("cam", "Camera-cap", "camera/foto boven 55% → 32%"),
         Hit("sleep", "Slaap-cap", "Calm/Headspace boven 58% → 36%"),
         Hit("food", "Eten-cap", "Thuisbezorgd/Uber Eats boven 62% → 42%"),
+        Hit("weather", "Weer-cap", "regen/wind boven 70% → 50%"),
     )
 
     private val aliases = mapOf(
@@ -189,14 +190,14 @@ object FeatureFinder {
         "shop" to "shop", "bol" to "shop", "amazon" to "shop", "ah" to "shop", "boodschappen" to "shop",
         "nieuws" to "news", "news" to "news", "nos" to "news", "krant" to "news",
         "boek" to "book", "book" to "book", "audible" to "book", "camera" to "cam", "foto" to "cam",
-        "slaap" to "sleep", "sleep" to "sleep", "headspace" to "sleep", "eten" to "food", "bezorg" to "food"
+        "slaap" to "sleep", "sleep" to "sleep", "headspace" to "sleep", "eten" to "food", "bezorg" to "food", "weer" to "weather", "regen" to "weather", "wind" to "weather"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice", "nav", "net", "sport", "gamecap", "ov", "pay", "kid", "meet", "mail", "shop", "news", "book", "cam", "sleep", "food"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice", "nav", "net", "sport", "gamecap", "ov", "pay", "kid", "meet", "mail", "shop", "news", "book", "cam", "sleep", "food", "weather"
     )
 
     fun search(query: String): List<Hit> {
@@ -303,6 +304,7 @@ object FeatureFinder {
         "cam" -> CamSoft.label(context)
         "sleep" -> SleepSoft.label(context)
         "food" -> FoodSoft.label(context)
+        "weather" -> WeatherSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -409,6 +411,7 @@ object FeatureFinder {
             "cam" -> CamSoft.cycle(context)
             "sleep" -> SleepSoft.cycle(context)
             "food" -> FoodSoft.cycle(context)
+            "weather" -> WeatherSoft.cycle(context)
             else -> label(context, id)
         }
     }

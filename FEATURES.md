@@ -1,5 +1,9 @@
 # Sounmax — volgende features
 
+## Batch 259 (klaar — code)
+1. WeatherSoft: Open-Meteo regen/wind boven 70% → 50%. Gevalideerd internet verplicht. Geen nieuwe permissie-popup.
+2. FeatureFinder chip Weer. WhyNow en VolumeChangeReceiver haken aan.
+
 ## Batch 258 (klaar — code)
 1. SleepSoft: slaap/meditatie boven 58% → 36%, stapsgewijs. Geen overlap met Boek.
 2. FoodSoft: bezorg-apps boven 62% → 42%. Geen overlap met Shop.
