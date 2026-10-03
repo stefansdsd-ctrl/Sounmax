@@ -8,22 +8,22 @@ import android.media.session.MediaSessionManager
 import com.example.media.SoundMaxNotificationListener
 
 /**
- * Podcast-app actief + volume boven 72% → cap 60%.
- * Spraak hoeft niet op muziekhardheid.
- * Zonder notification-access: playback-config.
+ * Lees- of leer-app actief + volume boven 58% → cap 40%.
+ * Gesproken les of audioboek hoeft niet op muziekhardheid.
  */
-object PodcastSoft {
-    private const val PREFS = "sounmax_podcast_soft"
-    private const val CAP_PCT = 60
-    private const val TRIGGER_PCT = 72
+object StudySoft {
+    private const val PREFS = "sounmax_study_soft"
+    private const val CAP_PCT = 40
+    private const val TRIGGER_PCT = 58
 
     private val packages = setOf(
-        "com.google.android.apps.podcasts",
-        "au.com.shiftyjelly.pocketcasts",
-        "com.bambuna.podcastaddict",
-        "fm.castbox.audiobook.radio.podcast",
-        "de.danoeh.antennapod",
-        "com.spotify.podcasts"
+        "com.ichi2.anki",
+        "com.duolingo",
+        "com.amazon.kindle",
+        "com.overdrive.mobile.android.libby",
+        "com.audible.application",
+        "org.readera",
+        "com.google.android.apps.books"
     )
 
     fun enabled(context: Context) = prefs(context).getBoolean("on", true)
@@ -35,7 +35,7 @@ object PodcastSoft {
         return label(context)
     }
 
-    fun podcastPlaying(context: Context): Boolean {
+    fun studyPlaying(context: Context): Boolean {
         if (viaPlayback(context)) return true
         return try {
             val msm = context.getSystemService(Context.MEDIA_SESSION_SERVICE) as MediaSessionManager
@@ -62,7 +62,7 @@ object PodcastSoft {
     }
 
     fun apply(context: Context): Boolean {
-        if (!enabled(context) || !podcastPlaying(context)) return false
+        if (!enabled(context) || !studyPlaying(context)) return false
         val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
         val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
@@ -76,12 +76,12 @@ object PodcastSoft {
         return false
     }
 
-    fun active(context: Context) = enabled(context) && podcastPlaying(context)
+    fun active(context: Context) = enabled(context) && studyPlaying(context)
 
     fun label(context: Context) = when {
-        !enabled(context) -> "Podcast-cap uit"
-        podcastPlaying(context) -> "Podcast-cap (60%)"
-        else -> "Podcast-cap aan"
+        !enabled(context) -> "Studie-cap uit"
+        studyPlaying(context) -> "Studie-cap (40%)"
+        else -> "Studie-cap aan"
     }
 
     private fun prefs(context: Context) =
