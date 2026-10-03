@@ -3,6 +3,10 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-03 — batch 257)
+- Boek-cap: Audible/Storytel/Nextory/Kobo/Libby boven 66% → 50%, in stapjes van 2. Geen overlap met Podcast. Chip Boek.
+- Camera-cap: Google/Samsung/Open Camera/Photos boven 55% → 32%. Sluiter en straat blijven hoorbaar. Geen overlap met Video. Chip Camera.
+
 ## Nieuw (2026-10-03 — batch 256)
 - Shop-cap: Bol/Amazon/AH/Jumbo/Marktplaats boven 64% → 44%, in stapjes van 2. Geen overlap met Betaal-cap. Chip Shop.
 - Nieuws-cap: NOS/NU/BBC/NYT boven 70% → 50%. Geen overlap met Podcast of Video. Chip Nieuws.

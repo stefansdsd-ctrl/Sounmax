@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 257 (klaar — code)
+1. BookSoft: luisterboeken boven 66% → 50%, stapsgewijs. Geen overlap met Podcast.
+2. CamSoft: camera/foto boven 55% → 32%. Geen overlap met Video.
+3. FeatureFinder chips Boek en Camera. WhyNow toont beide.
+
 ## Batch 256 (klaar — code)
 1. ShopSoft: winkel/boodschappen boven 64% → 44%, stapsgewijs. Geen overlap met Betaal.
 2. NewsSoft: nieuws-apps boven 70% → 50%. Geen overlap met Podcast of Video.
