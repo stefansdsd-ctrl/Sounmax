@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-03 — batch 256)
+- Shop-cap: Bol/Amazon/AH/Jumbo/Marktplaats boven 64% → 44%, in stapjes van 2. Geen overlap met Betaal-cap. Chip Shop.
+- Nieuws-cap: NOS/NU/BBC/NYT boven 70% → 50%. Geen overlap met Podcast of Video. Chip Nieuws.
+- Meet- en Mail-chips staan nu ook in FeatureFinder (waren al actief bij volumewijziging).
+
 ## Nieuw (2026-10-03 — batch 255)
 - Meet-cap: Zoom/Meet/Teams/Webex/Slack boven 68% → 46%, in stapjes van 2. Voorgrond via UsageStats als toegestaan, anders playback/sessie. Chip Meet.
 - Mail-cap: Gmail/Outlook/Spark/Proton/FairEmail boven 72% → 54%. Geen WhatsApp (Spraak) of Zoom (Meet). Chip Mail.

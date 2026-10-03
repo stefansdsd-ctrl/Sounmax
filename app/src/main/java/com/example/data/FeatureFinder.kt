@@ -98,6 +98,10 @@ object FeatureFinder {
         Hit("ov", "OV-cap", "NS/9292 boven 70% → 52%"),
         Hit("pay", "Betaal-cap", "bank/wallet boven 60% → 42%"),
         Hit("kid", "Kind-cap", "kids-apps boven 70% → 48%"),
+        Hit("meet", "Meet-cap", "Zoom/Teams boven 68% → 46%"),
+        Hit("mail", "Mail-cap", "Gmail/Outlook boven 72% → 54%"),
+        Hit("shop", "Shop-cap", "Bol/AH/Amazon boven 64% → 44%"),
+        Hit("news", "Nieuws-cap", "NOS/NU/BBC boven 70% → 50%"),
     )
 
     private val aliases = mapOf(
@@ -175,14 +179,18 @@ object FeatureFinder {
         "offline" to "net", "geennet" to "net", "internet" to "net",
         "sport" to "sport", "strava" to "sport", "hardlopen" to "sport", "fitness" to "sport",
         "gamecap" to "gamecap", "fortnite" to "gamecap", "roblox" to "gamecap",
-        "ov" to "ov", "ns" to "ov", "treinapp" to "ov", "9292" to "ov"
+        "ov" to "ov", "ns" to "ov", "treinapp" to "ov", "9292" to "ov",
+        "meet" to "meet", "zoom" to "meet", "teams" to "meet", "webex" to "meet",
+        "mail" to "mail", "gmail" to "mail", "outlook" to "mail",
+        "shop" to "shop", "bol" to "shop", "amazon" to "shop", "ah" to "shop", "boodschappen" to "shop",
+        "nieuws" to "news", "news" to "news", "nos" to "news", "krant" to "news"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice", "nav", "net", "sport", "gamecap", "ov"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice", "nav", "net", "sport", "gamecap", "ov", "pay", "kid", "meet", "mail", "shop", "news"
     )
 
     fun search(query: String): List<Hit> {
@@ -281,6 +289,10 @@ object FeatureFinder {
         "ov" -> TransitSoft.label(context)
         "pay" -> PaySoft.label(context)
         "kid" -> KidSoft.label(context)
+        "meet" -> MeetSoft.label(context)
+        "mail" -> MailSoft.label(context)
+        "shop" -> ShopSoft.label(context)
+        "news" -> NewsSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -379,6 +391,10 @@ object FeatureFinder {
             "ov" -> TransitSoft.cycle(context)
             "pay" -> PaySoft.cycle(context)
             "kid" -> KidSoft.cycle(context)
+            "meet" -> MeetSoft.cycle(context)
+            "mail" -> MailSoft.cycle(context)
+            "shop" -> ShopSoft.cycle(context)
+            "news" -> NewsSoft.cycle(context)
             else -> label(context, id)
         }
     }

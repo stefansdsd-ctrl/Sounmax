@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 256 (klaar — code)
+1. ShopSoft: winkel/boodschappen boven 64% → 44%, stapsgewijs. Geen overlap met Betaal.
+2. NewsSoft: nieuws-apps boven 70% → 50%. Geen overlap met Podcast of Video.
+3. FeatureFinder chips Meet, Mail, Shop en Nieuws. WhyNow toont Shop en Nieuws.
+
 ## Batch 255 (klaar — code)
 1. MeetSoft: Zoom/Meet/Teams/Webex/Slack boven 68% → 46%, stapsgewijs. UsageStats-voorgrond optioneel.
 2. MailSoft: Gmail/Outlook/Spark/Proton boven 72% → 54%. Geen overlap met Spraak of Meet.

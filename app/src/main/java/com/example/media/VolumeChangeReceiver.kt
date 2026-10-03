@@ -90,6 +90,8 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         KidSoft.apply(app)
         MeetSoft.apply(app)
         MailSoft.apply(app)
+        ShopSoft.apply(app)
+        NewsSoft.apply(app)
         ChargeNightCap.apply(app)
         val prefs = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
