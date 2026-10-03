@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-03 — batch 252)
+- Sport-cap: Strava/Nike/Fit/Peloton/Zwift boven 78% → 64% (chip Sport). Playback-fallback.
+- Nav-cap en Offline-cap staan nu in FeatureFinder (waren al actief bij volumewijziging).
+- Offline-cap gebruikt ConnectivityManager (internet + validated), geen aanname dat Wi-Fi online is.
+
 ## Nieuw (2026-10-03 — batch 251)
 - Social-cap: TikTok/Instagram/Snap/Reddit/Facebook boven 74% → 56% (chip Social). Playback-fallback.
 - Spraak-cap: WhatsApp/Telegram/Signal/Messenger boven 70% → 48% (chip Spraak).

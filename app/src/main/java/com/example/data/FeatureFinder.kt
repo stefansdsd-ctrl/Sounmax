@@ -91,6 +91,9 @@ object FeatureFinder {
         Hit("study", "Studie-cap", "Anki/Kindle boven 58% → 40%"),
         Hit("social", "Social-cap", "TikTok/Instagram boven 74% → 56%"),
         Hit("voice", "Spraak-cap", "WhatsApp/Telegram boven 70% → 48%"),
+        Hit("nav", "Nav-cap", "Maps/Waze boven 66% → 50%"),
+        Hit("net", "Offline-cap", "geen internet boven 68% → 52%"),
+        Hit("sport", "Sport-cap", "Strava/Fit boven 78% → 64%"),
     )
 
     private val aliases = mapOf(
@@ -163,14 +166,17 @@ object FeatureFinder {
         "video" to "video", "youtube" to "video", "netflix" to "video",
         "studie" to "study", "study" to "study", "anki" to "study",
         "social" to "social", "tiktok" to "social", "instagram" to "social",
-        "voicenote" to "voice", "spraakbericht" to "voice", "whatsapp" to "voice"
+        "voicenote" to "voice", "spraakbericht" to "voice", "whatsapp" to "voice",
+        "nav" to "nav", "maps" to "nav", "waze" to "nav", "navigatie" to "nav",
+        "offline" to "net", "geennet" to "net", "internet" to "net",
+        "sport" to "sport", "strava" to "sport", "hardlopen" to "sport", "fitness" to "sport"
     )
 
     private val noSolo = setOf(
         "panic", "solo", "why", "dose", "bt", "reset", "next", "safe", "ear",
         "talk", "door", "street", "find", "codec", "hear", "slim", "duck", "pocket", "shake", "flip", "charge",
         "ramp", "leak", "speaker", "alarm", "route", "peak", "ring", "morning", "voip", "evening", "restore", "jump", "lunch",
-        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice"
+        "weekend", "metered", "night", "dnd", "airplane", "saver", "screen", "hotspot", "lock", "silent", "vpn", "wired", "unplug", "hbatt", "hscap", "replug", "acl", "phonecap", "mic", "idle", "session", "car", "office", "podcast", "video", "study", "social", "voice", "nav", "net", "sport"
     )
 
     fun search(query: String): List<Hit> {
@@ -262,6 +268,9 @@ object FeatureFinder {
         "study" -> StudySoft.label(context)
         "social" -> SocialSoft.label(context)
         "voice" -> VoiceNoteSoft.label(context)
+        "nav" -> NavSoft.label(context)
+        "net" -> NetSoft.label(context)
+        "sport" -> SportSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -353,6 +362,9 @@ object FeatureFinder {
             "study" -> StudySoft.cycle(context)
             "social" -> SocialSoft.cycle(context)
             "voice" -> VoiceNoteSoft.cycle(context)
+            "nav" -> NavSoft.cycle(context)
+            "net" -> NetSoft.cycle(context)
+            "sport" -> SportSoft.cycle(context)
             else -> label(context, id)
         }
     }
