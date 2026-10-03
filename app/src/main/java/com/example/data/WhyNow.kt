@@ -35,6 +35,8 @@ object WhyNow {
         CarCap.apply(context)
         OfficeSoft.apply(context)
         PodcastSoft.apply(context)
+        VideoSoft.apply(context)
+        StudySoft.apply(context)
         NavSoft.apply(context)
         NetSoft.apply(context)
         AlarmSoon.apply(context)
@@ -103,6 +105,8 @@ object WhyNow {
         val car = if (CarCap.active(context)) CarCap.label(context) else null
         val office = if (OfficeSoft.active(context)) OfficeSoft.label(context) else null
         val podcast = if (PodcastSoft.active(context)) PodcastSoft.label(context) else null
+        val video = if (VideoSoft.active(context)) VideoSoft.label(context) else null
+        val study = if (StudySoft.active(context)) StudySoft.label(context) else null
         val nav = if (NavSoft.active(context)) NavSoft.label(context) else null
         val offl = if (NetSoft.active(context)) NetSoft.label(context) else null
         val alarm = if (AlarmSoon.active(context)) AlarmSoon.label(context) else null
@@ -129,7 +133,7 @@ object WhyNow {
         val wired = if (WiredSoft.active(context)) WiredSoft.label(context) else null
         val bits = listOfNotNull(
             "$slot · $holdBit · $sceneBit · $dose · $next · $net · $codec",
-            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, hscap, replug, acl, phonecap, mic, idle, session, car, office, podcast, nav, offl, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
+            ear, talk, door, street, find, hear, duck, pocket, shake, flip, charge, speaker, unplug, batt, hscap, replug, acl, phonecap, mic, idle, session, car, office, podcast, video, study, nav, offl, alarm, route, peak, ring, morning, comm, evening, night, restored, jump, lunch, weekend, metered, dnd, airplane, saver, screen, hotspot, lock, silent, vpn, wired
         )
         return bits.joinToString(" · ")
     }
