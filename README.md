@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-03 — batch 254)
+- Betaal-cap: ING/Rabobank/ABN/Bunq/Tikkie/PayPal/Revolut/Wallet boven 60% → 42%, in stapjes van 2. Voorgrond via UsageStats als toegestaan, anders playback/sessie. Chip Betaal.
+- Kind-cap: YouTube Kids/Disney+/Nick/Zappelin/Duolingo boven 70% → 48%. Geen Netflix/YouTube (Video-cap). Chip Kind.
+- Beide in WhyNow. Standaard aan.
+
 ## Nieuw (2026-10-03 — batch 253)
 - Game-cap: Fortnite/Roblox/CoD/Genshin boven 80% → 66% (chip Game-cap). Playback-fallback.
 - OV-cap: NS/9292/Citymapper/DB boven 70% → 52% (chip OV). Geen overlap met Nav-cap.

@@ -96,6 +96,8 @@ object FeatureFinder {
         Hit("sport", "Sport-cap", "Strava/Fit boven 78% → 64%"),
         Hit("gamecap", "Game-cap", "games boven 80% → 66%"),
         Hit("ov", "OV-cap", "NS/9292 boven 70% → 52%"),
+        Hit("pay", "Betaal-cap", "bank/wallet boven 60% → 42%"),
+        Hit("kid", "Kind-cap", "kids-apps boven 70% → 48%"),
     )
 
     private val aliases = mapOf(
@@ -277,6 +279,8 @@ object FeatureFinder {
         "sport" -> SportSoft.label(context)
         "gamecap" -> GameSoft.label(context)
         "ov" -> TransitSoft.label(context)
+        "pay" -> PaySoft.label(context)
+        "kid" -> KidSoft.label(context)
         else -> catalog.firstOrNull { it.id == id }?.title ?: id
     }
 
@@ -373,6 +377,8 @@ object FeatureFinder {
             "sport" -> SportSoft.cycle(context)
             "gamecap" -> GameSoft.cycle(context)
             "ov" -> TransitSoft.cycle(context)
+            "pay" -> PaySoft.cycle(context)
+            "kid" -> KidSoft.cycle(context)
             else -> label(context, id)
         }
     }
