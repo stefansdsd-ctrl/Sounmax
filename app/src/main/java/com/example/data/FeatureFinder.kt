@@ -33,7 +33,9 @@ object FeatureFinder {
         FeatureHit("meet", "Meet", "zoom teams meet webex"),
         FeatureHit("pay", "Betaal", "bank betalen wallet"),
         FeatureHit("sleep", "Slaap", "slaap meditatie"),
-        FeatureHit("weather", "Weer", "regen wind weer")
+        FeatureHit("weather", "Weer", "regen wind weer"),
+        FeatureHit("leak", "Lek", "speaker lek headset a2dp geluid lekt"),
+        FeatureHit("roam", "Roam", "roaming buitenland data stream cap")
     )
 
     fun lastQuery(context: Context) =
@@ -46,10 +48,17 @@ object FeatureFinder {
     fun search(query: String): List<FeatureHit> {
         val tokens = query.trim().lowercase().split(Regex("\\s+")).filter { it.isNotBlank() }
         if (tokens.isEmpty()) return emptyList()
-        return catalog.filter { hit ->
+        return catalog.mapNotNull { hit ->
             val blob = "${hit.id} ${hit.title} ${hit.keys}".lowercase()
-            tokens.all { blob.contains(it) }
-        }
+            val score = tokens.sumOf { t ->
+                when {
+                    blob.split(" ").any { it.startsWith(t) } -> 2
+                    blob.contains(t) -> 1
+                    else -> 0
+                }
+            }
+            if (score == 0) null else score to hit
+        }.sortedByDescending { it.first }.map { it.second }
     }
 
     fun cycle(context: Context, id: String): String = when (id) {
@@ -82,6 +91,8 @@ object FeatureFinder {
         "pay" -> PaySoft.cycle(context)
         "sleep" -> SleepSoft.cycle(context)
         "weather" -> WeatherSoft.cycle(context)
+        "leak" -> LeakGuard.cycle(context)
+        "roam" -> RoamCap.cycle(context)
         else -> "Onbekend: $id"
     }
 }

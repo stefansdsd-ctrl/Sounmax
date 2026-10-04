@@ -40,6 +40,9 @@ import com.example.data.FlipQuiet
 import com.example.data.QuietLeakCap
 import com.example.data.ShakeAware
 import com.example.data.SpeakerGuard
+import com.example.data.HeadsetBatt
+import com.example.data.LeakGuard
+import com.example.data.RoamCap
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -57,6 +60,9 @@ class MainActivity : ComponentActivity() {
         ConnectRamp.ensure(this)
         QuietLeakCap.apply(this)
         SpeakerGuard.ensure(this)
+        HeadsetBatt.ensure(this)
+        LeakGuard.apply(this)
+        RoamCap.apply(this)
         AlarmSoon.apply(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
@@ -115,6 +121,8 @@ class MainActivity : ComponentActivity() {
         QuietLeakCap.apply(this)
         ChargeNightCap.apply(this)
         AlarmSoon.apply(this)
+        LeakGuard.apply(this)
+        RoamCap.apply(this)
     }
 
     private fun handleSceneIntent(intent: Intent?) {
@@ -167,6 +175,7 @@ class MainActivity : ComponentActivity() {
         FlipQuiet.release(this)
         ConnectRamp.release(this)
         SpeakerGuard.release(this)
+        HeadsetBatt.release(this)
         super.onDestroy()
     }
 }
