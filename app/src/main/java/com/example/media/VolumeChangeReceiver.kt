@@ -9,6 +9,7 @@ import com.example.data.BookSoft
 import com.example.data.CamSoft
 import com.example.data.FoodSoft
 import com.example.data.HealthSoft
+import com.example.data.ParcelSoft
 import com.example.data.WeatherSoft
 import com.example.data.RideSoft
 import com.example.data.SleepSoft
@@ -108,6 +109,7 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         WeatherSoft.apply(app)
         RideSoft.apply(app)
         HealthSoft.apply(app)
+        ParcelSoft.apply(app)
         ChargeNightCap.apply(app)
         val prefs = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
