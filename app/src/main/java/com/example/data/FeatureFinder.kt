@@ -20,6 +20,7 @@ object FeatureFinder {
         FeatureHit("health", "Zorg", "thuisarts apotheek zorg patient portaal"),
         FeatureHit("parcel", "Pakket", "postnl dhl dpd ups fedex gls pakket koerier bezorg"),
         FeatureHit("class", "Les", "magister somtoday itslearning classroom zermelo les school rooster"),
+        FeatureHit("lang", "Taal", "duolingo babbel busuu mondly rosetta taal les uitspraak"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -37,10 +38,11 @@ object FeatureFinder {
     }
 
     fun search(query: String): List<FeatureHit> {
-        val q = query.trim().lowercase()
-        if (q.isEmpty()) return emptyList()
+        val tokens = query.trim().lowercase().split(Regex("\\s+")).filter { it.isNotBlank() }
+        if (tokens.isEmpty()) return emptyList()
         return catalog.filter { hit ->
-            hit.title.lowercase().contains(q) || hit.keys.contains(q) || hit.id.contains(q)
+            val blob = "${hit.id} ${hit.title} ${hit.keys}".lowercase()
+            tokens.all { blob.contains(it) }
         }
     }
 
@@ -60,6 +62,7 @@ object FeatureFinder {
         "health" -> HealthSoft.cycle(context)
         "parcel" -> ParcelSoft.cycle(context)
         "class" -> ClassSoft.cycle(context)
+        "lang" -> LanguageSoft.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)

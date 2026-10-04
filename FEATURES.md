@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 264 (klaar — code)
+1. LanguageSoft: Duolingo/Babbel/Busuu/Mondly/Rosetta boven 58% → 40%, stapsgewijs. Uitspraak blijft hoorbaar. Geen overlap met Les of Studie.
+2. FeatureFinder zoekt op alle woorden (niet alleen één substring). Chip Taal. WhyNow en VolumeChangeReceiver haken aan.
+
+# Sounmax — volgende features
+
 ## Batch 263 (klaar — code)
 1. ClassSoft: Magister/Somtoday/Itslearning/Classroom/Zermelo boven 60% → 42%, stapsgewijs. Rooster en klasaudio blijven hoorbaar. Geen overlap met Studie of Meet.
 2. FeatureFinder, WhyNow en VolumeChangeReceiver haken aan. Zoek op magister, somtoday, les, classroom.
