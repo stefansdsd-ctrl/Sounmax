@@ -19,6 +19,7 @@ object FeatureFinder {
         FeatureHit("ride", "Rit", "uber bolt lyft taxi sixt chauffeur rit"),
         FeatureHit("health", "Zorg", "thuisarts apotheek zorg patient portaal"),
         FeatureHit("parcel", "Pakket", "postnl dhl dpd ups fedex gls pakket koerier bezorg"),
+        FeatureHit("class", "Les", "magister somtoday itslearning classroom zermelo les school rooster"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -58,6 +59,7 @@ object FeatureFinder {
         "ride" -> RideSoft.cycle(context)
         "health" -> HealthSoft.cycle(context)
         "parcel" -> ParcelSoft.cycle(context)
+        "class" -> ClassSoft.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)

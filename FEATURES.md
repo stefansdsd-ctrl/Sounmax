@@ -1,5 +1,9 @@
 # Sounmax — volgende features
 
+## Batch 263 (klaar — code)
+1. ClassSoft: Magister/Somtoday/Itslearning/Classroom/Zermelo boven 60% → 42%, stapsgewijs. Rooster en klasaudio blijven hoorbaar. Geen overlap met Studie of Meet.
+2. FeatureFinder, WhyNow en VolumeChangeReceiver haken aan. Zoek op magister, somtoday, les, classroom.
+
 ## Batch 262 (klaar — code)
 1. FeatureFinder hersteld: search + cycle voor Solo, Veilig, Gesprek, Deur, Straat, Zoek, Rit, Zorg, Pakket, Nav, OV, Shop, Meet, Betaal, Slaap, Weer.
 2. ParcelSoft: PostNL/DHL/DPD/UPS/FedEx/GLS boven 62% → 40%, stapsgewijs. Geen overlap met Shop of Rit.
