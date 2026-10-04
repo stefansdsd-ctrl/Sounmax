@@ -25,6 +25,7 @@ object FeatureFinder {
         FeatureHit("voice", "Spraak", "whatsapp telegram signal voice note spraakbericht"),
         FeatureHit("radio", "Radio", "tunein mytuner npo radio fm luisteren"),
         FeatureHit("tr", "Vertaal", "translate deepl vertalen vertaler live tolk"),
+        FeatureHit("rec", "Opname", "recorder voicenote dictation otter opname memo voice recorder"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -71,6 +72,7 @@ object FeatureFinder {
         "voice" -> VoiceNoteSoft.cycle(context)
         "radio" -> RadioSoft.cycle(context)
         "tr" -> TranslateSoft.cycle(context)
+        "rec" -> RecorderSoft.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)
