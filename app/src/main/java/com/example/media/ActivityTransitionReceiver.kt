@@ -3,7 +3,9 @@ package com.example.media
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.example.data.RunWind
 import com.google.android.gms.location.ActivityTransitionResult
+import com.google.android.gms.location.DetectedActivity
 
 class ActivityTransitionReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -11,11 +13,11 @@ class ActivityTransitionReceiver : BroadcastReceiver() {
         val result = ActivityTransitionResult.extractResult(intent) ?: return
         val last = result.transitionEvents.lastOrNull() ?: return
         val label = when (last.activityType) {
-            com.google.android.gms.location.DetectedActivity.IN_VEHICLE -> "in_vehicle"
-            com.google.android.gms.location.DetectedActivity.ON_BICYCLE -> "cycling"
-            com.google.android.gms.location.DetectedActivity.WALKING,
-            com.google.android.gms.location.DetectedActivity.ON_FOOT -> "walk"
-            com.google.android.gms.location.DetectedActivity.RUNNING -> "walk"
+            DetectedActivity.IN_VEHICLE -> "in_vehicle"
+            DetectedActivity.ON_BICYCLE -> "cycling"
+            DetectedActivity.WALKING,
+            DetectedActivity.ON_FOOT -> "walk"
+            DetectedActivity.RUNNING -> "run"
             else -> null
         }
         if (label != null) {
@@ -24,6 +26,9 @@ class ActivityTransitionReceiver : BroadcastReceiver() {
                 .putString("last_activity", label)
                 .putLong("last_activity_at", System.currentTimeMillis())
                 .apply()
+        }
+        if (last.activityType == DetectedActivity.RUNNING) {
+            RunWind.apply(context)
         }
         context.sendBroadcast(
             Intent(ActivitySceneMonitor.ACTION)
