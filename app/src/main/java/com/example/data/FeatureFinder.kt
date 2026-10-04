@@ -21,6 +21,7 @@ object FeatureFinder {
         FeatureHit("parcel", "Pakket", "postnl dhl dpd ups fedex gls pakket koerier bezorg"),
         FeatureHit("class", "Les", "magister somtoday itslearning classroom zermelo les school rooster"),
         FeatureHit("lang", "Taal", "duolingo babbel busuu mondly rosetta taal les uitspraak"),
+        FeatureHit("tr", "Vertaal", "translate deepl vertalen vertaler live tolk"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -63,6 +64,7 @@ object FeatureFinder {
         "parcel" -> ParcelSoft.cycle(context)
         "class" -> ClassSoft.cycle(context)
         "lang" -> LanguageSoft.cycle(context)
+        "tr" -> TranslateSoft.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)
