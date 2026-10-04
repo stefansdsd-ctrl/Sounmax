@@ -43,6 +43,7 @@ import com.example.data.SpeakerGuard
 import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
 import com.example.data.RoamCap
+import com.example.data.RunWind
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
         HeadsetBatt.ensure(this)
         LeakGuard.apply(this)
         RoamCap.apply(this)
+        RunWind.apply(this)
         AlarmSoon.apply(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
@@ -123,6 +125,7 @@ class MainActivity : ComponentActivity() {
         AlarmSoon.apply(this)
         LeakGuard.apply(this)
         RoamCap.apply(this)
+        RunWind.apply(this)
     }
 
     private fun handleSceneIntent(intent: Intent?) {
