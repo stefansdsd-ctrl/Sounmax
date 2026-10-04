@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import com.example.data.AirplaneSoft
+import com.example.data.BikeWind
 import com.example.data.BookSoft
 import com.example.data.CamSoft
 import com.example.data.ClassSoft
@@ -18,6 +19,7 @@ import com.example.data.HealthSoft
 import com.example.data.ParcelSoft
 import com.example.data.WeatherSoft
 import com.example.data.RideSoft
+import com.example.data.RunWind
 import com.example.data.SleepSoft
 import com.example.data.ShopSoft
 import com.example.data.NewsSoft
@@ -122,6 +124,8 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         TranslateSoft.apply(app)
         RecorderSoft.apply(app)
         HearSoft.apply(app)
+        RunWind.apply(app)
+        BikeWind.apply(app)
         ChargeNightCap.apply(app)
         val prefs = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
