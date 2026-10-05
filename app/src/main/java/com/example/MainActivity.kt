@@ -47,6 +47,7 @@ import com.example.data.MeteredCap
 import com.example.data.RoamCap
 import com.example.data.RunWind
 import com.example.data.StillSafe
+import com.example.data.ThermalCap
 import com.example.data.VehicleSafe
 import com.example.data.WalkSafe
 
@@ -70,6 +71,7 @@ class MainActivity : ComponentActivity() {
         LeakGuard.apply(this)
         RoamCap.apply(this)
         MeteredCap.apply(this)
+        ThermalCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
@@ -136,6 +138,7 @@ class MainActivity : ComponentActivity() {
         LeakGuard.apply(this)
         RoamCap.apply(this)
         MeteredCap.apply(this)
+        ThermalCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
