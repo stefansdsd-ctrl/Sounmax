@@ -47,7 +47,8 @@ object FeatureFinder {
         FeatureHit("sleep", "Slaap", "slaap meditatie"),
         FeatureHit("weather", "Weer", "regen wind weer"),
         FeatureHit("leak", "Lek", "speaker lek headset a2dp geluid lekt"),
-        FeatureHit("roam", "Roam", "roaming buitenland data stream cap")
+        FeatureHit("roam", "Roam", "roaming buitenland data stream cap"),
+        FeatureHit("wifi", "Wi-Fi", "wifi ssid thuis netwerk volume plek")
     )
 
     fun lastQuery(context: Context) =
@@ -117,6 +118,7 @@ object FeatureFinder {
         "weather" -> WeatherSoft.cycle(context)
         "leak" -> LeakGuard.cycle(context)
         "roam" -> RoamCap.cycle(context)
+        "wifi" -> WifiVolumeMemory.cycle(context)
         else -> "Onbekend: $id"
     }
 }

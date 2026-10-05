@@ -14,6 +14,10 @@ object ActiveLimitBanner {
         if (PowerSaveCap.active(context)) return "Spaar-cap actief (60%, spaarstand)"
         if (FocusQuietCap.active(context)) return "Focus-cap actief (55%, Niet storen)"
         if (SilentRingerCap.active(context)) return "Stil-cap actief (52%, beltoon tril/stil)"
+        if (WifiVolumeMemory.active(context)) {
+            val id = WifiVolumeMemory.ssid(context) ?: "Wi-Fi"
+            return "Wi-Fi-volume actief ($id)"
+        }
         if (NightQuietCap.active(context)) return "Nacht-cap actief (50%, 22:30–07:00)"
         if (MeteredCap.active(context) && MeteredCap.enabled(context)) {
             return "Data-cap actief (58% op mobiel)"
