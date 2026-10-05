@@ -34,6 +34,7 @@ object FeatureFinder {
         FeatureHit("still", "Bureau", "stilzitten bureau desk still werken kantoor"),
         FeatureHit("aftercall", "Na-bel", "na bel ophangen opbouw volume knal gesprek"),
         FeatureHit("data", "Data-cap", "data mobiel metered stream 4g 5g bundel"),
+        FeatureHit("heat", "Warmte", "warmte hitte thermal throttling accu heet chip"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -98,6 +99,7 @@ object FeatureFinder {
         "still" -> StillSafe.cycle(context)
         "aftercall" -> PostCallRamp.cycle(context)
         "data" -> MeteredCap.cycle(context)
+        "heat" -> ThermalCap.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)

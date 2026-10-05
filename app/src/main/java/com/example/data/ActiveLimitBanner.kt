@@ -10,6 +10,7 @@ object ActiveLimitBanner {
     fun text(context: Context): String {
         SceneHoldPriority.winner(context)?.let { return SceneHoldPriority.label(context) }
         if (PostCallRamp.active(context)) return "Na-bel: volume bouwt op"
+        if (ThermalCap.active(context)) return "Warmte-cap actief (55%, telefoon warm)"
         if (MeteredCap.active(context) && MeteredCap.enabled(context)) {
             return "Data-cap actief (58% op mobiel)"
         }
