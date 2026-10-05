@@ -37,6 +37,7 @@ object FeatureFinder {
         FeatureHit("heat", "Warmte", "warmte hitte thermal throttling accu heet chip"),
         FeatureHit("psave", "Spaar", "spaarstand powersave batterijbesparing accubesparing zuinig"),
         FeatureHit("focus", "Focus", "niet storen dnd zen concentratie focusmodus stilte"),
+        FeatureHit("ringer", "Bel", "beltoon tril stil silent vibrate ringer bel-cap"),
         FeatureHit("night", "Nacht", "nacht slaap stil 2230 bedtime quiet hours avond"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
@@ -105,6 +106,7 @@ object FeatureFinder {
         "heat" -> ThermalCap.cycle(context)
         "psave" -> PowerSaveCap.cycle(context)
         "focus" -> FocusQuietCap.cycle(context)
+        "ringer" -> RingerQuietCap.cycle(context)
         "night" -> NightQuietCap.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
