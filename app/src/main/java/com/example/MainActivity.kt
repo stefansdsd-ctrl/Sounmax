@@ -43,6 +43,7 @@ import com.example.data.ShakeAware
 import com.example.data.SpeakerGuard
 import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
+import com.example.data.MeteredCap
 import com.example.data.RoamCap
 import com.example.data.RunWind
 import com.example.data.StillSafe
@@ -68,6 +69,7 @@ class MainActivity : ComponentActivity() {
         HeadsetBatt.ensure(this)
         LeakGuard.apply(this)
         RoamCap.apply(this)
+        MeteredCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
@@ -133,6 +135,7 @@ class MainActivity : ComponentActivity() {
         AlarmSoon.apply(this)
         LeakGuard.apply(this)
         RoamCap.apply(this)
+        MeteredCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)

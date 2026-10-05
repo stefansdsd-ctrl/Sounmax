@@ -10,6 +10,9 @@ object ActiveLimitBanner {
     fun text(context: Context): String {
         SceneHoldPriority.winner(context)?.let { return SceneHoldPriority.label(context) }
         if (PostCallRamp.active(context)) return "Na-bel: volume bouwt op"
+        if (MeteredCap.active(context) && MeteredCap.enabled(context)) {
+            return "Data-cap actief (58% op mobiel)"
+        }
         if (ListenCap.enabled(context)) {
             val days = WeeklyListenReport.last7Days(context)
             val weekMin = days.sumOf { it.minutes }
