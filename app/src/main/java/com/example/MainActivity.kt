@@ -44,6 +44,7 @@ import com.example.data.SpeakerGuard
 import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
 import com.example.data.MeteredCap
+import com.example.data.PowerSaveCap
 import com.example.data.RoamCap
 import com.example.data.RunWind
 import com.example.data.StillSafe
@@ -72,6 +73,7 @@ class MainActivity : ComponentActivity() {
         RoamCap.apply(this)
         MeteredCap.apply(this)
         ThermalCap.apply(this)
+        PowerSaveCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
@@ -139,6 +141,7 @@ class MainActivity : ComponentActivity() {
         RoamCap.apply(this)
         MeteredCap.apply(this)
         ThermalCap.apply(this)
+        PowerSaveCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)

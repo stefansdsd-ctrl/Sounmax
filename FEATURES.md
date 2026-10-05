@@ -1,15 +1,15 @@
 # Sounmax — volgende features
 
+## Batch 276 (klaar — code)
+1. PowerSaveCap: PowerManager.isPowerSaveMode + muziek actief, boven 72% → 60%, stapsgewijs.
+2. Geen overlap met PhoneLowCap (≤15%) of BatterySaverDsp (alleen DSP-lagen).
+3. FeatureFinder-chip Spaar. Zoek op spaarstand, powersave, batterijbesparing, zuinig.
+4. ActiveLimitBanner toont de cap. Opnieuw bij resume.
+
 ## Batch 275 (klaar — code)
 1. ThermalCap: telefoon thermal status matig of hoger + muziek actief, boven 68% → 55%, stapsgewijs.
 2. Alleen API 29+. Geen overlap met Accu-DSP (die zet alleen zware lagen uit).
 3. FeatureFinder-chip Warmte. Zoek op warmte, hitte, thermal, heet.
-4. ActiveLimitBanner toont de cap. Opnieuw bij resume.
-
-## Batch 274 (klaar — code)
-1. MeteredCap: mobiele data (niet roaming) + muziek actief, boven 70% → 58%, stapsgewijs.
-2. Geen overlap met Roam-cap.
-3. FeatureFinder-chip Data-cap. Zoek op data, mobiel, metered, stream, 4g, bundel.
 4. ActiveLimitBanner toont de cap. Opnieuw bij resume.
 
 ## Hardware (blijft open)
