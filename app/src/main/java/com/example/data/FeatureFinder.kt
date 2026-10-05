@@ -32,6 +32,7 @@ object FeatureFinder {
         FeatureHit("walk", "Avondloop", "lopen wandelen avond donker verkeer walk"),
         FeatureHit("vehicle", "Rij-cap", "auto rijden vehicle claxon navigatie in_vehicle"),
         FeatureHit("still", "Bureau", "stilzitten bureau desk still werken kantoor"),
+        FeatureHit("aftercall", "Na-bel", "na bel ophangen opbouw volume knal gesprek"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -94,6 +95,7 @@ object FeatureFinder {
         "walk" -> WalkSafe.cycle(context)
         "vehicle" -> VehicleSafe.cycle(context)
         "still" -> StillSafe.cycle(context)
+        "aftercall" -> PostCallRamp.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)

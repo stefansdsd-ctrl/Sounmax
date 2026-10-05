@@ -6,6 +6,7 @@ import android.telephony.TelephonyManager
 import com.example.dsp.ConversationBoost
 import com.example.dsp.ListeningScene
 import com.example.dsp.ListeningScenes
+import com.example.data.PostCallRamp
 
 /**
  * Tijdens gesprek: ConversationBoost + talk-through + gesprek-scene.
@@ -43,6 +44,7 @@ object CallModeGuard {
     ) {
         if (inCall) return
         inCall = true
+        PostCallRamp.onEnter(context)
         sceneBefore = currentSceneId()
         talkBefore = TalkThrough.enabled(context)
         ConversationBoost.apply(true)
@@ -66,6 +68,7 @@ object CallModeGuard {
             ListeningScenes.byId(id)?.let(applyScene)
         }
         sceneBefore = null
+        PostCallRamp.onLeave(context)
         context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
             .edit().putBoolean("call_session_active", false).apply()
     }
