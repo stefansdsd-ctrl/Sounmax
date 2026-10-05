@@ -29,6 +29,7 @@ object FeatureFinder {
         FeatureHit("hear", "Hoor", "transcribe amplifier talkback ondertitel live hoor geluid versterker"),
         FeatureHit("run", "Hardloop", "hardlopen rennen wind cardio joggen run"),
         FeatureHit("bike", "Fiets", "fiets fietsen cycling wind helm e-bike"),
+        FeatureHit("walk", "Avondloop", "lopen wandelen avond donker verkeer walk"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -88,6 +89,7 @@ object FeatureFinder {
         "hear" -> HearSoft.cycle(context)
         "run" -> RunWind.cycle(context)
         "bike" -> BikeWind.cycle(context)
+        "walk" -> WalkSafe.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)
