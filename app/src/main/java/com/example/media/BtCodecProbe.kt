@@ -41,8 +41,8 @@ object BtCodecProbe {
         if (Build.VERSION.SDK_INT >= 31) {
             try {
                 val profiles = bt.audioProfiles
-                val name = profiles.firstOrNull()?.name
-                if (!name.isNullOrBlank()) return name
+                val format = profiles.firstOrNull()?.format
+                if (format != null) return "Format-$format"
             } catch (_: Exception) {
             }
         }

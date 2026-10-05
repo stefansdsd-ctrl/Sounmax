@@ -15,11 +15,12 @@ object AiCurveCache {
     private const val MAX = 3
 
     fun remember(context: Context, rec: AiAcousticRecommendation) {
-        val list = loadRaw(context)
-        list.add(0, toJson(rec))
-        while (list.length() > MAX) list.remove(list.length() - 1)
+        val existing = lastThree(context).filter { it.presetName != rec.presetName }
+        val updated = (listOf(rec) + existing).take(MAX)
+        val arr = JSONArray()
+        updated.forEach { arr.put(toJson(it)) }
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            .edit().putString(KEY, list.toString()).apply()
+            .edit().putString(KEY, arr.toString()).apply()
     }
 
     fun lastThree(context: Context): List<AiAcousticRecommendation> {
@@ -50,7 +51,7 @@ object AiCurveCache {
     private fun fromJson(obj: JSONObject?): AiAcousticRecommendation? {
         obj ?: return null
         val gainsArr = obj.optJSONArray("bandGains") ?: return null
-        val gains = FloatArray(gainsArr.length()) { i -> gainsArr.optDouble(i).toFloat() }
+        val gains = List(gainsArr.length()) { i -> gainsArr.optDouble(i).toFloat() }
         val preset = EqPreset(
             name = obj.optString("presetName", "Offline AI"),
             bandGains = gains,

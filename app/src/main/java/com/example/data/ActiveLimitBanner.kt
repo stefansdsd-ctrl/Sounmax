@@ -13,7 +13,6 @@ object ActiveLimitBanner {
         if (ThermalCap.active(context)) return "Warmte-cap actief (55%, telefoon warm)"
         if (PowerSaveCap.active(context)) return "Spaar-cap actief (60%, spaarstand)"
         if (FocusQuietCap.active(context)) return "Focus-cap actief (55%, Niet storen)"
-        if (RingerQuietCap.active(context)) return "Bel-cap actief (60%, stil of tril)"
         if (NightQuietCap.active(context)) return "Nacht-cap actief (50%, 22:30–07:00)"
         if (MeteredCap.active(context) && MeteredCap.enabled(context)) {
             return "Data-cap actief (58% op mobiel)"

@@ -103,7 +103,6 @@ dependencies {
   implementation(libs.androidx.glance.appwidget)
   implementation(libs.androidx.glance.material3)
   implementation(libs.retrofit)
-  wearApp(project(":wear"))
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)
   testImplementation(libs.androidx.junit)

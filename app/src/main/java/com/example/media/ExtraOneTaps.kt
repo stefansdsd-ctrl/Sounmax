@@ -28,32 +28,6 @@ private fun activate(context: Context, key: String, sceneId: String, anc: AncMod
     Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
 }
 
-object CollegeOneTap {
-    const val KEY_ON = "college_chip_on"
-    fun isOn(c: Context) = chipOn(c, KEY_ON)
-    fun toggle(c: Context) {
-        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "College uit", Toast.LENGTH_SHORT).show(); return }
-        activate(c, KEY_ON, "college", AncMode.AMBIENT, "college", "College · stem + ambient")
-    }
-}
-
-object MuseumOneTap {
-    const val KEY_ON = "museum_chip_on"
-    fun isOn(c: Context) = chipOn(c, KEY_ON)
-    fun toggle(c: Context) {
-        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Museum uit", Toast.LENGTH_SHORT).show(); return }
-        activate(c, KEY_ON, "museum", AncMode.OFF, "museum", "Museum · zacht + ruim")
-    }
-}
-
-object BuildOneTap {
-    const val KEY_ON = "build_chip_on"
-    fun isOn(c: Context) = chipOn(c, KEY_ON)
-    fun toggle(c: Context) {
-        if (isOn(c)) { setChip(c, KEY_ON, false); Toast.makeText(c, "Bouw uit", Toast.LENGTH_SHORT).show(); return }
-        activate(c, KEY_ON, "bouw", AncMode.STRONG, "build", "Bouw · max ANC")
-    }
-}
 
 object BeachOneTap {
     const val KEY_ON = "beach_chip_on"

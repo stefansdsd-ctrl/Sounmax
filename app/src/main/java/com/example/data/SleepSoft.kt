@@ -55,18 +55,7 @@ object SleepSoft {
         }
     }
 
-    private fun viaPlayback(context: Context): Boolean {
-        return try {
-            val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-            val pm = context.packageManager
-            am.activePlaybackConfigurations.any { cfg ->
-                cfg.playerState == AudioPlaybackConfiguration.PLAYER_STATE_STARTED &&
-                    (pm.getPackagesForUid(cfg.clientUid) ?: emptyArray()).any { it in packages }
-            }
-        } catch (_: Exception) {
-            false
-        }
-    }
+    private fun viaPlayback(context: Context): Boolean = false
 
     private fun foreground(context: Context): Boolean {
         if (!usageGranted(context)) return false

@@ -275,6 +275,13 @@ class SoundMaxWidget : AppWidgetProvider() {
             am.cancel(tickIntent(context))
         }
 
+        fun refresh(context: Context) {
+            val mgr = AppWidgetManager.getInstance(context) ?: return
+            val cn = ComponentName(context, SoundMaxWidget::class.java)
+            val ids = mgr.getAppWidgetIds(cn) ?: return
+            ids.forEach { updateWidget(context, mgr, it) }
+        }
+
         private fun updateWidget(context: Context, mgr: AppWidgetManager, id: Int) {
             val ui = context.getSharedPreferences(DspControlService.PREFS, Context.MODE_PRIVATE)
             val wellness = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
@@ -294,11 +301,12 @@ class SoundMaxWidget : AppWidgetProvider() {
 
             val views = RemoteViews(context.packageName, R.layout.soundmax_widget)
             views.setTextViewText(R.id.widget_title, name?.take(18) ?: "Sounmax")
+            val phoneStr = if (phonePct != null) "$phonePct%" else "--%"
             views.setTextViewText(
                 R.id.widget_battery,
                 buildString {
                     append(if (battery in 0..100) "BT $battery%" else "BT --%")
-                    append(" · TEL ${phonePct?.let { \"$it%\" } ?: \"--%\"}")
+                    append(" · TEL $phoneStr")
                     if (!codec.isNullOrBlank()) append(" · ").append(codec.take(8))
                 }
             )

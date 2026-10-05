@@ -55,7 +55,8 @@ object NrfStyleGattDump {
     }
 
     /** Start alle READ-characteristics (async via onCharacteristicRead). */
-    fun startReads(g: BluetoothGatt = gatt ?: return) {
+    fun startReads(explicitGatt: BluetoothGatt? = null) {
+        val g = explicitGatt ?: gatt ?: return
         valueCache.clear()
         readQueue.clear()
         g.services.orEmpty().forEach { svc ->

@@ -114,10 +114,10 @@ object AdaptiveSceneEq {
         else -> null
     }
 
-    private fun hint(label: String, vararg v: Float): AdaptiveEqHint {
-        val bands = v.take(10)
+    private fun hint(label: String, vararg v: Number): AdaptiveEqHint {
+        val bands = v.take(10).map { it.toFloat() }
         val bass = if (v.size > 10) v[10].toInt() else 0
-        val clarity = if (v.size > 11) v[11] else 0f
+        val clarity = if (v.size > 11) v[11].toFloat() else 0f
         return AdaptiveEqHint(label, bands, bass, clarity)
     }
 

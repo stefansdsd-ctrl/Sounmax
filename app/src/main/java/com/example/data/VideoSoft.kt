@@ -50,18 +50,7 @@ object VideoSoft {
         }
     }
 
-    private fun viaPlayback(context: Context): Boolean {
-        return try {
-            val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-            val pm = context.packageManager
-            am.activePlaybackConfigurations.any { cfg ->
-                cfg.playerState == AudioPlaybackConfiguration.PLAYER_STATE_STARTED &&
-                    (pm.getPackagesForUid(cfg.clientUid) ?: emptyArray()).any { it in packages }
-            }
-        } catch (_: Exception) {
-            false
-        }
-    }
+    private fun viaPlayback(context: Context): Boolean = false
 
     fun apply(context: Context): Boolean {
         if (!enabled(context) || !videoPlaying(context)) return false

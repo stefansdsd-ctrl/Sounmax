@@ -22,11 +22,9 @@ object ScreenOffSoft {
         return label(context)
     }
 
-    fun screenOff(context: Context): Boolean = try {
-        val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        !pm.isInteractive
-    } catch (_: Exception) {
-        false
+    fun screenOff(context: Context): Boolean {
+        val pm = context.getSystemService(Context.POWER_SERVICE) as? PowerManager ?: return false
+        return !pm.isInteractive
     }
 
     fun apply(context: Context): Boolean {

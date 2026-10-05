@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SoundMax</string>
+    <string name="shortcut_focus_short">Focus</string>
+    <string name="shortcut_focus_long">Focus-scene</string>
+    <string name="shortcut_commute_short">Pendelen</string>
+    <string name="shortcut_commute_long">Pendelen-scene</string>
+    <string name="shortcut_podcast_short">Podcast</string>
+    <string name="shortcut_podcast_long">Podcast-scene</string>
+    <string name="shortcut_sleep_short">Inslapen</string>
+    <string name="shortcut_sleep_long">Inslapen-scene</string>
 </resources>

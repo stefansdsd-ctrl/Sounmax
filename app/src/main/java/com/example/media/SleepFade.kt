@@ -33,6 +33,21 @@ object SleepFade {
         am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fadeStart, pi)
     }
 
+    fun start(context: Context, minutes: Int) {
+        val end = System.currentTimeMillis() + minutes * 60_000L
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+            .putLong(SoundMaxWidget.KEY_SLEEP_END, end)
+            .putInt(SoundMaxWidget.KEY_SLEEP_MINUTES, minutes)
+            .apply()
+        schedule(context, end)
+    }
+
+    fun remainingMinutes(context: Context): Int {
+        val end = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getLong(SoundMaxWidget.KEY_SLEEP_END, 0L)
+        return SoundMaxWidget.remainingSleepMinutes(end)
+    }
+
     fun cancel(context: Context) {
         val am = context.getSystemService(AlarmManager::class.java) ?: return
         am.cancel(pending(context))

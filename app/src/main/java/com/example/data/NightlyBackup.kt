@@ -47,9 +47,9 @@ object NightlyBackup {
 
     suspend fun runNow(context: Context) {
         if (!isEnabled(context)) return
-        PresetBackup.writeLocalOnly(context)
+        PresetBackup.snapshotNow(context)
         if (PresetBackup.treeUri(context) != null) {
-            runCatching { PresetBackup.exportToTreeSilent(context) }
+            runCatching { PresetBackup.exportToTree(context) }
         }
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .edit().putLong(KEY_LAST, System.currentTimeMillis()).apply()

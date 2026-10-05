@@ -224,6 +224,16 @@ class SceneController(private val viewModel: MainViewModel) {
 
     fun startSleepTimer(mins: Int) { SleepFade.start(app, mins); _sleepLeft.value = mins }
     fun cancelSleepTimer() { SleepFade.cancel(app); _sleepLeft.value = 0 }
+    fun manualHoldLabel(): String? {
+        val w = com.example.data.SceneHoldPriority.winner(app) ?: return null
+        return com.example.data.SceneHoldPriority.label(app)
+    }
+    fun clearManualHold() {
+        app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+            .edit()
+            .remove("scene_locked")
+            .apply()
+    }
     fun applyEarBreak() {
         SceneLookup.byId("rust")?.let { applyListeningScene(it) }
             ?: SceneLookup.byId("rest")?.let { applyListeningScene(it) }

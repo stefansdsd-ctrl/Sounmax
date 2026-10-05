@@ -93,9 +93,7 @@ fun SoundMaxApp(
                 currentPreset = currentPreset,
                 activeAnc = activeAnc,
                 codecName = selectedCodec.codecName.split(" ").lastOrNull() ?: selectedCodec.name,
-                onToggleDsp = { viewModel.setDspEnabled(it) },
-                headsetName = headsetStatus.name,
-                batteryPercent = headsetStatus.batteryPercent
+                onToggleDsp = { viewModel.setDspEnabled(it) }
             )
         },
         bottomBar = {

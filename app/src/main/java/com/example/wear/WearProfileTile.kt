@@ -20,19 +20,19 @@ object WearProfileTile {
             "sport", "Sport",
             listOf("outdoor", "talkthrough", "reconnect", "haptic"),
             WearPaths.CMD_EQ_BIKE,
-            WearPaths.CMD_ONE_TAP_GYM
+            WearPaths.CMD_ONE_TAP_PREFIX + "gym"
         )
         "slaap" -> Tile(
             "slaap", "Slaap",
             listOf("sleeptimer", "night", "quiet", "volcap"),
             WearPaths.CMD_EQ_SLEEP,
-            WearPaths.CMD_ONE_TAP_SLEEP
+            WearPaths.CMD_ONE_TAP_PREFIX + "sleep"
         )
         else -> Tile(
             "werk", "Werk",
             listOf("meeting", "talkboost", "focus", "duck"),
             WearPaths.CMD_EQ_WORK,
-            WearPaths.CMD_ONE_TAP_OFFICE
+            WearPaths.CMD_ONE_TAP_PREFIX + "office"
         )
     }
 

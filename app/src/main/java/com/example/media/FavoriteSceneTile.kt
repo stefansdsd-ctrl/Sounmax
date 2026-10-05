@@ -20,7 +20,7 @@ class FavoriteSceneTile : TileService() {
             prefs.edit().putString("current", next.id).apply()
             getSharedPreferences("sounmax_qs_scene", MODE_PRIVATE)
                 .edit().putString("apply_id", next.id).apply()
-            qsTile?.label = next.title
+            qsTile?.label = next.name
             qsTile?.state = Tile.STATE_ACTIVE
             qsTile?.updateTile()
         } else {
@@ -37,7 +37,7 @@ class FavoriteSceneTile : TileService() {
         val scene = fav.scenes().firstOrNull { it.id == current } ?: fav.scenes().firstOrNull()
             ?: SceneLookup.byId(current)
         qsTile?.apply {
-            label = scene?.title ?: "Favoriet"
+            label = scene?.name ?: "Favoriet"
             subtitle = if (fav.ids().isEmpty()) "Pin een scene" else "${fav.ids().size}/4 pins"
             state = if (fav.ids().isEmpty()) Tile.STATE_INACTIVE else Tile.STATE_ACTIVE
             updateTile()

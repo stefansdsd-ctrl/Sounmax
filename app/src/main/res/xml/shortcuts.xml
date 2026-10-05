@@ -2,8 +2,8 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:shortcutId="scene_focus"
-        android:shortcutShortLabel="Focus"
-        android:shortcutLongLabel="Focus-scene"
+        android:shortcutShortLabel="@string/shortcut_focus_short"
+        android:shortcutLongLabel="@string/shortcut_focus_long"
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"
@@ -14,8 +14,8 @@
     </shortcut>
     <shortcut
         android:shortcutId="scene_commute"
-        android:shortcutShortLabel="Pendelen"
-        android:shortcutLongLabel="Pendelen-scene"
+        android:shortcutShortLabel="@string/shortcut_commute_short"
+        android:shortcutLongLabel="@string/shortcut_commute_long"
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"
@@ -26,8 +26,8 @@
     </shortcut>
     <shortcut
         android:shortcutId="scene_podcast"
-        android:shortcutShortLabel="Podcast"
-        android:shortcutLongLabel="Podcast-scene"
+        android:shortcutShortLabel="@string/shortcut_podcast_short"
+        android:shortcutLongLabel="@string/shortcut_podcast_long"
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"
@@ -38,8 +38,8 @@
     </shortcut>
     <shortcut
         android:shortcutId="scene_sleep"
-        android:shortcutShortLabel="Inslapen"
-        android:shortcutLongLabel="Inslapen-scene"
+        android:shortcutShortLabel="@string/shortcut_sleep_short"
+        android:shortcutLongLabel="@string/shortcut_sleep_long"
         android:enabled="true">
         <intent
             android:action="com.example.APPLY_SCENE"

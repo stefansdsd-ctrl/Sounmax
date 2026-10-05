@@ -18,7 +18,7 @@ class DuckQuickTileService : TileService() {
         val on = VolumeDuck.isActive(this)
         qsTile?.apply {
             state = if (on) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-            label = if (on) "Omroep ${VolumeDuck.remainingSec(this)}s" else "Omroep 15s"
+            label = if (on) "Omroep ${VolumeDuck.remainingSec(this@DuckQuickTileService)}s" else "Omroep 15s"
             subtitle = if (on) "Tik = herstel" else "Volume dip"
             updateTile()
         }

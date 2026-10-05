@@ -75,8 +75,7 @@ fun EqSlotsBar(viewModel: MainViewModel) {
                     colors = FilterChipDefaults.filterChipColors(
                         disabledSelectedContainerColor = ImmersiveLavenderAccent.copy(alpha = 0.35f),
                         disabledContainerColor = ImmersiveSurfaceActive,
-                        disabledLabelColor = ImmersiveTextSecondary,
-                        disabledSelectedLabelColor = ImmersiveLavenderAccent
+                        disabledLabelColor = ImmersiveLavenderAccent
                     ),
                     modifier = Modifier.testTag("eq_slot_$i")
                 )

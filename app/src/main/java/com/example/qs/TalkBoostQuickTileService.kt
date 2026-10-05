@@ -18,7 +18,7 @@ class TalkBoostQuickTileService : TileService() {
         val on = TalkBoost.isActive(this)
         qsTile?.apply {
             state = if (on) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
-            label = if (on) "Gesprek ${TalkBoost.remainingSec(this)}s" else "Gesprek 20s"
+            label = if (on) "Gesprek ${TalkBoost.remainingSec(this@TalkBoostQuickTileService)}s" else "Gesprek 20s"
             subtitle = if (on) "Tik = herstel" else "Volume + spraak"
             updateTile()
         }

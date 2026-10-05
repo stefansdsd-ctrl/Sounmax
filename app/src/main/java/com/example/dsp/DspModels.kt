@@ -5,7 +5,11 @@ enum class AncMode(val displayName: String, val description: String, val noiseRe
     STRONG("ANC Maximaal", "Maximale actieve ruisonderdrukking voor pendelen & kantoor", 32),
     ADAPTIVE("ANC Adaptief", "Past intensiteit dynamisch aan omgevingsgeluid aan", 24),
     AMBIENT("Transparantie / Alert", "Versterkt stemmen en verkeersgeluiden via microfoons", -15),
-    WIND_GUARD("Windruis Filter", "Onderdrukt turbulentie bij buiten wandelen of fietsen", 18)
+    WIND_GUARD("Windruis Filter", "Onderdrukt turbulentie bij buiten wandelen of fietsen", 18);
+
+    companion object {
+        val ANC = STRONG
+    }
 }
 
 enum class BluetoothCodec(

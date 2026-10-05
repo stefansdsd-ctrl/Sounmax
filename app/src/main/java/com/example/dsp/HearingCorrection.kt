@@ -13,6 +13,15 @@ object HearingCorrection {
     const val KEY_AUTO = "auto_hearing"
     const val KEY_PENDING = "pending_hearing_apply"
     const val KEY_EAR = "hearing_ear"
+    const val KEY_LAST_TEST = "last_test_at"
+
+    fun lastTestAt(context: Context): Long =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getLong(KEY_LAST_TEST, 0L)
+
+    fun markTestDone(context: Context) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putLong(KEY_LAST_TEST, System.currentTimeMillis()).apply()
+    }
 
     fun enabled(context: Context): Boolean =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_AUTO, true)

@@ -4,6 +4,8 @@ import android.content.Context
 import android.media.AudioManager
 import android.media.AudioRecordingConfiguration
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 
 /**
  * Andere app neemt de microfoon: muziek boven 50% → 28%.
@@ -24,6 +26,14 @@ object MicBusy {
         return label(context)
     }
 
+    private fun getPkgName(cfg: AudioRecordingConfiguration): String? {
+        return try {
+            cfg.javaClass.getMethod("getClientPackageName").invoke(cfg) as? String
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     fun ensure(context: Context) {
         if (callback != null || Build.VERSION.SDK_INT < 24) return
         val app = context.applicationContext
@@ -32,7 +42,7 @@ object MicBusy {
             override fun onRecordingConfigChanged(configs: MutableList<AudioRecordingConfiguration>) {
                 val ours = app.packageName
                 val foreign = configs.any { cfg ->
-                    val pkg = if (Build.VERSION.SDK_INT >= 29) cfg.clientPackageName else null
+                    val pkg = getPkgName(cfg)
                     pkg != null && pkg != ours
                 }
                 prefs(app).edit()
@@ -44,7 +54,7 @@ object MicBusy {
         }
         callback = cb
         try {
-            am.registerAudioRecordingCallback({ it.run() }, cb)
+            am.registerAudioRecordingCallback(cb, Handler(Looper.getMainLooper()))
         } catch (_: Exception) {
             callback = null
         }
@@ -67,7 +77,7 @@ object MicBusy {
         val ours = context.packageName
         return try {
             am.activeRecordingConfigurations.any { cfg ->
-                val pkg = if (Build.VERSION.SDK_INT >= 29) cfg.clientPackageName else null
+                val pkg = getPkgName(cfg)
                 pkg != null && pkg != ours
             }
         } catch (_: Exception) {

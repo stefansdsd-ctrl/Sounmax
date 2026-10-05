@@ -25,4 +25,4 @@ dependencyResolutionManagement {
 rootProject.name = "SoundMax"
 
 include(":app")
-include(":wear")
+// include(":wear")

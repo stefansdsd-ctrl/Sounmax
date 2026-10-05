@@ -26,12 +26,12 @@ class CommuteMemory(context: Context) {
     }
 
     fun suggestLabel(): String? {
-        val today = LocalDate.now()
+        val today = LocalDate.now().toString()
         val now = LocalTime.now()
         if (now.isBefore(WINDOW_START) || now.isAfter(WINDOW_END)) return null
         val storedDate = prefs.getString(KEY_DATE, null) ?: return null
         val storedScene = prefs.getString(KEY_SCENE, null) ?: return null
-        val yesterday = today.minusDays(1).toString()
+        val yesterday = LocalDate.now().minusDays(1).toString()
         if (storedDate != yesterday && storedDate != today) return null
         if (storedDate == today) return null
         val scene = SceneLookup.byId(storedScene) ?: return null

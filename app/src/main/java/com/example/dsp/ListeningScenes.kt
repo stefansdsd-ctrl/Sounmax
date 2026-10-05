@@ -251,4 +251,6 @@ object ListeningScenes {
         }
         return byId(id)
     }
+
+    fun defaultScene(): ListeningScene = ALL.first()
 }

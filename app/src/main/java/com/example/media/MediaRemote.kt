@@ -88,11 +88,10 @@ object MediaRemote {
 
     fun shuffle(context: Context) {
         dispatch(context, KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
-        sessionAction(context) { it.setShuffleMode(android.media.session.PlaybackState.SHUFFLE_MODE_ALL) }
     }
 
     fun repeat(context: Context) {
-        sessionAction(context) { it.setRepeatMode(android.media.session.PlaybackState.REPEAT_MODE_ALL) }
+        dispatch(context, KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK)
     }
 
     fun rewind(context: Context) {
