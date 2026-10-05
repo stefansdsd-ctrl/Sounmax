@@ -36,6 +36,7 @@ object FeatureFinder {
         FeatureHit("data", "Data-cap", "data mobiel metered stream 4g 5g bundel"),
         FeatureHit("heat", "Warmte", "warmte hitte thermal throttling accu heet chip"),
         FeatureHit("psave", "Spaar", "spaarstand powersave batterijbesparing accubesparing zuinig"),
+        FeatureHit("night", "Nacht", "nacht slaap stil 2230 bedtime quiet hours avond"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
@@ -102,6 +103,7 @@ object FeatureFinder {
         "data" -> MeteredCap.cycle(context)
         "heat" -> ThermalCap.cycle(context)
         "psave" -> PowerSaveCap.cycle(context)
+        "night" -> NightQuietCap.cycle(context)
         "nav" -> NavSoft.cycle(context)
         "ov" -> TransitSoft.cycle(context)
         "shop" -> ShopSoft.cycle(context)
