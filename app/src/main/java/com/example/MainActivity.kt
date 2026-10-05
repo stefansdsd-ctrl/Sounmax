@@ -45,6 +45,7 @@ import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
 import com.example.data.RoamCap
 import com.example.data.RunWind
+import com.example.data.StillSafe
 import com.example.data.VehicleSafe
 import com.example.data.WalkSafe
 
@@ -71,6 +72,7 @@ class MainActivity : ComponentActivity() {
         BikeWind.apply(this)
         WalkSafe.apply(this)
         VehicleSafe.apply(this)
+        StillSafe.apply(this)
         AlarmSoon.apply(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
@@ -135,6 +137,7 @@ class MainActivity : ComponentActivity() {
         BikeWind.apply(this)
         WalkSafe.apply(this)
         VehicleSafe.apply(this)
+        StillSafe.apply(this)
     }
 
     private fun handleSceneIntent(intent: Intent?) {
