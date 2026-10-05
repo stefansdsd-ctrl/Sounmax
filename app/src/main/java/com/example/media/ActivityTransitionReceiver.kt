@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.data.BikeWind
 import com.example.data.RunWind
+import com.example.data.VehicleSafe
 import com.example.data.WalkSafe
 import com.google.android.gms.location.ActivityTransitionResult
 import com.google.android.gms.location.DetectedActivity
@@ -39,6 +40,9 @@ class ActivityTransitionReceiver : BroadcastReceiver() {
             last.activityType == DetectedActivity.ON_FOOT
         ) {
             WalkSafe.apply(context)
+        }
+        if (last.activityType == DetectedActivity.IN_VEHICLE) {
+            VehicleSafe.apply(context)
         }
         context.sendBroadcast(
             Intent(ActivitySceneMonitor.ACTION)

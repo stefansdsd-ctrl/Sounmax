@@ -31,6 +31,7 @@ import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
 import com.example.data.AlarmSoon
+import com.example.data.BikeWind
 import com.example.data.CrashLog
 import com.example.data.NightlyBackup
 import com.example.data.PocketGuard
@@ -44,6 +45,8 @@ import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
 import com.example.data.RoamCap
 import com.example.data.RunWind
+import com.example.data.VehicleSafe
+import com.example.data.WalkSafe
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -65,6 +68,9 @@ class MainActivity : ComponentActivity() {
         LeakGuard.apply(this)
         RoamCap.apply(this)
         RunWind.apply(this)
+        BikeWind.apply(this)
+        WalkSafe.apply(this)
+        VehicleSafe.apply(this)
         AlarmSoon.apply(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
@@ -126,6 +132,9 @@ class MainActivity : ComponentActivity() {
         LeakGuard.apply(this)
         RoamCap.apply(this)
         RunWind.apply(this)
+        BikeWind.apply(this)
+        WalkSafe.apply(this)
+        VehicleSafe.apply(this)
     }
 
     private fun handleSceneIntent(intent: Intent?) {
