@@ -60,6 +60,7 @@ import com.example.data.SaverSoft
 import com.example.data.ScreenOffSoft
 import com.example.data.SilentSoft
 import com.example.data.VpnSoft
+import com.example.data.WalkSafe
 import com.example.data.WeekendSoft
 import com.example.data.WiredSoft
 
@@ -126,6 +127,7 @@ class VolumeChangeReceiver : BroadcastReceiver() {
         HearSoft.apply(app)
         RunWind.apply(app)
         BikeWind.apply(app)
+        WalkSafe.apply(app)
         ChargeNightCap.apply(app)
         val prefs = app.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
         if (!prefs.getBoolean("adaptive_volume", true)) return
