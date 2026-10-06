@@ -55,6 +55,7 @@ import com.example.data.RoamCap
 import com.example.data.RouteCap
 import com.example.data.SpikeGuard
 import com.example.data.BootQuiet
+import com.example.data.MicLive
 import com.example.data.RunWind
 import com.example.data.StillSafe
 import com.example.data.ThermalCap
@@ -90,6 +91,8 @@ class MainActivity : ComponentActivity() {
         RouteCap.apply(this)
         SpikeGuard.apply(this)
         BootQuiet.apply(this)
+        MicLive.ensure(this)
+        MicLive.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RunWind.apply(this)
@@ -166,6 +169,7 @@ class MainActivity : ComponentActivity() {
         WifiVolumeMemory.apply(this)
         RouteCap.apply(this)
         SpikeGuard.apply(this)
+        MicLive.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RunWind.apply(this)
