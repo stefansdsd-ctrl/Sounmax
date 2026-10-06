@@ -10,6 +10,7 @@ object ActiveLimitBanner {
     fun text(context: Context): String {
         SceneHoldPriority.winner(context)?.let { return SceneHoldPriority.label(context) }
         if (PostCallRamp.active(context)) return "Na-bel: volume bouwt op"
+        if (MicLive.active(context)) return "Mic-cap actief (40%, andere app neemt op)"
         if (SpikeGuard.active(context)) return "Sprong gedempt (max +1 stap)"
         if (BootQuiet.active(context)) return "Start-cap actief (50%, vergeten luid volume)"
         if (RouteCap.active(context) && RouteCap.onSpeaker(context)) {

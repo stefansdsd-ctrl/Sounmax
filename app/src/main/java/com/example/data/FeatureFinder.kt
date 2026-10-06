@@ -53,7 +53,8 @@ object FeatureFinder {
         FeatureHit("route", "Route", "route speaker a2dp wegvalt losgekoppeld knal telefoon luidspreker"),
         FeatureHit("net", "Net", "offline net internet cloud ai gemini vliegtuig geen verbinding"),
         FeatureHit("spike", "Sprong", "sprong volume knal stap omhoog per ongeluk piek dempen"),
-        FeatureHit("boot", "Start", "start openen opstarten boot vergeten luid knal eerste keer")
+        FeatureHit("boot", "Start", "start openen opstarten boot vergeten luid knal eerste keer"),
+        FeatureHit("mic", "Mic", "mic microfoon opname recorder spraakbericht vertaler dichtklappen")
     )
 
     fun lastQuery(context: Context) =
@@ -129,6 +130,7 @@ object FeatureFinder {
         "net" -> OfflineGuard.cycle(context)
         "spike" -> SpikeGuard.cycle(context)
         "boot" -> BootQuiet.cycle(context)
+        "mic" -> MicLive.cycle(context)
         else -> "Onbekend: $id"
     }
 }
