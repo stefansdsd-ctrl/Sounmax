@@ -45,9 +45,11 @@ import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
 import com.example.data.LibrarySoft
 import com.example.data.LowBatteryCap
+import com.example.data.MeetingDuck
 import com.example.data.MeteredCap
 import com.example.data.NightQuietCap
 import com.example.data.FocusQuietCap
+import com.example.data.OfficeSoft
 import com.example.data.RainListen
 import com.example.data.SilentRingerCap
 import com.example.data.WifiVolumeMemory
@@ -101,6 +103,8 @@ class MainActivity : ComponentActivity() {
         NightQuietCap.apply(this)
         RainListen.apply(this)
         LibrarySoft.apply(this)
+        OfficeSoft.apply(this)
+        MeetingDuck.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
@@ -181,6 +185,8 @@ class MainActivity : ComponentActivity() {
         NightQuietCap.apply(this)
         RainListen.apply(this)
         LibrarySoft.apply(this)
+        OfficeSoft.apply(this)
+        MeetingDuck.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
