@@ -36,6 +36,7 @@ object FeatureFinder {
         FeatureHit("data", "Data-cap", "data mobiel metered stream 4g 5g bundel"),
         FeatureHit("heat", "Warmte", "warmte hitte thermal throttling accu heet chip"),
         FeatureHit("psave", "Spaar", "spaarstand powersave batterijbesparing accubesparing zuinig"),
+        FeatureHit("lowbatt", "Accu", "accu batterij laag leeg percentage 20 procent opladen"),
         FeatureHit("focus", "Focus", "niet storen dnd zen concentratie focusmodus stilte"),
         FeatureHit("ringer", "Stil", "tril stil silent ringer vibrate beltoon mute schakelaar"),
         FeatureHit("night", "Nacht", "nacht slaap stil 2230 bedtime quiet hours avond"),
@@ -106,6 +107,7 @@ object FeatureFinder {
         "data" -> MeteredCap.cycle(context)
         "heat" -> ThermalCap.cycle(context)
         "psave" -> PowerSaveCap.cycle(context)
+        "lowbatt" -> LowBatteryCap.cycle(context)
         "focus" -> FocusQuietCap.cycle(context)
         "ringer" -> SilentRingerCap.cycle(context)
         "night" -> NightQuietCap.cycle(context)
