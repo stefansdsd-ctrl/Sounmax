@@ -2,7 +2,7 @@ package com.example.data
 
 import android.content.Context
 
-/** Zoek en toggle holds/caps. Vervangt de kapotte placeholder. */
+/** Zoek en toggle holds/caps. Prefix, bevat, en 1-teken typo. */
 data class FeatureHit(val id: String, val title: String, val keys: String)
 
 object FeatureFinder {
@@ -57,7 +57,9 @@ object FeatureFinder {
         FeatureHit("mic", "Mic", "mic microfoon opname recorder spraakbericht vertaler dichtklappen"),
         FeatureHit("micback", "Herstel", "herstel terug volume na mic opname spraakbericht ramp"),
         FeatureHit("rain", "Regen", "regen bui wind verkeer hoorbaar cap luisteren"),
-        FeatureHit("library", "Bieb", "bibliotheek lezen studeren stil rustig cap")
+        FeatureHit("library", "Bieb", "bibliotheek lezen studeren stil rustig cap"),
+        FeatureHit("office", "Kantoor", "kantoor werk werkdag bureau 9 17 cap"),
+        FeatureHit("agenda", "Agenda", "agenda meeting afspraak vergadering calendar demp")
     )
 
     fun lastQuery(context: Context) =
@@ -67,76 +69,112 @@ object FeatureFinder {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString("q", q).apply()
     }
 
+    fun recent(context: Context): List<String> =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString("recent", "")
+            .orEmpty()
+            .split(',')
+            .filter { it.isNotBlank() }
+
     fun search(query: String): List<FeatureHit> {
         val tokens = query.trim().lowercase().split(Regex("\\s+")).filter { it.isNotBlank() }
         if (tokens.isEmpty()) return emptyList()
         return catalog.mapNotNull { hit ->
-            val blob = "${hit.id} ${hit.title} ${hit.keys}".lowercase()
-            val score = tokens.sumOf { t ->
-                when {
-                    blob.split(" ").any { it.startsWith(t) } -> 2
-                    blob.contains(t) -> 1
-                    else -> 0
-                }
-            }
+            val words = "${hit.id} ${hit.title} ${hit.keys}".lowercase().split(Regex("\\s+"))
+            val score = tokens.sumOf { t -> scoreToken(words, t) }
             if (score == 0) null else score to hit
         }.sortedByDescending { it.first }.map { it.second }
     }
 
-    fun cycle(context: Context, id: String): String = when (id) {
-        "solo" -> HoldSolo.toggle(context)
-        "safe" -> {
-            if (!HearingGuard.enabled(context)) HearingGuard.setEnabled(context, true)
-            HearingGuard.setHardCap(context, !HearingGuard.hardCap(context))
-            HearingGuard.status(context)
+    private fun scoreToken(words: List<String>, token: String): Int {
+        if (words.any { it.startsWith(token) }) return 3
+        if (words.any { it.contains(token) }) return 2
+        if (token.length >= 4 && words.any { levenshtein(it, token) <= 1 }) return 1
+        return 0
+    }
+
+    private fun levenshtein(a: String, b: String): Int {
+        if (a == b) return 0
+        if (kotlin.math.abs(a.length - b.length) > 1) return 2
+        val prev = IntArray(b.length + 1) { it }
+        val cur = IntArray(b.length + 1)
+        for (i in a.indices) {
+            cur[0] = i + 1
+            for (j in b.indices) {
+                val cost = if (a[i] == b[j]) 0 else 1
+                cur[j + 1] = minOf(cur[j] + 1, prev[j + 1] + 1, prev[j] + cost)
+            }
+            for (j in prev.indices) prev[j] = cur[j]
         }
-        "talk" -> TalkSoft.cycle(context)
-        "door" -> DoorListen.cycle(context)
-        "street" -> StreetListen.cycle(context)
-        "find" -> FindBeep.cycle(context)
-        "panic" -> HoldPanic.stopAll(context)
-        "ride" -> RideSoft.cycle(context)
-        "health" -> HealthSoft.cycle(context)
-        "parcel" -> ParcelSoft.cycle(context)
-        "class" -> ClassSoft.cycle(context)
-        "lang" -> LanguageSoft.cycle(context)
-        "pod" -> PodcastSoft.cycle(context)
-        "voice" -> VoiceNoteSoft.cycle(context)
-        "radio" -> RadioSoft.cycle(context)
-        "tr" -> TranslateSoft.cycle(context)
-        "rec" -> RecorderSoft.cycle(context)
-        "hear" -> HearSoft.cycle(context)
-        "run" -> RunWind.cycle(context)
-        "bike" -> BikeWind.cycle(context)
-        "walk" -> WalkSafe.cycle(context)
-        "vehicle" -> VehicleSafe.cycle(context)
-        "still" -> StillSafe.cycle(context)
-        "aftercall" -> PostCallRamp.cycle(context)
-        "data" -> MeteredCap.cycle(context)
-        "heat" -> ThermalCap.cycle(context)
-        "psave" -> PowerSaveCap.cycle(context)
-        "lowbatt" -> LowBatteryCap.cycle(context)
-        "focus" -> FocusQuietCap.cycle(context)
-        "ringer" -> SilentRingerCap.cycle(context)
-        "night" -> NightQuietCap.cycle(context)
-        "nav" -> NavSoft.cycle(context)
-        "ov" -> TransitSoft.cycle(context)
-        "shop" -> ShopSoft.cycle(context)
-        "meet" -> MeetSoft.cycle(context)
-        "pay" -> PaySoft.cycle(context)
-        "sleep" -> SleepSoft.cycle(context)
-        "weather" -> WeatherSoft.cycle(context)
-        "leak" -> LeakGuard.cycle(context)
-        "roam" -> RoamCap.cycle(context)
-        "wifi" -> WifiVolumeMemory.cycle(context)
-        "route" -> RouteCap.cycle(context)
-        "net" -> OfflineGuard.cycle(context)
-        "spike" -> SpikeGuard.cycle(context)
-        "boot" -> BootQuiet.cycle(context)
-        "mic" -> MicLive.cycle(context)
-        "micback" -> MicRestore.cycle(context)
-        "rain" -> RainListen.cycle(context)
-        "library" -> LibrarySoft.cycle(context)
-        else -> "Onbekend: $id"
+        return prev[b.length]
+    }
+
+    fun cycle(context: Context, id: String): String {
+        remember(context, id)
+        return when (id) {
+            "solo" -> HoldSolo.toggle(context)
+            "safe" -> {
+                if (!HearingGuard.enabled(context)) HearingGuard.setEnabled(context, true)
+                HearingGuard.setHardCap(context, !HearingGuard.hardCap(context))
+                HearingGuard.status(context)
+            }
+            "talk" -> TalkSoft.cycle(context)
+            "door" -> DoorListen.cycle(context)
+            "street" -> StreetListen.cycle(context)
+            "find" -> FindBeep.cycle(context)
+            "panic" -> HoldPanic.stopAll(context)
+            "ride" -> RideSoft.cycle(context)
+            "health" -> HealthSoft.cycle(context)
+            "parcel" -> ParcelSoft.cycle(context)
+            "class" -> ClassSoft.cycle(context)
+            "lang" -> LanguageSoft.cycle(context)
+            "pod" -> PodcastSoft.cycle(context)
+            "voice" -> VoiceNoteSoft.cycle(context)
+            "radio" -> RadioSoft.cycle(context)
+            "tr" -> TranslateSoft.cycle(context)
+            "rec" -> RecorderSoft.cycle(context)
+            "hear" -> HearSoft.cycle(context)
+            "run" -> RunWind.cycle(context)
+            "bike" -> BikeWind.cycle(context)
+            "walk" -> WalkSafe.cycle(context)
+            "vehicle" -> VehicleSafe.cycle(context)
+            "still" -> StillSafe.cycle(context)
+            "aftercall" -> PostCallRamp.cycle(context)
+            "data" -> MeteredCap.cycle(context)
+            "heat" -> ThermalCap.cycle(context)
+            "psave" -> PowerSaveCap.cycle(context)
+            "lowbatt" -> LowBatteryCap.cycle(context)
+            "focus" -> FocusQuietCap.cycle(context)
+            "ringer" -> SilentRingerCap.cycle(context)
+            "night" -> NightQuietCap.cycle(context)
+            "nav" -> NavSoft.cycle(context)
+            "ov" -> TransitSoft.cycle(context)
+            "shop" -> ShopSoft.cycle(context)
+            "meet" -> MeetSoft.cycle(context)
+            "pay" -> PaySoft.cycle(context)
+            "sleep" -> SleepSoft.cycle(context)
+            "weather" -> WeatherSoft.cycle(context)
+            "leak" -> LeakGuard.cycle(context)
+            "roam" -> RoamCap.cycle(context)
+            "wifi" -> WifiVolumeMemory.cycle(context)
+            "route" -> RouteCap.cycle(context)
+            "net" -> OfflineGuard.cycle(context)
+            "spike" -> SpikeGuard.cycle(context)
+            "boot" -> BootQuiet.cycle(context)
+            "mic" -> MicLive.cycle(context)
+            "micback" -> MicRestore.cycle(context)
+            "rain" -> RainListen.cycle(context)
+            "library" -> LibrarySoft.cycle(context)
+            "office" -> OfficeSoft.cycle(context)
+            "agenda" -> MeetingDuck.cycle(context)
+            else -> "Onbekend: $id"
+        }
+    }
+
+    private fun remember(context: Context, id: String) {
+        if (id.isBlank()) return
+        val next = (listOf(id) + recent(context)).distinct().take(6).joinToString(",")
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putString("recent", next).apply()
     }
 }
