@@ -5,64 +5,57 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
 /**
- * Echte link-status via ConnectivityManager.
- * Offline-modus slaat Gemini over en gebruikt lokale fallback.
+ * Echt netwerk, geen aanname.
+ * Zonder NET_CAPABILITY_VALIDATED slaat de AI-tuner de cloud over
+ * en gebruikt meteen de lokale curve (geen 30s timeout).
  */
 object OfflineGuard {
     private const val PREFS = "sounmax_offline_guard"
-    private const val KEY_FORCE = "force_offline"
 
-    data class Snap(
-        val internet: Boolean,
-        val wifi: Boolean,
-        val cellular: Boolean,
-        val forced: Boolean
-    ) {
-        val usable get() = internet && !forced
-        val transport: String = when {
-            forced -> "offline-modus"
-            wifi -> "wifi"
-            cellular -> "mobiel"
-            internet -> "net"
-            else -> "geen net"
-        }
-    }
-
-    fun snap(context: Context): Snap {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = cm.activeNetwork
-        val caps = network?.let { cm.getNetworkCapabilities(it) }
-        val internet = caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true &&
-            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-        val wifi = caps?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
-        val cell = caps?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true
-        return Snap(internet, wifi, cell, forced(context))
-    }
-
-    fun forced(context: Context): Boolean =
-        prefs(context).getBoolean(KEY_FORCE, false)
-
-    fun setForced(context: Context, on: Boolean) {
-        prefs(context).edit().putBoolean(KEY_FORCE, on).apply()
-    }
+    fun enabled(context: Context) = prefs(context).getBoolean("on", true)
 
     fun cycle(context: Context): String {
-        setForced(context, !forced(context))
+        val next = !enabled(context)
+        prefs(context).edit().putBoolean("on", next).apply()
+        refresh(context)
         return label(context)
     }
 
-    fun shouldSkipCloud(context: Context): Boolean {
-        val s = snap(context)
-        return !s.usable
+    fun hasValidatedInternet(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+            ?: return false
+        val caps = cm.getNetworkCapabilities(cm.activeNetwork) ?: return false
+        return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 
-    fun label(context: Context): String {
-        val s = snap(context)
-        return when {
-            s.forced -> "Net: offline-modus"
-            !s.internet -> "Net: offline"
-            else -> "Net: ${s.transport}"
-        }
+    fun onWifi(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+            ?: return false
+        val caps = cm.getNetworkCapabilities(cm.activeNetwork) ?: return false
+        return caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+    }
+
+    /** True = cloud overslaan. */
+    fun blockCloud(context: Context): Boolean =
+        enabled(context) && !hasValidatedInternet(context)
+
+    fun refresh(context: Context): Boolean {
+        val blocked = blockCloud(context)
+        prefs(context).edit()
+            .putBoolean("blocked", blocked)
+            .putLong("last", System.currentTimeMillis())
+            .apply()
+        return blocked
+    }
+
+    fun active(context: Context) = blockCloud(context)
+
+    fun label(context: Context) = when {
+        !enabled(context) -> "Net uit"
+        !hasValidatedInternet(context) -> "Offline · AI lokaal"
+        onWifi(context) -> "Online · Wi-Fi"
+        else -> "Online"
     }
 
     private fun prefs(context: Context) =

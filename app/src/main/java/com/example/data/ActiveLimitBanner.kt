@@ -23,6 +23,7 @@ object ActiveLimitBanner {
         if (MeteredCap.active(context) && MeteredCap.enabled(context)) {
             return "Data-cap actief (58% op mobiel)"
         }
+        if (OfflineGuard.active(context)) return "Offline: AI lokaal, cloud uit"
         if (ListenCap.enabled(context)) {
             val days = WeeklyListenReport.last7Days(context)
             val weekMin = days.sumOf { it.minutes }

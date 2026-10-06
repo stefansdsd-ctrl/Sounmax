@@ -49,7 +49,8 @@ object FeatureFinder {
         FeatureHit("weather", "Weer", "regen wind weer"),
         FeatureHit("leak", "Lek", "speaker lek headset a2dp geluid lekt"),
         FeatureHit("roam", "Roam", "roaming buitenland data stream cap"),
-        FeatureHit("wifi", "Wi-Fi", "wifi ssid thuis netwerk volume plek")
+        FeatureHit("wifi", "Wi-Fi", "wifi ssid thuis netwerk volume plek"),
+        FeatureHit("net", "Net", "offline net internet cloud ai gemini vliegtuig geen verbinding")
     )
 
     fun lastQuery(context: Context) =
@@ -121,6 +122,7 @@ object FeatureFinder {
         "leak" -> LeakGuard.cycle(context)
         "roam" -> RoamCap.cycle(context)
         "wifi" -> WifiVolumeMemory.cycle(context)
+        "net" -> OfflineGuard.cycle(context)
         else -> "Onbekend: $id"
     }
 }
