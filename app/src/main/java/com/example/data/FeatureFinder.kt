@@ -59,7 +59,9 @@ object FeatureFinder {
         FeatureHit("rain", "Regen", "regen bui wind verkeer hoorbaar cap luisteren"),
         FeatureHit("library", "Bieb", "bibliotheek lezen studeren stil rustig cap"),
         FeatureHit("office", "Kantoor", "kantoor werk werkdag bureau 9 17 cap"),
-        FeatureHit("agenda", "Agenda", "agenda meeting afspraak vergadering calendar demp")
+        FeatureHit("agenda", "Agenda", "agenda meeting afspraak vergadering calendar demp"),
+        FeatureHit("link", "Link", "link latency ping wifi 4g internet meting snelheid verbinding"),
+        FeatureHit("buds", "Buds", "buds a2dp route headset gezondheid speaker lek check")
     )
 
     fun lastQuery(context: Context) =
@@ -167,6 +169,8 @@ object FeatureFinder {
             "library" -> LibrarySoft.cycle(context)
             "office" -> OfficeSoft.cycle(context)
             "agenda" -> MeetingDuck.cycle(context)
+            "link" -> LinkProbe.cycle(context)
+            "buds" -> BudHealth.cycle(context)
             else -> "Onbekend: $id"
         }
     }
