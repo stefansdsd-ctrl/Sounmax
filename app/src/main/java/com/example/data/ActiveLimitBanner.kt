@@ -12,6 +12,7 @@ object ActiveLimitBanner {
         if (PostCallRamp.active(context)) return "Na-bel: volume bouwt op"
         if (ThermalCap.active(context)) return "Warmte-cap actief (55%, telefoon warm)"
         if (PowerSaveCap.active(context)) return "Spaar-cap actief (60%, spaarstand)"
+        if (LowBatteryCap.active(context)) return "Accu-cap actief (50%, accu ≤ 20%)"
         if (FocusQuietCap.active(context)) return "Focus-cap actief (55%, Niet storen)"
         if (SilentRingerCap.active(context)) return "Stil-cap actief (52%, beltoon tril/stil)"
         if (WifiVolumeMemory.active(context)) {
