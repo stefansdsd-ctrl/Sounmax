@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * Andere app neemt op (spraakbericht, vertaler, recorder) terwijl muziek loopt:
  * volume stapsgewijs naar 40%. Voorkomt dat de mic dichtklapt en de piep verloren gaat.
  * Android geeft opname-configs niet op elk toestel vrij; dan blijft de cap stil.
+ * Na de opname bouwt MicRestore het volume terug.
  */
 object MicLive {
     private const val PREFS = "sounmax_mic_live"
@@ -37,8 +38,10 @@ object MicLive {
         val am = app.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         am.registerAudioRecordingCallback(object : AudioManager.AudioRecordingCallback() {
             override fun onRecordingConfigChanged(configs: MutableList<AudioRecordingConfiguration>) {
-                hot = configs.isNotEmpty()
-                if (hot) apply(app)
+                val now = configs.isNotEmpty()
+                if (now && !hot) MicRestore.remember(app)
+                hot = now
+                if (hot) apply(app) else MicRestore.tick(app)
             }
         }, Handler(Looper.getMainLooper()))
     }
@@ -54,6 +57,7 @@ object MicLive {
         if (!enabled(context) || !recording(context)) return false
         val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         if (!am.isMusicActive) return false
+        MicRestore.remember(context)
         val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
         val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
         val cap = (max * CAP_PCT) / 100

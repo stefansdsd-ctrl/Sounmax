@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 286 (klaar — code)
+1. MicRestore: volume van vóór de mic-cap onthouden.
+2. Opname stopt → stappen van +2 terug naar dat niveau, geen sprong.
+3. FeatureFinder-chip Herstel. Zoek op herstel, terug, na mic.
+4. Banner: Mic-herstel: volume komt terug na opname. Standaard aan.
+
 ## Batch 285 (klaar — code)
 1. MicLive: AudioRecordingCallback + activeRecordingConfigurations.
 2. Muziek actief en opname bezig → volume stapsgewijs naar 40%.

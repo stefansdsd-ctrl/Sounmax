@@ -3,6 +3,11 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-06 — batch 286)
+- Mic-herstel: na een spraakbericht of vertaler komt het muziekvolume in stappen van +2 terug.
+- Geen knal naar het oude niveau. Chip Herstel. Banner tijdens de opbouw.
+- Zoeker: herstel, terug, na mic, opname.
+
 ## Nieuw (2026-10-06 — batch 285)
 - Mic-cap: muziek actief en een andere app neemt op → stapsgewijs naar 40%.
 - Voorkomt dat een spraakbericht of vertaler dichtklapt door luide muziek.
@@ -20,4 +25,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
 - Call-transparantie hardware-veldtest
-- Mic-cap veldtest op Android 14 (opname-callback)
+- Mic-cap + herstel veldtest op Android 14
