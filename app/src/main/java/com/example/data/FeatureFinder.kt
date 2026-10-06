@@ -55,7 +55,9 @@ object FeatureFinder {
         FeatureHit("spike", "Sprong", "sprong volume knal stap omhoog per ongeluk piek dempen"),
         FeatureHit("boot", "Start", "start openen opstarten boot vergeten luid knal eerste keer"),
         FeatureHit("mic", "Mic", "mic microfoon opname recorder spraakbericht vertaler dichtklappen"),
-        FeatureHit("micback", "Herstel", "herstel terug volume na mic opname spraakbericht ramp")
+        FeatureHit("micback", "Herstel", "herstel terug volume na mic opname spraakbericht ramp"),
+        FeatureHit("rain", "Regen", "regen bui wind verkeer hoorbaar cap luisteren"),
+        FeatureHit("library", "Bieb", "bibliotheek lezen studeren stil rustig cap")
     )
 
     fun lastQuery(context: Context) =
@@ -133,6 +135,8 @@ object FeatureFinder {
         "boot" -> BootQuiet.cycle(context)
         "mic" -> MicLive.cycle(context)
         "micback" -> MicRestore.cycle(context)
+        "rain" -> RainListen.cycle(context)
+        "library" -> LibrarySoft.cycle(context)
         else -> "Onbekend: $id"
     }
 }

@@ -43,10 +43,12 @@ import com.example.data.ShakeAware
 import com.example.data.SpeakerGuard
 import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
+import com.example.data.LibrarySoft
 import com.example.data.LowBatteryCap
 import com.example.data.MeteredCap
 import com.example.data.NightQuietCap
 import com.example.data.FocusQuietCap
+import com.example.data.RainListen
 import com.example.data.SilentRingerCap
 import com.example.data.WifiVolumeMemory
 import com.example.data.OfflineGuard
@@ -97,6 +99,8 @@ class MainActivity : ComponentActivity() {
         MicRestore.tick(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
+        RainListen.apply(this)
+        LibrarySoft.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
@@ -175,6 +179,8 @@ class MainActivity : ComponentActivity() {
         MicRestore.tick(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
+        RainListen.apply(this)
+        LibrarySoft.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
