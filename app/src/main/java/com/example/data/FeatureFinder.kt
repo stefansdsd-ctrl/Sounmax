@@ -56,6 +56,7 @@ object FeatureFinder {
         FeatureHit("boot", "Start", "start openen opstarten boot vergeten luid knal eerste keer"),
         FeatureHit("mic", "Mic", "mic microfoon opname recorder spraakbericht vertaler dichtklappen"),
         FeatureHit("micback", "Herstel", "herstel terug volume na mic opname spraakbericht ramp"),
+        FeatureHit("ping", "Ping", "ping melding notificatie alarm beltoon hoorbaar anc duck"),
         FeatureHit("rain", "Regen", "regen bui wind verkeer hoorbaar cap luisteren"),
         FeatureHit("library", "Bieb", "bibliotheek lezen studeren stil rustig cap"),
         FeatureHit("office", "Kantoor", "kantoor werk werkdag bureau 9 17 cap"),
@@ -165,6 +166,7 @@ object FeatureFinder {
             "boot" -> BootQuiet.cycle(context)
             "mic" -> MicLive.cycle(context)
             "micback" -> MicRestore.cycle(context)
+            "ping" -> PingDuck.cycle(context)
             "rain" -> RainListen.cycle(context)
             "library" -> LibrarySoft.cycle(context)
             "office" -> OfficeSoft.cycle(context)
