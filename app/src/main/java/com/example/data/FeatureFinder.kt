@@ -50,6 +50,7 @@ object FeatureFinder {
         FeatureHit("leak", "Lek", "speaker lek headset a2dp geluid lekt"),
         FeatureHit("roam", "Roam", "roaming buitenland data stream cap"),
         FeatureHit("wifi", "Wi-Fi", "wifi ssid thuis netwerk volume plek"),
+        FeatureHit("route", "Route", "route speaker a2dp wegvalt losgekoppeld knal telefoon luidspreker"),
         FeatureHit("net", "Net", "offline net internet cloud ai gemini vliegtuig geen verbinding")
     )
 
@@ -122,6 +123,7 @@ object FeatureFinder {
         "leak" -> LeakGuard.cycle(context)
         "roam" -> RoamCap.cycle(context)
         "wifi" -> WifiVolumeMemory.cycle(context)
+        "route" -> RouteCap.cycle(context)
         "net" -> OfflineGuard.cycle(context)
         else -> "Onbekend: $id"
     }
