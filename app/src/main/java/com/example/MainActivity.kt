@@ -61,6 +61,7 @@ import com.example.data.SpikeGuard
 import com.example.data.BootQuiet
 import com.example.data.MicLive
 import com.example.data.MicRestore
+import com.example.data.PingDuck
 import com.example.data.RunWind
 import com.example.data.StillSafe
 import com.example.data.ThermalCap
@@ -99,6 +100,8 @@ class MainActivity : ComponentActivity() {
         MicLive.ensure(this)
         MicLive.apply(this)
         MicRestore.tick(this)
+        PingDuck.ensure(this)
+        PingDuck.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RainListen.apply(this)
@@ -181,6 +184,7 @@ class MainActivity : ComponentActivity() {
         SpikeGuard.apply(this)
         MicLive.apply(this)
         MicRestore.tick(this)
+        PingDuck.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RainListen.apply(this)
