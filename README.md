@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-06 — batch 283)
+- SpikeGuard: muziek actief en volume springt meer dan 3 stappen → terug naar vorige + 1.
+- Voorkomt een knal bij per ongeluk volume omhoog.
+- Chip Sprong. Banner: Sprong gedempt (max +1 stap). Opnieuw bij start en hervatten.
+- Zoeker: sprong, volume, knal, piek, dempen.
+
 ## Nieuw (2026-10-06 — batch 282)
 - Route-cap: muziek actief, geen A2DP en geen kabel, boven 60% → 45%, stapsgewijs.
 - Voorkomt een knal uit de telefoonspeaker als de headset wegvalt.
@@ -14,12 +20,6 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Geen 30s timeout in vliegtuigmodus of zonder data.
 - Chip Net. Banner: Offline: AI lokaal, cloud uit.
 - Zoeker: offline, net, internet, cloud, gemini, vliegtuig.
-
-## Nieuw (2026-10-06 — batch 280)
-- Accu-cap: telefoonaccu ≤ 20% en muziek actief, boven 65% → 50%, stapsgewijs. Chip Accu.
-- Werkt los van Spaar-cap (die kijkt naar spaarstand, dit naar batterijpercentage).
-- Banner toont de cap. Opnieuw bij hervatten van de app.
-- Zoeker: accu, batterij, laag, leeg, opladen.
 
 ## Volgende
 - Auto-ANC veldtest

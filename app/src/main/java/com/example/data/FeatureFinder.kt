@@ -51,7 +51,8 @@ object FeatureFinder {
         FeatureHit("roam", "Roam", "roaming buitenland data stream cap"),
         FeatureHit("wifi", "Wi-Fi", "wifi ssid thuis netwerk volume plek"),
         FeatureHit("route", "Route", "route speaker a2dp wegvalt losgekoppeld knal telefoon luidspreker"),
-        FeatureHit("net", "Net", "offline net internet cloud ai gemini vliegtuig geen verbinding")
+        FeatureHit("net", "Net", "offline net internet cloud ai gemini vliegtuig geen verbinding"),
+        FeatureHit("spike", "Sprong", "sprong volume knal stap omhoog per ongeluk piek dempen")
     )
 
     fun lastQuery(context: Context) =
@@ -125,6 +126,7 @@ object FeatureFinder {
         "wifi" -> WifiVolumeMemory.cycle(context)
         "route" -> RouteCap.cycle(context)
         "net" -> OfflineGuard.cycle(context)
+        "spike" -> SpikeGuard.cycle(context)
         else -> "Onbekend: $id"
     }
 }
