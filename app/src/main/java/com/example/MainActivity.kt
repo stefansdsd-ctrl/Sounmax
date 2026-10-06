@@ -31,6 +31,7 @@ import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
 import com.example.data.AlarmSoon
+import com.example.data.AssistDuck
 import com.example.data.BikeWind
 import com.example.data.CrashLog
 import com.example.data.NightlyBackup
@@ -102,6 +103,8 @@ class MainActivity : ComponentActivity() {
         MicRestore.tick(this)
         PingDuck.ensure(this)
         PingDuck.apply(this)
+        AssistDuck.ensure(this)
+        AssistDuck.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RainListen.apply(this)
@@ -185,6 +188,7 @@ class MainActivity : ComponentActivity() {
         MicLive.apply(this)
         MicRestore.tick(this)
         PingDuck.apply(this)
+        AssistDuck.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RainListen.apply(this)
