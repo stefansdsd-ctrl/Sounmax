@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-06 — batch 287)
+- Ping-duck: melding, alarm of beltoon terwijl muziek loopt → stapsgewijs naar 45%.
+- ANC slikt de ping anders. Na de toon komt het volume in stappen van +2 terug.
+- Chip Ping. Banner: Ping-duck actief (45%, melding hoorbaar).
+- Zoeker: ping, melding, notificatie, alarm, beltoon.
+
 ## Nieuw (2026-10-06 — batch 286)
 - Mic-herstel: na een spraakbericht of vertaler komt het muziekvolume in stappen van +2 terug.
 - Geen knal naar het oude niveau. Chip Herstel. Banner tijdens de opbouw.
@@ -15,14 +21,8 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Zoeker: mic, microfoon, opname, recorder, spraakbericht.
 - Android deelt opname-configs niet op elk toestel; dan blijft de cap stil.
 
-## Nieuw (2026-10-06 — batch 284)
-- Start-cap: bij openen van de app, volume boven 70% → stapsgewijs naar 50%, één keer per processtart.
-- Voorkomt een knal van een vergeten hoog volume. Hervatten knipt niet opnieuw.
-- Banner: Start-cap actief (50%, vergeten luid volume).
-- Zoeker: start, openen, opstarten, vergeten, luid.
-
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
 - Call-transparantie hardware-veldtest
-- Mic-cap + herstel veldtest op Android 14
+- Ping-duck veldtest op TAH6519 met ANC aan
