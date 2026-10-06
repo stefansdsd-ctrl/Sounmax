@@ -1,6 +1,8 @@
 package com.example.ai
 
+import android.content.Context
 import com.example.BuildConfig
+import com.example.data.OfflineGuard
 import com.example.dsp.EqPreset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,12 +33,21 @@ class GeminiAudioTuner {
     suspend fun generateAcousticProfile(
         userPrompt: String,
         headphoneModel: String,
-        musicGenre: String = "YouTube Music"
+        musicGenre: String = "YouTube Music",
+        context: Context? = null
     ): Result<AiAcousticRecommendation> = withContext(Dispatchers.IO) {
         try {
+            if (context != null && OfflineGuard.blockCloud(context)) {
+                val local = getSmartFallback(userPrompt, headphoneModel, musicGenre)
+                return@withContext Result.success(
+                    local.copy(
+                        description = "Offline · lokale curve. " + local.description,
+                        acousticInsight = "Geen gevalideerd internet. Cloud overgeslagen."
+                    )
+                )
+            }
             val apiKey = BuildConfig.GEMINI_API_KEY
             if (apiKey.isNullOrBlank() || apiKey == "MY_GEMINI_API_KEY") {
-                // Return high-quality intelligent rule-based acoustic profile if key is not injected
                 return@withContext Result.success(getSmartFallback(userPrompt, headphoneModel, musicGenre))
             }
 
