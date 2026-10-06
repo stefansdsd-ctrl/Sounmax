@@ -34,7 +34,9 @@ import com.example.data.AlarmSoon
 import com.example.data.AssistDuck
 import com.example.data.BikeWind
 import com.example.data.CrashLog
+import com.example.data.NavDuck
 import com.example.data.NightlyBackup
+import com.example.data.PingDuck
 import com.example.data.PocketGuard
 import com.example.data.ChargeNightCap
 import com.example.data.ConnectRamp
@@ -44,25 +46,16 @@ import com.example.data.ShakeAware
 import com.example.data.SpeakerGuard
 import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
-import com.example.data.LibrarySoft
 import com.example.data.LowBatteryCap
-import com.example.data.MeetingDuck
 import com.example.data.MeteredCap
 import com.example.data.NightQuietCap
 import com.example.data.FocusQuietCap
-import com.example.data.OfficeSoft
-import com.example.data.RainListen
 import com.example.data.SilentRingerCap
 import com.example.data.WifiVolumeMemory
 import com.example.data.OfflineGuard
 import com.example.data.PowerSaveCap
 import com.example.data.RoamCap
 import com.example.data.RouteCap
-import com.example.data.SpikeGuard
-import com.example.data.BootQuiet
-import com.example.data.MicLive
-import com.example.data.MicRestore
-import com.example.data.PingDuck
 import com.example.data.RunWind
 import com.example.data.StillSafe
 import com.example.data.ThermalCap
@@ -96,27 +89,17 @@ class MainActivity : ComponentActivity() {
         SilentRingerCap.apply(this)
         WifiVolumeMemory.apply(this)
         RouteCap.apply(this)
-        SpikeGuard.apply(this)
-        BootQuiet.apply(this)
-        MicLive.ensure(this)
-        MicLive.apply(this)
-        MicRestore.tick(this)
-        PingDuck.ensure(this)
-        PingDuck.apply(this)
-        AssistDuck.ensure(this)
-        AssistDuck.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
-        RainListen.apply(this)
-        LibrarySoft.apply(this)
-        OfficeSoft.apply(this)
-        MeetingDuck.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
         VehicleSafe.apply(this)
         StillSafe.apply(this)
         AlarmSoon.apply(this)
+        NavDuck.ensure(this)
+        AssistDuck.ensure(this)
+        PingDuck.ensure(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
@@ -184,17 +167,8 @@ class MainActivity : ComponentActivity() {
         SilentRingerCap.apply(this)
         WifiVolumeMemory.apply(this)
         RouteCap.apply(this)
-        SpikeGuard.apply(this)
-        MicLive.apply(this)
-        MicRestore.tick(this)
-        PingDuck.apply(this)
-        AssistDuck.apply(this)
         OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
-        RainListen.apply(this)
-        LibrarySoft.apply(this)
-        OfficeSoft.apply(this)
-        MeetingDuck.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
         WalkSafe.apply(this)
