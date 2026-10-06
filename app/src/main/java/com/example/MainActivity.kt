@@ -43,6 +43,7 @@ import com.example.data.ShakeAware
 import com.example.data.SpeakerGuard
 import com.example.data.HeadsetBatt
 import com.example.data.LeakGuard
+import com.example.data.LowBatteryCap
 import com.example.data.MeteredCap
 import com.example.data.NightQuietCap
 import com.example.data.FocusQuietCap
@@ -78,6 +79,7 @@ class MainActivity : ComponentActivity() {
         MeteredCap.apply(this)
         ThermalCap.apply(this)
         PowerSaveCap.apply(this)
+        LowBatteryCap.apply(this)
         FocusQuietCap.apply(this)
         SilentRingerCap.apply(this)
         WifiVolumeMemory.apply(this)
@@ -150,6 +152,7 @@ class MainActivity : ComponentActivity() {
         MeteredCap.apply(this)
         ThermalCap.apply(this)
         PowerSaveCap.apply(this)
+        LowBatteryCap.apply(this)
         FocusQuietCap.apply(this)
         SilentRingerCap.apply(this)
         WifiVolumeMemory.apply(this)
