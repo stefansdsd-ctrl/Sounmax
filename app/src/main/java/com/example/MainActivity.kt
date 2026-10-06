@@ -49,6 +49,7 @@ import com.example.data.NightQuietCap
 import com.example.data.FocusQuietCap
 import com.example.data.SilentRingerCap
 import com.example.data.WifiVolumeMemory
+import com.example.data.OfflineGuard
 import com.example.data.PowerSaveCap
 import com.example.data.RoamCap
 import com.example.data.RunWind
@@ -83,6 +84,7 @@ class MainActivity : ComponentActivity() {
         FocusQuietCap.apply(this)
         SilentRingerCap.apply(this)
         WifiVolumeMemory.apply(this)
+        OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
@@ -156,6 +158,7 @@ class MainActivity : ComponentActivity() {
         FocusQuietCap.apply(this)
         SilentRingerCap.apply(this)
         WifiVolumeMemory.apply(this)
+        OfflineGuard.refresh(this)
         NightQuietCap.apply(this)
         RunWind.apply(this)
         BikeWind.apply(this)
