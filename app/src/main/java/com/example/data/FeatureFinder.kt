@@ -60,6 +60,7 @@ object FeatureFinder {
         FeatureHit("spike", "Sprong", "sprong volume knal stap omhoog per ongeluk piek dempen"),
         FeatureHit("boot", "Start", "start openen opstarten boot vergeten luid knal eerste keer"),
         FeatureHit("mic", "Mic", "mic microfoon opname recorder spraakbericht vertaler dichtklappen"),
+        FeatureHit("cam", "Cam", "camera foto video sluiter cam duck"),
         FeatureHit("game", "Game", "game spel sfx geluidseffect duck muziek"),
         FeatureHit("ui", "Tik", "tik toets klik ui sonification keyboard duck muziek"),
         FeatureHit("micback", "Herstel", "herstel terug volume na mic opname spraakbericht ramp"),
@@ -178,6 +179,7 @@ object FeatureFinder {
             "spike" -> SpikeGuard.cycle(context)
             "boot" -> BootQuiet.cycle(context)
             "mic" -> MicLive.cycle(context)
+            "cam" -> CamDuck.cycle(context)
             "game" -> GameDuck.cycle(context)
             "ui" -> UiDuck.cycle(context)
             "micback" -> MicRestore.cycle(context)
