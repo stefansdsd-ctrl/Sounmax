@@ -61,6 +61,7 @@ object FeatureFinder {
         FeatureHit("boot", "Start", "start openen opstarten boot vergeten luid knal eerste keer"),
         FeatureHit("mic", "Mic", "mic microfoon opname recorder spraakbericht vertaler dichtklappen"),
         FeatureHit("game", "Game", "game spel sfx geluidseffect duck muziek"),
+        FeatureHit("ui", "Tik", "tik toets klik ui sonification keyboard duck muziek"),
         FeatureHit("micback", "Herstel", "herstel terug volume na mic opname spraakbericht ramp"),
         FeatureHit("ping", "Ping", "ping melding notificatie alarm beltoon hoorbaar anc duck"),
         FeatureHit("assist", "Assist", "assistent gemini assistant stem ok google hey duck"),
@@ -178,6 +179,7 @@ object FeatureFinder {
             "boot" -> BootQuiet.cycle(context)
             "mic" -> MicLive.cycle(context)
             "game" -> GameDuck.cycle(context)
+            "ui" -> UiDuck.cycle(context)
             "micback" -> MicRestore.cycle(context)
             "ping" -> PingDuck.cycle(context)
             "assist" -> AssistDuck.cycle(context)

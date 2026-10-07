@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 298 (klaar — code)
+1. UiDuck zit op DuckLane. Geen eigen volume-stap meer.
+2. USAGE_ASSISTANCE_SONIFICATION terwijl muziek loopt → stapsgewijs naar 55%.
+3. Caps: alarm 28, bel 32, TTS 34, timer 36, assistent 40, mic 40, nav 42, ping 45, game 50, ui 55. Laagste wint.
+4. Chip uit = owner los. Herstel pas als niemand vasthoudt. Alleen Android 8+.
+
 ## Batch 297 (klaar — code)
 1. GameDuck zit op DuckLane. Geen eigen volume-stap meer.
 2. USAGE_GAME terwijl muziek loopt → stapsgewijs naar 50%.

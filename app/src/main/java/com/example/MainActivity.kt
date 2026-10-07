@@ -67,6 +67,7 @@ import com.example.data.TimerDuck
 import com.example.data.TtsDuck
 import com.example.data.MicLive
 import com.example.data.GameDuck
+import com.example.data.UiDuck
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -112,6 +113,7 @@ class MainActivity : ComponentActivity() {
         PingDuck.ensure(this)
         MicLive.ensure(this)
         GameDuck.ensure(this)
+        UiDuck.ensure(this)
         DspControlService.start(this)
         CallTransparencyGuard.attach(this)
         ListenDoseTicker.start(this)
