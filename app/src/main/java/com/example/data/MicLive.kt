@@ -10,9 +10,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Andere app neemt op (spraakbericht, vertaler, recorder) terwijl muziek loopt:
- * volume stapsgewijs naar 40%. Voorkomt dat de mic dichtklapt en de piep verloren gaat.
+ * volume stapsgewijs naar 40%. Deelt DuckLane. Laagste cap wint.
  * Android geeft opname-configs niet op elk toestel vrij; dan blijft de cap stil.
- * Na de opname bouwt MicRestore het volume terug.
+ * Alleen Android 7+ (AudioRecordingCallback).
  */
 object MicLive {
     private const val PREFS = "sounmax_mic_live"
@@ -27,7 +27,10 @@ object MicLive {
     fun cycle(context: Context): String {
         val next = !enabled(context)
         prefs(context).edit().putBoolean("on", next).apply()
-        if (!next) hot = false else apply(context)
+        if (!next) {
+            hot = false
+            DuckLane.release(context, "mic")
+        } else apply(context)
         return label(context)
     }
 
@@ -38,9 +41,7 @@ object MicLive {
         val am = app.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         am.registerAudioRecordingCallback(object : AudioManager.AudioRecordingCallback() {
             override fun onRecordingConfigChanged(configs: MutableList<AudioRecordingConfiguration>) {
-                val now = configs.isNotEmpty()
-                if (now && !hot) MicRestore.remember(app)
-                hot = now
+                hot = configs.isNotEmpty()
                 if (hot) apply(app) else MicRestore.tick(app)
             }
         }, Handler(Looper.getMainLooper()))
@@ -55,16 +56,9 @@ object MicLive {
 
     fun apply(context: Context): Boolean {
         if (!enabled(context) || !recording(context)) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (!am.isMusicActive) return false
-        MicRestore.remember(context)
-        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        val cap = (max * CAP_PCT) / 100
+        if (AlarmDuck.active(context) || RingDuck.active(context)) return false
         prefs(context).edit().putLong("last", System.currentTimeMillis()).apply()
-        if (cur <= cap) return false
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, (cur - 2).coerceAtLeast(cap), 0)
-        return true
+        return DuckLane.hold(context, "mic", CAP_PCT)
     }
 
     fun active(context: Context): Boolean {
@@ -74,8 +68,10 @@ object MicLive {
     }
 
     fun label(context: Context) = when {
+        Build.VERSION.SDK_INT < 24 -> "Mic-cap: Android 7+"
         !enabled(context) -> "Mic-cap uit"
         active(context) -> "Mic open, muziek 40%"
+        DuckLane.restoring(context) -> "Volume komt terug"
         else -> "Mic-cap aan"
     }
 
