@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 294 (klaar — code)
+1. NavDuck, PingDuck en AssistDuck zitten op DuckLane. Geen eigen `saved` meer.
+2. Overlap met alarm/bel/timer bewaart niet het al verlaagde volume.
+3. Caps: alarm 28, bel 32, timer 36, assistent 40, nav 42, ping 45. Laagste wint.
+4. Uitzetten via chip laat de lane-owner los. Herstel pas als niemand vasthoudt.
+
 ## Batch 293 (klaar — code)
 1. DuckLane: één baseline voor AlarmDuck, RingDuck en TimerDuck.
 2. Overlappende ducks bewaren niet meer het al verlaagde volume.
@@ -14,18 +20,9 @@
 5. Banner: Timer-duck actief (36%, piep hoorbaar). Standaard aan. Poll elke 400 ms.
 6. Alleen Android 8+. Herkent sonification + notification, niet ringtone/alarm.
 
-## Batch 291 (klaar — code)
-1. RingDuck: inkomende beltoon terwijl muziek loopt → stapsgewijs naar 32%.
-2. Bel stopt → volume in stappen van +2 terug. Geen knal.
-3. Niet tijdens MODE_IN_CALL / MODE_IN_COMMUNICATION. Wacht als AlarmDuck actief is.
-4. FeatureFinder-chip Bel. Zoek op bel, bellen, ringtone, inkomend, gemist.
-5. Banner: Bel-duck actief (32%, beltoon hoorbaar). Standaard aan. Poll elke 450 ms.
-6. Alleen Android 8+ (USAGE_NOTIFICATION_RINGTONE).
-
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump
 - ANC-GATT + notify-leren
 - Auto-ANC veldtest
 - Codec-probe veldtest op echte TAH6519
-- Bel-duck veldtest: inkomend gesprek terwijl muziek + ANC loopt
-- Timer-duck veldtest: keukentimer terwijl muziek + ANC loopt
+- Nav-duck veldtest: Maps-aanwijzing terwijl muziek + ANC loopt

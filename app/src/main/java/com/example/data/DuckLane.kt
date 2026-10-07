@@ -5,7 +5,7 @@ import android.media.AudioManager
 
 /**
  * Eén volume-baseline voor alle ducks.
- * Alarm, bel en timer bewaren niet meer elk hun eigen (al verlaagde) stand.
+ * Alarm, bel, timer, nav, ping en assistent bewaren niet meer elk hun eigen (al verlaagde) stand.
  * Laagste actieve cap wint. Herstel pas als niemand meer vasthoudt.
  */
 object DuckLane {

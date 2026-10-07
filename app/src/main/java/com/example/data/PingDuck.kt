@@ -1,19 +1,22 @@
 package com.example.data
 
 import android.content.Context
+import android.media.AudioAttributes
 import android.media.AudioManager
+import android.media.AudioPlaybackConfiguration
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Melding, alarm of beltoon terwijl muziek loopt: volume stapsgewijs naar 45%.
- * ANC op de TAH6519 slikt anders de ping. Na de toon bouwt het volume terug in stappen van +2.
+ * Korte melding (chat, mail) terwijl muziek loopt: volume stapsgewijs naar 45%.
+ * Deelt DuckLane. Laagste cap wint. Na de ping +2 terug. Geen knal.
+ * Geen ringtone, wekker of navigatie. Alleen Android 8+.
  */
 object PingDuck {
     private const val PREFS = "sounmax_ping_duck"
     private const val CAP_PCT = 45
-    private const val STEP = 2
     private val ticking = AtomicBoolean(false)
     private val handler = Handler(Looper.getMainLooper())
 
@@ -22,7 +25,7 @@ object PingDuck {
     fun cycle(context: Context): String {
         val next = !enabled(context)
         prefs(context).edit().putBoolean("on", next).apply()
-        if (!next) clear(context)
+        if (!next) DuckLane.release(context, "ping")
         return label(context)
     }
 
@@ -32,48 +35,47 @@ object PingDuck {
         val loop = object : Runnable {
             override fun run() {
                 if (pinging(app)) apply(app) else tick(app)
-                handler.postDelayed(this, 800)
+                handler.postDelayed(this, 500)
             }
         }
         handler.post(loop)
     }
 
     fun pinging(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return false
+        if (AlarmDuck.ringing(context) || RingDuck.ringing(context) || TimerDuck.tickingNow(context) || NavDuck.guiding(context)) {
+            return false
+        }
         val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        return am.isStreamActive(AudioManager.STREAM_NOTIFICATION) ||
-            am.isStreamActive(AudioManager.STREAM_ALARM) ||
-            am.isStreamActive(AudioManager.STREAM_RING)
+        if (am.mode == AudioManager.MODE_IN_CALL || am.mode == AudioManager.MODE_IN_COMMUNICATION) {
+            return false
+        }
+        val configs: List<AudioPlaybackConfiguration> = am.activePlaybackConfigurations
+        return configs.any { cfg -> isPing(cfg.audioAttributes) }
+    }
+
+    private fun isPing(attrs: AudioAttributes): Boolean {
+        if (attrs.usage == AudioAttributes.USAGE_NOTIFICATION_RINGTONE) return false
+        if (attrs.usage == AudioAttributes.USAGE_ALARM) return false
+        if (attrs.usage == AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE) return false
+        return attrs.usage == AudioAttributes.USAGE_NOTIFICATION_EVENT
     }
 
     fun apply(context: Context): Boolean {
         if (!enabled(context) || !pinging(context)) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (!am.isMusicActive) return false
-        remember(context, am)
-        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        val cap = (max * CAP_PCT) / 100
-        prefs(context).edit().putLong("last", System.currentTimeMillis()).apply()
-        if (cur <= cap) return false
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, (cur - STEP).coerceAtLeast(cap), 0)
-        return true
+        if (AlarmDuck.active(context) || RingDuck.active(context) || TimerDuck.active(context) || NavDuck.active(context)) {
+            return false
+        }
+        return DuckLane.hold(context, "ping", CAP_PCT)
     }
 
     fun tick(context: Context): Boolean {
         if (!enabled(context) || pinging(context)) return false
-        val p = prefs(context)
-        val saved = p.getInt("saved", -1)
-        if (saved < 0) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        if (cur >= saved) {
-            clear(context)
+        if (AlarmDuck.active(context) || RingDuck.active(context) || TimerDuck.active(context) || NavDuck.active(context)) {
             return false
         }
-        val next = (cur + STEP).coerceAtMost(saved)
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, next, 0)
-        if (next >= saved) clear(context)
-        return true
+        if (!DuckLane.heldBy(context, "ping") && !DuckLane.restoring(context)) return false
+        return DuckLane.release(context, "ping")
     }
 
     fun active(context: Context): Boolean {
@@ -84,19 +86,9 @@ object PingDuck {
 
     fun label(context: Context) = when {
         !enabled(context) -> "Ping-duck uit"
-        active(context) -> "Melding, muziek 45%"
-        prefs(context).getInt("saved", -1) >= 0 -> "Volume komt terug"
+        active(context) -> "Ping, muziek 45%"
+        DuckLane.restoring(context) -> "Volume komt terug"
         else -> "Ping-duck aan"
-    }
-
-    private fun remember(context: Context, am: AudioManager) {
-        val p = prefs(context)
-        if (p.getInt("saved", -1) >= 0) return
-        p.edit().putInt("saved", am.getStreamVolume(AudioManager.STREAM_MUSIC)).apply()
-    }
-
-    private fun clear(context: Context) {
-        prefs(context).edit().remove("saved").apply()
     }
 
     private fun prefs(context: Context) =
