@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 293 (klaar — code)
+1. DuckLane: één baseline voor AlarmDuck, RingDuck en TimerDuck.
+2. Overlappende ducks bewaren niet meer het al verlaagde volume.
+3. Laagste cap wint. Herstel in stappen van +2 pas als alle owners loslaten.
+4. Uitzetten via chip laat de lane ook los.
+
 ## Batch 292 (klaar — code)
 1. TimerDuck: keukentimer of countdown-piep terwijl muziek loopt → stapsgewijs naar 36%.
 2. Piep stopt → volume in stappen van +2 terug. Geen knal.

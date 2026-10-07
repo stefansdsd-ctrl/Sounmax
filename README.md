@@ -3,6 +3,12 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-07 — batch 293)
+- DuckLane: alarm, bel en timer delen één volume-baseline.
+- Laagste cap wint (wekker 28% boven bel 32% boven timer 36%).
+- Herstel pas als niemand meer vasthoudt. Geen tweede verlaging meer bewaren.
+- Oude per-duck `saved` blijft staan maar wordt niet meer als waarheid gebruikt.
+
 ## Nieuw (2026-10-07 — batch 292)
 - Timer-duck: keukentimer of countdown terwijl muziek loopt → stapsgewijs naar 36%.
 - Herkent sonification + notification. Niet ringtone, niet wekker.
