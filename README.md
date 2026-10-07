@@ -3,6 +3,14 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-07 — batch 299)
+- Cam-duck: camera open (foto of video) terwijl muziek loopt → stapsgewijs naar 48%.
+- Zit op DuckLane. Laagste cap wint (onder game 50, boven ping 45).
+- Geen CAMERA-permissie. Availability-callback.
+- Chip Cam. Banner: Cam-duck actief (48%, sluiter hoorbaar).
+- Zoeker: camera, foto, video, sluiter, cam.
+- Alleen Android 5+.
+
 ## Nieuw (2026-10-07 — batch 298)
 - UI-duck: toets- en tikgeluid (USAGE_ASSISTANCE_SONIFICATION) terwijl muziek loopt → stapsgewijs naar 55%.
 - Zit op DuckLane. Laagste cap wint (boven game 50).
@@ -32,4 +40,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- TTS-duck veldtest op TAH6519 met TalkBack aan
+- Cam-duck veldtest: camera openen met muziek op TAH6519
