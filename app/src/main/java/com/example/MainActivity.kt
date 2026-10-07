@@ -62,6 +62,7 @@ import com.example.data.StillSafe
 import com.example.data.ThermalCap
 import com.example.data.VehicleSafe
 import com.example.data.WalkSafe
+import com.example.data.RingDuck
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -99,6 +100,7 @@ class MainActivity : ComponentActivity() {
         StillSafe.apply(this)
         AlarmSoon.apply(this)
         AlarmDuck.ensure(this)
+        RingDuck.ensure(this)
         NavDuck.ensure(this)
         AssistDuck.ensure(this)
         PingDuck.ensure(this)
