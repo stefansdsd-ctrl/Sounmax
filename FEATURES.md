@@ -1,5 +1,13 @@
 # Sounmax — volgende features
 
+## Batch 297 (klaar — code)
+1. GameDuck zit op DuckLane. Geen eigen volume-stap meer.
+2. USAGE_GAME terwijl muziek loopt → stapsgewijs naar 50%.
+3. Caps: alarm 28, bel 32, TTS 34, timer 36, assistent 40, mic 40, nav 42, ping 45, game 50. Laagste wint.
+4. Chip uit = owner los. Herstel pas als niemand vasthoudt. Alleen Android 8+.
+
+# Sounmax — volgende features
+
 ## Batch 296 (klaar — code)
 1. MicLive zit op DuckLane. Geen eigen volume-stap meer, MicRestore bewaart geen `saved`.
 2. Andere app neemt op terwijl muziek loopt → stapsgewijs naar 40%.

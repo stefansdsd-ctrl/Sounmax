@@ -3,6 +3,13 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-07 — batch 297)
+- Game-duck: spel-SFX (USAGE_GAME) terwijl muziek loopt → stapsgewijs naar 50%.
+- Zit op DuckLane. Laagste cap wint (boven ping 45).
+- Chip Game. Banner: Game-duck actief (50%, spel hoorbaar).
+- Zoeker: game, spel, sfx, geluidseffect.
+- Alleen Android 8+.
+
 ## Nieuw (2026-10-07 — batch 295)
 - TTS-duck: TalkBack of toegankelijkheidsstem terwijl muziek loopt → stapsgewijs naar 34%.
 - Zit op DuckLane. Laagste cap wint (onder assistent 40, boven timer 36).

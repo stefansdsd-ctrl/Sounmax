@@ -18,6 +18,7 @@ object ActiveLimitBanner {
         if (AssistDuck.active(context)) return "Assistent-duck actief (40%, stem hoorbaar)"
         if (PingDuck.active(context)) return "Ping-duck actief (45%, melding hoorbaar)"
         if (MicLive.active(context)) return "Mic-cap actief (40%, andere app neemt op)"
+        if (GameDuck.active(context)) return "Game-duck actief (50%, spel hoorbaar)"
         if (MicRestore.active(context)) return "Mic-herstel: volume komt terug na opname"
         if (SpikeGuard.active(context)) return "Sprong gedempt (max +1 stap)"
         if (BootQuiet.active(context)) return "Start-cap actief (50%, vergeten luid volume)"
