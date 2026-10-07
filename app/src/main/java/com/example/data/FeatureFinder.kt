@@ -42,6 +42,7 @@ object FeatureFinder {
         FeatureHit("night", "Nacht", "nacht slaap stil 2230 bedtime quiet hours avond"),
         FeatureHit("nav", "Nav", "maps waze navigatie"),
         FeatureHit("navduck", "NavDuck", "navduck duck maps waze aanwijzing guidance stem route"),
+        FeatureHit("alarm", "Alarm", "alarm wekker klok ringing clock duck hoorbaar"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
         FeatureHit("meet", "Meet", "zoom teams meet webex"),
@@ -154,6 +155,7 @@ object FeatureFinder {
             "night" -> NightQuietCap.cycle(context)
             "nav" -> NavSoft.cycle(context)
             "navduck" -> NavDuck.cycle(context)
+            "alarm" -> AlarmDuck.cycle(context)
             "ov" -> TransitSoft.cycle(context)
             "shop" -> ShopSoft.cycle(context)
             "meet" -> MeetSoft.cycle(context)

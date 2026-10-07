@@ -30,6 +30,7 @@ import com.example.ui.SoundMaxApp
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.theme.appBackground
 import com.example.widget.SoundMaxWidget
+import com.example.data.AlarmDuck
 import com.example.data.AlarmSoon
 import com.example.data.AssistDuck
 import com.example.data.BikeWind
@@ -97,6 +98,7 @@ class MainActivity : ComponentActivity() {
         VehicleSafe.apply(this)
         StillSafe.apply(this)
         AlarmSoon.apply(this)
+        AlarmDuck.ensure(this)
         NavDuck.ensure(this)
         AssistDuck.ensure(this)
         PingDuck.ensure(this)
