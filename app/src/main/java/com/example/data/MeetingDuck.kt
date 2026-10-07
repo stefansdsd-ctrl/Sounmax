@@ -4,26 +4,43 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.media.AudioManager
+import android.os.Handler
+import android.os.Looper
 import android.provider.CalendarContract
 import androidx.core.content.ContextCompat
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Agenda-demp: afspraak start binnen 12 min → muziek naar 35%.
- * Vereist READ_CALENDAR (al aangevraagd in MainActivity).
+ * Agenda-demp: afspraak start binnen 12 min → muziek stapsgewijs naar 35%.
+ * Deelt DuckLane. Laagste cap wint. Vereist READ_CALENDAR.
  */
 object MeetingDuck {
     private const val PREFS = "sounmax_meeting_duck"
     private const val WINDOW_MS = 12 * 60 * 1000L
     private const val CAP_PCT = 35
-    private const val TRIGGER_PCT = 45
+    private val ticking = AtomicBoolean(false)
+    private val handler = Handler(Looper.getMainLooper())
 
     fun enabled(context: Context) = prefs(context).getBoolean("on", false)
 
     fun cycle(context: Context): String {
         val next = !enabled(context)
         prefs(context).edit().putBoolean("on", next).apply()
-        if (next) apply(context) else prefs(context).edit().putBoolean("ducked", false).apply()
+        if (!next) DuckLane.release(context, "agenda")
+        else apply(context)
         return label(context)
+    }
+
+    fun ensure(context: Context) {
+        if (!ticking.compareAndSet(false, true)) return
+        val app = context.applicationContext
+        val loop = object : Runnable {
+            override fun run() {
+                if (soon(app)) apply(app) else tick(app)
+                handler.postDelayed(this, 15_000)
+            }
+        }
+        handler.post(loop)
     }
 
     fun minutesUntil(context: Context): Int? {
@@ -51,31 +68,32 @@ object MeetingDuck {
         }
     }
 
+    fun soon(context: Context): Boolean = enabled(context) && minutesUntil(context) != null
+
     fun apply(context: Context): Boolean {
-        val mins = minutesUntil(context)
-        if (!enabled(context) || mins == null) {
-            prefs(context).edit().putBoolean("ducked", false).apply()
-            return false
-        }
+        if (!soon(context)) return false
         val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        if (cur <= (max * TRIGGER_PCT) / 100) return false
-        val cap = (max * CAP_PCT) / 100
-        if (cur > cap) {
-            am.setStreamVolume(AudioManager.STREAM_MUSIC, cap, 0)
-            prefs(context).edit().putBoolean("ducked", true).putInt("mins", mins).apply()
-            return true
-        }
-        return false
+        if (am.mode == AudioManager.MODE_IN_CALL || am.mode == AudioManager.MODE_IN_COMMUNICATION) return false
+        if (!am.isMusicActive) return false
+        return DuckLane.hold(context, "agenda", CAP_PCT)
     }
+
+    fun tick(context: Context): Boolean {
+        if (soon(context)) return false
+        if (!DuckLane.heldBy(context, "agenda") && !DuckLane.restoring(context)) return false
+        return DuckLane.release(context, "agenda")
+    }
+
+    fun active(context: Context): Boolean =
+        soon(context) && (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager).isMusicActive
 
     fun label(context: Context): String {
         val mins = minutesUntil(context)
         return when {
             !enabled(context) -> "Agenda-demp uit"
-            mins != null && prefs(context).getBoolean("ducked", false) -> "Agenda-demp ${mins}m"
+            active(context) && mins != null -> "Agenda, muziek 35% (${mins}m)"
             mins != null -> "Afspraak over ${mins}m"
+            DuckLane.restoring(context) -> "Volume komt terug"
             else -> "Agenda-demp aan"
         }
     }
