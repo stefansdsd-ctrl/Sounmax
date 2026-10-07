@@ -44,6 +44,7 @@ object FeatureFinder {
         FeatureHit("navduck", "NavDuck", "navduck duck maps waze aanwijzing guidance stem route"),
         FeatureHit("alarm", "Alarm", "alarm wekker klok ringing clock duck hoorbaar"),
         FeatureHit("ring", "Bel", "bel bellen ringtone inkomend gemist call duck hoorbaar"),
+        FeatureHit("timer", "Timer", "timer kookwekker countdown piep keuken duck hoorbaar"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
         FeatureHit("shop", "Shop", "winkel boodschappen bol"),
         FeatureHit("meet", "Meet", "zoom teams meet webex"),
@@ -158,6 +159,7 @@ object FeatureFinder {
             "navduck" -> NavDuck.cycle(context)
             "alarm" -> AlarmDuck.cycle(context)
             "ring" -> RingDuck.cycle(context)
+            "timer" -> TimerDuck.cycle(context)
             "ov" -> TransitSoft.cycle(context)
             "shop" -> ShopSoft.cycle(context)
             "meet" -> MeetSoft.cycle(context)
