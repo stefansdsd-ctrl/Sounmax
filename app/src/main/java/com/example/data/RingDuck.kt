@@ -27,7 +27,7 @@ object RingDuck {
     fun cycle(context: Context): String {
         val next = !enabled(context)
         prefs(context).edit().putBoolean("on", next).apply()
-        if (!next) clear(context)
+        if (!next) { clear(context); DuckLane.release(context, "ring") }
         return label(context)
     }
 
@@ -57,33 +57,15 @@ object RingDuck {
 
     fun apply(context: Context): Boolean {
         if (!enabled(context) || !ringing(context)) return false
-        if (AlarmDuck.ringing(context)) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (!am.isMusicActive) return false
-        remember(context, am)
-        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        val cap = (max * CAP_PCT) / 100
-        if (cur <= cap) return false
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, (cur - STEP).coerceAtLeast(cap), 0)
-        return true
+        if (AlarmDuck.active(context)) return false
+        return DuckLane.hold(context, "ring", 32)
     }
 
     fun tick(context: Context): Boolean {
         if (!enabled(context) || ringing(context)) return false
         if (AlarmDuck.active(context)) return false
-        val saved = prefs(context).getInt("saved", -1)
-        if (saved < 0) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        if (cur >= saved) {
-            clear(context)
-            return false
-        }
-        val next = (cur + STEP).coerceAtMost(saved)
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, next, 0)
-        if (next >= saved) clear(context)
-        return true
+        if (!DuckLane.heldBy(context, "ring")) return false
+        return DuckLane.release(context, "ring")
     }
 
     fun active(context: Context): Boolean {
@@ -95,7 +77,7 @@ object RingDuck {
     fun label(context: Context) = when {
         !enabled(context) -> "Bel-duck uit"
         active(context) -> "Beltoon, muziek 32%"
-        prefs(context).getInt("saved", -1) >= 0 -> "Volume komt terug"
+        DuckLane.restoring(context) -> "Volume komt terug"
         else -> "Bel-duck aan"
     }
 

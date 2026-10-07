@@ -26,7 +26,7 @@ object AlarmDuck {
     fun cycle(context: Context): String {
         val next = !enabled(context)
         prefs(context).edit().putBoolean("on", next).apply()
-        if (!next) clear(context)
+        if (!next) { clear(context); DuckLane.release(context, "alarm") }
         return label(context)
     }
 
@@ -53,31 +53,13 @@ object AlarmDuck {
 
     fun apply(context: Context): Boolean {
         if (!enabled(context) || !ringing(context)) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (!am.isMusicActive) return false
-        remember(context, am)
-        val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC).coerceAtLeast(1)
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        val cap = (max * CAP_PCT) / 100
-        if (cur <= cap) return false
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, (cur - STEP).coerceAtLeast(cap), 0)
-        return true
+        return DuckLane.hold(context, "alarm", 28)
     }
 
     fun tick(context: Context): Boolean {
         if (!enabled(context) || ringing(context)) return false
-        val saved = prefs(context).getInt("saved", -1)
-        if (saved < 0) return false
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val cur = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-        if (cur >= saved) {
-            clear(context)
-            return false
-        }
-        val next = (cur + STEP).coerceAtMost(saved)
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, next, 0)
-        if (next >= saved) clear(context)
-        return true
+        if (!DuckLane.heldBy(context, "alarm") && !DuckLane.restoring(context)) return false
+        return DuckLane.release(context, "alarm")
     }
 
     fun active(context: Context): Boolean {
@@ -89,7 +71,7 @@ object AlarmDuck {
     fun label(context: Context) = when {
         !enabled(context) -> "Alarm-duck uit"
         active(context) -> "Wekker, muziek 28%"
-        prefs(context).getInt("saved", -1) >= 0 -> "Volume komt terug"
+        DuckLane.restoring(context) -> "Volume komt terug"
         else -> "Alarm-duck aan"
     }
 
