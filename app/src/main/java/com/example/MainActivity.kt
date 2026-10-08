@@ -35,6 +35,7 @@ import com.example.data.AlarmSoon
 import com.example.data.AssistDuck
 import com.example.data.BikeWind
 import com.example.data.CamDuck
+import com.example.data.ChatDuck
 import com.example.data.CrashLog
 import com.example.data.NavDuck
 import com.example.data.NightlyBackup
@@ -115,6 +116,7 @@ class MainActivity : ComponentActivity() {
         TtsDuck.ensure(this)
         NavDuck.ensure(this)
         AssistDuck.ensure(this)
+        ChatDuck.ensure(this)
         PingDuck.ensure(this)
         MicLive.ensure(this)
         CamDuck.ensure(this)

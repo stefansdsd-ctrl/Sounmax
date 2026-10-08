@@ -3,6 +3,14 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-08 — batch 302)
+- Chat-duck: berichttoon (WhatsApp, Signal, mail) terwijl muziek loopt → stapsgewijs naar 44%.
+- Zit op DuckLane. Laagste cap wint (onder nav 42, boven ping 45).
+- Ping blijft alleen korte event-pings. Chat dekt USAGE_NOTIFICATION en chat-usages.
+- Chip Chat. Banner: Chat-duck actief (44%, bericht hoorbaar).
+- Zoeker: chat, whatsapp, signal, telegram, bericht, mail.
+- Alleen Android 8+. Instant-chat vanaf Android 9.
+
 ## Nieuw (2026-10-08 — batch 301)
 - Nood-duck: USAGE_EMERGENCY (NL-Alert / amber) terwijl muziek loopt → stapsgewijs naar 22%.
 - Zit op DuckLane. Laagste cap wint (onder alarm 28).
@@ -10,23 +18,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Zoeker: nood, nl-alert, amber, emergency.
 - Alleen Android 8+.
 
-## Nieuw (2026-10-07 — batch 300)
-- Wacht-duck: VoIP-wachttoon terwijl muziek loopt → stapsgewijs naar 38%.
-- Zit op DuckLane. Laagste cap wint (onder assistent 40, boven timer 36).
-- Chip Wacht. Banner: Wacht-duck actief (38%, wachttoon hoorbaar).
-- Zoeker: wacht, wachttoon, voip, ringback.
-- Agenda-demp draait nu echt: poll elke 15s, DuckLane 35%, geen harde sprong.
-- Alleen Android 8+ voor wachttoon. Agenda: kalenderrecht.
-
-## Nieuw (2026-10-07 — batch 299)
-- Cam-duck: camera open (foto of video) terwijl muziek loopt → stapsgewijs naar 48%.
-- Zit op DuckLane. Laagste cap wint (onder game 50, boven ping 45).
-- Geen CAMERA-permissie. Availability-callback.
-- Chip Cam. Banner: Cam-duck actief (48%, sluiter hoorbaar).
-- Zoeker: camera, foto, video, sluiter, cam.
-- Alleen Android 5+.
-
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- Wacht-duck veldtest: VoIP-bellen terwijl muziek loopt
+- Chat-duck veldtest: berichttoon terwijl muziek loopt
