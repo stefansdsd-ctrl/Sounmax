@@ -1,3 +1,11 @@
+## Nieuw (2026-10-08 — batch 310)
+- Wacht-cap: volume +2 stappen terwijl muziek stil is, play binnen 25s boven 52% → 5s naar 50%.
+- Vangt slotscherm-knal. SpikeGuard ziet alleen sprongen tijdens afspelen. Ochtend-cap blijft één keer per dag.
+- Zit op DuckLane. Laagste cap wint (onder zoek 56).
+- Chip Wacht in de omroep-balk. Banner: Wacht-cap actief (50%, volume vóór play).
+- Zoeker: wacht, slotscherm, knal, pauze.
+- Geen extra permissie.
+
 # Sounmax
 
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.

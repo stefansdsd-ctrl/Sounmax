@@ -1,5 +1,11 @@
 # Sounmax — volgende features
 
+## Batch 310 (klaar — code)
+1. Wacht-cap zit op DuckLane. Volume +2 stappen in stilte, play binnen 25s boven 52% → 5s naar 50%.
+2. Vangt knal van volume-knoppen vóór play. SpikeGuard dekt alleen afspelen.
+3. Chip uit = owner arm los. Herstel pas als niemand vasthoudt.
+4. Geen extra permissie.
+
 ## Batch 309 (klaar — code)
 1. Zoek-cap zit op DuckLane. Drie stiltes 0,2–1,1s binnen 18s, play boven 55% → 4s naar 56%.
 2. Vangt bladeren dat één skip-duck mist. Volume onder 55% doet niets.

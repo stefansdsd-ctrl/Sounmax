@@ -28,6 +28,7 @@ object ActiveLimitBanner {
         if (GameDuck.active(context)) return "Game-duck actief (50%, spel hoorbaar)"
         if (UiDuck.active(context)) return "UI-duck actief (55%, tik hoorbaar)"
         if (HandoffDuck.active(context)) return "Wissel-duck actief (62%, nieuwe speler)"
+        if (ArmDuck.active(context)) return "Wacht-cap actief (50%, volume vóór play)"
         if (HuntDuck.active(context)) return "Zoek-cap actief (56%, snel skippen)"
         if (SkipDuck.active(context)) return "Skip-duck actief (64%, nummerwissel)"
         if (ResumeDuck.active(context)) return "Pauze-hervat actief (68%, na stilte)"

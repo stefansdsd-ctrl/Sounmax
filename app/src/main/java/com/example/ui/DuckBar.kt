@@ -26,6 +26,7 @@ import com.example.data.MorningDuck
 import com.example.data.ResumeDuck
 import com.example.data.SkipDuck
 import com.example.data.HuntDuck
+import com.example.data.ArmDuck
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.VolumeDuck
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -47,11 +48,13 @@ fun DuckBar() {
     var skipLive by remember { mutableStateOf(SkipDuck.active(context)) }
     var huntOn by remember { mutableStateOf(HuntDuck.enabled(context)) }
     var huntLive by remember { mutableStateOf(HuntDuck.active(context)) }
+    var armOn by remember { mutableStateOf(ArmDuck.enabled(context)) }
+    var armLive by remember { mutableStateOf(ArmDuck.active(context)) }
     var morningOn by remember { mutableStateOf(MorningDuck.enabled(context)) }
     var morningLive by remember { mutableStateOf(MorningDuck.active(context)) }
 
-    LaunchedEffect(active, handoffOn, resumeOn, skipOn, huntOn, morningOn) {
-        while (active || handoffOn || resumeOn || skipOn || huntOn || morningOn) {
+    LaunchedEffect(active, handoffOn, resumeOn, skipOn, huntOn, armOn, morningOn) {
+        while (active || handoffOn || resumeOn || skipOn || huntOn || armOn || morningOn) {
             delay(500)
             active = VolumeDuck.isActive(context)
             left = VolumeDuck.remainingSec(context)
@@ -59,8 +62,10 @@ fun DuckBar() {
             resumeLive = ResumeDuck.active(context)
             skipLive = SkipDuck.active(context)
             huntLive = HuntDuck.active(context)
+            armOn = ArmDuck.enabled(context)
+            armLive = ArmDuck.active(context)
             morningLive = MorningDuck.active(context)
-            if (!active && !handoffOn && !resumeOn && !skipOn && !huntOn && !morningOn) break
+            if (!active && !handoffOn && !resumeOn && !skipOn && !huntOn && !armOn && !morningOn) break
         }
     }
 
@@ -176,6 +181,23 @@ fun DuckBar() {
             },
             colors = colors(),
             modifier = Modifier.testTag("hunt_chip")
+        )
+        FilterChip(
+            selected = armOn,
+            onClick = {
+                Toast.makeText(context, ArmDuck.cycle(context), Toast.LENGTH_SHORT).show()
+                armOn = ArmDuck.enabled(context)
+                armLive = ArmDuck.active(context)
+            },
+            label = {
+                Text(
+                    if (armLive) "Wacht 50%" else if (armOn) "Wacht aan" else "Wacht",
+                    fontSize = 11.sp,
+                    maxLines = 1
+                )
+            },
+            colors = colors(),
+            modifier = Modifier.testTag("arm_chip")
         )
         FilterChip(
             selected = morningOn,

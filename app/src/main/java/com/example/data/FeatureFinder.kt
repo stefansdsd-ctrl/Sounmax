@@ -48,6 +48,7 @@ object FeatureFinder {
         FeatureHit("handoff", "Wissel", "wissel handoff speler spotify yt music app wissel knal"),
         FeatureHit("resume", "Hervat", "hervat pauze reclame resume play stilte knal"),
         FeatureHit("hunt", "Zoek", "zoek bladeren snel skippen drie skips hunt cap"),
+        FeatureHit("arm", "Wacht", "wacht volume pauze slotscherm knal play arm cap"),
         FeatureHit("skip", "Skip", "skip nummer wissel track volgende kort stilte knal"),
         FeatureHit("morning", "Ochtend", "ochtend eerste play dag volume knal vergeten luid"),
         FeatureHit("timer", "Timer", "timer kookwekker countdown piep keuken duck hoorbaar"),
@@ -176,6 +177,7 @@ object FeatureFinder {
             "handoff" -> HandoffDuck.cycle(context)
             "resume" -> ResumeDuck.cycle(context)
             "hunt" -> HuntDuck.cycle(context)
+            "arm" -> ArmDuck.cycle(context)
             "skip" -> SkipDuck.cycle(context)
             "morning" -> MorningDuck.cycle(context)
             "timer" -> TimerDuck.cycle(context)
