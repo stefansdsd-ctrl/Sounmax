@@ -3,6 +3,13 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-08 — batch 301)
+- Nood-duck: USAGE_EMERGENCY (NL-Alert / amber) terwijl muziek loopt → stapsgewijs naar 22%.
+- Zit op DuckLane. Laagste cap wint (onder alarm 28).
+- Chip Nood. Banner: Nood-duck actief (22%, NL-Alert hoorbaar).
+- Zoeker: nood, nl-alert, amber, emergency.
+- Alleen Android 8+.
+
 ## Nieuw (2026-10-07 — batch 300)
 - Wacht-duck: VoIP-wachttoon terwijl muziek loopt → stapsgewijs naar 38%.
 - Zit op DuckLane. Laagste cap wint (onder assistent 40, boven timer 36).

@@ -72,7 +72,8 @@ object FeatureFinder {
         FeatureHit("office", "Kantoor", "kantoor werk werkdag bureau 9 17 cap"),
         FeatureHit("agenda", "Agenda", "agenda meeting afspraak vergadering calendar demp"),
         FeatureHit("link", "Link", "link latency ping wifi 4g internet meting snelheid verbinding"),
-        FeatureHit("buds", "Buds", "buds a2dp route headset gezondheid speaker lek check")
+        FeatureHit("buds", "Buds", "buds a2dp route headset gezondheid speaker lek check"),
+        FeatureHit("sos", "Nood", "nood nl-alert amber emergency overheid sirene alert duck")
     )
 
     fun lastQuery(context: Context) =
@@ -182,6 +183,7 @@ object FeatureFinder {
             "mic" -> MicLive.cycle(context)
             "cam" -> CamDuck.cycle(context)
             "wacht" -> WaitDuck.cycle(context)
+            "sos" -> EmergencyDuck.cycle(context)
             "game" -> GameDuck.cycle(context)
             "ui" -> UiDuck.cycle(context)
             "micback" -> MicRestore.cycle(context)

@@ -10,6 +10,7 @@ object ActiveLimitBanner {
     fun text(context: Context): String {
         SceneHoldPriority.winner(context)?.let { return SceneHoldPriority.label(context) }
         if (PostCallRamp.active(context)) return "Na-bel: volume bouwt op"
+        if (EmergencyDuck.active(context)) return "Nood-duck actief (22%, NL-Alert hoorbaar)"
         if (AlarmDuck.active(context)) return "Alarm-duck actief (28%, wekker hoorbaar)"
         if (RingDuck.active(context)) return "Bel-duck actief (32%, beltoon hoorbaar)"
         if (TtsDuck.active(context)) return "TTS-duck actief (34%, voorlezen hoorbaar)"

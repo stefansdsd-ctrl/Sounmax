@@ -70,6 +70,7 @@ import com.example.data.MicLive
 import com.example.data.GameDuck
 import com.example.data.UiDuck
 import com.example.data.WaitDuck
+import com.example.data.EmergencyDuck
 import com.example.data.MeetingDuck
 
 class MainActivity : ComponentActivity() {
@@ -108,6 +109,7 @@ class MainActivity : ComponentActivity() {
         StillSafe.apply(this)
         AlarmSoon.apply(this)
         AlarmDuck.ensure(this)
+        EmergencyDuck.ensure(this)
         RingDuck.ensure(this)
         TimerDuck.ensure(this)
         TtsDuck.ensure(this)
