@@ -65,6 +65,7 @@ object FeatureFinder {
         FeatureHit("game", "Game", "game spel sfx geluidseffect duck muziek"),
         FeatureHit("ui", "Tik", "tik toets klik ui sonification keyboard duck muziek"),
         FeatureHit("micback", "Herstel", "herstel terug volume na mic opname spraakbericht ramp"),
+        FeatureHit("chat", "Chat", "chat whatsapp signal telegram bericht mail sms duck"),
         FeatureHit("ping", "Ping", "ping melding notificatie alarm beltoon hoorbaar anc duck"),
         FeatureHit("assist", "Assist", "assistent gemini assistant stem ok google hey duck"),
         FeatureHit("rain", "Regen", "regen bui wind verkeer hoorbaar cap luisteren"),
@@ -187,6 +188,7 @@ object FeatureFinder {
             "game" -> GameDuck.cycle(context)
             "ui" -> UiDuck.cycle(context)
             "micback" -> MicRestore.cycle(context)
+            "chat" -> ChatDuck.cycle(context)
             "ping" -> PingDuck.cycle(context)
             "assist" -> AssistDuck.cycle(context)
             "rain" -> RainListen.cycle(context)

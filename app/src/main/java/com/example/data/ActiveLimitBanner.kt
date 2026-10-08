@@ -19,6 +19,7 @@ object ActiveLimitBanner {
         if (WaitDuck.active(context)) return "Wacht-duck actief (38%, wachttoon hoorbaar)"
         if (NavDuck.active(context)) return "Nav-duck actief (42%, aanwijzing hoorbaar)"
         if (AssistDuck.active(context)) return "Assistent-duck actief (40%, stem hoorbaar)"
+        if (ChatDuck.active(context)) return "Chat-duck actief (44%, bericht hoorbaar)"
         if (PingDuck.active(context)) return "Ping-duck actief (45%, melding hoorbaar)"
         if (MicLive.active(context)) return "Mic-cap actief (40%, andere app neemt op)"
         if (CamDuck.active(context)) return "Cam-duck actief (48%, sluiter hoorbaar)"
