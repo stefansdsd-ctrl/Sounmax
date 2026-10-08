@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.HandoffDuck
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.VolumeDuck
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -34,12 +35,16 @@ fun DuckBar() {
     var active by remember { mutableStateOf(VolumeDuck.isActive(context)) }
     var left by remember { mutableIntStateOf(VolumeDuck.remainingSec(context)) }
     var autoCap by remember { mutableStateOf(HearingDoseGuard.autoCapEnabled(context)) }
+    var handoffOn by remember { mutableStateOf(HandoffDuck.enabled(context)) }
+    var handoffLive by remember { mutableStateOf(HandoffDuck.active(context)) }
 
-    LaunchedEffect(active) {
-        while (active) {
+    LaunchedEffect(active, handoffOn) {
+        while (active || handoffOn) {
             delay(500)
             active = VolumeDuck.isActive(context)
             left = VolumeDuck.remainingSec(context)
+            handoffLive = HandoffDuck.active(context)
+            if (!active && !handoffOn) break
         }
     }
 
@@ -87,6 +92,23 @@ fun DuckBar() {
             label = { Text(if (autoCap) "Auto-cap aan" else "Auto-cap", fontSize = 11.sp, maxLines = 1) },
             colors = colors(),
             modifier = Modifier.testTag("auto_cap_chip")
+        )
+        FilterChip(
+            selected = handoffOn,
+            onClick = {
+                Toast.makeText(context, HandoffDuck.cycle(context), Toast.LENGTH_SHORT).show()
+                handoffOn = HandoffDuck.enabled(context)
+                handoffLive = HandoffDuck.active(context)
+            },
+            label = {
+                Text(
+                    if (handoffLive) "Wissel 62%" else if (handoffOn) "Wissel aan" else "Wissel",
+                    fontSize = 11.sp,
+                    maxLines = 1
+                )
+            },
+            colors = colors(),
+            modifier = Modifier.testTag("handoff_chip")
         )
     }
 }
