@@ -76,6 +76,7 @@ import com.example.data.EmergencyDuck
 import com.example.data.MeetingDuck
 import com.example.data.AccessDuck
 import com.example.data.HandoffDuck
+import com.example.data.MorningDuck
 import com.example.data.ResumeDuck
 
 class MainActivity : ComponentActivity() {
@@ -119,6 +120,7 @@ class MainActivity : ComponentActivity() {
         AccessDuck.ensure(this)
         HandoffDuck.ensure(this)
         ResumeDuck.ensure(this)
+        MorningDuck.ensure(this)
         TimerDuck.ensure(this)
         TtsDuck.ensure(this)
         NavDuck.ensure(this)

@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.HandoffDuck
+import com.example.data.MorningDuck
 import com.example.data.ResumeDuck
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.VolumeDuck
@@ -40,15 +41,18 @@ fun DuckBar() {
     var handoffLive by remember { mutableStateOf(HandoffDuck.active(context)) }
     var resumeOn by remember { mutableStateOf(ResumeDuck.enabled(context)) }
     var resumeLive by remember { mutableStateOf(ResumeDuck.active(context)) }
+    var morningOn by remember { mutableStateOf(MorningDuck.enabled(context)) }
+    var morningLive by remember { mutableStateOf(MorningDuck.active(context)) }
 
-    LaunchedEffect(active, handoffOn, resumeOn) {
-        while (active || handoffOn || resumeOn) {
+    LaunchedEffect(active, handoffOn, resumeOn, morningOn) {
+        while (active || handoffOn || resumeOn || morningOn) {
             delay(500)
             active = VolumeDuck.isActive(context)
             left = VolumeDuck.remainingSec(context)
             handoffLive = HandoffDuck.active(context)
             resumeLive = ResumeDuck.active(context)
-            if (!active && !handoffOn && !resumeOn) break
+            morningLive = MorningDuck.active(context)
+            if (!active && !handoffOn && !resumeOn && !morningOn) break
         }
     }
 
@@ -130,6 +134,23 @@ fun DuckBar() {
             },
             colors = colors(),
             modifier = Modifier.testTag("resume_chip")
+        )
+        FilterChip(
+            selected = morningOn,
+            onClick = {
+                Toast.makeText(context, MorningDuck.cycle(context), Toast.LENGTH_SHORT).show()
+                morningOn = MorningDuck.enabled(context)
+                morningLive = MorningDuck.active(context)
+            },
+            label = {
+                Text(
+                    if (morningLive) "Ochtend 48%" else if (morningOn) "Ochtend aan" else "Ochtend",
+                    fontSize = 11.sp,
+                    maxLines = 1
+                )
+            },
+            colors = colors(),
+            modifier = Modifier.testTag("morning_chip")
         )
     }
 }
