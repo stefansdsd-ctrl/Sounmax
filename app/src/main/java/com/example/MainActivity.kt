@@ -65,6 +65,7 @@ import com.example.data.ThermalCap
 import com.example.data.VehicleSafe
 import com.example.data.WalkSafe
 import com.example.data.RingDuck
+import com.example.data.SpeechDuck
 import com.example.data.TimerDuck
 import com.example.data.TtsDuck
 import com.example.data.MicLive
@@ -117,6 +118,7 @@ class MainActivity : ComponentActivity() {
         NavDuck.ensure(this)
         AssistDuck.ensure(this)
         ChatDuck.ensure(this)
+        SpeechDuck.ensure(this)
         PingDuck.ensure(this)
         MicLive.ensure(this)
         CamDuck.ensure(this)
