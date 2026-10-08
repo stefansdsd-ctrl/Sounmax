@@ -3,6 +3,14 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-08 — batch 308)
+- Skip-duck: muziek valt 0,25–1,1s weg en komt terug boven 58% → 1,5s naar 64%.
+- Vangt nummerwissel. Pauze-hervat blijft voor 1,2–8s stilte.
+- Zit op DuckLane. Laagste cap wint (tussen wissel 62 en hervat 68).
+- Chip Skip in de omroep-balk. Banner: Skip-duck actief (64%, nummerwissel).
+- Zoeker: skip, nummer, wissel, track.
+- Geen extra permissie.
+
 ## Nieuw (2026-10-08 — batch 307)
 - Ochtend-cap: eerste muziek van de dag boven 55% → 6s naar 48%.
 - Vangt een vergeten luid volume van gisteren. Eén keer per dag.

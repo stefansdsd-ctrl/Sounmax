@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.data.HandoffDuck
 import com.example.data.MorningDuck
 import com.example.data.ResumeDuck
+import com.example.data.SkipDuck
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.VolumeDuck
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -41,18 +42,21 @@ fun DuckBar() {
     var handoffLive by remember { mutableStateOf(HandoffDuck.active(context)) }
     var resumeOn by remember { mutableStateOf(ResumeDuck.enabled(context)) }
     var resumeLive by remember { mutableStateOf(ResumeDuck.active(context)) }
+    var skipOn by remember { mutableStateOf(SkipDuck.enabled(context)) }
+    var skipLive by remember { mutableStateOf(SkipDuck.active(context)) }
     var morningOn by remember { mutableStateOf(MorningDuck.enabled(context)) }
     var morningLive by remember { mutableStateOf(MorningDuck.active(context)) }
 
-    LaunchedEffect(active, handoffOn, resumeOn, morningOn) {
-        while (active || handoffOn || resumeOn || morningOn) {
+    LaunchedEffect(active, handoffOn, resumeOn, skipOn, morningOn) {
+        while (active || handoffOn || resumeOn || skipOn || morningOn) {
             delay(500)
             active = VolumeDuck.isActive(context)
             left = VolumeDuck.remainingSec(context)
             handoffLive = HandoffDuck.active(context)
             resumeLive = ResumeDuck.active(context)
+            skipLive = SkipDuck.active(context)
             morningLive = MorningDuck.active(context)
-            if (!active && !handoffOn && !resumeOn && !morningOn) break
+            if (!active && !handoffOn && !resumeOn && !skipOn && !morningOn) break
         }
     }
 
@@ -134,6 +138,23 @@ fun DuckBar() {
             },
             colors = colors(),
             modifier = Modifier.testTag("resume_chip")
+        )
+        FilterChip(
+            selected = skipOn,
+            onClick = {
+                Toast.makeText(context, SkipDuck.cycle(context), Toast.LENGTH_SHORT).show()
+                skipOn = SkipDuck.enabled(context)
+                skipLive = SkipDuck.active(context)
+            },
+            label = {
+                Text(
+                    if (skipLive) "Skip 64%" else if (skipOn) "Skip aan" else "Skip",
+                    fontSize = 11.sp,
+                    maxLines = 1
+                )
+            },
+            colors = colors(),
+            modifier = Modifier.testTag("skip_chip")
         )
         FilterChip(
             selected = morningOn,
