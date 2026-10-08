@@ -76,6 +76,7 @@ import com.example.data.EmergencyDuck
 import com.example.data.MeetingDuck
 import com.example.data.AccessDuck
 import com.example.data.HandoffDuck
+import com.example.data.ResumeDuck
 
 class MainActivity : ComponentActivity() {
     private var volumeCycler: VolumeSceneCycler? = null
@@ -117,6 +118,7 @@ class MainActivity : ComponentActivity() {
         RingDuck.ensure(this)
         AccessDuck.ensure(this)
         HandoffDuck.ensure(this)
+        ResumeDuck.ensure(this)
         TimerDuck.ensure(this)
         TtsDuck.ensure(this)
         NavDuck.ensure(this)
