@@ -12,6 +12,7 @@ object ActiveLimitBanner {
         if (PostCallRamp.active(context)) return "Na-bel: volume bouwt op"
         if (EmergencyDuck.active(context)) return "Nood-duck actief (22%, NL-Alert hoorbaar)"
         if (AlarmDuck.active(context)) return "Alarm-duck actief (28%, wekker hoorbaar)"
+        if (AccessDuck.active(context)) return "Toegang-duck actief (33%, TalkBack hoorbaar)"
         if (RingDuck.active(context)) return "Bel-duck actief (32%, beltoon hoorbaar)"
         if (TtsDuck.active(context)) return "TTS-duck actief (34%, voorlezen hoorbaar)"
         if (MeetingDuck.active(context)) return "Agenda-demp actief (35%, afspraak nadert)"
