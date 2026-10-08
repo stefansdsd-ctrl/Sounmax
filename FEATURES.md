@@ -1,5 +1,13 @@
 # Sounmax — volgende features
 
+## Batch 311 (klaar — code)
+1. Gat-cap zit op DuckLane. Pauze 8–90s, play boven 60% → 7s naar 54%.
+2. Vangt podcast/video die hervat-duck (max 8s) mist. Onder 60% doet niets.
+3. Chip uit = owner gap los. Herstel gaat sneller als het gat naar de basis groot is.
+4. Geen extra permissie.
+
+# Sounmax — volgende features
+
 ## Batch 310 (klaar — code)
 1. Wacht-cap zit op DuckLane. Volume +2 stappen in stilte, play binnen 25s boven 52% → 5s naar 50%.
 2. Vangt knal van volume-knoppen vóór play. SpikeGuard dekt alleen afspelen.

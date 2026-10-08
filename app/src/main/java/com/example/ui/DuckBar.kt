@@ -27,6 +27,7 @@ import com.example.data.ResumeDuck
 import com.example.data.SkipDuck
 import com.example.data.HuntDuck
 import com.example.data.ArmDuck
+import com.example.data.GapDuck
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.VolumeDuck
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -50,11 +51,13 @@ fun DuckBar() {
     var huntLive by remember { mutableStateOf(HuntDuck.active(context)) }
     var armOn by remember { mutableStateOf(ArmDuck.enabled(context)) }
     var armLive by remember { mutableStateOf(ArmDuck.active(context)) }
+    var gapOn by remember { mutableStateOf(GapDuck.enabled(context)) }
+    var gapLive by remember { mutableStateOf(GapDuck.active(context)) }
     var morningOn by remember { mutableStateOf(MorningDuck.enabled(context)) }
     var morningLive by remember { mutableStateOf(MorningDuck.active(context)) }
 
-    LaunchedEffect(active, handoffOn, resumeOn, skipOn, huntOn, armOn, morningOn) {
-        while (active || handoffOn || resumeOn || skipOn || huntOn || armOn || morningOn) {
+    LaunchedEffect(active, handoffOn, resumeOn, skipOn, huntOn, armOn, gapOn, morningOn) {
+        while (active || handoffOn || resumeOn || skipOn || huntOn || armOn || gapOn || morningOn) {
             delay(500)
             active = VolumeDuck.isActive(context)
             left = VolumeDuck.remainingSec(context)
@@ -64,8 +67,10 @@ fun DuckBar() {
             huntLive = HuntDuck.active(context)
             armOn = ArmDuck.enabled(context)
             armLive = ArmDuck.active(context)
+            gapOn = GapDuck.enabled(context)
+            gapLive = GapDuck.active(context)
             morningLive = MorningDuck.active(context)
-            if (!active && !handoffOn && !resumeOn && !skipOn && !huntOn && !armOn && !morningOn) break
+            if (!active && !handoffOn && !resumeOn && !skipOn && !huntOn && !armOn && !gapOn && !morningOn) break
         }
     }
 
@@ -198,6 +203,23 @@ fun DuckBar() {
             },
             colors = colors(),
             modifier = Modifier.testTag("arm_chip")
+        )
+        FilterChip(
+            selected = gapOn,
+            onClick = {
+                Toast.makeText(context, GapDuck.cycle(context), Toast.LENGTH_SHORT).show()
+                gapOn = GapDuck.enabled(context)
+                gapLive = GapDuck.active(context)
+            },
+            label = {
+                Text(
+                    if (gapLive) "Gat 54%" else if (gapOn) "Gat aan" else "Gat",
+                    fontSize = 11.sp,
+                    maxLines = 1
+                )
+            },
+            colors = colors(),
+            modifier = Modifier.testTag("gap_chip")
         )
         FilterChip(
             selected = morningOn,

@@ -42,8 +42,9 @@ object DuckLane {
             clear(context)
             return false
         }
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, (cur + STEP).coerceAtMost(baseVol), 0)
-        if (cur + STEP >= baseVol) clear(context)
+        val step = if (baseVol - cur > 6) STEP * 2 else STEP
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, (cur + step).coerceAtMost(baseVol), 0)
+        if (cur + step >= baseVol) clear(context)
         return true
     }
 
