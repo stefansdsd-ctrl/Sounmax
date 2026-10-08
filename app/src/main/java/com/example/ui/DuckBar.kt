@@ -25,6 +25,7 @@ import com.example.data.HandoffDuck
 import com.example.data.MorningDuck
 import com.example.data.ResumeDuck
 import com.example.data.SkipDuck
+import com.example.data.HuntDuck
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.VolumeDuck
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -44,19 +45,22 @@ fun DuckBar() {
     var resumeLive by remember { mutableStateOf(ResumeDuck.active(context)) }
     var skipOn by remember { mutableStateOf(SkipDuck.enabled(context)) }
     var skipLive by remember { mutableStateOf(SkipDuck.active(context)) }
+    var huntOn by remember { mutableStateOf(HuntDuck.enabled(context)) }
+    var huntLive by remember { mutableStateOf(HuntDuck.active(context)) }
     var morningOn by remember { mutableStateOf(MorningDuck.enabled(context)) }
     var morningLive by remember { mutableStateOf(MorningDuck.active(context)) }
 
-    LaunchedEffect(active, handoffOn, resumeOn, skipOn, morningOn) {
-        while (active || handoffOn || resumeOn || skipOn || morningOn) {
+    LaunchedEffect(active, handoffOn, resumeOn, skipOn, huntOn, morningOn) {
+        while (active || handoffOn || resumeOn || skipOn || huntOn || morningOn) {
             delay(500)
             active = VolumeDuck.isActive(context)
             left = VolumeDuck.remainingSec(context)
             handoffLive = HandoffDuck.active(context)
             resumeLive = ResumeDuck.active(context)
             skipLive = SkipDuck.active(context)
+            huntLive = HuntDuck.active(context)
             morningLive = MorningDuck.active(context)
-            if (!active && !handoffOn && !resumeOn && !skipOn && !morningOn) break
+            if (!active && !handoffOn && !resumeOn && !skipOn && !huntOn && !morningOn) break
         }
     }
 
@@ -155,6 +159,23 @@ fun DuckBar() {
             },
             colors = colors(),
             modifier = Modifier.testTag("skip_chip")
+        )
+        FilterChip(
+            selected = huntOn,
+            onClick = {
+                Toast.makeText(context, HuntDuck.cycle(context), Toast.LENGTH_SHORT).show()
+                huntOn = HuntDuck.enabled(context)
+                huntLive = HuntDuck.active(context)
+            },
+            label = {
+                Text(
+                    if (huntLive) "Zoek 56%" else if (huntOn) "Zoek aan" else "Zoek",
+                    fontSize = 11.sp,
+                    maxLines = 1
+                )
+            },
+            colors = colors(),
+            modifier = Modifier.testTag("hunt_chip")
         )
         FilterChip(
             selected = morningOn,
