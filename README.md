@@ -3,6 +3,14 @@
 Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 10-bands EQ, luister-scenes, AI-tuner, gehoortest, YT Music en LDAC-hulp.
 
+## Nieuw (2026-10-08 — batch 304)
+- Toegang-duck: TalkBack of toegankelijkheidsklik terwijl muziek loopt → stapsgewijs naar 33%.
+- Alleen USAGE_ASSISTANCE_ACCESSIBILITY. TTS, bel en alarm blijven eigen usages.
+- Zit op DuckLane. Laagste cap wint (onder TTS 34, boven bel 32).
+- Chip Toegang. Banner: Toegang-duck actief (33%, TalkBack hoorbaar).
+- Zoeker: toegang, talkback, toegankelijkheid, screenreader.
+- Alleen Android 8+. Geen extra permissie.
+
 ## Nieuw (2026-10-08 — batch 303)
 - Spraak-duck: audioboek, podcast of voice-note terwijl muziek loopt → stapsgewijs naar 43%.
 - Alleen CONTENT_TYPE_SPEECH op media/unknown/game. Chat en ping blijven eigen usages.
@@ -11,15 +19,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Zoeker: spraak, audioboek, podcast, voice-note, voorlezen.
 - Alleen Android 8+. Geen extra permissie.
 
-## Nieuw (2026-10-08 — batch 302)
-- Chat-duck: berichttoon (WhatsApp, Signal, mail) terwijl muziek loopt → stapsgewijs naar 44%.
-- Zit op DuckLane. Laagste cap wint (onder nav 42, boven ping 45).
-- Ping blijft alleen korte event-pings. Chat dekt USAGE_NOTIFICATION en chat-usages.
-- Chip Chat. Banner: Chat-duck actief (44%, bericht hoorbaar).
-- Zoeker: chat, whatsapp, signal, telegram, bericht, mail.
-- Alleen Android 8+. Instant-chat vanaf Android 9.
-
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- Spraak-duck veldtest: podcast terwijl muziek loopt
+- Toegang-duck veldtest: TalkBack-klik terwijl muziek loopt
