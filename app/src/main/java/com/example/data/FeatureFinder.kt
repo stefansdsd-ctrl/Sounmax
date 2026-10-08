@@ -45,6 +45,7 @@ object FeatureFinder {
         FeatureHit("alarm", "Alarm", "alarm wekker klok ringing clock duck hoorbaar"),
         FeatureHit("ring", "Bel", "bel bellen ringtone inkomend gemist call duck hoorbaar"),
         FeatureHit("access", "Toegang", "toegang talkback toegankelijkheid screenreader klik duck"),
+        FeatureHit("handoff", "Wissel", "wissel handoff speler spotify yt music app wissel knal"),
         FeatureHit("timer", "Timer", "timer kookwekker countdown piep keuken duck hoorbaar"),
         FeatureHit("tts", "TTS", "tts talkback voorlezen toegankelijkheid schermlezer selecteer om te spreken duck"),
         FeatureHit("ov", "OV", "ns trein tram bus ov transit"),
@@ -168,6 +169,7 @@ object FeatureFinder {
             "alarm" -> AlarmDuck.cycle(context)
             "ring" -> RingDuck.cycle(context)
             "access" -> AccessDuck.cycle(context)
+            "handoff" -> HandoffDuck.cycle(context)
             "timer" -> TimerDuck.cycle(context)
             "tts" -> TtsDuck.cycle(context)
             "ov" -> TransitSoft.cycle(context)
