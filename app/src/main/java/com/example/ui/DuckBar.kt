@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.HandoffDuck
+import com.example.data.ResumeDuck
 import com.example.dsp.HearingDoseGuard
 import com.example.dsp.VolumeDuck
 import com.example.ui.theme.ImmersiveLavenderAccent
@@ -37,14 +38,17 @@ fun DuckBar() {
     var autoCap by remember { mutableStateOf(HearingDoseGuard.autoCapEnabled(context)) }
     var handoffOn by remember { mutableStateOf(HandoffDuck.enabled(context)) }
     var handoffLive by remember { mutableStateOf(HandoffDuck.active(context)) }
+    var resumeOn by remember { mutableStateOf(ResumeDuck.enabled(context)) }
+    var resumeLive by remember { mutableStateOf(ResumeDuck.active(context)) }
 
-    LaunchedEffect(active, handoffOn) {
-        while (active || handoffOn) {
+    LaunchedEffect(active, handoffOn, resumeOn) {
+        while (active || handoffOn || resumeOn) {
             delay(500)
             active = VolumeDuck.isActive(context)
             left = VolumeDuck.remainingSec(context)
             handoffLive = HandoffDuck.active(context)
-            if (!active && !handoffOn) break
+            resumeLive = ResumeDuck.active(context)
+            if (!active && !handoffOn && !resumeOn) break
         }
     }
 
@@ -109,6 +113,23 @@ fun DuckBar() {
             },
             colors = colors(),
             modifier = Modifier.testTag("handoff_chip")
+        )
+        FilterChip(
+            selected = resumeOn,
+            onClick = {
+                Toast.makeText(context, ResumeDuck.cycle(context), Toast.LENGTH_SHORT).show()
+                resumeOn = ResumeDuck.enabled(context)
+                resumeLive = ResumeDuck.active(context)
+            },
+            label = {
+                Text(
+                    if (resumeLive) "Hervat 68%" else if (resumeOn) "Hervat aan" else "Hervat",
+                    fontSize = 11.sp,
+                    maxLines = 1
+                )
+            },
+            colors = colors(),
+            modifier = Modifier.testTag("resume_chip")
         )
     }
 }
