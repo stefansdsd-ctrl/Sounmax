@@ -90,9 +90,11 @@ fun AcousticAiScreen(
     var netLabel by remember { mutableStateOf(TunerNet.label(context)) }
     val portal = netLabel.contains("portal")
     val slow = netLabel.contains("traag")
+    val roaming = netLabel.contains("roaming")
+    val vpn = netLabel.contains("vpn")
     val online = !netLabel.startsWith("Offline") && !portal
     val metered = netLabel.contains("data")
-    val holdCloud = metered || slow
+    val holdCloud = metered || slow || roaming
     DisposableEffect(Unit) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val cb = object : ConnectivityManager.NetworkCallback() {
@@ -158,8 +160,10 @@ fun AcousticAiScreen(
                         text = when {
                             portal -> "Net: $netLabel · login nodig, cache"
                             !online -> "Net: Offline · cache of lokale curve"
+                            roaming -> "Net: $netLabel · cache tot je bevestigt"
                             slow -> "Net: $netLabel · cache tot je bevestigt"
                             metered -> "Net: $netLabel · cache tot je bevestigt"
+                            vpn -> "Net: $netLabel · Gemini via vpn"
                             else -> "Net: $netLabel · Gemini"
                         },
                         style = MaterialTheme.typography.labelSmall,
@@ -241,6 +245,7 @@ fun AcousticAiScreen(
                             text = when {
                                 portal -> "Cache (portal)"
                                 !online -> "Cache of lokale curve"
+                                roaming -> "Cache (roaming)"
                                 slow -> "Cache (traag net)"
                                 metered -> "Cache (mobiel data)"
                                 else -> "Genereer Akoestisch Profiel"
@@ -266,7 +271,11 @@ fun AcousticAiScreen(
                                 .testTag("gemini_metered_button")
                         ) {
                             Text(
-                                text = if (slow) "Toch Gemini (traag net)" else "Toch Gemini (gebruikt data)",
+                                text = when {
+                                    roaming -> "Toch Gemini (roaming)"
+                                    slow -> "Toch Gemini (traag net)"
+                                    else -> "Toch Gemini (gebruikt data)"
+                                },
                                 color = GoldTertiary,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 13.sp

@@ -1,3 +1,8 @@
+## Nieuw (2026-10-09 — batch 317)
+- Roaming (mobiel, NET_CAPABILITY_NOT_ROAMING ontbreekt): Gemini blijft uit. Chip toont "· roaming". Cache of lokale curve.
+- Knop "Toch Gemini (roaming)" forceert cloud. Wi-Fi telt niet als roaming.
+- VPN blokkeert Gemini niet. Chip toont "· vpn". Geen extra permissie.
+
 ## Nieuw (2026-10-09 — batch 316)
 - Captive portal (hotel, trein): Gemini blijft uit. Chip toont "· portal". Cache of lokale curve.
 - Traag net (<150 kbps downstream): eerst cache. Knop "Toch Gemini (traag net)" forceert cloud.

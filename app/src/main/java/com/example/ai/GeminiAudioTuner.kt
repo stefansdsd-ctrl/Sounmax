@@ -50,6 +50,9 @@ class GeminiAudioTuner {
             if (context != null && (OfflineGuard.blockCloud(context) || !TunerNet.validated(context))) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "offline"))
             }
+            if (context != null && TunerNet.roaming(context) && !allowMetered) {
+                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "roaming"))
+            }
             if (context != null && TunerNet.slow(context) && !allowMetered) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "traag net"))
             }
