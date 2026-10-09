@@ -15,9 +15,12 @@ object TunerNet {
     fun onWifi(context: Context): Boolean =
         caps(context)?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
 
-    fun metered(context: Context): Boolean =
-        caps(context)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) != true &&
-            validated(context) && !onWifi(context)
+    /** Actief netwerk is metered (mobiel of metered hotspot). Offline telt niet. */
+    fun metered(context: Context): Boolean {
+        if (!validated(context)) return false
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.isActiveNetworkMetered
+    }
 
     fun label(context: Context): String {
         val caps = caps(context) ?: return "Offline"

@@ -1,3 +1,8 @@
+## Nieuw (2026-10-09 — batch 314)
+- Metered-waarschuwing vóór Gemini: op mobiel of metered hotspot blijft de cloud uit tot je bevestigt.
+- Hoofdknop wordt "Lokale curve (mobiel data)". Extra knop: "Toch Gemini (gebruikt data)".
+- Tuner krijgt nu echt de app-context (offline-check werkte anders niet). Geen extra permissie.
+
 ## Nieuw (2026-10-09 — batch 313)
 - AI-balk toont echte netstatus: Wi-Fi, Mobiel, Ethernet of Offline.
 - Status volgt de actieve verbinding (validated internet, niet alleen radio aan).
@@ -25,4 +30,3 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- Metered-waarschuwing vóór Gemini op mobiel
