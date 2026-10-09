@@ -40,16 +40,26 @@ class GeminiAudioTuner {
         userPrompt: String,
         headphoneModel: String,
         musicGenre: String = "YouTube Music",
-        context: Context? = null
+        context: Context? = null,
+        allowMetered: Boolean = false
     ): Result<AiAcousticRecommendation> = withContext(Dispatchers.IO) {
         try {
             if (context != null && (OfflineGuard.blockCloud(context) || !TunerNet.validated(context))) {
                 val local = getSmartFallback(userPrompt, headphoneModel, musicGenre)
-                val why = if (context != null) TunerNet.label(context) else "offline"
+                val why = TunerNet.label(context)
                 return@withContext Result.success(
                     local.copy(
                         description = "Offline · lokale curve. " + local.description,
                         acousticInsight = "Cloud overgeslagen ($why)."
+                    )
+                )
+            }
+            if (context != null && TunerNet.metered(context) && !allowMetered) {
+                val local = getSmartFallback(userPrompt, headphoneModel, musicGenre)
+                return@withContext Result.success(
+                    local.copy(
+                        description = "Mobiel data · lokale curve. " + local.description,
+                        acousticInsight = "Cloud overgeslagen (mobiel data). Bevestig om Gemini toch te gebruiken."
                     )
                 )
             }
