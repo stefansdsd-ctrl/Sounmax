@@ -64,7 +64,7 @@ object FeatureFinder {
         FeatureHit("roam", "Roam", "roaming buitenland data stream cap"),
         FeatureHit("wifi", "Wi-Fi", "wifi ssid thuis netwerk volume plek"),
         FeatureHit("route", "Route", "route speaker a2dp wegvalt losgekoppeld knal telefoon luidspreker"),
-        FeatureHit("net", "Net", "offline net internet cloud ai gemini vliegtuig geen verbinding portal captive traag hotel login"),
+        FeatureHit("net", "Net", "offline net internet cloud ai gemini vliegtuig geen verbinding portal captive traag hotel login druk congested pauze suspended"),
         FeatureHit("spike", "Sprong", "sprong volume knal stap omhoog per ongeluk piek dempen"),
         FeatureHit("boot", "Start", "start openen opstarten boot vergeten luid knal eerste keer"),
         FeatureHit("mic", "Mic", "mic microfoon opname recorder spraakbericht vertaler dichtklappen"),

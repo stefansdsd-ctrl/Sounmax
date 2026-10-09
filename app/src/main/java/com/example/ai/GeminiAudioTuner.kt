@@ -47,11 +47,17 @@ class GeminiAudioTuner {
             if (context != null && TunerNet.portal(context)) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "portal"))
             }
+            if (context != null && TunerNet.suspended(context)) {
+                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "netwerk pauze"))
+            }
             if (context != null && (OfflineGuard.blockCloud(context) || !TunerNet.validated(context))) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "offline"))
             }
             if (context != null && TunerNet.roaming(context) && !allowMetered) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "roaming"))
+            }
+            if (context != null && TunerNet.congested(context) && !allowMetered) {
+                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "druk net"))
             }
             if (context != null && TunerNet.slow(context) && !allowMetered) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "traag net"))

@@ -89,12 +89,14 @@ fun AcousticAiScreen(
     var promptInput by remember { mutableStateOf("") }
     var netLabel by remember { mutableStateOf(TunerNet.label(context)) }
     val portal = netLabel.contains("portal")
+    val suspended = netLabel.contains("pauze")
     val slow = netLabel.contains("traag")
+    val congested = netLabel.contains("druk")
     val roaming = netLabel.contains("roaming")
     val vpn = netLabel.contains("vpn")
-    val online = !netLabel.startsWith("Offline") && !portal
+    val online = !netLabel.startsWith("Offline") && !portal && !suspended
     val metered = netLabel.contains("data")
-    val holdCloud = metered || slow || roaming
+    val holdCloud = metered || slow || roaming || congested
     DisposableEffect(Unit) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val cb = object : ConnectivityManager.NetworkCallback() {
@@ -159,8 +161,10 @@ fun AcousticAiScreen(
                     Text(
                         text = when {
                             portal -> "Net: $netLabel · login nodig, cache"
+                            suspended -> "Net: $netLabel · netwerk gepauzeerd, cache"
                             !online -> "Net: Offline · cache of lokale curve"
                             roaming -> "Net: $netLabel · cache tot je bevestigt"
+                            congested -> "Net: $netLabel · cache tot je bevestigt"
                             slow -> "Net: $netLabel · cache tot je bevestigt"
                             metered -> "Net: $netLabel · cache tot je bevestigt"
                             vpn -> "Net: $netLabel · Gemini via vpn"
@@ -244,8 +248,10 @@ fun AcousticAiScreen(
                         Text(
                             text = when {
                                 portal -> "Cache (portal)"
+                                suspended -> "Cache (pauze)"
                                 !online -> "Cache of lokale curve"
                                 roaming -> "Cache (roaming)"
+                                congested -> "Cache (druk net)"
                                 slow -> "Cache (traag net)"
                                 metered -> "Cache (mobiel data)"
                                 else -> "Genereer Akoestisch Profiel"
@@ -273,6 +279,7 @@ fun AcousticAiScreen(
                             Text(
                                 text = when {
                                     roaming -> "Toch Gemini (roaming)"
+                                    congested -> "Toch Gemini (druk net)"
                                     slow -> "Toch Gemini (traag net)"
                                     else -> "Toch Gemini (gebruikt data)"
                                 },

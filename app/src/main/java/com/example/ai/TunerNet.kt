@@ -47,6 +47,22 @@ object TunerNet {
     fun vpn(context: Context): Boolean =
         caps(context)?.hasTransport(NetworkCapabilities.TRANSPORT_VPN) == true
 
+    /** OS heeft het netwerk gepauzeerd. Cloud kan hier niet bij. */
+    fun suspended(context: Context): Boolean {
+        val caps = caps(context) ?: return false
+        if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) return false
+        if (portal(context)) return false
+        return !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED)
+    }
+
+    /** Druk netwerk (NOT_CONGESTED ontbreekt). Alleen als validated. */
+    fun congested(context: Context): Boolean {
+        val caps = caps(context) ?: return false
+        if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) return false
+        if (portal(context) || suspended(context)) return false
+        return !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_CONGESTED)
+    }
+
     /** Actief netwerk is metered (mobiel of metered hotspot). Offline telt niet. */
     fun metered(context: Context): Boolean {
         if (!validated(context)) return false
@@ -61,7 +77,9 @@ object TunerNet {
             !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
         ) return "Offline"
         val base = transport(caps)
+        if (suspended(context)) return "$base · pauze"
         if (roaming(context)) return "$base · roaming"
+        if (congested(context)) return "$base · druk"
         if (slow(context)) return "$base · traag"
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (cm.isActiveNetworkMetered) return "$base · data"

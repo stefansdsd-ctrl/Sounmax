@@ -1,3 +1,8 @@
+## Nieuw (2026-10-09 — batch 318)
+- Druk netwerk (NOT_CONGESTED ontbreekt): Gemini blijft uit. Chip toont "· druk". Cache of lokale curve.
+- Knop "Toch Gemini (druk net)" forceert cloud.
+- Gepauzeerd netwerk (NOT_SUSPENDED ontbreekt): cloud altijd uit. Chip toont "· pauze". Geen extra permissie.
+
 ## Nieuw (2026-10-09 — batch 317)
 - Roaming (mobiel, NET_CAPABILITY_NOT_ROAMING ontbreekt): Gemini blijft uit. Chip toont "· roaming". Cache of lokale curve.
 - Knop "Toch Gemini (roaming)" forceert cloud. Wi-Fi telt niet als roaming.
