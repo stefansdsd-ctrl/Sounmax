@@ -45,23 +45,10 @@ class GeminiAudioTuner {
     ): Result<AiAcousticRecommendation> = withContext(Dispatchers.IO) {
         try {
             if (context != null && (OfflineGuard.blockCloud(context) || !TunerNet.validated(context))) {
-                val local = getSmartFallback(userPrompt, headphoneModel, musicGenre)
-                val why = TunerNet.label(context)
-                return@withContext Result.success(
-                    local.copy(
-                        description = "Offline · lokale curve. " + local.description,
-                        acousticInsight = "Cloud overgeslagen ($why)."
-                    )
-                )
+                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "offline"))
             }
             if (context != null && TunerNet.metered(context) && !allowMetered) {
-                val local = getSmartFallback(userPrompt, headphoneModel, musicGenre)
-                return@withContext Result.success(
-                    local.copy(
-                        description = "Mobiel data · lokale curve. " + local.description,
-                        acousticInsight = "Cloud overgeslagen (mobiel data). Bevestig om Gemini toch te gebruiken."
-                    )
-                )
+                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "mobiel data"))
             }
             val apiKey = BuildConfig.GEMINI_API_KEY
             if (apiKey.isNullOrBlank() || apiKey == "MY_GEMINI_API_KEY") {
@@ -85,13 +72,35 @@ class GeminiAudioTuner {
                     }
                 }
             }
-            val local = getSmartFallback(userPrompt, headphoneModel, musicGenre)
-            Result.success(
-                local.copy(acousticInsight = "Cloud faalde ($lastCode). Lokale curve.")
-            )
+            val local = if (context != null) skipCloud(context, userPrompt, headphoneModel, musicGenre, "cloud $lastCode")
+            else getSmartFallback(userPrompt, headphoneModel, musicGenre)
+            Result.success(local)
         } catch (e: Exception) {
-            Result.success(getSmartFallback(userPrompt, headphoneModel, musicGenre))
+            val local = if (context != null) skipCloud(context, userPrompt, headphoneModel, musicGenre, "fout")
+            else getSmartFallback(userPrompt, headphoneModel, musicGenre)
+            Result.success(local)
         }
+    }
+
+    private fun skipCloud(
+        context: Context,
+        prompt: String,
+        headphone: String,
+        genre: String,
+        why: String
+    ): AiAcousticRecommendation {
+        val cached = AiCurveCache.best(context, prompt)
+        if (cached != null) {
+            return cached.copy(
+                description = "Cache · $why. " + cached.description,
+                acousticInsight = "Cloud overgeslagen ($why). Laatste Gemini-curve hergebruikt."
+            )
+        }
+        val local = getSmartFallback(prompt, headphone, genre)
+        return local.copy(
+            description = "Lokale curve · $why. " + local.description,
+            acousticInsight = "Cloud overgeslagen ($why). Geen cache."
+        )
     }
 
     private fun requestBody(userPrompt: String, headphoneModel: String, musicGenre: String): String {
