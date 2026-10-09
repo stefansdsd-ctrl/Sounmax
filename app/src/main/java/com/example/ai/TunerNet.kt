@@ -27,12 +27,14 @@ object TunerNet {
         if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ||
             !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
         ) return "Offline"
-        return when {
+        val base = when {
             caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "Wi-Fi"
             caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "Mobiel"
             caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "Ethernet"
             else -> "Online"
         }
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (cm.isActiveNetworkMetered) "$base · data" else base
     }
 
     private fun caps(context: Context): NetworkCapabilities? {

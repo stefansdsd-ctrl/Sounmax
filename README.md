@@ -1,3 +1,9 @@
+## Nieuw (2026-10-09 — batch 315)
+- AI-tuner krijgt nu echt de app-context en de metered-bevestiging (batch 314 stond alleen in de tuner, niet in de knop).
+- Offline of mobiel data: eerst de beste gecachte Gemini-curve, anders lokale curve.
+- Wi-Fi zonder datalimiet blijft Gemini. Extra knop: "Toch Gemini (gebruikt data)".
+- Net-chip toont "· data" bij metered Wi-Fi of mobiel. Geen extra permissie.
+
 ## Nieuw (2026-10-09 — batch 314)
 - Metered-waarschuwing vóór Gemini: op mobiel of metered hotspot blijft de cloud uit tot je bevestigt.
 - Hoofdknop wordt "Lokale curve (mobiel data)". Extra knop: "Toch Gemini (gebruikt data)".

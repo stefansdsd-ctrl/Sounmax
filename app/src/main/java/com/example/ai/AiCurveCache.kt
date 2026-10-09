@@ -5,7 +5,7 @@ import com.example.dsp.EqPreset
 import org.json.JSONArray
 import org.json.JSONObject
 
-/** Cache laatste 3 AI-EQ-curves voor offline hergebruik. */
+/** Cache laatste 3 AI-EQ-curves voor offline en metered hergebruik. */
 object AiCurveCache {
     @Volatile private var appCtx: Context? = null
     fun bind(context: Context) { appCtx = context.applicationContext }
@@ -29,6 +29,18 @@ object AiCurveCache {
     }
 
     fun latest(context: Context): AiAcousticRecommendation? = lastThree(context).firstOrNull()
+
+    /** Zelfde verzoek wint; anders de nieuwste cloud-curve. */
+    fun best(context: Context, prompt: String): AiAcousticRecommendation? {
+        val all = lastThree(context)
+        if (all.isEmpty()) return null
+        val words = prompt.lowercase().split(Regex("\\W+")).filter { it.length > 3 }
+        if (words.isEmpty()) return all.first()
+        return all.maxByOrNull { rec ->
+            val hay = (rec.presetName + " " + rec.description + " " + rec.acousticInsight).lowercase()
+            words.count { hay.contains(it) }
+        } ?: all.first()
+    }
 
     private fun loadRaw(context: Context): JSONArray {
         val raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY, "[]")
@@ -68,7 +80,7 @@ object AiCurveCache {
             eqPreset = preset,
             ancRecommendation = obj.optString("ancRecommendation"),
             codecRecommendation = obj.optString("codecRecommendation"),
-            acousticInsight = obj.optString("acousticInsight") + " (offline cache)"
+            acousticInsight = obj.optString("acousticInsight")
         )
     }
 }
