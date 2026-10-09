@@ -1,3 +1,8 @@
+## Nieuw (2026-10-09 — batch 313)
+- AI-balk toont echte netstatus: Wi-Fi, Mobiel, Ethernet of Offline.
+- Status volgt de actieve verbinding (validated internet, niet alleen radio aan).
+- Offline: knop wordt "Lokale curve". Geen extra permissie.
+
 ## Nieuw (2026-10-08 — batch 312)
 - AI-tuner checkt gevalideerd internet (niet alleen radio aan) vóór Gemini.
 - Bij 404/429/5xx: één retry, daarna model-fallback (2.5-flash, 2.0-flash).
@@ -20,4 +25,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- TunerNet in de AI-balk tonen (Wi-Fi / mobiel / offline)
+- Metered-waarschuwing vóór Gemini op mobiel

@@ -43,10 +43,17 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import androidx.compose.ui.platform.LocalContext
+import com.example.ai.TunerNet
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -76,9 +83,24 @@ fun AcousticAiScreen(
     onNavigateToEq: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val aiState by viewModel.aiTunerState.collectAsStateWithLifecycle()
     val activeHeadphone by viewModel.dspManager.activeHeadphone.collectAsStateWithLifecycle()
     var promptInput by remember { mutableStateOf("") }
+    var netLabel by remember { mutableStateOf(TunerNet.label(context)) }
+    val online = netLabel != "Offline"
+    DisposableEffect(Unit) {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cb = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) { netLabel = TunerNet.label(context) }
+            override fun onLost(network: Network) { netLabel = TunerNet.label(context) }
+            override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) {
+                netLabel = TunerNet.label(context)
+            }
+        }
+        runCatching { cm.registerDefaultNetworkCallback(cb) }
+        onDispose { runCatching { cm.unregisterNetworkCallback(cb) } }
+    }
 
     val promptSuggestions = listOf(
         "Optimaliseer voor Philips TAH6519 met diepe sub-bass en heldere zang op YouTube Music",
@@ -127,6 +149,12 @@ fun AcousticAiScreen(
                         text = "Real-time AI akoestische optimalisatie voor ${activeHeadphone.name}",
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFF94A3B8)
+                    )
+                    Text(
+                        text = if (online) "Net: $netLabel · Gemini" else "Net: Offline · lokale curve",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = if (online) NeonCyanPrimary else SonicRedSecondary,
+                        modifier = Modifier.testTag("ai_net_chip")
                     )
                 }
             }
@@ -200,7 +228,7 @@ fun AcousticAiScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Genereer Akoestisch Profiel",
+                            text = if (online) "Genereer Akoestisch Profiel" else "Lokale curve (offline)",
                             color = Color(0xFF001A24),
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp
