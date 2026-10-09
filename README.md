@@ -1,3 +1,8 @@
+## Nieuw (2026-10-09 — batch 319)
+- Dataspaar (Android restrict background): Gemini blijft uit. Chip toont "· spaar". Cache of lokale curve.
+- Knop "Toch Gemini (dataspaar)" forceert cloud.
+- Tijdelijk onbeperkt data (provider, API 30+): chip "· vrij", Gemini mag wél. Geen extra permissie.
+
 ## Nieuw (2026-10-09 — batch 318)
 - Druk netwerk (NOT_CONGESTED ontbreekt): Gemini blijft uit. Chip toont "· druk". Cache of lokale curve.
 - Knop "Toch Gemini (druk net)" forceert cloud.
