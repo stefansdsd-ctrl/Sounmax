@@ -88,7 +88,8 @@ fun AcousticAiScreen(
     val activeHeadphone by viewModel.dspManager.activeHeadphone.collectAsStateWithLifecycle()
     var promptInput by remember { mutableStateOf("") }
     var netLabel by remember { mutableStateOf(TunerNet.label(context)) }
-    val online = netLabel != "Offline"
+    val online = !netLabel.startsWith("Offline")
+    val metered = netLabel.contains("data")
     DisposableEffect(Unit) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val cb = object : ConnectivityManager.NetworkCallback() {
@@ -151,7 +152,11 @@ fun AcousticAiScreen(
                         color = Color(0xFF94A3B8)
                     )
                     Text(
-                        text = if (online) "Net: $netLabel · Gemini" else "Net: Offline · lokale curve",
+                        text = when {
+                            !online -> "Net: Offline · cache of lokale curve"
+                            metered -> "Net: $netLabel · cache tot je bevestigt"
+                            else -> "Net: $netLabel · Gemini"
+                        },
                         style = MaterialTheme.typography.labelSmall,
                         color = if (online) NeonCyanPrimary else SonicRedSecondary,
                         modifier = Modifier.testTag("ai_net_chip")
@@ -210,7 +215,7 @@ fun AcousticAiScreen(
                     Button(
                         onClick = {
                             if (promptInput.isNotBlank()) {
-                                viewModel.askAiTuner(promptInput)
+                                viewModel.askAiTuner(promptInput, allowMetered = false)
                             }
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = GoldTertiary),
@@ -228,11 +233,38 @@ fun AcousticAiScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = if (online) "Genereer Akoestisch Profiel" else "Lokale curve (offline)",
+                            text = when {
+                                !online -> "Cache of lokale curve"
+                                metered -> "Cache (mobiel data)"
+                                else -> "Genereer Akoestisch Profiel"
+                            },
                             color = Color(0xFF001A24),
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp
                         )
+                    }
+                    if (metered) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Button(
+                            onClick = {
+                                if (promptInput.isNotBlank()) {
+                                    viewModel.askAiTuner(promptInput, allowMetered = true)
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = StudioDarkSurfaceVariant),
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(44.dp)
+                                .testTag("gemini_metered_button")
+                        ) {
+                            Text(
+                                text = "Toch Gemini (gebruikt data)",
+                                color = GoldTertiary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                        }
                     }
                 }
             }
