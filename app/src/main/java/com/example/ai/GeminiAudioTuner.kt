@@ -44,8 +44,14 @@ class GeminiAudioTuner {
         allowMetered: Boolean = false
     ): Result<AiAcousticRecommendation> = withContext(Dispatchers.IO) {
         try {
+            if (context != null && TunerNet.portal(context)) {
+                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "portal"))
+            }
             if (context != null && (OfflineGuard.blockCloud(context) || !TunerNet.validated(context))) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "offline"))
+            }
+            if (context != null && TunerNet.slow(context) && !allowMetered) {
+                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "traag net"))
             }
             if (context != null && TunerNet.metered(context) && !allowMetered) {
                 return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "mobiel data"))

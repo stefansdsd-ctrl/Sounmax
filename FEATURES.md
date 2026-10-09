@@ -1,5 +1,12 @@
 # Sounmax — volgende features
 
+## Batch 316 (klaar — code)
+1. TunerNet.portal via NET_CAPABILITY_CAPTIVE_PORTAL.
+2. TunerNet.slow: downstream 1–149 kbps. 0 = onbekend.
+3. Portal slaat cloud altijd over. Traag net tot allowMetered.
+4. AI-chip en knop tonen portal/traag. Zoeker: portal, captive, traag.
+5. Geen extra permissie.
+
 ## Batch 314 (klaar — code)
 1. TunerNet.metered via isActiveNetworkMetered (mobiel én metered hotspot).
 2. Gemini slaat cloud over op metered tot allowMetered.

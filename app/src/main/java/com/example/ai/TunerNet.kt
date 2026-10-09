@@ -6,14 +6,33 @@ import android.net.NetworkCapabilities
 
 /** Echte verbinding. Validated = internet werkt, niet alleen radio aan. */
 object TunerNet {
+    private const val SLOW_KBPS = 150
+
     fun validated(context: Context): Boolean {
         val caps = caps(context) ?: return false
         return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) &&
+            !portal(context)
     }
 
     fun onWifi(context: Context): Boolean =
         caps(context)?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+
+    /** Login-pagina (hotel, trein). Cloud kan hier niet bij. */
+    fun portal(context: Context): Boolean =
+        caps(context)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL) == true
+
+    /**
+     * Downstream onder 150 kbps. 0 = onbekend, telt niet als traag.
+     * Alleen als het netwerk wél validated is.
+     */
+    fun slow(context: Context): Boolean {
+        val caps = caps(context) ?: return false
+        if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) return false
+        if (portal(context)) return false
+        val kbps = caps.linkDownstreamBandwidthKbps
+        return kbps in 1 until SLOW_KBPS
+    }
 
     /** Actief netwerk is metered (mobiel of metered hotspot). Offline telt niet. */
     fun metered(context: Context): Boolean {
@@ -24,17 +43,24 @@ object TunerNet {
 
     fun label(context: Context): String {
         val caps = caps(context) ?: return "Offline"
+        if (portal(context)) {
+            val base = transport(caps)
+            return "$base · portal"
+        }
         if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ||
             !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
         ) return "Offline"
-        val base = when {
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "Wi-Fi"
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "Mobiel"
-            caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "Ethernet"
-            else -> "Online"
-        }
+        val base = transport(caps)
+        if (slow(context)) return "$base · traag"
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return if (cm.isActiveNetworkMetered) "$base · data" else base
+    }
+
+    private fun transport(caps: NetworkCapabilities): String = when {
+        caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "Wi-Fi"
+        caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "Mobiel"
+        caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "Ethernet"
+        else -> "Online"
     }
 
     private fun caps(context: Context): NetworkCapabilities? {

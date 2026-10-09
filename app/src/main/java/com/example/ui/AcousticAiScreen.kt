@@ -88,8 +88,11 @@ fun AcousticAiScreen(
     val activeHeadphone by viewModel.dspManager.activeHeadphone.collectAsStateWithLifecycle()
     var promptInput by remember { mutableStateOf("") }
     var netLabel by remember { mutableStateOf(TunerNet.label(context)) }
-    val online = !netLabel.startsWith("Offline")
+    val portal = netLabel.contains("portal")
+    val slow = netLabel.contains("traag")
+    val online = !netLabel.startsWith("Offline") && !portal
     val metered = netLabel.contains("data")
+    val holdCloud = metered || slow
     DisposableEffect(Unit) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val cb = object : ConnectivityManager.NetworkCallback() {
@@ -153,7 +156,9 @@ fun AcousticAiScreen(
                     )
                     Text(
                         text = when {
+                            portal -> "Net: $netLabel · login nodig, cache"
                             !online -> "Net: Offline · cache of lokale curve"
+                            slow -> "Net: $netLabel · cache tot je bevestigt"
                             metered -> "Net: $netLabel · cache tot je bevestigt"
                             else -> "Net: $netLabel · Gemini"
                         },
@@ -234,7 +239,9 @@ fun AcousticAiScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = when {
+                                portal -> "Cache (portal)"
                                 !online -> "Cache of lokale curve"
+                                slow -> "Cache (traag net)"
                                 metered -> "Cache (mobiel data)"
                                 else -> "Genereer Akoestisch Profiel"
                             },
@@ -243,7 +250,7 @@ fun AcousticAiScreen(
                             fontSize = 14.sp
                         )
                     }
-                    if (metered) {
+                    if (holdCloud) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
                             onClick = {
@@ -259,7 +266,7 @@ fun AcousticAiScreen(
                                 .testTag("gemini_metered_button")
                         ) {
                             Text(
-                                text = "Toch Gemini (gebruikt data)",
+                                text = if (slow) "Toch Gemini (traag net)" else "Toch Gemini (gebruikt data)",
                                 color = GoldTertiary,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 13.sp

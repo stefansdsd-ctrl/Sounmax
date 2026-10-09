@@ -1,3 +1,8 @@
+## Nieuw (2026-10-09 — batch 316)
+- Captive portal (hotel, trein): Gemini blijft uit. Chip toont "· portal". Cache of lokale curve.
+- Traag net (<150 kbps downstream): eerst cache. Knop "Toch Gemini (traag net)" forceert cloud.
+- 0 kbps telt als onbekend, niet als traag. Geen extra permissie.
+
 ## Nieuw (2026-10-09 — batch 315)
 - AI-tuner krijgt nu echt de app-context en de metered-bevestiging (batch 314 stond alleen in de tuner, niet in de knop).
 - Offline of mobiel data: eerst de beste gecachte Gemini-curve, anders lokale curve.
