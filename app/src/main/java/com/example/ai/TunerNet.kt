@@ -3,6 +3,7 @@ package com.example.ai
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
 
 /** Echte verbinding. Validated = internet werkt, niet alleen radio aan. */
 object TunerNet {
@@ -63,9 +64,24 @@ object TunerNet {
         return !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_CONGESTED)
     }
 
-    /** Actief netwerk is metered (mobiel of metered hotspot). Offline telt niet. */
-    fun metered(context: Context): Boolean {
+    /** Android-dataspaar aan. Cloud blijft uit tot je forceert. */
+    fun dataSaver(context: Context): Boolean {
         if (!validated(context)) return false
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
+    }
+
+    /** Provider geeft tijdelijk onbeperkt data (API 30+). Gemini mag dan wel. */
+    fun tempUnmetered(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return false
+        val caps = caps(context) ?: return false
+        if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) return false
+        return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_TEMPORARILY_NOT_METERED)
+    }
+
+    /** Actief netwerk is metered (mobiel of metered hotspot). Offline en tijdelijk vrij tellen niet. */
+    fun metered(context: Context): Boolean {
+        if (!validated(context) || tempUnmetered(context)) return false
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.isActiveNetworkMetered
     }
@@ -81,6 +97,8 @@ object TunerNet {
         if (roaming(context)) return "$base · roaming"
         if (congested(context)) return "$base · druk"
         if (slow(context)) return "$base · traag"
+        if (dataSaver(context)) return "$base · spaar"
+        if (tempUnmetered(context)) return "$base · vrij"
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (cm.isActiveNetworkMetered) return "$base · data"
         if (vpn(context)) return "$base · vpn"
