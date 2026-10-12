@@ -1,5 +1,10 @@
 # Sounmax — volgende features
 
+## Batch 319 (voorstel)
+1. HeadphoneBattery: reflection getBatteryLevel + HF indicator fallback, chip + notificatie laag.
+2. EqPersist: opslaan custom 10-band curves in DataStore, auto-apply bij connect.
+3. MediaNowPlaying: album art + progress via MediaSession, chip in dashboard.
+
 ## Batch 318 (klaar — code)
 1. TunerNet.congested: validated, geen NOT_CONGESTED. Portal en pauze niet.
 2. Druk net slaat cloud over tot allowMetered. Chip en knop tonen druk.
