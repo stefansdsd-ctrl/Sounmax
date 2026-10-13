@@ -1,6 +1,8 @@
 # Sounmax — volgende features
 
 ## Batch 320 (klaar — code)
+- EqPersist.kt toegevoegd: save/load custom 10-band curves.
+
 1. EqPersist: opslaan/laden custom 10-band curves via SharedPreferences. Call save/load from EQ UI of bij connect.
 
 ## Batch 319 (voorstel)
