@@ -1,9 +1,12 @@
 # Sounmax — volgende features
 
+## Batch 320 (klaar — code)
+1. EqPersist: opslaan/laden custom 10-band curves via SharedPreferences. Call save/load from EQ UI of bij connect.
+
 ## Batch 319 (voorstel)
 1. HeadphoneBattery: reflection getBatteryLevel + HF indicator fallback, chip + notificatie laag.
-2. EqPersist: opslaan custom 10-band curves in DataStore, auto-apply bij connect.
-3. MediaNowPlaying: album art + progress via MediaSession, chip in dashboard.
+2. MediaNowPlaying: album art + progress via MediaSession, chip in dashboard.
+3. Auto-apply EqPersist bij Bluetooth connect.
 
 ## Batch 318 (klaar — code)
 1. TunerNet.congested: validated, geen NOT_CONGESTED. Portal en pauze niet.
