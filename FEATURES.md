@@ -1,5 +1,9 @@
 # Sounmax — volgende features
 
+## Batch 321 (klaar — code)
+- EqPersist multi-slot (0-4) via JSON. save(slot), load(slot), clear.
+- Auto-apply slot 0 voorbereid (ConnectEqApplier).
+
 ## Batch 320 (klaar — code)
 - EqPersist.kt toegevoegd: save/load custom 10-band curves.
 
@@ -8,7 +12,7 @@
 ## Batch 319 (voorstel)
 1. HeadphoneBattery: reflection getBatteryLevel + HF indicator fallback, chip + notificatie laag.
 2. MediaNowPlaying: album art + progress via MediaSession, chip in dashboard.
-3. Auto-apply EqPersist bij Bluetooth connect.
+3. Auto-apply EqPersist bij Bluetooth connect. (nu multi-slot)
 
 ## Batch 318 (klaar — code)
 1. TunerNet.congested: validated, geen NOT_CONGESTED. Portal en pauze niet.
