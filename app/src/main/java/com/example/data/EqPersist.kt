@@ -2,50 +2,85 @@ package com.example.data
 
 import android.content.Context
 import com.example.dsp.EqPreset
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
- * Opslaan/laden custom 10-band EQ curves via SharedPreferences.
- * Call save/load from EQ UI of bij connect.
+ * Multi-slot opslaan/laden custom 10-band EQ curves via SharedPreferences.
+ * Slots 0-4. Auto-apply slot 0 on connect.
  */
 object EqPersist {
     private const val PREFS = "soundmax_eq_persist"
-    private const val KEY_BANDS = "custom_bands"
-    private const val KEY_NAME = "custom_name"
-    private const val KEY_BASS = "custom_bass"
-    private const val KEY_VIRT = "custom_virt"
-    private const val KEY_LOUD = "custom_loud"
-    private const val KEY_CLARITY = "custom_clarity"
+    private const val KEY_SLOTS = "eq_slots_json"
+    private const val MAX_SLOTS = 5
 
-    fun save(context: Context, preset: EqPreset) {
-        val bands = preset.bandGains.joinToString(",")
+    fun save(context: Context, preset: EqPreset, slot: Int = 0) {
+        if (slot !in 0 until MAX_SLOTS) return
+        val slots = loadAll(context).toMutableList()
+        while (slots.size <= slot) slots.add(null)
+        slots[slot] = preset
+        saveAll(context, slots)
+    }
+
+    fun load(context: Context, slot: Int = 0): EqPreset? {
+        val slots = loadAll(context)
+        return slots.getOrNull(slot)
+    }
+
+    fun hasSaved(context: Context, slot: Int = 0): Boolean = load(context, slot) != null
+
+    fun loadAll(context: Context): List<EqPreset?> {
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val json = prefs.getString(KEY_SLOTS, null) ?: return emptyList()
+        return try {
+            val arr = JSONArray(json)
+            (0 until arr.length()).map { i ->
+                val obj = arr.optJSONObject(i) ?: return@map null
+                val bands = obj.optJSONArray("bands")?.let { ja ->
+                    (0 until ja.length()).map { ja.optDouble(it).toFloat() }
+                } ?: emptyList()
+                if (bands.size != 10) null else EqPreset(
+                    name = obj.optString("name", "Custom $i"),
+                    bandGains = bands,
+                    bassBoost = obj.optInt("bass", 0),
+                    virtualizer = obj.optInt("virt", 0),
+                    loudness = obj.optInt("loud", 0),
+                    clarity = obj.optDouble("clarity", 0.0).toFloat(),
+                    isCustom = true,
+                    category = "Persist",
+                    description = "Slot $i"
+                )
+            }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    private fun saveAll(context: Context, slots: List<EqPreset?>) {
+        val arr = JSONArray()
+        slots.forEach { p ->
+            if (p == null) {
+                arr.put(JSONObject.NULL)
+            } else {
+                val obj = JSONObject()
+                obj.put("name", p.name)
+                obj.put("bands", JSONArray(p.bandGains))
+                obj.put("bass", p.bassBoost)
+                obj.put("virt", p.virtualizer)
+                obj.put("loud", p.loudness)
+                obj.put("clarity", p.clarity.toDouble())
+                arr.put(obj)
+            }
+        }
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-            .putString(KEY_BANDS, bands)
-            .putString(KEY_NAME, preset.name)
-            .putInt(KEY_BASS, preset.bassBoost)
-            .putInt(KEY_VIRT, preset.virtualizer)
-            .putInt(KEY_LOUD, preset.loudness)
-            .putFloat(KEY_CLARITY, preset.clarity)
+            .putString(KEY_SLOTS, arr.toString())
             .apply()
     }
 
-    fun load(context: Context): EqPreset? {
-        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        val bandsStr = prefs.getString(KEY_BANDS, null) ?: return null
-        val bands = bandsStr.split(",").mapNotNull { it.toFloatOrNull() }
-        if (bands.size != 10) return null
-        return EqPreset(
-            name = prefs.getString(KEY_NAME, "Custom") ?: "Custom",
-            bandGains = bands,
-            bassBoost = prefs.getInt(KEY_BASS, 0),
-            virtualizer = prefs.getInt(KEY_VIRT, 0),
-            loudness = prefs.getInt(KEY_LOUD, 0),
-            clarity = prefs.getFloat(KEY_CLARITY, 0f),
-            isCustom = true,
-            category = "Persist",
-            description = "Opgeslagen custom curve"
-        )
+    fun clear(context: Context, slot: Int) {
+        if (slot !in 0 until MAX_SLOTS) return
+        val slots = loadAll(context).toMutableList()
+        if (slot < slots.size) slots[slot] = null
+        saveAll(context, slots)
     }
-
-    fun hasSaved(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).contains(KEY_BANDS)
 }
