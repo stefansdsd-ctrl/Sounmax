@@ -1,3 +1,8 @@
+## Nieuw (2026-10-14 — batch 319)
+- HeadphoneBattery: reflection + HF-indicator, chip "Bat: xx%", notificatie bij <20%.
+- MediaNowPlaying: titel/artiest/progress via MediaSession (NotificationListener nodig), chip.
+- EqPersist multi-slot + auto-apply bij connect (pending).
+
 ## Nieuw (2026-10-09 — batch 319)
 - Dataspaar (Android restrict background): Gemini blijft uit. Chip toont "· spaar". Cache of lokale curve.
 - Knop "Toch Gemini (dataspaar)" forceert cloud.
@@ -56,3 +61,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
+- Album art + EQ-slot picker
