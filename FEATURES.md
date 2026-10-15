@@ -1,9 +1,9 @@
 # Sounmax — volgende features
 
-## Batch 322 (voorstel)
-1. Album art in dashboard chip (MediaNowPlaying.albumArt + Coil/Glide).
+## Batch 322 (deels klaar)
+1. Album art in dashboard chip (MediaNowPlaying.albumArt + Coil — al aanwezig).
 2. EQ-slot picker in UI (0-4) + auto-apply bij connect bevestigen.
-3. Low-battery duck/soft volume (optioneel, onder 15%).
+3. Low-battery duck/soft volume (optioneel, onder 15%) — LowBatteryDuck.kt toegevoegd.
 
 ## Batch 321 (klaar — code)
 - EqPersist multi-slot (0-4) via JSON. save(slot), load(slot), clear.
