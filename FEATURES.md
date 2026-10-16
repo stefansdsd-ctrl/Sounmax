@@ -1,26 +1,33 @@
 # Sounmax — volgende features
 
-## Batch 323 (nieuw)
-- BatteryHistory: track laatste 50 battery levels + averageLast. Integreer met HeadphoneBattery.record.
+## Batch 324 (nieuw)
+- BatteryHistory: track laatste 50 levels + average. Integreer met HeadphoneBattery.
+- Album art in MediaNowPlaying chip (Coil).
+- EQ-slot picker UI (0-4) + bevestig auto-apply.
+- LowBatteryDuck: soft volume onder 15%.
+- Voorbereiding Auto-ANC veldtest (GATT notify logging).
 
-## Batch 322 (deels klaar)
-1. Album art in dashboard chip (MediaNowPlaying.albumArt + Coil — al aanwezig).
-2. EQ-slot picker in UI (0-4) + auto-apply bij connect bevestigen.
-3. Low-battery duck/soft volume (optioneel, onder 15%) — LowBatteryDuck.kt toegevoegd.
+## Batch 323
+- BatteryHistory basis.
 
-## Batch 321 (klaar — code)
-- EqPersist multi-slot (0-4) via JSON. save(slot), load(slot), clear.
-- Auto-apply slot 0 voorbereid (ConnectEqApplier).
+## Batch 322
+1. Album art in dashboard chip.
+2. EQ-slot picker in UI (0-4) + auto-apply bij connect.
+3. Low-battery duck/soft volume (onder 15%).
 
-## Batch 320 (klaar — code)
-- EqPersist.kt toegevoegd: save/load custom 10-band curves.
+## Batch 321
+- EqPersist multi-slot (0-4) via JSON.
+- Auto-apply slot 0 (ConnectEqApplier).
 
-## Batch 319 (klaar — code)
-1. HeadphoneBattery: reflection + HF-indicator (id=2) + BATTERY_LEVEL_CHANGED, chip + low notify (<20%).
-2. MediaNowPlaying: title/artist/progress via actieve MediaSession (NotificationListener nodig), chip.
-3. Auto-apply EqPersist bij Bluetooth connect (ConnectEqApplier + pending flag).
+## Batch 320
+- EqPersist.kt: save/load custom curves.
 
-## Hardware (blijft open)
-- Find-beep payload na TAH6519 GATT-dump
+## Batch 319
+1. HeadphoneBattery: reflection + HF-indicator + notify.
+2. MediaNowPlaying: title/artist/progress.
+3. Auto-apply EqPersist bij connect.
+
+## Hardware (open)
+- Find-beep GATT-payload
 - ANC-GATT + notify-leren
 - Auto-ANC veldtest
