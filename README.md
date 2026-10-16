@@ -1,3 +1,6 @@
+## Nieuw (2026-10-16 — batch 325)
+- HeadphoneBattery chip toont gem. van laatste 5 metingen (BatteryHistory).
+
 ## Nieuw (2026-10-14 — batch 319)
 - HeadphoneBattery: reflection + HF-indicator, chip "Bat: xx%", notificatie bij <20%.
 - MediaNowPlaying: titel/artiest/progress via MediaSession (NotificationListener nodig), chip.

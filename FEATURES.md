@@ -1,4 +1,5 @@
-# Sounmax — volgende features
+## Batch 325 (nieuw)
+- Battery chip: gemiddelde laatste 5 levels.
 
 ## Batch 324 (nieuw)
 - BatteryHistory: track laatste 50 levels + average. Integreer met HeadphoneBattery.

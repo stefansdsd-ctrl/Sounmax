@@ -86,10 +86,12 @@ object HeadphoneBattery {
 
     fun chip(context: Context): String {
         val l = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt("level", last)
+        val avg = BatteryHistory.averageLast(context, 5)
+        val avgStr = if (avg >= 0) " (gem ${avg.toInt()}%)" else ""
         return when {
             l < 0 -> "Bat: ?"
-            l <= LOW -> "Bat: $l% laag"
-            else -> "Bat: $l%"
+            l <= LOW -> "Bat: $l% laag$avgStr"
+            else -> "Bat: $l%$avgStr"
         }
     }
 
