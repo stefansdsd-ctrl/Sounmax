@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
  * Batterij van bonded Classic headset (TAH6519 e.d.).
  * Reflection getBatteryLevel + HF-indicator (id=2) + BATTERY_LEVEL_CHANGED.
  * Chip + notificatie bij laag (<20%).
+ * BatteryHistory logging.
  */
 object HeadphoneBattery {
     private const val TAG = "HeadphoneBattery"
@@ -61,7 +62,11 @@ object HeadphoneBattery {
                 }
                 if (value in 0..100 && value != last) {
                     last = value
-                    ctx?.let { save(it, value); if (value in 1..LOW) notifyLow(it, value) }
+                    ctx?.let { 
+                        save(it, value)
+                        BatteryHistory.record(it, value)
+                        if (value in 1..LOW) notifyLow(it, value) 
+                    }
                     onChange()
                 }
             }
