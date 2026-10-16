@@ -88,10 +88,12 @@ object HeadphoneBattery {
         val l = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt("level", last)
         val avg = BatteryHistory.averageLast(context, 5)
         val avgStr = if (avg >= 0) " (gem ${avg.toInt()}%)" else ""
+        val eta = BatteryHistory.etaHours(context, l)
+        val etaStr = if (eta >= 0 && eta < 48) " ~${eta.toInt()}u" else ""
         return when {
             l < 0 -> "Bat: ?"
-            l <= LOW -> "Bat: $l% laag$avgStr"
-            else -> "Bat: $l%$avgStr"
+            l <= LOW -> "Bat: $l% laag$avgStr$etaStr"
+            else -> "Bat: $l%$avgStr$etaStr"
         }
     }
 

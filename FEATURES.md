@@ -1,3 +1,6 @@
+## Batch 326 (nieuw)
+- Battery ETA: geschatte resterende uren op basis van recente ontladingssnelheid. Chip toont ~Xu.
+
 ## Batch 325 (nieuw)
 - Battery chip: gemiddelde laatste 5 levels.
 

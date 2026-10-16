@@ -1,3 +1,6 @@
+## Nieuw (2026-10-16 — batch 326)
+- Battery chip toont geschatte resterende uren (~Xu) op basis van recente ontlading.
+
 ## Nieuw (2026-10-16 — batch 325)
 - HeadphoneBattery chip toont gem. van laatste 5 metingen (BatteryHistory).
 

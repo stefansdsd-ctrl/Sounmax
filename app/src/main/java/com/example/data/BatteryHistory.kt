@@ -3,10 +3,12 @@ package com.example.data
 import android.content.Context
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.math.max
 
 /**
  * Simpele history van headphone battery levels.
  * Bewaart laatste 50 metingen (level + timestamp).
+ * + ETA remaining hours based on recent discharge rate.
  */
 object BatteryHistory {
     private const val PREFS = "sounmax_bat_history"
@@ -37,6 +39,20 @@ object BatteryHistory {
     fun averageLast(context: Context, n: Int = 5): Float {
         val recent = load(context).takeLast(n)
         return if (recent.isEmpty()) -1f else recent.map { it.level }.average().toFloat()
+    }
+
+    /** Estimated remaining hours until 0% based on recent discharge. Returns -1 if unknown. */
+    fun etaHours(context: Context, currentLevel: Int): Float {
+        if (currentLevel <= 0) return 0f
+        val recent = load(context).takeLast(10)
+        if (recent.size < 3) return -1f
+        val first = recent.first()
+        val last = recent.last()
+        val deltaLevel = first.level - last.level
+        val deltaHours = (last.timestamp - first.timestamp) / 3_600_000f
+        if (deltaHours < 0.1f || deltaLevel <= 0) return -1f
+        val rate = deltaLevel / deltaHours // % per hour
+        return max(0f, currentLevel / rate)
     }
 
     private fun save(context: Context, entries: List<Entry>) {
