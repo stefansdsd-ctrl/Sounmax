@@ -1,5 +1,8 @@
 # Sounmax — volgende features
 
+## Batch 323 (nieuw)
+- BatteryHistory: track laatste 50 battery levels + averageLast. Integreer met HeadphoneBattery.record.
+
 ## Batch 322 (deels klaar)
 1. Album art in dashboard chip (MediaNowPlaying.albumArt + Coil — al aanwezig).
 2. EQ-slot picker in UI (0-4) + auto-apply bij connect bevestigen.
@@ -16,12 +19,6 @@
 1. HeadphoneBattery: reflection + HF-indicator (id=2) + BATTERY_LEVEL_CHANGED, chip + low notify (<20%).
 2. MediaNowPlaying: title/artist/progress via actieve MediaSession (NotificationListener nodig), chip.
 3. Auto-apply EqPersist bij Bluetooth connect (ConnectEqApplier + pending flag).
-
-## Batch 318 (klaar — code)
-1. TunerNet.congested: validated, geen NOT_CONGESTED. Portal en pauze niet.
-2. Druk net slaat cloud over tot allowMetered. Chip en knop tonen druk.
-3. TunerNet.suspended: internet, geen NOT_SUSPENDED. Cloud altijd uit.
-4. Zoeker: druk, congested, pauze, suspended. Geen extra permissie.
 
 ## Hardware (blijft open)
 - Find-beep payload na TAH6519 GATT-dump
