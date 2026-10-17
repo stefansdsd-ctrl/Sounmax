@@ -1,3 +1,8 @@
+## Batch 327 (nieuw)
+- Home screen App Widget: toont battery % + ETA uren. Quick tap naar app.
+- Betere battery history: trend detectie (opladen vs ontladen).
+- Voorbereiding wind-noise detectie via mic RMS (SoftwareAnc uitbreiding).
+
 ## Batch 326 (nieuw)
 - Battery ETA: geschatte resterende uren op basis van recente ontladingssnelheid. Chip toont ~Xu.
 
@@ -35,3 +40,4 @@
 - Find-beep GATT-payload
 - ANC-GATT + notify-leren
 - Auto-ANC veldtest
+- Widget implementatie
