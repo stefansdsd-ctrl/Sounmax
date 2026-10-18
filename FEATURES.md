@@ -1,3 +1,6 @@
+## Batch 328 (nieuw)
+- BatteryHistory: trend detectie (CHARGING/DISCHARGING/STABLE). ETA alleen bij ontladen.
+
 ## Batch 327 (nieuw)
 - Home screen App Widget: toont battery % + ETA uren. Quick tap naar app.
 - Betere battery history: trend detectie (opladen vs ontladen).
