@@ -9,11 +9,14 @@ import kotlin.math.max
  * Simpele history van headphone battery levels.
  * Bewaart laatste 50 metingen (level + timestamp).
  * + ETA remaining hours based on recent discharge rate.
+ * + Trend: charging / discharging / stable.
  */
 object BatteryHistory {
     private const val PREFS = "sounmax_bat_history"
     private const val KEY = "history_json"
     private const val MAX = 50
+
+    enum class Trend { CHARGING, DISCHARGING, STABLE, UNKNOWN }
 
     fun record(context: Context, level: Int) {
         if (level !in 0..100) return
@@ -41,9 +44,24 @@ object BatteryHistory {
         return if (recent.isEmpty()) -1f else recent.map { it.level }.average().toFloat()
     }
 
+    /** Trend over last measurements. */
+    fun trend(context: Context): Trend {
+        val recent = load(context).takeLast(6)
+        if (recent.size < 3) return Trend.UNKNOWN
+        val first = recent.first().level
+        val last = recent.last().level
+        val delta = last - first
+        return when {
+            delta >= 3 -> Trend.CHARGING
+            delta <= -3 -> Trend.DISCHARGING
+            else -> Trend.STABLE
+        }
+    }
+
     /** Estimated remaining hours until 0% based on recent discharge. Returns -1 if unknown. */
     fun etaHours(context: Context, currentLevel: Int): Float {
         if (currentLevel <= 0) return 0f
+        if (trend(context) == Trend.CHARGING) return -1f // charging, no ETA
         val recent = load(context).takeLast(10)
         if (recent.size < 3) return -1f
         val first = recent.first()
