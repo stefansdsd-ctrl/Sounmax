@@ -1,3 +1,8 @@
+## Batch 329 (nieuw)
+- WindNoiseDetector: stub voor mic RMS wind/noise detectie (Software ANC).
+- BatteryHistory: verbeterde trend + ETA (alleen bij ontladen, min samples).
+- Voorbereiding widget implementatie.
+
 ## Batch 328 (nieuw)
 - BatteryHistory: trend detectie (CHARGING/DISCHARGING/STABLE). ETA alleen bij ontladen.
 
