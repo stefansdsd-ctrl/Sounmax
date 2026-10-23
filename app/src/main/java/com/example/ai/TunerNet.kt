@@ -2,10 +2,16 @@ package com.example.ai
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
-/** Echte verbinding. Validated = internet werkt, niet alleen radio aan. */
+/** Echte verbinding. Validated = internet werkt, niet alleen radio aan.
+ * Nu met live NetworkCallback voor betere responsiviteit. */
 object TunerNet {
     private const val SLOW_KBPS = 150
 
@@ -103,6 +109,24 @@ object TunerNet {
         if (cm.isActiveNetworkMetered) return "$base · data"
         if (vpn(context)) return "$base · vpn"
         return base
+    }
+
+    /** Live netwerkstatus als Flow. Gebruik in ViewModel/Compose. */
+    fun statusFlow(context: Context): Flow<String> = callbackFlow {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) { trySend(label(context)) }
+            override fun onLost(network: Network) { trySend(label(context)) }
+            override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) {
+                trySend(label(context))
+            }
+        }
+        val request = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+        cm.registerNetworkCallback(request, callback)
+        trySend(label(context)) // initial
+        awaitClose { cm.unregisterNetworkCallback(callback) }
     }
 
     private fun transport(caps: NetworkCapabilities): String = when {
