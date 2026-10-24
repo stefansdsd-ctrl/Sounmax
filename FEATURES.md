@@ -1,3 +1,7 @@
+## Batch 330 (nieuw)
+- WindNoiseDetector: echte korte AudioRecord RMS sample (200ms, permission check).
+- BatteryHistory: ETA via lineaire regressie op recente samples, gecapt op 48u.
+
 ## Batch 329 (nieuw)
 - WindNoiseDetector: stub voor mic RMS wind/noise detectie (Software ANC).
 - BatteryHistory: verbeterde trend + ETA (alleen bij ontladen, min samples).
