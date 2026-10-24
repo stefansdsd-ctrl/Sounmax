@@ -4,12 +4,13 @@ import android.content.Context
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.max
+import kotlin.math.min
 
 /**
- * Simpele history van headphone battery levels.
+ * History van headphone battery levels.
  * Bewaart laatste 50 metingen (level + timestamp).
- * + ETA remaining hours based on recent discharge rate.
- * + Trend: charging / discharging / stable.
+ * ETA via lineaire regressie op recente ontlading.
+ * Trend: charging / discharging / stable.
  */
 object BatteryHistory {
     private const val PREFS = "sounmax_bat_history"
@@ -44,7 +45,6 @@ object BatteryHistory {
         return if (recent.isEmpty()) -1f else recent.map { it.level }.average().toFloat()
     }
 
-    /** Trend over last measurements. */
     fun trend(context: Context): Trend {
         val recent = load(context).takeLast(6)
         if (recent.size < 3) return Trend.UNKNOWN
@@ -58,19 +58,29 @@ object BatteryHistory {
         }
     }
 
-    /** Estimated remaining hours until 0% based on recent discharge. Returns -1 if unknown. */
+    /** Estimated remaining hours until 0% using linear regression on recent discharge. */
     fun etaHours(context: Context, currentLevel: Int): Float {
         if (currentLevel <= 0) return 0f
-        if (trend(context) == Trend.CHARGING) return -1f // charging, no ETA
-        val recent = load(context).takeLast(10)
-        if (recent.size < 3) return -1f
-        val first = recent.first()
-        val last = recent.last()
-        val deltaLevel = first.level - last.level
-        val deltaHours = (last.timestamp - first.timestamp) / 3_600_000f
-        if (deltaHours < 0.1f || deltaLevel <= 0) return -1f
-        val rate = deltaLevel / deltaHours // % per hour
-        return max(0f, currentLevel / rate)
+        if (trend(context) == Trend.CHARGING) return -1f
+        val recent = load(context).takeLast(15).filter { it.timestamp > 0 }
+        if (recent.size < 4) return -1f
+
+        // Linear regression: time (hours from first) vs level
+        val t0 = recent.first().timestamp
+        val points = recent.map { ((it.timestamp - t0) / 3_600_000.0) to it.level.toDouble() }
+        val n = points.size.toDouble()
+        val sumT = points.sumOf { it.first }
+        val sumL = points.sumOf { it.second }
+        val sumTL = points.sumOf { it.first * it.second }
+        val sumT2 = points.sumOf { it.first * it.first }
+
+        val denom = n * sumT2 - sumT * sumT
+        if (denom == 0.0) return -1f
+        val slope = (n * sumTL - sumT * sumL) / denom // % per hour
+        if (slope >= -0.1) return -1f // not discharging enough
+
+        val eta = currentLevel / (-slope)
+        return max(0f, min(48f, eta.toFloat())) // cap at 48h
     }
 
     private fun save(context: Context, entries: List<Entry>) {
