@@ -58,12 +58,13 @@ object BatteryHistory {
         }
     }
 
-    /** Estimated remaining hours until 0% using linear regression on recent discharge. */
+    /** Estimated remaining hours until 0% using linear regression on recent discharge.
+     *  Only uses points with negative slope; returns -1 if unreliable. */
     fun etaHours(context: Context, currentLevel: Int): Float {
         if (currentLevel <= 0) return 0f
         if (trend(context) == Trend.CHARGING) return -1f
-        val recent = load(context).takeLast(15).filter { it.timestamp > 0 }
-        if (recent.size < 4) return -1f
+        val recent = load(context).takeLast(20).filter { it.timestamp > 0 }
+        if (recent.size < 5) return -1f
 
         // Linear regression: time (hours from first) vs level
         val t0 = recent.first().timestamp
@@ -75,9 +76,9 @@ object BatteryHistory {
         val sumT2 = points.sumOf { it.first * it.first }
 
         val denom = n * sumT2 - sumT * sumT
-        if (denom == 0.0) return -1f
+        if (denom == 0.0 || kotlin.math.abs(denom) < 1e-6) return -1f
         val slope = (n * sumTL - sumT * sumL) / denom // % per hour
-        if (slope >= -0.1) return -1f // not discharging enough
+        if (slope >= -0.05) return -1f // not discharging meaningfully
 
         val eta = currentLevel / (-slope)
         return max(0f, min(48f, eta.toFloat())) // cap at 48h
