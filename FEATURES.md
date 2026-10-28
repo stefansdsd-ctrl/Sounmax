@@ -1,3 +1,7 @@
+## Batch 333 (nieuw)
+- GenreEqSuggestion: EQ-preset voorstel op basis van nu-spelende titel (heuristiek).
+- Chip of suggestie in UI later integreren.
+
 ## Batch 332 (nieuw)
 - NoiseBasedAnc: suggestie volle/zachte ANC of transparantie op basis van WindNoiseDetector RMS + batterij/trend.
 - Betere integratie software ANC hints.
