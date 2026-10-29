@@ -1,3 +1,6 @@
+## Nieuw (2026-10-29 — batch 334)
+- AlbumArt: iTunes Search voor album art URL (300px). Alleen op validated Wi-Fi, niet metered/roaming/portal. Klaar voor Coil.
+
 ## Nieuw (2026-10-16 — batch 326)
 - Battery chip toont geschatte resterende uren (~Xu) op basis van recente ontlading.
 
@@ -67,4 +70,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- Album art + EQ-slot picker
+- EQ-slot picker UI
