@@ -1,3 +1,7 @@
+## Batch 335 (nieuw)
+- AlbumArt: cache (ConcurrentHashMap) voor snellere ophaal, status toont cache size.
+- SpatialAudio: helper voor spatial audio status (ondersteund/beschikbaar/aan/uit, API 32+). Chip of info.
+
 ## Batch 334 (nieuw)
 - AlbumArt: iTunes Search API voor artworkUrl100 (opgeschaald 300). Alleen validated, niet metered/roaming/portal. Coil-ready URL.
 
