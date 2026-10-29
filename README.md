@@ -1,3 +1,7 @@
+## Nieuw (2026-10-29 — batch 335)
+- AlbumArt: cache voor snellere ophaal. Status toont cache size.
+- SpatialAudio: helper status spatial audio (ondersteund/beschikbaar/aan/uit, API 32+).
+
 ## Nieuw (2026-10-29 — batch 334)
 - AlbumArt: iTunes Search voor album art URL (300px). Alleen op validated Wi-Fi, niet metered/roaming/portal. Klaar voor Coil.
 
