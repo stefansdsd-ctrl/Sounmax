@@ -1,3 +1,6 @@
+## Batch 334 (nieuw)
+- AlbumArt: iTunes Search API voor artworkUrl100 (opgeschaald 300). Alleen validated, niet metered/roaming/portal. Coil-ready URL.
+
 ## Batch 333 (nieuw)
 - GenreEqSuggestion: EQ-preset voorstel op basis van nu-spelende titel (heuristiek).
 - Chip of suggestie in UI later integreren.
