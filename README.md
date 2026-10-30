@@ -1,3 +1,6 @@
+## Nieuw (2026-10-30 — batch 336)
+- AlbumArt: retry 1x, cache limiet 50, betere query. Status toont size/max.
+
 ## Nieuw (2026-10-29 — batch 335)
 - AlbumArt: cache voor snellere ophaal. Status toont cache size.
 - SpatialAudio: helper status spatial audio (ondersteund/beschikbaar/aan/uit, API 32+).
