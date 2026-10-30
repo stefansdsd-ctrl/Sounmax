@@ -1,3 +1,6 @@
+## Batch 336 (nieuw)
+- AlbumArt: retry 1x bij fout, cache limiet 50, betere query fallback, status toont cache size/max.
+
 ## Batch 335 (nieuw)
 - AlbumArt: cache (ConcurrentHashMap) voor snellere ophaal, status toont cache size.
 - SpatialAudio: helper voor spatial audio status (ondersteund/beschikbaar/aan/uit, API 32+). Chip of info.
