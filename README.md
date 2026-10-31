@@ -1,3 +1,6 @@
+## Nieuw (2026-10-31 — batch 337)
+- HarmanTargetEq: neutrale/warme/vocal base curves als betere start voor AI of handmatig EQ op TAH6519.
+
 ## Nieuw (2026-10-30 — batch 336)
 - AlbumArt: retry 1x, cache limiet 50, betere query. Status toont size/max.
 
