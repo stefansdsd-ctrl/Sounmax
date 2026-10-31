@@ -1,3 +1,6 @@
+## Batch 337 (nieuw)
+- HarmanTargetEq: neutrale / warme / vocal base curves (Harman-achtig) als betere startpunt voor AI-tuner of handmatig. Geschikt voor TAH6519 closed-back ANC.
+
 ## Batch 336 (nieuw)
 - AlbumArt: retry 1x bij fout, cache limiet 50, betere query fallback, status toont cache size/max.
 
