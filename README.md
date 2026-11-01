@@ -1,3 +1,6 @@
+## Nieuw (2026-11-01 — batch 338)
+- ListeningModeSuggest: context-based suggestie voor ANC/Transparency/EQ (wind, battery, media). Chip-ready, geen extra permissie.
+
 ## Nieuw (2026-10-31 — batch 337)
 - HarmanTargetEq: neutrale/warme/vocal base curves als betere start voor AI of handmatig EQ op TAH6519.
 
