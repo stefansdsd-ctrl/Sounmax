@@ -44,29 +44,12 @@ class GeminiAudioTuner {
         allowMetered: Boolean = false
     ): Result<AiAcousticRecommendation> = withContext(Dispatchers.IO) {
         try {
-            if (context != null && TunerNet.portal(context)) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "portal"))
-            }
-            if (context != null && TunerNet.suspended(context)) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "netwerk pauze"))
-            }
-            if (context != null && (OfflineGuard.blockCloud(context) || !TunerNet.validated(context))) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "offline"))
-            }
-            if (context != null && TunerNet.roaming(context) && !allowMetered) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "roaming"))
-            }
-            if (context != null && TunerNet.congested(context) && !allowMetered) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "druk net"))
-            }
-            if (context != null && TunerNet.dataSaver(context) && !allowMetered) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "dataspaar"))
-            }
-            if (context != null && TunerNet.slow(context) && !allowMetered) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "traag net"))
-            }
-            if (context != null && TunerNet.metered(context) && !allowMetered) {
-                return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, "mobiel data"))
+            if (context != null) {
+                val decision = TunerNet.shouldAllowCloud(context, force = allowMetered)
+                if (!decision.allow || OfflineGuard.blockCloud(context)) {
+                    val why = if (!decision.allow) decision.reason else "offline"
+                    return@withContext Result.success(skipCloud(context, userPrompt, headphoneModel, musicGenre, why))
+                }
             }
             val apiKey = BuildConfig.GEMINI_API_KEY
             if (apiKey.isNullOrBlank() || apiKey == "MY_GEMINI_API_KEY") {
