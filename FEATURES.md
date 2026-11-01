@@ -1,3 +1,8 @@
+## Batch 339 (nieuw)
+- TunerNet.shouldAllowCloud(): centrale cloud-beslissing (portal/roaming/metered/slow/dataSaver/etc).
+- qualityScore() 0-100 + bandwidthInfo() (down/up kbps).
+- Label toont score + kbps. GeminiAudioTuner gebruikt de nieuwe check.
+
 ## Batch 338 (nieuw)
 - ListeningModeSuggest: context-based suggestie ANC/Transparency/EQ (wind, battery, media). Chip-ready, geen extra permissie.
 
