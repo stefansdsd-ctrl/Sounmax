@@ -11,9 +11,27 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 /** Echte verbinding. Validated = internet werkt, niet alleen radio aan.
- * Nu met live NetworkCallback voor betere responsiviteit. */
+ * Verbeterd met shouldAllowCloud, qualityScore en bandwidthInfo. */
 object TunerNet {
     private const val SLOW_KBPS = 150
+
+    data class CloudDecision(val allow: Boolean, val reason: String)
+    data class Bandwidth(val downKbps: Int, val upKbps: Int)
+
+    /** Centrale check of cloud (Gemini) toegestaan is. */
+    fun shouldAllowCloud(context: Context, force: Boolean = false): CloudDecision {
+        if (portal(context)) return CloudDecision(false, "portal")
+        if (suspended(context)) return CloudDecision(false, "netwerk pauze")
+        if (!validated(context)) return CloudDecision(false, "offline")
+        if (force) return CloudDecision(true, "geforceerd")
+
+        if (roaming(context)) return CloudDecision(false, "roaming")
+        if (congested(context)) return CloudDecision(false, "druk net")
+        if (dataSaver(context)) return CloudDecision(false, "dataspaar")
+        if (slow(context)) return CloudDecision(false, "traag net")
+        if (metered(context)) return CloudDecision(false, "mobiel data")
+        return CloudDecision(true, "ok")
+    }
 
     fun validated(context: Context): Boolean {
         val caps = caps(context) ?: return false
@@ -25,14 +43,9 @@ object TunerNet {
     fun onWifi(context: Context): Boolean =
         caps(context)?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
 
-    /** Login-pagina (hotel, trein). Cloud kan hier niet bij. */
     fun portal(context: Context): Boolean =
         caps(context)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL) == true
 
-    /**
-     * Downstream onder 150 kbps. 0 = onbekend, telt niet als traag.
-     * Alleen als het netwerk wél validated is.
-     */
     fun slow(context: Context): Boolean {
         val caps = caps(context) ?: return false
         if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) return false
@@ -41,7 +54,6 @@ object TunerNet {
         return kbps in 1 until SLOW_KBPS
     }
 
-    /** Mobiel in het buitenland. Wi-Fi telt niet als roaming. */
     fun roaming(context: Context): Boolean {
         val caps = caps(context) ?: return false
         if (!caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) return false
@@ -50,11 +62,9 @@ object TunerNet {
         return !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
     }
 
-    /** Actieve VPN. Blokkeert Gemini niet; alleen een label. */
     fun vpn(context: Context): Boolean =
         caps(context)?.hasTransport(NetworkCapabilities.TRANSPORT_VPN) == true
 
-    /** OS heeft het netwerk gepauzeerd. Cloud kan hier niet bij. */
     fun suspended(context: Context): Boolean {
         val caps = caps(context) ?: return false
         if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) return false
@@ -62,7 +72,6 @@ object TunerNet {
         return !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_SUSPENDED)
     }
 
-    /** Druk netwerk (NOT_CONGESTED ontbreekt). Alleen als validated. */
     fun congested(context: Context): Boolean {
         val caps = caps(context) ?: return false
         if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) return false
@@ -70,14 +79,12 @@ object TunerNet {
         return !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_CONGESTED)
     }
 
-    /** Android-dataspaar aan. Cloud blijft uit tot je forceert. */
     fun dataSaver(context: Context): Boolean {
         if (!validated(context)) return false
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
     }
 
-    /** Provider geeft tijdelijk onbeperkt data (API 30+). Gemini mag dan wel. */
     fun tempUnmetered(context: Context): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return false
         val caps = caps(context) ?: return false
@@ -85,33 +92,49 @@ object TunerNet {
         return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_TEMPORARILY_NOT_METERED)
     }
 
-    /** Actief netwerk is metered (mobiel of metered hotspot). Offline en tijdelijk vrij tellen niet. */
     fun metered(context: Context): Boolean {
         if (!validated(context) || tempUnmetered(context)) return false
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return cm.isActiveNetworkMetered
     }
 
-    fun label(context: Context): String {
-        val caps = caps(context) ?: return "Offline"
-        if (portal(context)) return "${transport(caps)} · portal"
-        if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ||
-            !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-        ) return "Offline"
-        val base = transport(caps)
-        if (suspended(context)) return "$base · pauze"
-        if (roaming(context)) return "$base · roaming"
-        if (congested(context)) return "$base · druk"
-        if (slow(context)) return "$base · traag"
-        if (dataSaver(context)) return "$base · spaar"
-        if (tempUnmetered(context)) return "$base · vrij"
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (cm.isActiveNetworkMetered) return "$base · data"
-        if (vpn(context)) return "$base · vpn"
-        return base
+    /** Downstream + upstream kbps. 0 = onbekend. */
+    fun bandwidthInfo(context: Context): Bandwidth {
+        val caps = caps(context) ?: return Bandwidth(0, 0)
+        return Bandwidth(caps.linkDownstreamBandwidthKbps, caps.linkUpstreamBandwidthKbps)
     }
 
-    /** Live netwerkstatus als Flow. Gebruik in ViewModel/Compose. */
+    /** 0-100 netwerkkwaliteit score (hoger = beter voor cloud). */
+    fun qualityScore(context: Context): Int {
+        if (!validated(context)) return 0
+        var score = 50
+        val bw = bandwidthInfo(context)
+        score += when {
+            bw.downKbps >= 5000 -> 40
+            bw.downKbps >= 1000 -> 25
+            bw.downKbps >= SLOW_KBPS -> 10
+            else -> 0
+        }
+        if (onWifi(context)) score += 10
+        if (tempUnmetered(context)) score += 10
+        if (metered(context)) score -= 15
+        if (roaming(context) || congested(context) || slow(context)) score -= 20
+        if (dataSaver(context)) score -= 10
+        return score.coerceIn(0, 100)
+    }
+
+    fun label(context: Context): String {
+        val decision = shouldAllowCloud(context)
+        val base = transport(caps(context) ?: return "Offline")
+        val score = qualityScore(context)
+        val bw = bandwidthInfo(context)
+        val bwStr = if (bw.downKbps > 0) " ${bw.downKbps}kbps" else ""
+        return when {
+            !decision.allow -> "$base · ${decision.reason}$bwStr (score $score)"
+            else -> "$base$bwStr (score $score)"
+        }
+    }
+
     fun statusFlow(context: Context): Flow<String> = callbackFlow {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val callback = object : ConnectivityManager.NetworkCallback() {
@@ -125,7 +148,7 @@ object TunerNet {
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
         cm.registerNetworkCallback(request, callback)
-        trySend(label(context)) // initial
+        trySend(label(context))
         awaitClose { cm.unregisterNetworkCallback(callback) }
     }
 
