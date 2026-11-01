@@ -1,3 +1,6 @@
+## Batch 338 (nieuw)
+- ListeningModeSuggest: context-based suggestie ANC/Transparency/EQ (wind, battery, media). Chip-ready, geen extra permissie.
+
 ## Batch 337 (nieuw)
 - HarmanTargetEq: neutrale / warme / vocal base curves (Harman-achtig) als betere startpunt voor AI-tuner of handmatig. Geschikt voor TAH6519 closed-back ANC.
 
