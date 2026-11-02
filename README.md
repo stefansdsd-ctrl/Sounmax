@@ -1,3 +1,6 @@
+## Nieuw (2026-11-02 — batch 340)
+- ListeningModeSuggest: echte battery-trend, media-actief, wind + nacht Soft EQ. Betere adaptieve suggesties.
+
 ## Nieuw (2026-11-01 — batch 338)
 - ListeningModeSuggest: context-based suggestie voor ANC/Transparency/EQ (wind, battery, media). Chip-ready, geen extra permissie.
 
