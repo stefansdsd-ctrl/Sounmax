@@ -1,3 +1,6 @@
+## Batch 340 (nieuw)
+- ListeningModeSuggest: echte checks voor battery (trend/percent), media (isMusicActive), wind, + nacht logica (22-6u Soft EQ). Betere context-adaptatie. Geen extra permissie.
+
 ## Batch 339 (nieuw)
 - TunerNet.shouldAllowCloud(): centrale cloud-beslissing (portal/roaming/metered/slow/dataSaver/etc).
 - qualityScore() 0-100 + bandwidthInfo() (down/up kbps).
