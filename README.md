@@ -1,3 +1,6 @@
+## Nieuw (2026-11-03 — batch 344)
+- Jazz/Acoustic Harman-preset + betere offline AI-fallback (jazz, acoustic, piano).
+
 ## Nieuw (2026-11-03 — batch 343)
 - GeminiAudioTuner: betere offline fallback (meer keywords + soft/night) en scherpere prompt voor cloud.
 

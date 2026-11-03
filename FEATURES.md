@@ -1,3 +1,7 @@
+## Batch 344 (nieuw)
+- HarmanTargetEq: nieuwe Jazz/Acoustic preset (warm mids, natuurlijke dynamiek).
+- GeminiAudioTuner: betere offline fallback met jazz/acoustic/piano keywords + ANC medium.
+
 ## Batch 343 (nieuw)
 - GeminiAudioTuner: verbeterde lokale fallback met extra keywords (jazz, night/soft, fps, etc.) + slimmere ANC-aanbeveling.
 - Strakkere system prompt, lagere temperature, snellere timeouts, gains ±10 dB.

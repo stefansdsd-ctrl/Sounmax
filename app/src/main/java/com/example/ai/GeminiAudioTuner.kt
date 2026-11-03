@@ -207,7 +207,9 @@ class GeminiAudioTuner {
                 HarmanTargetEq.warmPreset().copy(name = "AI Warm Bass")
             lower.contains("vocal") || lower.contains("stem") || lower.contains("podcast") || lower.contains("spraak") || lower.contains("talk") ->
                 HarmanTargetEq.podcastPreset().copy(name = "AI Podcast")
-            lower.contains("helder") || lower.contains("clarity") || lower.contains("detail") || lower.contains("klassiek") || lower.contains("jazz") || lower.contains("acoustic") ->
+            lower.contains("jazz") || lower.contains("acoustic") || lower.contains("akoest") || lower.contains("piano") || lower.contains("sax") ->
+                HarmanTargetEq.jazzPreset().copy(name = "AI Jazz")
+            lower.contains("helder") || lower.contains("clarity") || lower.contains("detail") || lower.contains("klassiek") ->
                 HarmanTargetEq.clarityPreset().copy(name = "AI Clarity")
             lower.contains("film") || lower.contains("movie") || lower.contains("cinema") || lower.contains("spatial") || lower.contains("atmos") ->
                 HarmanTargetEq.moviePreset().copy(name = "AI Movie")
@@ -220,6 +222,7 @@ class GeminiAudioTuner {
         val anc = when {
             lower.contains("bass") || lower.contains("film") || lower.contains("movie") -> "ANC maximaal"
             lower.contains("podcast") || lower.contains("spraak") -> "ANC laag of uit"
+            lower.contains("jazz") || lower.contains("acoustic") -> "ANC medium"
             else -> "ANC adaptief"
         }
         return AiAcousticRecommendation(

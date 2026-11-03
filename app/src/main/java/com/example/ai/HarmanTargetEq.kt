@@ -83,6 +83,15 @@ object HarmanTargetEq {
         description = "Gaming-focus: betere footsteps en spatial awareness."
     )
 
+    /** Jazz / acoustic: warm mids, controlled highs, natural dynamics. */
+    fun jazzPreset(): EqPreset = neutralPreset("Harman Jazz").copy(
+        bandGains = listOf(2.8f, 3.5f, 2.5f, 1.5f, 0.5f, 2.0f, 3.0f, 2.5f, 1.8f, 1.2f),
+        bassBoost = 380,
+        virtualizer = 320,
+        clarity = 8.4f,
+        description = "Jazz en akoestisch: warm, natuurlijk, goede instrumentseparatie."
+    )
+
     fun allPresets(): List<EqPreset> = listOf(
         neutralPreset(),
         warmPreset(),
@@ -90,6 +99,7 @@ object HarmanTargetEq {
         moviePreset(),
         clarityPreset(),
         podcastPreset(),
-        gamingPreset()
+        gamingPreset(),
+        jazzPreset()
     )
 }
