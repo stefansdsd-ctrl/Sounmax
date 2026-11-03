@@ -92,6 +92,24 @@ object HarmanTargetEq {
         description = "Jazz en akoestisch: warm, natuurlijk, goede instrumentseparatie."
     )
 
+    /** Classical / orchestral: natural balance, air for strings, controlled bass. */
+    fun classicalPreset(): EqPreset = neutralPreset("Harman Classical").copy(
+        bandGains = listOf(1.5f, 2.0f, 1.2f, 0.2f, -0.5f, 1.5f, 2.8f, 3.5f, 3.0f, 2.5f),
+        bassBoost = 280,
+        virtualizer = 250,
+        clarity = 9.3f,
+        description = "Klassiek en orkestraal: natuurlijke balans, lucht voor strijkers."
+    )
+
+    /** Electronic / EDM: punchy sub, controlled highs to avoid fatigue. */
+    fun electronicPreset(): EqPreset = neutralPreset("Harman Electronic").copy(
+        bandGains = listOf(7.0f, 5.5f, 2.0f, 0.0f, -1.5f, 0.5f, 2.0f, 2.5f, 1.5f, 0.8f),
+        bassBoost = 750,
+        virtualizer = 450,
+        clarity = 7.8f,
+        description = "Elektronisch en EDM: krachtige sub, minder vermoeidheid op highs."
+    )
+
     fun allPresets(): List<EqPreset> = listOf(
         neutralPreset(),
         warmPreset(),
@@ -100,6 +118,8 @@ object HarmanTargetEq {
         clarityPreset(),
         podcastPreset(),
         gamingPreset(),
-        jazzPreset()
+        jazzPreset(),
+        classicalPreset(),
+        electronicPreset()
     )
 }
