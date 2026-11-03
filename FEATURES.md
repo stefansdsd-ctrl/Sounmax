@@ -1,3 +1,7 @@
+## Batch 343 (nieuw)
+- GeminiAudioTuner: verbeterde lokale fallback met extra keywords (jazz, night/soft, fps, etc.) + slimmere ANC-aanbeveling.
+- Strakkere system prompt, lagere temperature, snellere timeouts, gains ±10 dB.
+
 ## Batch 342 (nieuw)
 - HarmanTargetEq: verfijnde curves + nieuwe Podcast en Gaming presets. Betere lokale startpunten.
 - GeminiAudioTuner: slimme lokale fallback gebruikt nu HarmanTargetEq (warm/podcast/clarity/movie/gaming/neutral) op basis van prompt-keywords. Geen cloud nodig voor basis suggesties.
