@@ -1,3 +1,6 @@
+## Nieuw (2026-11-03 — batch 343)
+- GeminiAudioTuner: betere offline fallback (meer keywords + soft/night) en scherpere prompt voor cloud.
+
 ## Nieuw (2026-11-03 — batch 342)
 - HarmanTargetEq + lokale AI: Podcast/Gaming presets. Slimme offline fallback op keywords (bass/podcast/game/etc).
 
