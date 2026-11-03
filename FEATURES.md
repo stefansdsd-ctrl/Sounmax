@@ -1,3 +1,7 @@
+## Batch 345 (nieuw)
+- HarmanTargetEq: Classical (natuurlijke balans, lucht) en Electronic (krachtige sub, minder vermoeidheid) presets.
+- GeminiAudioTuner: offline fallback herkent klassiek/orkest/strijk en edm/techno/house/trance.
+
 ## Batch 344 (nieuw)
 - HarmanTargetEq: nieuwe Jazz/Acoustic preset (warm mids, natuurlijke dynamiek).
 - GeminiAudioTuner: betere offline fallback met jazz/acoustic/piano keywords + ANC medium.
