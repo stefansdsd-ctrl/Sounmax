@@ -1,3 +1,7 @@
+## Batch 342 (nieuw)
+- HarmanTargetEq: verfijnde curves + nieuwe Podcast en Gaming presets. Betere lokale startpunten.
+- GeminiAudioTuner: slimme lokale fallback gebruikt nu HarmanTargetEq (warm/podcast/clarity/movie/gaming/neutral) op basis van prompt-keywords. Geen cloud nodig voor basis suggesties.
+
 ## Batch 341 (nieuw)
 - HarmanTargetEq: verfijnde neutral/warm/vocal curves. Nieuwe Movie (meer virtualizer/spatial) en Clarity presets. Betere startpunten voor AI-tuner en handmatig.
 
