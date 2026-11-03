@@ -201,64 +201,21 @@ class GeminiAudioTuner {
         genre: String
     ): AiAcousticRecommendation {
         val lower = prompt.lowercase()
-        return when {
-            lower.contains("bass") || lower.contains("hard") || lower.contains("sub") || lower.contains("kick") -> {
-                AiAcousticRecommendation(
-                    presetName = "AI Hyper-Bass",
-                    description = "Sub-bass (31-125Hz) met mid-cut tegen modder op $headphone.",
-                    eqPreset = EqPreset(
-                        name = "AI Hyper-Bass",
-                        bandGains = listOf(8.0f, 6.5f, 4.0f, 0.5f, -1.5f, 0.0f, 2.0f, 3.5f, 4.0f, 4.5f),
-                        bassBoost = 850,
-                        virtualizer = 350,
-                        loudness = 650,
-                        clarity = 7.0f,
-                        isCustom = true,
-                        description = "Diepe bas, strakke kick."
-                    ),
-                    ancRecommendation = "ANC maximaal voor schone sub.",
-                    codecRecommendation = "LDAC 990 kbps.",
-                    acousticInsight = "31Hz omhoog, 500Hz licht omlaag."
-                )
-            }
-            lower.contains("vocal") || lower.contains("stem") || lower.contains("podcast") || lower.contains("helder") -> {
-                AiAcousticRecommendation(
-                    presetName = "AI Vocal",
-                    description = "1-4 kHz aanwezigheid voor stem en podcast.",
-                    eqPreset = EqPreset(
-                        name = "AI Vocal",
-                        bandGains = listOf(0.5f, 1.0f, 1.5f, 2.0f, 3.5f, 5.0f, 4.5f, 3.0f, 2.5f, 2.0f),
-                        bassBoost = 200,
-                        virtualizer = 300,
-                        loudness = 500,
-                        clarity = 9.5f,
-                        isCustom = true,
-                        description = "Stem naar voren."
-                    ),
-                    ancRecommendation = "ANC adaptief.",
-                    codecRecommendation = "AAC HQ of LDAC.",
-                    acousticInsight = "250Hz neutraal houdt stemmen niet hol."
-                )
-            }
-            else -> {
-                AiAcousticRecommendation(
-                    presetName = "AI Harman Plus",
-                    description = "Gebalanceerde curve voor $headphone ($genre).",
-                    eqPreset = EqPreset(
-                        name = "AI Harman Plus",
-                        bandGains = listOf(4.0f, 3.5f, 2.0f, 0.5f, 0.0f, 1.5f, 3.0f, 3.5f, 3.0f, 2.0f),
-                        bassBoost = 550,
-                        virtualizer = 450,
-                        loudness = 500,
-                        clarity = 8.0f,
-                        isCustom = true,
-                        description = "Universele curve."
-                    ),
-                    ancRecommendation = "ANC sterk.",
-                    codecRecommendation = "LDAC indien de headset het doet.",
-                    acousticInsight = "Harman-achtig, gesloten ANC-behuizing."
-                )
-            }
+        val base = when {
+            lower.contains("bass") || lower.contains("hard") || lower.contains("sub") || lower.contains("kick") || lower.contains("edm") || lower.contains("hip") -> HarmanTargetEq.warmPreset().copy(name = "AI Warm Bass")
+            lower.contains("vocal") || lower.contains("stem") || lower.contains("podcast") || lower.contains("spraak") -> HarmanTargetEq.podcastPreset().copy(name = "AI Podcast")
+            lower.contains("helder") || lower.contains("clarity") || lower.contains("detail") || lower.contains("klassiek") -> HarmanTargetEq.clarityPreset().copy(name = "AI Clarity")
+            lower.contains("film") || lower.contains("movie") || lower.contains("cinema") || lower.contains("spatial") -> HarmanTargetEq.moviePreset().copy(name = "AI Movie")
+            lower.contains("game") || lower.contains("gaming") || lower.contains("footstep") -> HarmanTargetEq.gamingPreset().copy(name = "AI Gaming")
+            else -> HarmanTargetEq.neutralPreset().copy(name = "AI Harman")
         }
+        return AiAcousticRecommendation(
+            presetName = base.name,
+            description = "Lokale Harman-gebaseerde curve voor $headphone ($genre).",
+            eqPreset = base,
+            ancRecommendation = if (lower.contains("bass") || lower.contains("film")) "ANC maximaal" else "ANC adaptief",
+            codecRecommendation = "LDAC of AAC HQ",
+            acousticInsight = "Gebaseerd op verfijnde Harman-target voor closed-back ANC."
+        )
     }
 }
