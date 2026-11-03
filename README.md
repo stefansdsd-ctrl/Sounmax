@@ -1,3 +1,6 @@
+## Nieuw (2026-11-03 — batch 345)
+- Classical en Electronic Harman-presets. Betere offline AI-fallback (klassiek, orkest, edm, techno).
+
 ## Nieuw (2026-11-03 — batch 344)
 - Jazz/Acoustic Harman-preset + betere offline AI-fallback (jazz, acoustic, piano).
 
