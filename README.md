@@ -1,3 +1,6 @@
+## Nieuw (2026-11-03 — batch 342)
+- HarmanTargetEq + lokale AI: Podcast/Gaming presets. Slimme offline fallback op keywords (bass/podcast/game/etc).
+
 ## Nieuw (2026-11-03 — batch 341)
 - HarmanTargetEq: verfijnde neutral/warm/vocal. Nieuwe Movie (meer virtualizer) en Clarity presets. Betere AI/handmatige startpunten.
 
