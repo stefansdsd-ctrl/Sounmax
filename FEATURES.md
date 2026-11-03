@@ -1,3 +1,6 @@
+## Batch 341 (nieuw)
+- HarmanTargetEq: verfijnde neutral/warm/vocal curves. Nieuwe Movie (meer virtualizer/spatial) en Clarity presets. Betere startpunten voor AI-tuner en handmatig.
+
 ## Batch 340 (nieuw)
 - ListeningModeSuggest: echte checks voor battery (trend/percent), media (isMusicActive), wind, + nacht logica (22-6u Soft EQ). Betere context-adaptatie. Geen extra permissie.
 
@@ -11,29 +14,3 @@
 
 ## Batch 337 (nieuw)
 - HarmanTargetEq: neutrale / warme / vocal base curves (Harman-achtig) als betere startpunt voor AI-tuner of handmatig. Geschikt voor TAH6519 closed-back ANC.
-
-## Batch 336 (nieuw)
-- AlbumArt: retry 1x bij fout, cache limiet 50, betere query fallback, status toont cache size/max.
-
-## Batch 335 (nieuw)
-- AlbumArt: cache (ConcurrentHashMap) voor snellere ophaal, status toont cache size.
-- SpatialAudio: helper voor spatial audio status (ondersteund/beschikbaar/aan/uit, API 32+). Chip of info.
-
-## Batch 334 (nieuw)
-- AlbumArt: iTunes Search API voor artworkUrl100 (opgeschaald 300). Alleen validated, niet metered/roaming/portal. Coil-ready URL.
-
-## Batch 333 (nieuw)
-- GenreEqSuggestion: EQ-preset voorstel op basis van nu-spelende titel (heuristiek).
-- Chip of suggestie in UI later integreren.
-
-## Batch 332 (nieuw)
-- NoiseBasedAnc: suggestie volle/zachte ANC of transparantie op basis van WindNoiseDetector RMS + batterij/trend.
-- Betere integratie software ANC hints.
-
-## Batch 331 (nieuw)
-- WindNoiseDetector: 3x short samples averaged for stability, threshold 0.10.
-- BatteryHistory: more points (20), stricter slope filter (-0.05) for reliable ETA.
-
-## Batch 330 (nieuw)
-- WindNoiseDetector: echte korte AudioRecord RMS sample (200ms, permission check).
-- BatteryHistory: ETA via lineaire regressie op recente samples, gecapt op 48u.
