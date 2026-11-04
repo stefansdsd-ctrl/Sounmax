@@ -1,3 +1,7 @@
+## Batch 346 (nieuw)
+- HarmanTargetEq: Rock/Metal preset (punchy mids, controlled sub, air voor gitaren).
+- GeminiAudioTuner: offline fallback herkent rock/metal/hardrock/guitar/riff + ANC maximaal.
+
 ## Batch 345 (nieuw)
 - HarmanTargetEq: Classical (natuurlijke balans, lucht) en Electronic (krachtige sub, minder vermoeidheid) presets.
 - GeminiAudioTuner: offline fallback herkent klassiek/orkest/strijk en edm/techno/house/trance.
