@@ -110,6 +110,15 @@ object HarmanTargetEq {
         description = "Elektronisch en EDM: krachtige sub, minder vermoeidheid op highs."
     )
 
+    /** Rock / Metal: punchy mids, controlled sub, air for guitars. */
+    fun rockPreset(): EqPreset = neutralPreset("Harman Rock").copy(
+        bandGains = listOf(4.5f, 4.0f, 2.5f, 1.0f, -0.5f, 2.0f, 4.0f, 3.5f, 2.5f, 1.5f),
+        bassBoost = 550,
+        virtualizer = 400,
+        clarity = 8.5f,
+        description = "Rock en metal: punchy mids, controlled sub, air voor gitaren."
+    )
+
     fun allPresets(): List<EqPreset> = listOf(
         neutralPreset(),
         warmPreset(),
@@ -120,6 +129,7 @@ object HarmanTargetEq {
         gamingPreset(),
         jazzPreset(),
         classicalPreset(),
-        electronicPreset()
+        electronicPreset(),
+        rockPreset()
     )
 }
