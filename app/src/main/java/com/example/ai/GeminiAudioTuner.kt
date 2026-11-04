@@ -203,9 +203,11 @@ class GeminiAudioTuner {
     ): AiAcousticRecommendation {
         val lower = prompt.lowercase()
         val base = when {
+            lower.contains("hip") || lower.contains("hop") || lower.contains("trap") || lower.contains("rap") || lower.contains("drill") ->
+                HarmanTargetEq.hipHopPreset().copy(name = "AI Hip-Hop")
             lower.contains("rock") || lower.contains("metal") || lower.contains("hardrock") || lower.contains("guitar") || lower.contains("riff") ->
                 HarmanTargetEq.rockPreset().copy(name = "AI Rock")
-            lower.contains("bass") || lower.contains("sub") || lower.contains("kick") || lower.contains("edm") || lower.contains("hip") || lower.contains("trap") ->
+            lower.contains("bass") || lower.contains("sub") || lower.contains("kick") || lower.contains("edm") ->
                 HarmanTargetEq.warmPreset().copy(name = "AI Warm Bass")
             lower.contains("vocal") || lower.contains("stem") || lower.contains("podcast") || lower.contains("spraak") || lower.contains("talk") ->
                 HarmanTargetEq.podcastPreset().copy(name = "AI Podcast")
@@ -222,7 +224,7 @@ class GeminiAudioTuner {
             else -> HarmanTargetEq.neutralPreset().copy(name = "AI Harman")
         }
         val anc = when {
-            lower.contains("bass") || lower.contains("film") || lower.contains("movie") || lower.contains("rock") || lower.contains("metal") -> "ANC maximaal"
+            lower.contains("bass") || lower.contains("film") || lower.contains("movie") || lower.contains("rock") || lower.contains("metal") || lower.contains("hip") || lower.contains("trap") -> "ANC maximaal"
             lower.contains("podcast") || lower.contains("spraak") -> "ANC laag of uit"
             lower.contains("jazz") || lower.contains("acoustic") -> "ANC medium"
             else -> "ANC adaptief"
