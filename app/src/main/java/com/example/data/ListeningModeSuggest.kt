@@ -2,6 +2,8 @@ package com.example.data
 
 import android.content.Context
 import android.media.AudioManager
+import com.example.ai.HarmanTargetEq
+import com.example.dsp.EqPreset
 
 /**
  * Suggests best listening mode (ANC / Transparency / EQ style) based on context.
@@ -12,13 +14,12 @@ object ListeningModeSuggest {
 
     fun suggest(context: Context): String {
         val batteryLow = runCatching {
-            // Use BatteryHistory if available for low % or steep drain
-            val hist = BatteryHistory.lastPercent() // assume method exists
+            val hist = BatteryHistory.lastPercent()
             hist < 25 || BatteryHistory.trendSlope() < -0.1
         }.getOrDefault(false)
 
         val windy = runCatching {
-            WindNoiseDetector.isWindy() // assume exists
+            WindNoiseDetector.isWindy()
         }.getOrDefault(false)
 
         val mediaActive = runCatching {
@@ -35,6 +36,20 @@ object ListeningModeSuggest {
             night && mediaActive -> "Suggest: Full ANC + Soft EQ (night)"
             mediaActive -> "Suggest: Full ANC + Harman Neutral"
             else -> "Suggest: Adaptive / Transparantie"
+        }
+    }
+
+    fun recommendPreset(context: Context): EqPreset {
+        val s = suggest(context)
+        return when {
+            s.contains("Warm") -> HarmanTargetEq.warmPreset()
+            s.contains("Soft") -> HarmanTargetEq.neutralPreset().copy(
+                name = "Harman Soft",
+                bandGains = HarmanTargetEq.neutralPreset().bandGains.map { it * 0.55f },
+                bassBoost = 280
+            )
+            s.contains("Neutral") -> HarmanTargetEq.neutralPreset()
+            else -> HarmanTargetEq.neutralPreset()
         }
     }
 

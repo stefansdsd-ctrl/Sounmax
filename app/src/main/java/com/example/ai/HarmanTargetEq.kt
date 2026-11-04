@@ -119,6 +119,15 @@ object HarmanTargetEq {
         description = "Rock en metal: punchy mids, controlled sub, air voor gitaren."
     )
 
+    /** Hip-Hop / Trap: heavy sub, punchy mids, controlled highs. */
+    fun hipHopPreset(): EqPreset = neutralPreset("Harman Hip-Hop").copy(
+        bandGains = listOf(7.5f, 6.5f, 3.5f, 0.5f, -1.0f, 1.0f, 2.5f, 2.0f, 1.0f, 0.5f),
+        bassBoost = 820,
+        virtualizer = 480,
+        clarity = 7.5f,
+        description = "Hip-hop en trap: zware sub, punchy mids, controlled highs."
+    )
+
     fun allPresets(): List<EqPreset> = listOf(
         neutralPreset(),
         warmPreset(),
@@ -130,6 +139,7 @@ object HarmanTargetEq {
         jazzPreset(),
         classicalPreset(),
         electronicPreset(),
-        rockPreset()
+        rockPreset(),
+        hipHopPreset()
     )
 }

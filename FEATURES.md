@@ -1,3 +1,8 @@
+## Batch 347 (nieuw)
+- HarmanTargetEq: Hip-Hop/Trap preset (zware sub, punchy mids).
+- GeminiAudioTuner: offline fallback herkent hiphop/trap/rap/bass.
+- ListeningModeSuggest: recommendPreset() voor directe Harman Soft/Neutral/Warm.
+
 ## Batch 346 (nieuw)
 - HarmanTargetEq: Rock/Metal preset (punchy mids, controlled sub, air voor gitaren).
 - GeminiAudioTuner: offline fallback herkent rock/metal/hardrock/guitar/riff + ANC maximaal.
