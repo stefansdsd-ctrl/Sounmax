@@ -1,3 +1,6 @@
+## Nieuw (2026-11-04 — batch 346)
+- Rock/Metal Harman-preset. Betere offline AI-fallback (rock, metal, hardrock, guitar).
+
 ## Nieuw (2026-11-03 — batch 345)
 - Classical en Electronic Harman-presets. Betere offline AI-fallback (klassiek, orkest, edm, techno).
 
