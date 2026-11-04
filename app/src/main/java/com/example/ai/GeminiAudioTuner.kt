@@ -203,6 +203,8 @@ class GeminiAudioTuner {
     ): AiAcousticRecommendation {
         val lower = prompt.lowercase()
         val base = when {
+            lower.contains("rock") || lower.contains("metal") || lower.contains("hardrock") || lower.contains("guitar") || lower.contains("riff") ->
+                HarmanTargetEq.rockPreset().copy(name = "AI Rock")
             lower.contains("bass") || lower.contains("sub") || lower.contains("kick") || lower.contains("edm") || lower.contains("hip") || lower.contains("trap") ->
                 HarmanTargetEq.warmPreset().copy(name = "AI Warm Bass")
             lower.contains("vocal") || lower.contains("stem") || lower.contains("podcast") || lower.contains("spraak") || lower.contains("talk") ->
@@ -220,7 +222,7 @@ class GeminiAudioTuner {
             else -> HarmanTargetEq.neutralPreset().copy(name = "AI Harman")
         }
         val anc = when {
-            lower.contains("bass") || lower.contains("film") || lower.contains("movie") -> "ANC maximaal"
+            lower.contains("bass") || lower.contains("film") || lower.contains("movie") || lower.contains("rock") || lower.contains("metal") -> "ANC maximaal"
             lower.contains("podcast") || lower.contains("spraak") -> "ANC laag of uit"
             lower.contains("jazz") || lower.contains("acoustic") -> "ANC medium"
             else -> "ANC adaptief"
