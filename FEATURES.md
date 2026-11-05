@@ -1,3 +1,7 @@
+## Batch 348 (nieuw)
+- HarmanTargetEq: Pop/Chart preset (gebalanceerde mids, lichte punch, heldere highs).
+- GeminiAudioTuner: offline fallback herkent pop/chart/dance/hit.
+
 ## Batch 347 (nieuw)
 - HarmanTargetEq: Hip-Hop/Trap preset (zware sub, punchy mids).
 - GeminiAudioTuner: offline fallback herkent hiphop/trap/rap/bass.
