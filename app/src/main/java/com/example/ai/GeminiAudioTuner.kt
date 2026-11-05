@@ -207,6 +207,8 @@ class GeminiAudioTuner {
                 HarmanTargetEq.hipHopPreset().copy(name = "AI Hip-Hop")
             lower.contains("rock") || lower.contains("metal") || lower.contains("hardrock") || lower.contains("guitar") || lower.contains("riff") ->
                 HarmanTargetEq.rockPreset().copy(name = "AI Rock")
+            lower.contains("pop") || lower.contains("chart") || lower.contains("dance") || lower.contains("hit") ->
+                HarmanTargetEq.popPreset().copy(name = "AI Pop")
             lower.contains("bass") || lower.contains("sub") || lower.contains("kick") || lower.contains("edm") ->
                 HarmanTargetEq.warmPreset().copy(name = "AI Warm Bass")
             lower.contains("vocal") || lower.contains("stem") || lower.contains("podcast") || lower.contains("spraak") || lower.contains("talk") ->
