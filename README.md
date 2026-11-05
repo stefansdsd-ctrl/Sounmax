@@ -1,3 +1,6 @@
+## Nieuw (2026-11-05 — batch 349)
+- Suggesties: Adaptive mic-ANC, AutoEQ import, on-device ML EQ, battery DSP optimizations, multi-device profiles.
+
 ## Nieuw (2026-11-05 — batch 348)
 - Harman Pop/Chart preset. Offline AI-fallback herkent pop/chart/dance/hit.
 
@@ -38,3 +41,5 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Find-beep GATT-payload (hardware)
 - EQ-slot picker UI
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
+- Adaptive mic-ANC
+- AutoEQ import support
