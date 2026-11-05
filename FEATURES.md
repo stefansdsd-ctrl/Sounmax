@@ -1,3 +1,10 @@
+## Batch 349 (nieuw)
+- Adaptive mic-ANC: ambient noise detectie via microfoon voor real-time ANC niveau aanpassing (geen extra permissie beyond RECORD_AUDIO).
+- AutoEQ import: support voor AutoEQ profiles (autoeq.app) voor TAH6519 en andere modellen. Auto-apply op connect.
+- On-device ML EQ: Gemini Nano / ML Kit suggesties zonder cloud voor privacy en offline.
+- Battery DSP: dynamische EQ complexiteit reduceren bij lage batterij (minder bands/virtualizer).
+- Multi-device profiles: automatische switch tussen meerdere headphones met per-device EQ/ANC.
+
 ## Batch 348 (nieuw)
 - HarmanTargetEq: Pop/Chart preset (gebalanceerde mids, lichte punch, heldere highs).
 - GeminiAudioTuner: offline fallback herkent pop/chart/dance/hit.
