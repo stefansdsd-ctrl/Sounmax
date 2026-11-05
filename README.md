@@ -1,3 +1,6 @@
+## Nieuw (2026-11-05 — batch 348)
+- Harman Pop/Chart preset. Offline AI-fallback herkent pop/chart/dance/hit.
+
 ## Nieuw (2026-11-04 — batch 347)
 - Harman Hip-Hop/Trap preset. Betere offline AI-fallback (hiphop, trap, rap). Verbeterde ListeningModeSuggest met preset-aanbeveling.
 
