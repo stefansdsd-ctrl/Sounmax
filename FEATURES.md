@@ -1,3 +1,10 @@
+## Batch 353 (nieuw)
+- HearingHealth: dagelijkse dB-exposure tracking + volume-limiet (WHO/ISO-geïnspireerd).
+- Spatial audio prep: Android Spatializer / virtual surround toggle.
+- Low-latency mode: game/video prioriteit + sidetone voor calls.
+- Wear detection: auto-pause/resume via BLE sensor (indien beschikbaar).
+- Quick Settings tile: snelle ANC/EQ/volume controls.
+
 ## Batch 352 (nieuw)
 - AutoEqStrength: log-interpolatie naar 10 standaard EQ-bands voor soepelere toepassing.
 - Night loudness: betere equal-loudness contour (ISO 226-geïnspireerd) met volume-adaptieve bass/treble boost.
