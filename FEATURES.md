@@ -1,3 +1,10 @@
+## Batch 351 (nieuw)
+- AutoEqStrength: schaalbare AutoEQ correctie (0-100%), graph data (measured/target/corrected), safe preamp.
+- Live spectrum analyzer prep: FFT visualizer voor realtime feedback bij EQ tweaks.
+- Night loudness: equal-loudness contour (ISO 226) voor zachte volumes, bass/treble boost.
+- Bass tuner: controlled sub boost + mild compression.
+- Find-beep verbeterd: GATT payload test + volume ramp.
+
 ## Batch 349 (nieuw)
 - Adaptive mic-ANC: ambient noise detectie via microfoon voor real-time ANC niveau aanpassing (geen extra permissie beyond RECORD_AUDIO).
 - AutoEQ import: support voor AutoEQ profiles (autoeq.app) voor TAH6519 en andere modellen. Auto-apply op connect.
