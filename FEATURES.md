@@ -1,3 +1,9 @@
+## Batch 355 (nieuw)
+- Harman Focus preset: minder bass-masking + heldere mids voor concentratie/werk.
+- Harman Night preset: zacht/warm met gereduceerde highs voor avond/slaap.
+- Harman Commute preset: gebalanceerd met presence voor rumoerige omgevingen.
+- Extra presets direct beschikbaar via allPresets() en AI-tuner.
+
 ## Batch 354 (nieuw)
 - ConversationDetector: spraakdetectie via mic RMS + zero-crossing → auto-transparantie bij praten.
 

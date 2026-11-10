@@ -137,6 +137,34 @@ object HarmanTargetEq {
         description = "Pop en chart: gebalanceerd, catchy mids, lichte punch en heldere highs."
     )
 
+    /** Focus / Work: reduced bass for concentration, boosted mid-clarity. */
+    fun focusPreset(): EqPreset = neutralPreset("Harman Focus").copy(
+        bandGains = listOf(0.8f, 1.2f, 0.5f, 1.0f, 2.5f, 3.8f, 4.0f, 3.0f, 2.0f, 1.2f),
+        bassBoost = 180,
+        virtualizer = 200,
+        clarity = 9.4f,
+        description = "Focus en werk: minder bass-masking, heldere mids voor concentratie."
+    )
+
+    /** Night / Sleep: soft, warm, reduced highs to avoid fatigue. */
+    fun nightPreset(): EqPreset = neutralPreset("Harman Night").copy(
+        bandGains = listOf(2.5f, 3.0f, 2.0f, 1.5f, 0.8f, 1.0f, 1.5f, 1.2f, 0.5f, 0.0f),
+        bassBoost = 350,
+        virtualizer = 150,
+        clarity = 7.5f,
+        loudness = 300,
+        description = "Nacht en slaap: zacht, warm, minder hoge frequenties."
+    )
+
+    /** Commute / Outdoor: balanced with slight bass and presence for noisy environments. */
+    fun commutePreset(): EqPreset = neutralPreset("Harman Commute").copy(
+        bandGains = listOf(4.0f, 3.5f, 2.0f, 0.8f, -0.5f, 2.0f, 3.5f, 3.2f, 2.5f, 1.8f),
+        bassBoost = 500,
+        virtualizer = 450,
+        clarity = 8.6f,
+        description = "Commuten en buiten: gebalanceerd met presence voor rumoerige omgeving."
+    )
+
     fun allPresets(): List<EqPreset> = listOf(
         neutralPreset(),
         warmPreset(),
@@ -150,6 +178,9 @@ object HarmanTargetEq {
         electronicPreset(),
         rockPreset(),
         hipHopPreset(),
-        popPreset()
+        popPreset(),
+        focusPreset(),
+        nightPreset(),
+        commutePreset()
     )
 }
