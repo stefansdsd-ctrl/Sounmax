@@ -1,3 +1,6 @@
+## Batch 354 (nieuw)
+- ConversationDetector: spraakdetectie via mic RMS + zero-crossing → auto-transparantie bij praten.
+
 ## Batch 353 (nieuw)
 - HearingHealth: dagelijkse dB-exposure tracking + volume-limiet (WHO/ISO-geïnspireerd).
 - Spatial audio prep: Android Spatializer / virtual surround toggle.
