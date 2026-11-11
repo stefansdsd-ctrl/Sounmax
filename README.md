@@ -1,3 +1,6 @@
+## Nieuw (2026-11-11 — batch 356)
+- AdaptiveMicAnc: noise-floor tracking + hysteresis voor stabielere adaptive ANC.
+
 ## Nieuw (2026-11-08 — batch 352)
 - AutoEqStrength: log-interpolatie naar 10-bands + veiligere preamp.
 - Night loudness verbeterd (ISO 226-geïnspireerd).
@@ -21,5 +24,5 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Find-beep GATT-payload (hardware)
 - EQ-slot picker UI
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
-- Adaptive mic-ANC
+- Adaptive mic-ANC (deels geïmplementeerd)
 - AutoEQ import support
