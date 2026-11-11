@@ -1,3 +1,8 @@
+## Batch 357 (nieuw)
+- AdaptiveMicAnc: zero-crossing rate (ZCR) voor spraakdetectie → auto-transparantie bij praten.
+- Lagere sample rate (8 kHz) + langere delay voor batterijbesparing.
+- Aangescherpte thresholds en noise-floor tracking.
+
 ## Batch 356 (nieuw)
 - AdaptiveMicAnc: verbeterde ambient noise monitoring met noise-floor tracking, hysteresis en real-time ANC niveau (0-3).
 
