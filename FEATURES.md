@@ -1,3 +1,6 @@
+## Batch 356 (nieuw)
+- AdaptiveMicAnc: verbeterde ambient noise monitoring met noise-floor tracking, hysteresis en real-time ANC niveau (0-3).
+
 ## Batch 355 (nieuw)
 - Harman Focus preset: minder bass-masking + heldere mids voor concentratie/werk.
 - Harman Night preset: zacht/warm met gereduceerde highs voor avond/slaap.
