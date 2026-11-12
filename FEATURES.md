@@ -1,3 +1,6 @@
+## Batch 358 (nieuw)
+- AdaptiveMicAnc v2: crest factor + speech streak voor stabielere spraakdetectie, snellere cycle (800ms), betere noise-floor update.
+
 ## Batch 357 (nieuw)
 - AdaptiveMicAnc: zero-crossing rate (ZCR) voor spraakdetectie → auto-transparantie bij praten.
 - Lagere sample rate (8 kHz) + langere delay voor batterijbesparing.
