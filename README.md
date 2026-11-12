@@ -1,3 +1,6 @@
+## Nieuw (2026-11-12 — batch 358)
+- AdaptiveMicAnc v2: crest factor + speech streak voor stabielere spraakdetectie, snellere response.
+
 ## Nieuw (2026-11-11 — batch 356)
 - AdaptiveMicAnc: noise-floor tracking + hysteresis voor stabielere adaptive ANC.
 
@@ -24,5 +27,5 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Find-beep GATT-payload (hardware)
 - EQ-slot picker UI
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
-- Adaptive mic-ANC (deels geïmplementeerd)
+- Adaptive mic-ANC (v2 verbeterd)
 - AutoEQ import support
