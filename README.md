@@ -1,3 +1,6 @@
+## Nieuw (2026-11-12 — batch 359)
+- EqSlotPicker: 5 named EQ slots (save/load/list) via SharedPreferences voor snelle profile switch.
+
 ## Nieuw (2026-11-12 — batch 358)
 - AdaptiveMicAnc v2: crest factor + speech streak voor stabielere spraakdetectie, snellere response.
 
@@ -25,7 +28,7 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- EQ-slot picker UI
+- EQ-slot picker UI (basis klaar)
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
 - Adaptive mic-ANC (v2 verbeterd)
 - AutoEQ import support
