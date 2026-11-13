@@ -1,3 +1,7 @@
+## Nieuw (2026-11-13 — batch 360)
+- AutoEqImport: parse AutoEQ GraphicEQ / point lists → 10-band EqPreset + EqPersist save.
+- Strength 0–100%, safe preamp, sample TAH6519 curve.
+
 ## Nieuw (2026-11-12 — batch 359)
 - EqSlotPicker: 5 named EQ slots (save/load/list) via SharedPreferences voor snelle profile switch.
 
@@ -28,7 +32,6 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- EQ-slot picker UI (basis klaar)
+- EQ-slot picker UI afronden
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
-- Adaptive mic-ANC (v2 verbeterd)
-- AutoEQ import support
+- UI-hook voor AutoEqImport (paste / file picker)
