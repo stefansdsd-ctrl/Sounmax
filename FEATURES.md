@@ -1,3 +1,7 @@
+## Batch 360 (nieuw)
+- AutoEqImport: parse AutoEQ GraphicEQ / point lists → 10-band EqPreset.
+- Strength 0–100%, safe preamp, EqPersist save, sample TAH6519 curve.
+
 ## Batch 358 (nieuw)
 - AdaptiveMicAnc v2: crest factor + speech streak voor stabielere spraakdetectie, snellere cycle (800ms), betere noise-floor update.
 
