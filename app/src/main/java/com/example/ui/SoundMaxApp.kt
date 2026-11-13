@@ -201,6 +201,7 @@ fun SoundMaxApp(
                 EqUndoBar(viewModel = viewModel)
                 EqSlotsBar(viewModel = viewModel)
                 EqToolsBar(viewModel = viewModel)
+                AutoEqBar(viewModel = viewModel)
                 EqShapeBar(viewModel = viewModel)
             }
             Box(modifier = Modifier.fillMaxSize()) {
