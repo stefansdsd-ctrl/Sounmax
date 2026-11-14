@@ -1,3 +1,7 @@
+## Nieuw (2026-11-14 — Spatial Audio v2)
+- SpatialAudioController: listeners, preference-persistent toggle, head-tracking integratie, battery-aware auto-uit.
+- SpatialToggleBar: UI switch voor spatial + head tracking.
+
 ## Nieuw (2026-11-14 — Spatial Audio)
 - SpatialAudioController: Android Spatializer support (Android 12L+) voor immersieve spatial audio / head tracking.
 
@@ -33,4 +37,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
-- Spatial audio UI toggle + head tracking integratie
+- Spatial audio UI toggle + head tracking integratie (done)
