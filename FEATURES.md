@@ -1,3 +1,8 @@
+## Batch 361 (nieuw — 2026-11-14)
+- SpatialAudioController v2: OnSpatializerStateChangedListener + OnHeadTrackerAvailableListener, preference-persistent toggle (spatializer_on / head_tracking), battery-aware auto-disable via applyBatterySaver.
+- SpatialToggleBar: Compose UI switches voor spatial audio en head tracking + status.
+- Integratie met bestaande HeadTrackerHolder (phone rotation-vector).
+
 ## Batch 360 (nieuw)
 - AutoEqImport: parse AutoEQ GraphicEQ / point lists → 10-band EqPreset.
 - Strength 0–100%, safe preamp, EqPersist save, sample TAH6519 curve.
