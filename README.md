@@ -1,3 +1,6 @@
+## Nieuw (2026-11-14 — Spatial Audio)
+- SpatialAudioController: Android Spatializer support (Android 12L+) voor immersieve spatial audio / head tracking.
+
 ## Nieuw (2026-11-13 — batch 360)
 - AutoEqImport + AutoEqBar: GraphicEQ plakken, sample TAH6519, strength-slider, apply + EqPersist slot 0.
 - Geïntegreerd in HomeExtras (na EqToolsBar).
@@ -30,3 +33,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
+- Spatial audio UI toggle + head tracking integratie
