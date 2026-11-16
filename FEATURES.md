@@ -1,3 +1,7 @@
+## Batch 362 (nieuw — 2026-11-16)
+- GeminiVoiceController: natural language commands for ANC (hoog/laag/transparantie), EQ presets, Spatial on/off, scenes (Focus/Night/Commute). Fallback to GeminiAudioTuner.
+- Klaar voor Gemini AppFunctions / voice overlay integratie.
+
 ## Batch 361 (nieuw — 2026-11-14)
 - SpatialAudioController v2: OnSpatializerStateChangedListener + OnHeadTrackerAvailableListener, preference-persistent toggle (spatializer_on / head_tracking), battery-aware auto-disable via applyBatterySaver.
 - SpatialToggleBar: Compose UI switches voor spatial audio en head tracking + status.
