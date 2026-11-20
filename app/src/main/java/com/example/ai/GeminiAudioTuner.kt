@@ -115,6 +115,141 @@ class GeminiAudioTuner {
         )
     }
 
-    // ... rest of the file remains the same (requestBody, call, parse, getSmartFallback)
-    // (truncated for brevity in this example; full original methods preserved in actual commit)
+    private fun requestBody(userPrompt: String, headphoneModel: String, musicGenre: String): String {
+        val systemInstruction = """
+            Je bent een Master Sound Engineer gespecialiseerd in Bluetooth ANC-hoofdtelefoons (Philips TAH6519).
+            Genereer een precieze 10-bands EQ (31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000 Hz) tussen -10.0 en +10.0 dB.
+            Houd rekening met closed-back ANC karakteristieken. Geef altijd geldige JSON.
+            Antwoord ALLEEN als JSON:
+            {"presetName":"","description":"","bandGains":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"bassBoost":400,"virtualizer":350,"loudness":450,"clarity":8.0,"ancRecommendation":"","codecRecommendation":"","acousticInsight":""}
+        """.trimIndent()
+        return JSONObject().apply {
+            put("contents", JSONArray().apply {
+                put(JSONObject().apply {
+                    put("parts", JSONArray().apply {
+                        put(JSONObject().apply {
+                            put("text", "Koptelefoon: $headphoneModel. Genre/context: $musicGenre. Verzoek: $userPrompt")
+                        })
+                    })
+                })
+            })
+            put("systemInstruction", JSONObject().apply {
+                put("parts", JSONArray().apply {
+                    put(JSONObject().apply { put("text", systemInstruction) })
+                })
+            })
+            put("generationConfig", JSONObject().apply {
+                put("responseMimeType", "application/json")
+                put("temperature", 0.45)
+            })
+        }.toString()
+    }
+
+    private data class Call(val code: Int, val text: String?)
+
+    private fun call(model: String, apiKey: String, json: String): Call {
+        val url = "https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey"
+        val request = Request.Builder()
+            .url(url)
+            .post(json.toRequestBody("application/json".toMediaType()))
+            .build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return Call(response.code, null)
+            val raw = response.body?.string().orEmpty()
+            val root = JSONObject(raw)
+            val text = root.optJSONArray("candidates")
+                ?.optJSONObject(0)
+                ?.optJSONObject("content")
+                ?.optJSONArray("parts")
+                ?.optJSONObject(0)
+                ?.optString("text")
+                .orEmpty()
+            return Call(response.code, text.ifBlank { null })
+        }
+    }
+
+    private fun parse(
+        text: String,
+        userPrompt: String,
+        headphoneModel: String,
+        musicGenre: String
+    ): AiAcousticRecommendation {
+        return try {
+            val cleaned = text.replace("```json", "").replace("```", "").trim()
+            val parsed = JSONObject(cleaned)
+            val gains = mutableListOf<Float>()
+            val arr = parsed.optJSONArray("bandGains")
+            if (arr != null) {
+                for (i in 0 until minOf(10, arr.length())) gains.add(arr.optDouble(i, 0.0).toFloat().coerceIn(-10f, 10f))
+            }
+            while (gains.size < 10) gains.add(0f)
+            val name = parsed.optString("presetName", "AI-curve")
+            val description = parsed.optString("description", "Aangepaste curve.")
+            AiAcousticRecommendation(
+                presetName = name,
+                description = description,
+                eqPreset = EqPreset(
+                    name = name,
+                    bandGains = gains,
+                    bassBoost = parsed.optInt("bassBoost", 400),
+                    virtualizer = parsed.optInt("virtualizer", 350),
+                    loudness = parsed.optInt("loudness", 450),
+                    clarity = parsed.optDouble("clarity", 8.0).toFloat(),
+                    isCustom = true,
+                    description = description
+                ),
+                ancRecommendation = parsed.optString("ancRecommendation", "ANC adaptief"),
+                codecRecommendation = parsed.optString("codecRecommendation", "LDAC of AAC HQ"),
+                acousticInsight = parsed.optString("acousticInsight", "Volume onder veilige dosis houden.")
+            )
+        } catch (_: Exception) {
+            getSmartFallback(userPrompt, headphoneModel, musicGenre)
+        }
+    }
+
+    private fun getSmartFallback(
+        prompt: String,
+        headphone: String,
+        genre: String
+    ): AiAcousticRecommendation {
+        val lower = prompt.lowercase()
+        val base = when {
+            lower.contains("hip") || lower.contains("hop") || lower.contains("trap") || lower.contains("rap") || lower.contains("drill") || lower.contains("phonk") ->
+                HarmanTargetEq.hipHopPreset().copy(name = "AI Hip-Hop")
+            lower.contains("rock") || lower.contains("metal") || lower.contains("hardrock") || lower.contains("guitar") || lower.contains("riff") ->
+                HarmanTargetEq.rockPreset().copy(name = "AI Rock")
+            lower.contains("pop") || lower.contains("chart") || lower.contains("dance") || lower.contains("hit") ->
+                HarmanTargetEq.popPreset().copy(name = "AI Pop")
+            lower.contains("bass") || lower.contains("sub") || lower.contains("kick") || lower.contains("edm") || lower.contains("techno") || lower.contains("house") ->
+                HarmanTargetEq.warmPreset().copy(name = "AI Warm Bass")
+            lower.contains("vocal") || lower.contains("stem") || lower.contains("podcast") || lower.contains("spraak") || lower.contains("talk") || lower.contains("audiobook") ->
+                HarmanTargetEq.podcastPreset().copy(name = "AI Podcast")
+            lower.contains("jazz") || lower.contains("acoustic") || lower.contains("akoest") || lower.contains("piano") || lower.contains("sax") ->
+                HarmanTargetEq.jazzPreset().copy(name = "AI Jazz")
+            lower.contains("helder") || lower.contains("clarity") || lower.contains("detail") || lower.contains("klassiek") || lower.contains("classical") ->
+                HarmanTargetEq.clarityPreset().copy(name = "AI Clarity")
+            lower.contains("film") || lower.contains("movie") || lower.contains("cinema") || lower.contains("spatial") || lower.contains("atmos") || lower.contains("dolby") ->
+                HarmanTargetEq.moviePreset().copy(name = "AI Movie")
+            lower.contains("game") || lower.contains("gaming") || lower.contains("footstep") || lower.contains("fps") || lower.contains("esport") ->
+                HarmanTargetEq.gamingPreset().copy(name = "AI Gaming")
+            lower.contains("nacht") || lower.contains("night") || lower.contains("zacht") || lower.contains("soft") || lower.contains("slaap") || lower.contains("sleep") ->
+                HarmanTargetEq.neutralPreset().copy(name = "AI Soft", bandGains = HarmanTargetEq.neutralPreset().bandGains.map { it * 0.55f })
+            else -> HarmanTargetEq.neutralPreset().copy(name = "AI Harman")
+        }
+        val anc = when {
+            lower.contains("bass") || lower.contains("film") || lower.contains("movie") || lower.contains("rock") || lower.contains("metal") || lower.contains("hip") || lower.contains("trap") || lower.contains("edm") -> "ANC maximaal"
+            lower.contains("podcast") || lower.contains("spraak") || lower.contains("talk") -> "ANC laag of uit"
+            lower.contains("jazz") || lower.contains("acoustic") || lower.contains("classical") -> "ANC medium"
+            lower.contains("game") || lower.contains("gaming") -> "ANC hoog"
+            else -> "ANC adaptief"
+        }
+        return AiAcousticRecommendation(
+            presetName = base.name,
+            description = "Lokale Harman-gebaseerde curve voor $headphone ($genre).",
+            eqPreset = base,
+            ancRecommendation = anc,
+            codecRecommendation = "LDAC of AAC HQ",
+            acousticInsight = "Gebaseerd op verfijnde Harman-target voor closed-back ANC. Volume onder 80 dB houden."
+        )
+    }
 }
