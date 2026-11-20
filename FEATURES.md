@@ -1,3 +1,7 @@
+## Batch 364 (nieuw — 2026-11-20)
+- OnDeviceEqSuggester: Gemini Nano via ML Kit Prompt API voor offline/privacy EQ-suggesties.
+- GeminiAudioTuner: probeert eerst on-device Nano, dan cloud, dan lokale fallback.
+
 ## Batch 363 (nieuw — 2026-11-20)
 - Verbeterde lokale AI-fallbacks in GeminiAudioTuner: meer genre-detectie (drill, edm, podcast, cinema, gaming) + preciezere Harman-presets.
 - AutoEqStrength: soepelere log-interpolatie + veiliger preamp (0.75x) tegen clipping.
@@ -20,4 +24,4 @@
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
+- On-device AI EQ suggesties (Gemini Nano indien beschikbaar) — done in 364
