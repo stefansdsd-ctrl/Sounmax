@@ -1,3 +1,8 @@
+## Nieuw (2026-11-20 — Betere lokale AI + Spatial)
+- Verbeterde genre-detectie in lokale fallbacks (meer presets: drill, edm, cinema, gaming).
+- AutoEqStrength optimalisatie voor minder clipping.
+- Spatial batterij-aware + QuickSpatialToggle.
+
 ## Nieuw (2026-11-14 — Spatial Audio v2)
 - SpatialAudioController: listeners, preference-persistent toggle, head-tracking integratie, battery-aware auto-uit.
 - SpatialToggleBar: UI switch voor spatial + head tracking.
