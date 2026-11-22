@@ -9,13 +9,15 @@ import kotlin.math.min
 /**
  * History van headphone battery levels.
  * Bewaart laatste 50 metingen (level + timestamp).
- * ETA via lineaire regressie op recente ontlading.
+ * ETA via lineaire regressie + nominale rates (ANC on ~40h, off ~80h voor TAH6519).
  * Trend: charging / discharging / stable.
  */
 object BatteryHistory {
     private const val PREFS = "sounmax_bat_history"
     private const val KEY = "history_json"
     private const val MAX = 50
+    private const val NOMINAL_HOURS_ANC_ON = 40f
+    private const val NOMINAL_HOURS_ANC_OFF = 80f
 
     enum class Trend { CHARGING, DISCHARGING, STABLE, UNKNOWN }
 
@@ -58,15 +60,25 @@ object BatteryHistory {
         }
     }
 
-    /** Estimated remaining hours until 0% using linear regression on recent discharge.
-     *  Only uses points with negative slope; returns -1 if unreliable. */
+    private fun isAncOn(context: Context): Boolean {
+        val prefs = context.getSharedPreferences("soundmax_wellness", Context.MODE_PRIVATE)
+        return prefs.getString("anc_mode", "off")?.contains("anc", ignoreCase = true) == true ||
+               prefs.getBoolean("anc_active", false)
+    }
+
+    /** Estimated remaining hours until 0%.
+     *  Combines linear regression with nominal capacity adjusted for ANC. */
     fun etaHours(context: Context, currentLevel: Int): Float {
         if (currentLevel <= 0) return 0f
         if (trend(context) == Trend.CHARGING) return -1f
-        val recent = load(context).takeLast(20).filter { it.timestamp > 0 }
-        if (recent.size < 5) return -1f
 
-        // Linear regression: time (hours from first) vs level
+        val ancOn = isAncOn(context)
+        val nominal = if (ancOn) NOMINAL_HOURS_ANC_ON else NOMINAL_HOURS_ANC_OFF
+        val nominalEta = (currentLevel / 100f) * nominal
+
+        val recent = load(context).takeLast(20).filter { it.timestamp > 0 }
+        if (recent.size < 5) return max(0f, min(48f, nominalEta))
+
         val t0 = recent.first().timestamp
         val points = recent.map { ((it.timestamp - t0) / 3_600_000.0) to it.level.toDouble() }
         val n = points.size.toDouble()
@@ -76,12 +88,14 @@ object BatteryHistory {
         val sumT2 = points.sumOf { it.first * it.first }
 
         val denom = n * sumT2 - sumT * sumT
-        if (denom == 0.0 || kotlin.math.abs(denom) < 1e-6) return -1f
-        val slope = (n * sumTL - sumT * sumL) / denom // % per hour
-        if (slope >= -0.05) return -1f // not discharging meaningfully
+        if (denom == 0.0 || kotlin.math.abs(denom) < 1e-6) return max(0f, min(48f, nominalEta))
+        val slope = (n * sumTL - sumT * sumL) / denom
+        if (slope >= -0.05) return max(0f, min(48f, nominalEta))
 
-        val eta = currentLevel / (-slope)
-        return max(0f, min(48f, eta.toFloat())) // cap at 48h
+        val regEta = currentLevel / (-slope)
+        // Blend regression with nominal for robustness
+        val blended = (regEta * 0.7 + nominalEta * 0.3).toFloat()
+        return max(0f, min(48f, blended))
     }
 
     private fun save(context: Context, entries: List<Entry>) {
