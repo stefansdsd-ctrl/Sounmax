@@ -1,3 +1,6 @@
+## Batch 365 (nieuw — 2026-11-22)
+- BatteryHistory ETA: blend lineaire regressie met nominale capaciteit (ANC on ~40h / off ~80h voor TAH6519). Robuuster bij weinig data.
+
 ## Batch 364 (nieuw — 2026-11-20)
 - OnDeviceEqSuggester: Gemini Nano via ML Kit Prompt API voor offline/privacy EQ-suggesties.
 - GeminiAudioTuner: probeert eerst on-device Nano, dan cloud, dan lokale fallback.
@@ -25,3 +28,6 @@
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar) — done in 364
+- Software ANC via phone mic (Quietly-style)
+- Location-based profiles (geofence)
+- Homescreen widgets voor snelle ANC/EQ toggle
