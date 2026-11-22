@@ -1,3 +1,6 @@
+## Batch 366 (nieuw — 2026-11-22)
+- GeofenceProfiles: location-based EQ/ANC switching (home/work zones via GeofencingClient). Auto-apply on enter/exit.
+
 ## Batch 365 (nieuw — 2026-11-22)
 - BatteryHistory ETA: blend lineaire regressie met nominale capaciteit (ANC on ~40h / off ~80h voor TAH6519). Robuuster bij weinig data.
 
@@ -27,7 +30,6 @@
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- On-device AI EQ suggesties (Gemini Nano indien beschikbaar) — done in 364
 - Software ANC via phone mic (Quietly-style)
-- Location-based profiles (geofence)
-- Homescreen widgets voor snelle ANC/EQ toggle
+- Homescreen widgets voor snelle ANC/EQ toggle (partial)
+- Geofence receiver + UI to set zones
