@@ -33,3 +33,8 @@
 - Software ANC via phone mic (Quietly-style)
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
 - Geofence receiver + UI to set zones
+
+## Batch 367 (nieuw — 2026-11-23)
+- GeofenceReceiver: BroadcastReceiver voor enter/exit transitions. PendingIntent gekoppeld in GeofenceProfiles.
+- Zones passen nu EQ-slot + ANC toe bij binnenkomst.
+

@@ -77,7 +77,12 @@ class GeofenceProfiles(private val context: Context) {
             .addGeofence(geofence)
             .build()
 
-        // TODO: attach PendingIntent to BroadcastReceiver for transitions
+        val intent = Intent(context, GeofenceReceiver::class.java)
+        val pending = android.app.PendingIntent.getBroadcast(
+            context, 0, intent,
+            android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_MUTABLE
+        )
+        client.addGeofences(request, pending).await()
         // client.addGeofences(request, pendingIntent).await()
     }
 
