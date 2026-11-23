@@ -1,3 +1,10 @@
+## Batch 368 (nieuw — 2026-11-23)
+- HearingTest: pure-tone test (31-16kHz) per ear. Genereert gepersonaliseerde 10-band EQ compensatie op basis van audibility. Simpele boost bij niet-gehoord.
+
+## Batch 367 (nieuw — 2026-11-23)
+- GeofenceReceiver: BroadcastReceiver voor enter/exit transitions. PendingIntent gekoppeld in GeofenceProfiles.
+- Zones passen nu EQ-slot + ANC toe bij binnenkomst.
+
 ## Batch 366 (nieuw — 2026-11-22)
 - GeofenceProfiles: location-based EQ/ANC switching (home/work zones via GeofencingClient). Auto-apply on enter/exit.
 
@@ -33,8 +40,4 @@
 - Software ANC via phone mic (Quietly-style)
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
 - Geofence receiver + UI to set zones
-
-## Batch 367 (nieuw — 2026-11-23)
-- GeofenceReceiver: BroadcastReceiver voor enter/exit transitions. PendingIntent gekoppeld in GeofenceProfiles.
-- Zones passen nu EQ-slot + ANC toe bij binnenkomst.
-
+- HearingTest UI + save to EqPersist
