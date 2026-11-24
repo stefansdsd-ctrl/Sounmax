@@ -9,8 +9,8 @@ import kotlinx.coroutines.delay
 import kotlin.math.sin
 
 /**
- * Simple pure-tone hearing test (20-16000 Hz) to generate personalized EQ compensation.
- * Plays tones, user indicates when audible; builds per-ear gain curve then maps to 10-band.
+ * Pure-tone hearing test (31-16kHz) per ear. Genereert gepersonaliseerde 10-band EQ.
+ * Verbeterd: correcte L/R panning + adaptieve gain.
  */
 object HearingTest {
 
@@ -32,41 +32,46 @@ object HearingTest {
 
         for (freq in testFreqs) {
             onTone(freq, "left")
-            playTone(freq, -20f, 800) // left channel
-            left.add(if (isHeard()) 0f else 3f) // simple: if not heard, boost 3dB
-            delay(300)
+            playTone(freq, -20f, 800, pan = -1f)
+            left.add(if (isHeard()) 0f else 4f)
+            delay(400)
 
             onTone(freq, "right")
-            playTone(freq, -20f, 800, right = true)
-            right.add(if (isHeard()) 0f else 3f)
-            delay(300)
+            playTone(freq, -20f, 800, pan = 1f)
+            right.add(if (isHeard()) 0f else 4f)
+            delay(400)
         }
 
         val avgGains = left.zip(right) { l, r -> (l + r) / 2f }
         val preset = EqPreset(
             name = "Hearing Test",
-            bandGains = avgGains.map { it.coerceIn(-6f, 6f) },
-            bassBoost = 350,
-            virtualizer = 200,
-            loudness = 500,
-            clarity = 9.0f,
+            bandGains = avgGains.map { it.coerceIn(-6f, 8f) },
+            bassBoost = 300,
+            virtualizer = 150,
+            loudness = 400,
+            clarity = 8.5f,
             isCustom = true,
             category = "Personal",
-            description = "Gepersonaliseerd via pure-tone test"
+            description = "Gepersonaliseerd via pure-tone test (L/R)"
         )
 
         return TestResult(left, right, preset)
     }
 
-    private fun playTone(freq: Float, volumeDb: Float, durationMs: Int, right: Boolean = false) {
+    private fun playTone(freq: Float, volumeDb: Float, durationMs: Int, pan: Float = 0f) {
         val sampleRate = 44100
         val numSamples = (sampleRate * durationMs / 1000)
-        val buffer = ShortArray(numSamples)
+        val buffer = ShortArray(numSamples * 2) // stereo
         val amplitude = (Short.MAX_VALUE * Math.pow(10.0, volumeDb / 20.0)).toInt().toShort()
+
+        val leftGain = if (pan <= 0) 1f else 0f
+        val rightGain = if (pan >= 0) 1f else 0f
 
         for (i in 0 until numSamples) {
             val angle = 2.0 * Math.PI * freq * i / sampleRate
-            buffer[i] = (sin(angle) * amplitude).toInt().toShort()
+            val sample = (sin(angle) * amplitude).toInt().toShort()
+            buffer[i * 2] = (sample * leftGain).toInt().toShort()     // L
+            buffer[i * 2 + 1] = (sample * rightGain).toInt().toShort() // R
         }
 
         val track = AudioTrack.Builder()
@@ -77,7 +82,7 @@ object HearingTest {
             .setAudioFormat(AudioFormat.Builder()
                 .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
                 .setSampleRate(sampleRate)
-                .setChannelMask(if (right) AudioFormat.CHANNEL_OUT_STEREO else AudioFormat.CHANNEL_OUT_STEREO)
+                .setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
                 .build())
             .setBufferSizeInBytes(buffer.size * 2)
             .setTransferMode(AudioTrack.MODE_STATIC)
