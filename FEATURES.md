@@ -1,3 +1,6 @@
+## Batch 370 (nieuw — 2026-11-24)
+- AmbientEqAdapter: dynamische EQ-aanpassing op basis van ambient noise (mids boost bij noise, clarity in stilte). Integreert met AdaptiveMicAnc.
+
 ## Batch 369 (nieuw — 2026-11-24)
 - HearingTest verbeterd: correcte L/R channel panning (pan=-1/1) + iets hogere boost (4dB) bij niet-gehoord. Betere stereo test.
 
