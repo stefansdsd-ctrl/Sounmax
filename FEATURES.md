@@ -1,3 +1,6 @@
+## Batch 369 (nieuw — 2026-11-24)
+- HearingTest verbeterd: correcte L/R channel panning (pan=-1/1) + iets hogere boost (4dB) bij niet-gehoord. Betere stereo test.
+
 ## Batch 368 (nieuw — 2026-11-23)
 - HearingTest: pure-tone test (31-16kHz) per ear. Genereert gepersonaliseerde 10-band EQ compensatie op basis van audibility. Simpele boost bij niet-gehoord.
 
