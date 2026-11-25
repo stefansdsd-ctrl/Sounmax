@@ -1,3 +1,6 @@
+## Batch 371 (nieuw — 2026-11-25)
+- SoftwareAncController: Quietly-style software ANC via phone mic. Energy VAD + noise floor subtraction, lightweight DSP. Werkt met elke Bluetooth-headset. Start/stop via controller.
+
 ## Batch 370 (nieuw — 2026-11-24)
 - AmbientEqAdapter: dynamische EQ-aanpassing op basis van ambient noise (mids boost bij noise, clarity in stilte). Integreert met AdaptiveMicAnc.
 
@@ -43,7 +46,7 @@
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- Software ANC via phone mic (Quietly-style)
+- Software ANC UI toggle + integratie met scenes
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
 - Geofence receiver + UI to set zones
 - HearingTest UI + save to EqPersist
