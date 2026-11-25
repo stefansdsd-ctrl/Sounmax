@@ -1,3 +1,7 @@
+## Batch 371 (nieuw — 2026-11-25)
+- NoiseDoseTracker: cumulative hearing dose (NIOSH/ISO-inspired, 85 dB/8h = 100%). Volume-based estimate + 80%/100% waarschuwingen. Resets daily.
+- Integreer met volume-observer of MediaSession voor real-time updates.
+
 ## Batch 370 (nieuw — 2026-11-24)
 - AmbientEqAdapter: dynamische EQ-aanpassing op basis van ambient noise (mids boost bij noise, clarity in stilte). Integreert met AdaptiveMicAnc.
 
@@ -47,3 +51,4 @@
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
 - Geofence receiver + UI to set zones
 - HearingTest UI + save to EqPersist
+- NoiseDose UI banner + daily summary
