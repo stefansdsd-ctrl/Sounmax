@@ -1,3 +1,6 @@
+## Batch 372 (nieuw — 2026-11-25)
+- SoftwareAncController: real-time mic-based noise reduction (Quietly-style). Adaptive noise floor, RMS/dB metrics, strength control. Requires RECORD_AUDIO. Feeds AmbientEqAdapter / volume ducking.
+
 ## Batch 371 (nieuw — 2026-11-25)
 - NoiseDoseTracker: cumulative hearing dose (NIOSH/ISO-inspired, 85 dB/8h = 100%). Volume-based estimate + 80%/100% waarschuwingen. Resets daily.
 - Integreer met volume-observer of MediaSession voor real-time updates.
@@ -47,8 +50,8 @@
 ## Volgende
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
-- Software ANC via phone mic (Quietly-style)
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
 - Geofence receiver + UI to set zones
 - HearingTest UI + save to EqPersist
 - NoiseDose UI banner + daily summary (done — NoiseDoseBar)
+- Integrate SoftwareAncController with UI + permission flow
