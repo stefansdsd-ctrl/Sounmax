@@ -88,6 +88,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.dsp.AncMode
 import com.example.dsp.BluetoothCodec
+import com.example.ui.NoiseDoseBar
 import com.example.dsp.BuiltinPresets
 import com.example.dsp.HeadphoneDevice
 import com.example.dsp.LdacQualityMode
@@ -127,6 +128,7 @@ fun HeadphoneScreen(
             .background(ImmersiveBackground)
             .testTag("headphone_screen"),
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 96.dp),
+        item { NoiseDoseBar() }
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         // Title & System Action Header

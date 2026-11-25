@@ -57,7 +57,7 @@ object NoiseDoseTracker {
         val max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         val vol = am.getStreamVolume(AudioManager.STREAM_MUSIC)
         // Rough mapping: 0-100% → ~50-95 dB (headphones closed-back)
-        return 50f + (vol.toFloat() / max) * 45f
+        return 55f + (vol.toFloat() / max) * 40f  // more realistic closed-back headphone mapping
     }
 
     fun reset(context: Context) {

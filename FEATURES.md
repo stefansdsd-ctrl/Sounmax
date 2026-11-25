@@ -51,4 +51,4 @@
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
 - Geofence receiver + UI to set zones
 - HearingTest UI + save to EqPersist
-- NoiseDose UI banner + daily summary
+- NoiseDose UI banner + daily summary (done — NoiseDoseBar)
