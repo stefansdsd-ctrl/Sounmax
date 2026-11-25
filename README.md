@@ -1,3 +1,6 @@
+## Nieuw (2026-11-25 — Software ANC)
+- SoftwareAncController: real-time mic noise reduction (Quietly-style), adaptive floor, strength control. RECORD_AUDIO vereist.
+
 ## Nieuw (2026-11-20 — Betere lokale AI + Spatial)
 - Verbeterde genre-detectie in lokale fallbacks (meer presets: drill, edm, cinema, gaming).
 - AutoEqStrength optimalisatie voor minder clipping.
@@ -43,3 +46,4 @@ Android companion-app voor Philips TAH6519 / Bluetooth-headsets.
 - Find-beep GATT-payload (hardware)
 - On-device AI EQ suggesties (Gemini Nano indien beschikbaar)
 - Spatial audio UI toggle + head tracking integratie (done)
+- Software ANC UI + permission
