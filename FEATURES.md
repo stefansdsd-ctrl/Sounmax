@@ -1,3 +1,7 @@
+## Batch 373 (nieuw — 2026-11-27)
+- SoftwareAncController v2: robuustere adaptive noise floor, crest-factor speech detection, SNR metrics. Minder false triggers bij spraak.
+- SoftwareAncBar: Compose UI met toggle, strength-slider, live noise/SNR/speech status. Klaar voor integratie in Home.
+
 ## Batch 372 (nieuw — 2026-11-25)
 - SoftwareAncController: real-time mic-based noise reduction (Quietly-style). Adaptive noise floor, RMS/dB metrics, strength control. Requires RECORD_AUDIO. Feeds AmbientEqAdapter / volume ducking.
 
@@ -51,7 +55,6 @@
 - Auto-ANC veldtest
 - Find-beep GATT-payload (hardware)
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
-- Geofence receiver + UI to set zones
+- Geofence UI to set zones
 - HearingTest UI + save to EqPersist
-- NoiseDose UI banner + daily summary (done — NoiseDoseBar)
-- Integrate SoftwareAncController with UI + permission flow
+- Software ANC integratie in Home + permission flow
