@@ -1,3 +1,6 @@
+## Batch 374 (nieuw — 2026-11-27)
+- SoftwareAncBar verbeterd: runtime RECORD_AUDIO permission request via ActivityResultContracts. Toggle vraagt permissie indien nodig, status update.
+
 ## Batch 373 (nieuw — 2026-11-27)
 - SoftwareAncController v2: robuustere adaptive noise floor, crest-factor speech detection, SNR metrics. Minder false triggers bij spraak.
 - SoftwareAncBar: Compose UI met toggle, strength-slider, live noise/SNR/speech status. Klaar voor integratie in Home.
@@ -57,4 +60,4 @@
 - Homescreen widgets voor snelle ANC/EQ toggle (partial)
 - Geofence UI to set zones
 - HearingTest UI + save to EqPersist
-- Software ANC integratie in Home + permission flow
+- Software ANC integratie in Home (bar klaar met permission)
