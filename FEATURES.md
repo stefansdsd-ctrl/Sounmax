@@ -1,3 +1,6 @@
+## Batch 375 (nieuw — 2026-11-27)
+- SoftwareAncController v3: actieve phase-inverted noise playback via AudioTrack voor echte software ANC. NoiseSuppressor integratie (indien beschikbaar). Snellere loop (20ms), betere speech/noise discriminatie. Metrics blijven voor AmbientEqAdapter.
+
 ## Batch 374 (nieuw — 2026-11-27)
 - SoftwareAncBar verbeterd: runtime RECORD_AUDIO permission request via ActivityResultContracts. Toggle vraagt permissie indien nodig, status update.
 
