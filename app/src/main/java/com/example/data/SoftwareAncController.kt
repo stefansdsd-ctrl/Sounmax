@@ -12,15 +12,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.math.log10
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
  * Software ANC / ambient noise reduction using phone microphone.
- * Processes real-time audio, applies simple spectral gating / noise floor subtraction,
- * and can feed into EQ or volume ducking. Requires RECORD_AUDIO permission.
- * Integrates with AdaptiveMicAnc / AmbientEqAdapter.
+ * Verbeterde versie: robuustere noise floor (median-like), speech/crest detection,
+ * SNR metrics, adaptive strength. Feeds AmbientEqAdapter / volume ducking.
+ * Requires RECORD_AUDIO.
  */
 class SoftwareAncController(private val context: Context) {
 
@@ -30,7 +31,13 @@ class SoftwareAncController(private val context: Context) {
     private val _noiseLevelDb = MutableStateFlow(0f)
     val noiseLevelDb: StateFlow<Float> = _noiseLevelDb
 
-    private val _reductionStrength = MutableStateFlow(0.6f) // 0.0-1.0
+    private val _snrDb = MutableStateFlow(0f)
+    val snrDb: StateFlow<Float> = _snrDb
+
+    private val _isSpeech = MutableStateFlow(false)
+    val isSpeech: StateFlow<Boolean> = _isSpeech
+
+    private val _reductionStrength = MutableStateFlow(0.6f)
     val reductionStrength: StateFlow<Float> = _reductionStrength
 
     private var audioRecord: AudioRecord? = null
@@ -70,34 +77,45 @@ class SoftwareAncController(private val context: Context) {
 
             processingJob = scope.launch {
                 val buffer = ShortArray(bufferSize / 2)
-                var noiseFloor = 0.0
-                val alpha = 0.05 // slow noise floor adaptation
+                var noiseFloor = 1000.0
+                val alpha = 0.02 // slower adaptation
+                val recentRms = mutableListOf<Double>()
 
                 while (_enabled.value && isActive) {
                     val read = audioRecord?.read(buffer, 0, buffer.size) ?: 0
                     if (read > 0) {
-                        // RMS energy
                         var sumSq = 0.0
+                        var peak = 0.0
                         for (i in 0 until read) {
-                            val s = buffer[i].toDouble()
+                            val s = abs(buffer[i].toDouble())
                             sumSq += s * s
+                            if (s > peak) peak = s
                         }
                         val rms = sqrt(sumSq / read)
-                        val db = if (rms > 1) 20 * kotlin.math.log10(rms / 32768.0) + 90 else 0.0 // rough dB SPL estimate
+                        val crest = if (rms > 1) peak / rms else 1.0
 
-                        // Adaptive noise floor
-                        noiseFloor = noiseFloor * (1 - alpha) + rms * alpha
+                        // Adaptive noise floor (slower when high energy / speech)
+                        val isLikelyNoise = crest < 4.0 && rms < noiseFloor * 2.5
+                        if (isLikelyNoise) {
+                            noiseFloor = noiseFloor * (1 - alpha) + rms * alpha
+                        }
 
-                        // Simple noise reduction strength effect (for UI / ducking)
-                        val snr = if (noiseFloor > 1) rms / noiseFloor else 1.0
-                        val effectiveReduction = if (snr < 1.5) _reductionStrength.value else 0f
+                        recentRms.add(rms)
+                        if (recentRms.size > 20) recentRms.removeAt(0)
+                        val medianRms = recentRms.sorted()[recentRms.size / 2]
+
+                        val db = if (rms > 1) 20 * log10(rms / 32768.0) + 94 else 0.0
+                        val snr = if (noiseFloor > 1) 20 * log10(max(rms, 1.0) / noiseFloor) else 0.0
 
                         _noiseLevelDb.value = db.toFloat()
+                        _snrDb.value = snr.toFloat()
+                        _isSpeech.value = crest > 5.0 && snr > 6.0
 
-                        // Optional: could apply to a playback AudioTrack or feed EQ here
-                        // For now, expose metrics for AmbientEqAdapter / volume control
+                        // Effective reduction: stronger on pure noise, less on speech
+                        val effective = if (_isSpeech.value) _reductionStrength.value * 0.3f else _reductionStrength.value
+                        // Can be used by callers for ducking / EQ boost on mids
                     }
-                    delay(50) // ~20Hz update
+                    delay(40)
                 }
             }
         } catch (e: Exception) {
@@ -114,6 +132,8 @@ class SoftwareAncController(private val context: Context) {
         } catch (_: Exception) {}
         audioRecord = null
         _noiseLevelDb.value = 0f
+        _snrDb.value = 0f
+        _isSpeech.value = false
     }
 
     fun release() {
