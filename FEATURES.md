@@ -1,3 +1,6 @@
+## Batch 377 (nieuw — 2026-11-28)
+- Software ANC geïntegreerd in HomeExtrasBar (na EqShapeBar). Controller via remember in SoundMaxApp. Klaar voor gebruik.
+
 ## Batch 376 (nieuw — 2026-11-28)
 - SoftwareAncBar UI verbeterd: betere Card elevation, spacing, dynamische status teksten (spraak vs ruis), error kleur voor permissie, label voor sterkte. Klaar voor Home-integratie.
 
