@@ -39,11 +39,22 @@ fun SoftwareAncBar(
         if (granted) controller.setEnabled(true)
     }
 
-    Card(modifier = modifier.fillMaxWidth().padding(8.dp)) {
-        Column(Modifier.padding(12.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Software ANC", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.weight(1f))
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(Modifier.padding(16.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    "Software ANC",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f)
+                )
                 Switch(
                     checked = enabled && hasPermission,
                     onCheckedChange = { wantOn ->
@@ -59,20 +70,37 @@ fun SoftwareAncBar(
                     }
                 )
             }
+
             if (enabled && hasPermission) {
-                Text("Ruis: ${noiseDb.toInt()} dB  |  SNR: ${snr.toInt()} dB", style = MaterialTheme.typography.bodySmall)
-                Text(if (isSpeech) "Spraak gedetecteerd" else "Achtergrondruis", style = MaterialTheme.typography.bodySmall)
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "Ruis: ${noiseDb.toInt()} dB  |  SNR: ${snr.toInt()} dB",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    if (isSpeech) "Spraak gedetecteerd – ANC verminderd" else "Achtergrondruis – ANC actief",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+                Spacer(Modifier.height(8.dp))
+                Text("Sterkte", style = MaterialTheme.typography.labelMedium)
                 Slider(
                     value = strength,
                     onValueChange = { controller.setStrength(it) },
                     valueRange = 0f..1f,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Text("Sterkte: ${(strength * 100).toInt()}%", style = MaterialTheme.typography.bodySmall)
+                Text("${(strength * 100).toInt()}%", style = MaterialTheme.typography.bodySmall)
             } else if (!hasPermission) {
-                Text("RECORD_AUDIO permissie nodig voor Software ANC", style = MaterialTheme.typography.bodySmall)
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "RECORD_AUDIO permissie nodig. Tik om te activeren.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error
+                )
             } else {
-                Text("Software ANC uit", style = MaterialTheme.typography.bodySmall)
+                Spacer(Modifier.height(4.dp))
+                Text("Uit", style = MaterialTheme.typography.bodySmall)
             }
         }
     }
