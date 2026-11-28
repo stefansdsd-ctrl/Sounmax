@@ -1,3 +1,6 @@
+## Batch 376 (nieuw — 2026-11-28)
+- SoftwareAncBar UI verbeterd: betere Card elevation, spacing, dynamische status teksten (spraak vs ruis), error kleur voor permissie, label voor sterkte. Klaar voor Home-integratie.
+
 ## Batch 375 (nieuw — 2026-11-27)
 - SoftwareAncController v3: actieve phase-inverted noise playback via AudioTrack voor echte software ANC. NoiseSuppressor integratie (indien beschikbaar). Snellere loop (20ms), betere speech/noise discriminatie. Metrics blijven voor AmbientEqAdapter.
 
